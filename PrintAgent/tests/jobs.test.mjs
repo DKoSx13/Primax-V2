@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdirSync,mkdtempSync,rmSync} from 'node:fs';
+import {mkdirSync,mkdtempSync,rmSync,readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 const testRoot=fileURLToPath(new URL('../test-results/',import.meta.url));mkdirSync(testRoot,{recursive:true});
 import {join} from 'node:path';
@@ -59,4 +59,15 @@ test('diagnostic server blocks all job access without creating a store',async t=
     const req=http.request({hostname:'127.0.0.1',port:server.address().port,path:'/jobs/receipt-test-1',method,headers:{Host:'127.0.0.1:25443',Origin:'http://localhost:26081','Content-Type':'application/json','X-FuelFlow-Print':'1'}},res=>{res.resume();res.on('end',()=>resolve(res.statusCode));});req.on('error',reject);req.end();
   });
   assert.equal(await request('GET'),503);assert.equal(await request('POST'),503);
+});
+
+
+test('attempt journal appends request/result without receipt personal data or duplicate replay',async t=>{
+ const s=store(t,async()=>({status:'accepted'}));
+ await s.submit('receipt-test-1',receipt);await s.submit('receipt-test-1',receipt);
+ const journal=readFileSync(join(s.directory,'print-attempts.jsonl'),'utf8');
+ const events=journal.trim().split('\n').map(line=>JSON.parse(line));
+ assert.deepEqual(events.map(e=>e.event),['REQUESTED','RESULT']);
+ assert.equal(events[1].status,'accepted');assert.equal(events[1].physicalConfirmed,false);
+ assert(!journal.includes('70123456'));assert(!journal.includes('ABC-123'));
 });

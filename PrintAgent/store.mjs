@@ -1,4 +1,4 @@
-import {mkdirSync, readFileSync, writeFileSync, renameSync, openSync, fsyncSync, closeSync, existsSync} from 'node:fs';
+import {mkdirSync, readFileSync, writeFileSync, renameSync, openSync, fsyncSync, closeSync, existsSync, appendFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 
@@ -6,6 +6,9 @@ export class JobStore {
   constructor(directory, adapter) { this.directory=directory; this.adapter=adapter; this.active=new Map(); mkdirSync(directory,{recursive:true}); }
   path(id) { if(!/^receipt-[a-zA-Z0-9-]{1,100}$/.test(id)) throw Error('Identificador inválido'); return join(this.directory,id+'.json'); }
   get(id) { const file=this.path(id); return existsSync(file)?JSON.parse(readFileSync(file,'utf8')):null; }
+  recordAttempt(job, event) {
+    appendFileSync(join(this.directory,'print-attempts.jsonl'),JSON.stringify({event,id:job.id,hash:job.hash,status:job.status,physicalConfirmed:false,occurredAt:new Date().toISOString()})+'\n',{mode:0o600});
+  }
   save(job) {
     const file=this.path(job.id), temp=file+'.tmp';
     const fd=openSync(temp,'w',0o600);
@@ -21,6 +24,7 @@ export class JobStore {
     // A process crash here is UNKNOWN. Never blindly send this job again.
     const job={id,hash,receipt,status:'unknown',physicalConfirmed:false,updatedAt:new Date().toISOString()};
     this.save(job);
+    this.recordAttempt(job,'REQUESTED');
     const task=(async()=>{
       try {
         const result=await this.adapter(job);
@@ -29,7 +33,7 @@ export class JobStore {
         if(result.layout)job.layout=result.layout;
         if(result.printerState)job.printerState=result.printerState;
       } catch { job.status='unknown'; job.error='Resultado desconocido; revisar cola y salida física.'; }
-      job.updatedAt=new Date().toISOString(); this.save(job); return job;
+      job.updatedAt=new Date().toISOString(); this.save(job); this.recordAttempt(job,'RESULT'); return job;
     })().finally(()=>this.active.delete(id));
     this.active.set(id,task); return task;
   }
