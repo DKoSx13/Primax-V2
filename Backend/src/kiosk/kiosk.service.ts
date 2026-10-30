@@ -211,6 +211,15 @@ export class KioskService {
       throw new UnauthorizedException('Sesión técnica vencida');
     return this.create(true);
   }
+  async handoffSupervisor(userId: string, stationId: string) {
+    if (stationId !== this.config.getOrThrow<string>('KIOSK_STATION_ID'))
+      throw new ForbiddenException('Terminal fuera de la estación autorizada');
+    const assignment = await this.db.supervisorStationAssignment.findFirst({
+      where: { userId, stationId, endedAt: null, user: { active: true }, station: { active: true } },
+    });
+    if (!assignment) throw new ForbiddenException('Supervisor no asignado a esta estación');
+    return this.create(true);
+  }
   async logout(req: Request) {
     this.verifyGateway(req);
     const token = req.header('x-kiosk-session') || '';

@@ -215,6 +215,8 @@ services:
   frontend3:
     build:
       context: ./Frontend_3_PrimaxControl
+      args:
+        FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-26081}
     environment:
       BACKEND_UPSTREAM: http://backend:3000
     ports:

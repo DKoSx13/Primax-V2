@@ -6,6 +6,7 @@ COPY index.html ./index.html
 COPY styles ./styles
 COPY js ./js
 COPY assets ./assets
+ARG FUELFLOW_PUBLIC_ORIGIN
 RUN npm run build
 
 FROM nginx:alpine AS runtime

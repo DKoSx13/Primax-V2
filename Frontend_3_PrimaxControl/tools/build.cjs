@@ -17,7 +17,12 @@ if (api !== '/api/v1') {
   try { url = new URL(api); } catch { throw new Error('Primax Control API must be /api/v1 or an HTTPS /api/v1 URL'); }
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname.replace(/\/$/, '') !== '/api/v1') throw new Error('Primax Control API must be /api/v1 or an HTTPS /api/v1 URL');
 }
-fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\n`);
+const fuelFlowOrigin = process.env.FUELFLOW_PUBLIC_ORIGIN || '';
+if (fuelFlowOrigin) {
+  const url = new URL(fuelFlowOrigin);
+  if (!['https:', 'http:'].includes(url.protocol) || url.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(url.hostname) || url.origin !== fuelFlowOrigin || url.username || url.password) throw new Error('FuelFlow origin must be HTTPS or local HTTP');
+}
+fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\nexport const FUELFLOW_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowOrigin)};\n`);
 const hash = crypto.createHash('sha256');
 function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) { const file=path.join(dir,item.name); if(item.isDirectory()) scan(file); else if(/\.(js|css|html)$/.test(file)) hash.update(path.relative(output,file)).update(fs.readFileSync(file)); } }
 scan(output);

@@ -301,6 +301,12 @@ suite('Phase 1A on isolated PostgreSQL', () => {
       ids.shift,
     );
     ids.enablement = enablement.id;
+    expect(await operations.prepareStation(ids.supervisor, ids.terminal)).toMatchObject({
+      prepared: true,
+      alreadyPrepared: true,
+      shiftId: ids.shift,
+    });
+    expect((await operations.terminalMe(ids.terminal)).canStart).toBe(true);
     await expect(
       db.terminalEnablement.update({
         where: { id: enablement.id },
@@ -420,6 +426,7 @@ suite('Phase 1A on isolated PostgreSQL', () => {
     ).toBeNull();
     await operations.closeOperation(ids.terminal, operationId);
     await operations.shiftState(ids.supervisor, shift.id, 'close');
+    await expect(operations.prepareStation(ids.supervisor, ids.terminal)).rejects.toThrow('Debes abrir un turno');
     await expect(
       operations.enable(ids.supervisor, ids.terminal, shift.id),
     ).rejects.toThrow();
@@ -793,6 +800,11 @@ suite('Phase 1A on isolated PostgreSQL', () => {
         .auth(human, { type: 'bearer' })
         .send({ shiftId: shift.body.id })
         .expect(201);
+      expect(await operations.prepareStation(ids.multi, terminal.body.id)).toMatchObject({ prepared: true, alreadyPrepared: true });
+      await request(server).post(`/api/v1/supervisor/terminals/${terminal.body.id}/block`).auth(human, { type: 'bearer' }).expect(403);
+      await request(server).post(`/api/v1/supervisor/terminals/${terminal.body.id}/restore`).auth(human, { type: 'bearer' }).expect(403);
+      const controlStations = await request(server).get('/api/v1/control/supervisor/stations').auth(human, { type: 'bearer' }).expect(200);
+      expect(controlStations.body.some((row: { stationId: string }) => row.stationId === ids.station_a)).toBe(true);
       await request(server)
         .post(`/api/v1/supervisor/terminals/${terminal.body.id}/pair`)
         .auth(human, { type: 'bearer' })

@@ -83,14 +83,13 @@ assert.equal((await call(publicOrigin, 'terminal/operations', 'POST', { operatio
 assert.equal(expectStatus(await call(publicOrigin, `terminal/operations/${operationId}`), 200, 'recovery').operationId, operationId);
 assert.equal(expectStatus(await call(publicOrigin, 'terminal/operations', 'POST', { operationId }, technicalCsrf()), 201, 'retry').operationId, operationId);
 expectStatus(await call(publicOrigin, `terminal/operations/${operationId}/close`, 'POST', {}, technicalCsrf()), 201, 'close');
-expectStatus(await call(backend, `supervisor/terminals/${terminalId}/block`, 'POST', {}, bearer), 201, 'block');
-assert.equal((await call(publicOrigin, 'terminal/operations', 'POST', { operationId: randomUUID() }, technicalCsrf())).status, 409);
-expectStatus(await call(backend, `supervisor/terminals/${terminalId}/enable`, 'POST', { shiftId: shift.id }, bearer), 201, 'reenable');
+assert.equal((await call(backend, `supervisor/terminals/${terminalId}/block`, 'POST', {}, bearer)).status, 403);
+assert.equal((await call(backend, `supervisor/terminals/${terminalId}/restore`, 'POST', {}, bearer)).status, 403);
 localSql(`UPDATE "Terminal" SET "operationalStatus" = 'FUERA_DE_SERVICIO' WHERE id = '${terminalId}';`);
 try {
   assert.equal((await call(publicOrigin, 'terminal/operations', 'POST', { operationId: randomUUID() }, technicalCsrf())).status, 409);
 } finally {
-  expectStatus(await call(backend, `supervisor/terminals/${terminalId}/restore`, 'POST', {}, bearer), 201, 'restore service');
+  localSql(`UPDATE "Terminal" SET "operationalStatus" = 'DISPONIBLE' WHERE id = '${terminalId}';`);
 }
 const assignmentId = terminals.find(row => row.id === terminalId)?.assignments?.[0]?.id;
 assert.ok(assignmentId);

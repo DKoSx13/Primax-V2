@@ -173,6 +173,7 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
       'ADMIN_DASHBOARD_VIEW',
       'ADMIN_INCIDENT_VIEW',
       'ADMIN_INCIDENT_MANAGE',
+      'ADMIN_USER_MANAGE',
     ] as AdminControlPermission[])
       await db.adminControlGrant.create({
         data: {
@@ -239,6 +240,20 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
     await expect(
       service.login(`pending-${pendingId}@primax.test`, 'ControlTest!123'),
     ).rejects.toBeInstanceOf(ForbiddenException);
+  });
+
+  it('uses the same Control login for an assigned Supervisor without granting administrative access', async () => {
+    await db.supervisorStationAssignment.create({
+      data: { userId: normalId, stationId: stationA, reason: 'Increment 01 isolated role test' },
+    });
+    const login = await service.login(`normal-${normalId}@primax.test`, 'ControlTest!123');
+    expect(login.context).toMatchObject({ role: 'SUPERVISOR', roles: ['SUPERVISOR'], permissions: [], global: false });
+    expect(login.context.supervisorStations.map((station) => station.id)).toEqual([stationA]);
+    const actor = await auth(normalId, true);
+    expect(actor.role).toBe('SUPERVISOR');
+    expect(actor.permissions).toEqual([]);
+    expect(actor.stationIds).toEqual([]);
+    await expect(service.dashboard(actor)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
   it('creates a pending account and sends verification through the existing email delivery', async () => {
@@ -340,6 +355,20 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
     ).rejects.toBeInstanceOf(ForbiddenException);
   });
 
+  it('lets an Admin manage Supervisors only in assigned stations and supports multiple roles on one account', async () => {
+    const admin = await auth(encargadoId);
+    await expect(service.assignExistingSupervisor(admin, `normal-${normalId}@primax.test`, [stationB])).rejects.toBeInstanceOf(ForbiddenException);
+    expect(await service.assignExistingSupervisor(admin, `normal-${normalId}@primax.test`, [stationA])).toMatchObject({ assignmentsCreated: 0 });
+    await service.assignExistingSupervisor(await auth(rootId), `normal-${normalId}@primax.test`, [stationB]);
+    expect((await service.supervisors(admin)).every((row) => row.stationId === stationA)).toBe(true);
+    await expect(service.assignExistingSupervisor(admin, `encargado-${encargadoId}@primax.test`, [stationA])).rejects.toBeInstanceOf(ForbiddenException);
+    await service.assignExistingSupervisor(await auth(rootId), `encargado-${encargadoId}@primax.test`, [stationA]);
+    const login = await service.login(`encargado-${encargadoId}@primax.test`, 'ControlTest!123');
+    expect(login.context.roles).toEqual(expect.arrayContaining(['ENCARGADO', 'SUPERVISOR']));
+    expect(login.context.stations.map((station) => station.id)).toEqual([stationA]);
+    expect(login.context.supervisorStations.map((station) => station.id)).toEqual([stationA]);
+  });
+
   it('gives SYSTEM_ADMIN global scope without changing Supervisor assignments', async () => {
     const actor = await auth(rootId);
     expect(actor.global).toBe(true);
@@ -415,7 +444,7 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
     ).toBe('RESOLVED');
   });
 
-  it('rejects a disabled administrative profile even when a prior JWT exists', async () => {
+  it('removes administrative access when that profile is disabled while preserving an independent Supervisor assignment', async () => {
     const oldActor = await auth(encargadoId);
     const root = await auth(rootId);
     await service.approve(
@@ -447,7 +476,9 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
       where: { userId: encargadoId },
       data: { status: 'DISABLED' },
     });
-    await expect(auth(encargadoId)).rejects.toBeInstanceOf(ForbiddenException);
+    const operationalOnly = await auth(encargadoId);
+    expect(operationalOnly).toMatchObject({ role: 'SUPERVISOR', permissions: [], stationIds: [], global: false });
+    await expect(service.dashboard(operationalOnly)).rejects.toBeInstanceOf(ForbiddenException);
     await service.approve(root, encargadoId, {
       role: 'ADMIN',
       stationIds: [stationB],
@@ -458,7 +489,9 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
       where: { userId: encargadoId },
       data: { status: 'DISABLED' },
     });
-    await expect(auth(encargadoId)).rejects.toBeInstanceOf(ForbiddenException);
+    const operationalAgain = await auth(encargadoId);
+    expect(operationalAgain).toMatchObject({ role: 'SUPERVISOR', permissions: [], stationIds: [] });
+    await expect(service.dashboard(operationalAgain)).rejects.toBeInstanceOf(ForbiddenException);
     expect(oldActor.kind).toBe('control');
   });
 });

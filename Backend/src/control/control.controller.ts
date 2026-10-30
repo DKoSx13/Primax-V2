@@ -64,6 +64,10 @@ class CreateSupervisorDto {
   @IsString() @MinLength(12) @MaxLength(72) password: string;
   @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
 }
+class AssignExistingSupervisorDto {
+  @IsEmail() @MaxLength(254) email: string;
+  @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
+}
 class IncidentStatusDto {
   @IsEnum(OperationalIncidentStatus) status: OperationalIncidentStatus;
   @IsString() @MinLength(3) @MaxLength(500) reason: string;
@@ -154,6 +158,9 @@ export class ControlController {
   }
   @Post('supervisors') @SetMetadata('access', 'control') createSupervisor(@CurrentActor() actor: Actor, @Body() dto: CreateSupervisorDto) {
     return this.service.createSupervisor(actor as Extract<Actor, { kind: 'control' }>, dto);
+  }
+  @Post('supervisors/assign') @SetMetadata('access', 'control') assignExistingSupervisor(@CurrentActor() actor: Actor, @Body() dto: AssignExistingSupervisorDto) {
+    return this.service.assignExistingSupervisor(actor as Extract<Actor, { kind: 'control' }>, dto.email, dto.stationIds);
   }
   @Post('accounts/:userId/approve') @SetMetadata('access', 'control') approve(
     @CurrentActor() actor: Actor,

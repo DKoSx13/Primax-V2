@@ -194,13 +194,17 @@ export class AccessGuard implements CanActivate {
           },
         },
       });
+      const supervisorAssignments = await this.db.supervisorStationAssignment.findMany({
+        where: { userId: user.id, endedAt: null, station: { active: true } },
+        select: { stationId: true },
+      });
+      const approvedAdmin = Boolean(account?.status === 'APPROVED' && account.emailVerifiedAt);
       if (
         !systemAdmin &&
-        (!account || account.status !== 'APPROVED' || !account.emailVerifiedAt)
+        !approvedAdmin &&
+        supervisorAssignments.length === 0
       )
-        throw new ForbiddenException(
-          'Acceso administrativo pendiente o revocado',
-        );
+        throw new ForbiddenException('Acceso a Primax Control no autorizado');
       const permissions = systemAdmin
         ? [
             'ADMIN_CONTROL_ACCESS',
@@ -223,21 +227,22 @@ export class AccessGuard implements CanActivate {
             'ADMIN_TRANSACTION_VIEW',
             'ADMIN_RECEIPT_VIEW',
           ]
-        : (
+        : approvedAdmin ? (
             await this.db.adminControlGrant.findMany({
               where: { userId: user.id, revokedAt: null },
             })
-          ).map((grant) => grant.permission);
-      if (!systemAdmin && !permissions.includes('ADMIN_CONTROL_ACCESS'))
+          ).map((grant) => grant.permission) : [];
+      if (!systemAdmin && !permissions.includes('ADMIN_CONTROL_ACCESS')) permissions.length = 0;
+      if (!systemAdmin && supervisorAssignments.length === 0 && !permissions.includes('ADMIN_CONTROL_ACCESS'))
         throw new ForbiddenException('Se requiere acceso a Primax Control');
       req.actor = {
         kind: 'control',
         userId: user.id,
-        role: systemAdmin ? 'SUPER_ADMIN' : account!.role,
+        role: systemAdmin ? 'SUPER_ADMIN' : permissions.length ? account!.role : 'SUPERVISOR',
         permissions,
         stationIds: systemAdmin
           ? []
-          : account!.stations.map((station) => station.stationId),
+          : permissions.length ? account!.stations.map((station) => station.stationId) : [],
         global: Boolean(systemAdmin),
       };
       return true;

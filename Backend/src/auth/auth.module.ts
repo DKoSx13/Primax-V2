@@ -42,5 +42,6 @@ import { AdminController } from './admin.controller';
     RecoveryDelivery,
     { provide: APP_GUARD, useClass: AccessGuard },
   ],
+  exports: [KioskService, KioskStore],
 })
 export class AuthModule {}
