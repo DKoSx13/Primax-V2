@@ -1,0 +1,22 @@
+const {test,expect}=require('../Frontend_2_PrimaxPrime/node_modules/@playwright/test');
+const {randomUUID,randomInt}=require('node:crypto');
+require('./test-env.cjs');
+const prime='http://localhost:'+process.env.FRONTEND2_PORT;
+const api='http://localhost:'+(process.env.PORT||10000)+'/api/v1';
+test('real DNI login and foreign passport registration with disabled password recovery',async({browser,request})=>{
+ const password='IdentityPassword123!',next='ChangedPassword456!';
+ const dni=String(randomInt(60000000,69999999));
+ const email=randomUUID()+'@example.test';
+ const reg=await request.post(api+'/auth/register',{data:{name:'DNI Test',email,password,dni}});expect(reg.status()).toBe(201);
+ const context=await browser.newContext({viewport:{width:390,height:844}});const page=await context.newPage();
+ await page.goto(prime);await page.getByLabel('Correo o DNI',{exact:true}).fill(dni);await page.getByLabel('Contraseña',{exact:true}).fill(password);await page.getByRole('button',{name:'Iniciar sesión',exact:true}).click();await expect(page.getByRole('heading',{name:'Hola, DNI Test'})).toBeVisible();
+ await context.close();
+ const foreign=await browser.newContext({viewport:{width:390,height:844}});const view=await foreign.newPage();const foreignEmail=randomUUID()+'@example.test',passport='P'+randomUUID().replaceAll('-','').slice(0,10).toUpperCase();
+ await view.goto(prime+'/#registro');await view.getByLabel('Nombre',{exact:true}).fill('Foreign Test');await view.getByLabel('Correo',{exact:true}).fill(foreignEmail);await view.getByLabel('Contraseña',{exact:true}).fill(password);await view.getByLabel('Tipo de documento (opcional)').selectOption('passport');await view.getByLabel('Pasaporte',{exact:true}).fill(passport.toLowerCase());await view.getByRole('button',{name:'Crear cuenta',exact:true}).click();await expect(view.getByRole('heading',{name:'Hola, Foreign Test'})).toBeVisible();
+ const oldToken=await view.evaluate(()=>JSON.parse(localStorage.getItem('prime_session:v2')).token);
+ const member=await (await request.get(api+'/memberships/me',{headers:{Authorization:'Bearer '+oldToken}})).json();expect(member.passport).toBe(passport);expect(member.dni).toBeNull();
+ await foreign.close();
+ const recovery=await request.post(api+'/auth/forgot-password',{data:{email:foreignEmail}});
+ expect(recovery.status()).toBe(503);
+ expect((await recovery.json()).message).toContain('no está configurada');
+});

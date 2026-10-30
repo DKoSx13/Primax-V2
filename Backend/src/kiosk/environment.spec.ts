@@ -1,0 +1,90 @@
+import { validateEnvironment } from '../config/environment';
+import { hashSync } from 'bcryptjs';
+const base = () => ({
+  DATABASE_URL: 'postgresql://test:test@localhost/demo?sslmode=require',
+  JWT_SECRET: 'j'.repeat(48),
+  KIOSK_API_KEY: 'k'.repeat(48),
+  APP_MODE: 'academic',
+  PAYMENT_ENV: 'demo',
+  DEMO_WALLET_ENABLED: 'true',
+  DATABASE_PURPOSE: 'academic-demo',
+  CORS_ORIGINS: 'https://fuel.example,https://prime.example',
+  PLATE_RECOGNITION_ENABLED: 'false',
+  PASSWORD_RESET_DELIVERY: 'disabled',
+  KIOSK_GATEWAY_SECRET: 'g'.repeat(48),
+  KIOSK_REDIS_REST_TOKEN: 'r'.repeat(48),
+  KIOSK_REDIS_REST_URL: 'https://redis.example',
+  KIOSK_SESSION_NAMESPACE: 'academic-test',
+  KIOSK_STATION_ID: '11111111-1111-4111-8111-111111111111',
+  KIOSK_OPERATOR_USER: 'operator-test',
+  KIOSK_OPERATOR_PASSWORD_HASH: hashSync('fixture-password', 12),
+});
+describe('public academic configuration fails closed', () => {
+  it('prevents the local demo profile from using a remote database', () => {
+    expect(() => validateEnvironment({ ...base(), APP_MODE: 'local', DATABASE_URL: 'postgresql://test:test@remote.example/demo' })).toThrow('Local profile cannot connect');
+  });
+  const env = base();
+  it('accepts isolated simulated configuration without Culqi, SMTP or OCR', () => {
+    expect(validateEnvironment(env).PORT).toBe(3000);
+  });
+  it('accepts only the dedicated Render private OCR address over HTTP in academic mode', () => {
+    expect(() => validateEnvironment({
+      ...env,
+      PLATE_RECOGNITION_ENABLED: 'true',
+      PLATE_RECOGNITION_URL: 'http://primax-v12-1-ocr-staging-ab12:8000',
+      OCR_SERVICE_SECRET: 'o'.repeat(48),
+    })).not.toThrow();
+    for (const url of [
+      'http://ocr.example.com:8000',
+      'http://primax-v12-1-ocr-staging-ab12.example.com:8000',
+      'http://primax-v12-1-ocr-staging-ab12:8000/other',
+      'http://primax-v12-1-ocr-staging-ab12:8080',
+    ]) {
+      expect(() => validateEnvironment({
+        ...env,
+        PLATE_RECOGNITION_ENABLED: 'true',
+        PLATE_RECOGNITION_URL: url,
+        OCR_SERVICE_SECRET: 'o'.repeat(48),
+      })).toThrow('Academic OCR requires HTTPS or the dedicated Render private service');
+    }
+  });
+  it('requires a dedicated OCR secret for public HTTPS staging OCR', () => {
+    const config = { ...env, PLATE_RECOGNITION_ENABLED: 'true', PLATE_RECOGNITION_URL: 'https://primax-v12-1-ocr-staging.onrender.com' };
+    expect(() => validateEnvironment(config)).toThrow('OCR_SERVICE_SECRET');
+    expect(() => validateEnvironment({ ...config, OCR_SERVICE_SECRET: 'o'.repeat(48) })).not.toThrow();
+  });
+  it('accepts authenticated Redis only for the local profile', () => {
+    const validated = validateEnvironment({
+      ...env,
+      APP_MODE: 'local',
+      KIOSK_REDIS_URL: `redis://:${'p'.repeat(48)}@redis:6379/0`,
+    });
+    expect((validated as Record<string, unknown>).KIOSK_REDIS_URL).toContain('@redis:6379/0');
+    expect(() => validateEnvironment({ ...env, KIOSK_REDIS_URL: `redis://:${'p'.repeat(48)}@redis:6379/0` })).toThrow('local Redis URL');
+    expect(() => validateEnvironment({ ...env, APP_MODE: 'local', KIOSK_REDIS_URL: 'redis://:short@redis:6379/0' })).toThrow('local Redis URL');
+  });
+  for (const [key, value] of Object.entries({
+    CULQI_SECRET_KEY: 'fictional-key',
+    PAYMENT_ENV: 'production',
+    DATABASE_PURPOSE: 'production',
+    SHOW_DEMO_ADMIN_CREDENTIALS: 'true',
+    CORS_ORIGINS: 'http://localhost:5180',
+    KIOSK_GATEWAY_SECRET: '',
+    KIOSK_REDIS_REST_URL: 'http://redis.example',
+    KIOSK_OPERATOR_PASSWORD_HASH: '',
+    KIOSK_STATION_ID: 'arbitrary',
+  }))
+    it(`rejects invalid ${key}`, () =>
+      expect(() => validateEnvironment({ ...env, [key]: value })).toThrow());
+  it('rejects local mode on Vercel and invalid database URLs without exposing their input', () => {
+    expect(() =>
+      validateEnvironment({ ...env, APP_MODE: 'local', VERCEL: '1' }),
+    ).toThrow();
+    expect(() =>
+      validateEnvironment({
+        ...env,
+        DATABASE_URL: 'fictional-sensitive-input',
+      }),
+    ).toThrow('Invalid DATABASE_URL (value withheld)');
+  });
+});
