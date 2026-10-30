@@ -15,7 +15,7 @@ import { TransactionsRepository } from './transactions.repository';
 import { TransactionsService } from './transactions.service';
 
 describe('TransactionsService', () => {
-  const tx = {} as Prisma.TransactionClient;
+  const tx = { membershipCodeAlias: { findUnique: jest.fn().mockResolvedValue(null) } } as unknown as Prisma.TransactionClient;
   const repo = {
     atomic: <T>(fn: (client: Prisma.TransactionClient) => Promise<T>) => fn(tx),
     byOperation: jest.fn(),
@@ -54,7 +54,7 @@ describe('TransactionsService', () => {
   );
   const membership = {
     id: 'member',
-    number: 'PRIME-0001',
+    number: 'PRIME-001',
     status: 'ACTIVE',
     user: { active: true },
   };
@@ -98,7 +98,7 @@ describe('TransactionsService', () => {
     paymentMethod: 'SALDO_PRIME',
     receiptType: 'BOLETA',
     authorizationId: 'auth-1',
-    membershipCode: 'PRIME-0001',
+    membershipCode: 'PRIME-001',
   };
 
   beforeEach(() => {
@@ -152,7 +152,7 @@ describe('TransactionsService', () => {
           id: 'transaction',
           membership: {
             id: 'member',
-            number: 'PRIME-0001',
+            number: 'PRIME-001',
             userId: 'u',
             user: { name: 'Diego' },
           },
@@ -361,7 +361,7 @@ describe('TransactionsService', () => {
   it('acepta el código correcto y lo persiste como evidencia', async () => {
     await expect(service.create(postpago)).resolves.toBeDefined();
     expect(repo.create).toHaveBeenCalledWith(
-      expect.objectContaining({ membershipCode: 'PRIME-0001' }),
+      expect.objectContaining({ membershipCode: 'PRIME-001' }),
       tx,
     );
   });

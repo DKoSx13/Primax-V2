@@ -36,6 +36,7 @@ export class VehiclesService {
         ? {
             id: vehicle.membership.id,
             number: vehicle.membership.number,
+            legacyNumbers: vehicle.membership.codeAliases.map(alias => alias.code),
             status: vehicle.membership.status,
             name: vehicle.membership.user.name,
             balance: vehicle.membership.balance.toFixed(2),

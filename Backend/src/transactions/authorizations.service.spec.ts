@@ -14,7 +14,7 @@ const VEHICLE_WITH_MEMBERSHIP = {
   id: 'v1',
   membership: {
     id: 'm1',
-    number: 'PRIME-0001',
+    number: 'PRIME-001',
     status: 'ACTIVE',
     user: { active: true },
   },
@@ -24,7 +24,7 @@ const dto = {
   operationId: '11111111-1111-4111-8111-111111111111',
   plate: 'ABC-123',
   amount: '200.00',
-  membershipCode: 'PRIME-0001',
+  membershipCode: 'PRIME-001',
   stationId: 's1',
   fuelId: 'f1',
   receiptType: 'BOLETA' as const,
@@ -32,6 +32,7 @@ const dto = {
 
 function harness(balance = '500.00') {
   const txDb = {
+    membershipCodeAlias: { findUnique: jest.fn().mockResolvedValue(null) },
     $queryRaw: jest.fn(async () => [{ id: 'inventory-reservation' }]),
     inventoryReservation: {
       findUnique: jest.fn().mockResolvedValue(null),
@@ -83,7 +84,7 @@ function harness(balance = '500.00') {
     membership: {
       findUnique: jest.fn().mockResolvedValue({
         id: 'm1',
-        number: 'PRIME-0001',
+        number: 'PRIME-001',
         balance: new Prisma.Decimal(balance),
       }),
     },
@@ -192,7 +193,7 @@ describe('AuthorizationsService (reserva de saldo postpago)', () => {
           JSON.stringify({
             plate: 'ABC-123',
             amount: '200.00',
-            code: 'PRIME-0001',
+            code: 'PRIME-001',
             stationId: 's1',
             fuelId: 'f1',
             receiptType: 'BOLETA',
