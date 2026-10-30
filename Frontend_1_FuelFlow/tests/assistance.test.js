@@ -22,3 +22,11 @@ test('cancellation waits for Backend and keeps request when unavailable',async()
  await client.submit({reason:'OTRO'});fail=true;await assert.rejects(client.cancel());assert.equal(client.current().status,'PENDIENTE');
  fail=false;assert.equal((await client.cancel()).status,'CANCELADA_POR_CLIENTE');
 });
+
+
+test('assistance page preserves module bootstrap and complete document', async () => {
+ const {readFile}=await import('node:fs/promises');
+ const html=await readFile(new URL('../src/index.html',import.meta.url),'utf8');
+ assert.match(html, /<script type="module" src="js\/script.js[^"]*"><\/script>/);
+ assert.match(html, /<\/body>\s*<\/html>\s*$/);
+});
