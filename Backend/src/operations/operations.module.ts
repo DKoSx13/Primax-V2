@@ -1,3 +1,5 @@
+import { SupervisorPaymentsController, SupervisorPaymentsService } from './supervisor-payments';
+import { PaymentsModule } from '../payments/payments.module';
 import { Module } from '@nestjs/common';
 import {
   OperationalAdminController,
@@ -10,14 +12,14 @@ import { AuthModule } from '../auth/auth.module';
 import { ControlStationController, StationHandoffController } from './station-workflow.controller';
 
 @Module({
-  controllers: [
+  controllers: [SupervisorPaymentsController,
     SupervisorController,
     TerminalController,
     OperationalAdminController,
     ControlStationController,
     StationHandoffController,
   ],
-  imports: [IncidentsModule, AuthModule],
-  providers: [OperationsService],
+  imports: [PaymentsModule,IncidentsModule, AuthModule],
+  providers: [OperationsService,SupervisorPaymentsService],
 })
 export class OperationsModule {}
