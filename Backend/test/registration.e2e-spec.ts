@@ -180,7 +180,7 @@ describe('Registration and vehicles: real PostgreSQL', () => {
       results.map((r) => member(r.body.accessToken).expect(200)),
     );
     expect(profiles[0].body.number).not.toBe(profiles[1].body.number);
-    expect(profiles[0].body.number).toMatch(/^PRIM-[0-9]{3}[A-Z]*$/);
+    expect(profiles[0].body.number).toMatch(/^PRIME-[A-Z]*[0-9]{3}$/);
     const login = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
       .send({ email: data[0].email, password })
