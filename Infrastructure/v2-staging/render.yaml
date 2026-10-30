@@ -1,0 +1,79 @@
+﻿# This blueprint creates only NEW V2 services. Do not rename/link V12.1 resources.
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: primax-v2-backend-staging
+    runtime: node
+    plan: free
+    repo: https://github.com/DKoSx13/Primax-V2
+    branch: validation/v2-integration
+    rootDir: Backend
+    buildCommand: npm ci --no-audit --no-fund && npm run prisma:generate && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: NODE_VERSION
+        value: 22.23.4
+      - key: APP_MODE
+        value: academic
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_PURPOSE
+        value: academic-demo
+      - key: PAYMENT_ENV
+        value: demo
+      - key: DEMO_WALLET_ENABLED
+        value: 'true'
+      - key: PASSWORD_RESET_DELIVERY
+        value: disabled
+      - key: SHOW_DEMO_ADMIN_CREDENTIALS
+        value: 'false'
+      - key: KIOSK_SESSION_NAMESPACE
+        value: primax-v2-staging
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_UNPOOLED
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: KIOSK_API_KEY
+        generateValue: true
+      - key: KIOSK_GATEWAY_SECRET
+        sync: false
+      - key: KIOSK_REDIS_REST_URL
+        sync: false
+      - key: KIOSK_REDIS_REST_TOKEN
+        sync: false
+      - key: KIOSK_OPERATOR_USER
+        sync: false
+      - key: KIOSK_OPERATOR_PASSWORD_HASH
+        sync: false
+      - key: KIOSK_STATION_ID
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PRIMAX_CONTROL_PUBLIC_URL
+        sync: false
+      - key: PLATE_RECOGNITION_URL
+        sync: false
+      - key: PLATE_RECOGNITION_ENABLED
+        value: 'true'
+      - key: OCR_SERVICE_SECRET
+        sync: false
+  - type: web
+    name: primax-v2-ocr-staging
+    runtime: docker
+    plan: free
+    repo: https://github.com/DKoSx13/Primax-V2
+    branch: validation/v2-integration
+    rootDir: PlateRecognition
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: 'off'
+    envVars:
+      - key: PORT
+        value: '8000'
+      - key: OCR_SERVICE_SECRET
+        sync: false
