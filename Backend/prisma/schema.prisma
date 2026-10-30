@@ -233,6 +233,7 @@ model MembershipNumberCounter {
 }
 
 model Membership {
+  codeAliases MembershipCodeAlias[]
   welcomeReservedOperationId String? @unique @db.Uuid
   welcomeAvailable Boolean @default(false)
   welcomeTransactionId String? @unique @db.Uuid
@@ -257,6 +258,14 @@ model Membership {
   walletMovements WalletMovement[]
   createdAt    DateTime         @default(now()) @db.Timestamptz(3)
   updatedAt    DateTime         @updatedAt @db.Timestamptz(3)
+}
+
+model MembershipCodeAlias {
+  code String @id @db.VarChar(30)
+  membershipId String @db.Uuid
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  @@index([membershipId])
 }
 
 model Vehicle {

@@ -24,11 +24,11 @@ describe('OCR gateway', () => {
     output('abc123', 0.94);
     vehicles.findByPlate.mockResolvedValue({
       plate: 'ABC-123',
-      membership: { number: 'PRIME-0001', name: 'Diego' },
+      membership: { number: 'PRIME-001', name: 'Diego' },
     });
     const result = await service.recognize('a'.repeat(16));
     expect(result.recognized).toBe(true);
-    expect(result.vehicle?.membership?.number).toBe('PRIME-0001');
+    expect(result.vehicle?.membership?.number).toBe('PRIME-001');
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/recognize'), expect.objectContaining({
       headers: expect.objectContaining({ Authorization: 'Bearer test-ocr-service-secret-with-32-characters' }),
     }));

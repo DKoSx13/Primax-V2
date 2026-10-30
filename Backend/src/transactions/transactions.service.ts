@@ -1,3 +1,4 @@
+import { matchesMembershipCode } from '../users/membership-code';
 import {
   BadRequestException,
   ConflictException,
@@ -158,7 +159,7 @@ export class TransactionsService {
 
       // El código capturado en el terminal debe pertenecer a la placa leída.
       // Esta validación no existía: el código se descartaba en el navegador.
-      if (code && membership?.number !== code)
+      if (code && !(await matchesMembershipCode(tx,membership,code)))
         throw new BadRequestException(
           'El código de membresía no corresponde al vehículo identificado',
         );

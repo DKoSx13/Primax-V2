@@ -1,3 +1,4 @@
+import { matchesMembershipCode } from '../users/membership-code';
 import { reserveWelcome } from '../payments/welcome';
 import {
   BadRequestException,
@@ -206,7 +207,7 @@ export class AuthorizationsService {
         throw new BadRequestException(
           'El vehículo no está asociado a una membresía Primax Prime',
         );
-      if (membership.number !== code)
+      if (!(await matchesMembershipCode(tx,membership,code)))
         throw new BadRequestException(
           'El código de membresía no corresponde al vehículo identificado',
         );
@@ -722,7 +723,7 @@ export class AuthorizationsService {
         where: { plate },
         include: { membership: true },
       });
-      if (dto.membershipCode && vehicle?.membership?.number !== dto.membershipCode)
+      if (dto.membershipCode && !(await matchesMembershipCode(tx,vehicle?.membership,dto.membershipCode)))
         throw new BadRequestException('El código de membresía no corresponde al vehículo');
 
       let payment = await tx.payment.findUnique({

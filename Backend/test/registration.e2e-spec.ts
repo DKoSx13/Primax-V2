@@ -56,12 +56,12 @@ describe('Registration and vehicles: real PostgreSQL', () => {
   });
 
   it.each([
-    [1, 'PRIM-001'],
-    [2, 'PRIM-002'],
-    [999, 'PRIM-999'],
-    [1000, 'PRIM-001A'],
-    [1998, 'PRIM-999A'],
-    [1999, 'PRIM-001B'],
+    [1, 'PRIME-001'],
+    [2, 'PRIME-002'],
+    [999, 'PRIME-999'],
+    [1000, 'PRIME-A001'],
+    [1998, 'PRIME-A999'],
+    [1999, 'PRIME-B001'],
   ])('persists sequential ordinal %s as %s', async (ordinal, expected) => {
     await db.$executeRaw`UPDATE "MembershipNumberCounter" SET "value" = ${BigInt(Number(ordinal) - 1)} WHERE "id" = 1`;
     const result = await register().expect(201);
@@ -80,12 +80,12 @@ describe('Registration and vehicles: real PostgreSQL', () => {
       include: { membership: true },
     });
     const existing = await db.membership.findUniqueOrThrow({
-      where: { number: 'PRIM-001B' },
+      where: { number: 'PRIME-B001' },
     });
     await db.$executeRaw`UPDATE "MembershipNumberCounter" SET "value" = 1998 WHERE "id" = 1`;
     const result = await register().expect(201);
     expect((await member(result.body.accessToken)).body.number).toBe(
-      'PRIM-002B',
+      'PRIME-B002',
     );
     expect(
       await db.membership.findUnique({ where: { id: existing.id } }),
@@ -104,10 +104,10 @@ describe('Registration and vehicles: real PostgreSQL', () => {
       results.map((r) => member(r.body.accessToken).expect(200)),
     );
     expect(profiles.map((r) => r.body.number).sort()).toEqual([
-      'PRIM-003B',
-      'PRIM-004B',
-      'PRIM-005B',
-      'PRIM-006B',
+      'PRIME-B003',
+      'PRIME-B004',
+      'PRIME-B005',
+      'PRIME-B006',
     ]);
   });
 
@@ -180,7 +180,7 @@ describe('Registration and vehicles: real PostgreSQL', () => {
       results.map((r) => member(r.body.accessToken).expect(200)),
     );
     expect(profiles[0].body.number).not.toBe(profiles[1].body.number);
-    expect(profiles[0].body.number).toMatch(/^PRIM-[0-9]{3}[A-Z]*$/);
+    expect(profiles[0].body.number).toMatch(/^PRIME-[A-Z]*[0-9]{3}$/);
     const login = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
       .send({ email: data[0].email, password })

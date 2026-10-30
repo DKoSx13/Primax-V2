@@ -12,7 +12,8 @@ describe('VehiclesService', () => {
       label: 'Mi auto',
       membership: {
         id: 'm',
-        number: 'PRIME-0001',
+        number: 'PRIME-001',
+        codeAliases: [],
         userId: 'u',
         status: 'ACTIVE',
         user: { name: 'Diego' },

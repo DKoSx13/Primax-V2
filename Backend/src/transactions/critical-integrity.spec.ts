@@ -37,7 +37,7 @@ function harness(status: PaymentStatus = 'CAPTURED') {
   let price = d(20);
   const member = {
     id: 'm',
-    number: 'PRIME-0001',
+    number: 'PRIME-001',
     status: 'ACTIVE',
     user: { active: true },
     balance: d(200),
@@ -292,7 +292,7 @@ describe('Critical correction: persisted payment, dispatch integrity and recover
       await h.authorizations.create({
         ...request,
         mode,
-        membershipCode: 'PRIME-0001',
+        membershipCode: 'PRIME-001',
       });
       h.setPrice(30);
       await h.authorizations.progress('auth', {
