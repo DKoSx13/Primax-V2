@@ -13,8 +13,8 @@ async function ticket(page) {
   },transaction);
   await page.goto('http://localhost:24381');await page.locator('#btn-voice-toggle').click();await page.locator('#btn-iniciar').click();
   await expect(page.locator('#pantalla-resumen')).toHaveClass(/active/);
-  await expect(page.locator('#btn-comprobante')).toHaveText('Finalizar e imprimir');
-  await expect(page.locator('#btn-finalizar')).toHaveText('Finalizar y no imprimir');
+  await expect(page.locator('#btn-comprobante')).toHaveText('Imprimir');
+  await expect(page.locator('#btn-finalizar')).toHaveText('No imprimir');
   return ()=>financialPosts;
 }
 test('accepted job finishes, disables actions during send and sends only one receipt',async({page})=>{
