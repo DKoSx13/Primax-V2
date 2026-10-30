@@ -1,0 +1,2770 @@
+{
+  "capturedAt": "2026-10-30T17:42:05.345Z",
+  "metrics": {
+    "component": {
+      "key": "primax-v2-local",
+      "name": "Primax V2 local",
+      "qualifier": "TRK",
+      "measures": [
+        {
+          "metric": "coverage",
+          "value": "31.5",
+          "bestValue": false
+        },
+        {
+          "metric": "bugs",
+          "value": "38",
+          "bestValue": false
+        },
+        {
+          "metric": "code_smells",
+          "value": "12",
+          "bestValue": false
+        },
+        {
+          "metric": "duplicated_lines_density",
+          "value": "6.0",
+          "bestValue": false
+        },
+        {
+          "metric": "ncloc",
+          "value": "16348"
+        },
+        {
+          "metric": "vulnerabilities",
+          "value": "5",
+          "bestValue": false
+        },
+        {
+          "metric": "security_hotspots",
+          "value": "0",
+          "bestValue": true
+        }
+      ]
+    }
+  },
+  "bugs": {
+    "total": 43,
+    "p": 1,
+    "ps": 100,
+    "paging": {
+      "pageIndex": 1,
+      "pageSize": 100,
+      "total": 43
+    },
+    "effortTotal": 315,
+    "issues": [
+      {
+        "key": "9c3c7094-2945-429f-bee0-ec1712015a14",
+        "rule": "typescript:S5332",
+        "severity": "MINOR",
+        "component": "primax-v2-local:Backend/src/config/environment.ts",
+        "project": "primax-v2-local",
+        "line": 216,
+        "hash": "61308bf8294e35f21fa4965eddbc6a0d",
+        "textRange": {
+          "startLine": 216,
+          "endLine": 216,
+          "startOffset": 33,
+          "endOffset": 64
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Using http protocol is insecure. Use https instead.",
+        "effort": "30min",
+        "debt": "30min",
+        "author": "",
+        "tags": [
+          "cwe",
+          "cryptography",
+          "former-hotspot"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "VULNERABILITY",
+        "scope": "MAIN",
+        "quickFixAvailable": false,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "COMPLETE",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "SECURITY",
+            "severity": "LOW"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "7c4cd766-273f-41a4-8f04-9c559d33a8fc",
+        "rule": "typescript:S2245",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Backend/src/prisma/prisma.service.ts",
+        "project": "primax-v2-local",
+        "line": 57,
+        "hash": "0dde5074ce88d3d61fb600de0b59bdc6",
+        "textRange": {
+          "startLine": 57,
+          "endLine": 57,
+          "startOffset": 50,
+          "endOffset": 63
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Make sure that using this pseudorandom number generator is safe here.",
+        "effort": "10min",
+        "debt": "10min",
+        "author": "",
+        "tags": [
+          "cwe",
+          "cryptography",
+          "former-hotspot"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "VULNERABILITY",
+        "scope": "MAIN",
+        "quickFixAvailable": false,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "TRUSTWORTHY",
+        "cleanCodeAttributeCategory": "RESPONSIBLE",
+        "impacts": [
+          {
+            "softwareQuality": "SECURITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "6a017e0e-30b1-4478-a138-330dc7c2b4a3",
+        "rule": "typescript:S5332",
+        "severity": "MINOR",
+        "component": "primax-v2-local:Backend/src/vehicles/recognition.service.ts",
+        "project": "primax-v2-local",
+        "line": 29,
+        "hash": "9a936d825a72c192320df30ced661c5f",
+        "textRange": {
+          "startLine": 29,
+          "endLine": 29,
+          "startOffset": 10,
+          "endOffset": 41
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Using http protocol is insecure. Use https instead.",
+        "effort": "30min",
+        "debt": "30min",
+        "author": "",
+        "tags": [
+          "cwe",
+          "cryptography",
+          "former-hotspot"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "VULNERABILITY",
+        "scope": "MAIN",
+        "quickFixAvailable": false,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "COMPLETE",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "SECURITY",
+            "severity": "LOW"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "e440a879-b86a-4f4f-853a-917ce6dedd50",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/plateCamera.js",
+        "project": "primax-v2-local",
+        "line": 60,
+        "hash": "c4dd086e9ec81616999c1045c8307eed",
+        "textRange": {
+          "startLine": 60,
+          "endLine": 65,
+          "startOffset": 1,
+          "endOffset": 146
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "6f99d94d-4806-4a49-8fc1-ccd31963198b",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/printReceipt.js",
+        "project": "primax-v2-local",
+        "line": 9,
+        "hash": "f29003828cff459b12d317aeb44fa9d7",
+        "textRange": {
+          "startLine": 9,
+          "endLine": 9,
+          "startOffset": 17,
+          "endOffset": 20
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/printReceipt.js",
+                "textRange": {
+                  "startLine": 9,
+                  "endLine": 9,
+                  "startOffset": 7,
+                  "endOffset": 17
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/printReceipt.js",
+                "textRange": {
+                  "startLine": 9,
+                  "endLine": 9,
+                  "startOffset": 20,
+                  "endOffset": 29
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"!==\" check; it will always be true. Did you mean to use \"!=\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "b4ea78fe-7d9d-487e-8995-38d8f4df8c7d",
+        "rule": "javascript:S1534",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 390,
+        "hash": "e58afebb998fbbf5eb949e0818586d7d",
+        "textRange": {
+          "startLine": 390,
+          "endLine": 390,
+          "startOffset": 4,
+          "endOffset": 18
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Duplicate name 'voz_monto_post'.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "vue",
+          "react",
+          "pitfall"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "CLEAR",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "db3d270c-2550-489b-a059-1a3133ff2b6a",
+        "rule": "javascript:S1534",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 707,
+        "hash": "284d86345e936983556262e6fdc735bc",
+        "textRange": {
+          "startLine": 707,
+          "endLine": 707,
+          "startOffset": 4,
+          "endOffset": 18
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Duplicate name 'voz_monto_post'.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "vue",
+          "react",
+          "pitfall"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "CLEAR",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "300c395e-07d5-409d-8615-ca9756dad384",
+        "rule": "javascript:S1534",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1023,
+        "hash": "683f888387ed295969db41aaab3a210e",
+        "textRange": {
+          "startLine": 1023,
+          "endLine": 1023,
+          "startOffset": 4,
+          "endOffset": 18
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Duplicate name 'voz_monto_post'.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "vue",
+          "react",
+          "pitfall"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "CLEAR",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "deac8d95-a0db-4fb6-b12f-b6bf93f43f08",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1111,
+        "hash": "46d7a478aeddd7e7e09b8d532ef06775",
+        "textRange": {
+          "startLine": 1111,
+          "endLine": 1111,
+          "startOffset": 2,
+          "endOffset": 19
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "5b5d79bd-45b1-4877-9b95-c857e07446eb",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1133,
+        "hash": "d5776976775ea5100f92323f719860bf",
+        "textRange": {
+          "startLine": 1133,
+          "endLine": 1133,
+          "startOffset": 50,
+          "endOffset": 53
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1133,
+                  "endLine": 1133,
+                  "startOffset": 34,
+                  "endOffset": 49
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1133,
+                  "endLine": 1133,
+                  "startOffset": 54,
+                  "endOffset": 63
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "24d6584a-c8a1-4b75-bafb-19fa364ac349",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1145,
+        "hash": "2b4277923e0f6c556aed2938ca4bcb9b",
+        "textRange": {
+          "startLine": 1145,
+          "endLine": 1145,
+          "startOffset": 35,
+          "endOffset": 38
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1145,
+                  "endLine": 1145,
+                  "startOffset": 19,
+                  "endOffset": 34
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1145,
+                  "endLine": 1145,
+                  "startOffset": 39,
+                  "endOffset": 49
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "9697f148-d5a0-4198-82b8-7886b33cf9be",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1453,
+        "hash": "b2fb7deacf6423bb2932c8acc0f05c9b",
+        "textRange": {
+          "startLine": 1453,
+          "endLine": 1453,
+          "startOffset": 42,
+          "endOffset": 45
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1453,
+                  "endLine": 1453,
+                  "startOffset": 20,
+                  "endOffset": 41
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1453,
+                  "endLine": 1453,
+                  "startOffset": 46,
+                  "endOffset": 55
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "50398201-43a4-4001-959d-046ef031e195",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1492,
+        "hash": "b2fb7deacf6423bb2932c8acc0f05c9b",
+        "textRange": {
+          "startLine": 1492,
+          "endLine": 1492,
+          "startOffset": 42,
+          "endOffset": 45
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1492,
+                  "endLine": 1492,
+                  "startOffset": 20,
+                  "endOffset": 41
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1492,
+                  "endLine": 1492,
+                  "startOffset": 46,
+                  "endOffset": 55
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "093379f0-5a67-4d9a-84c7-232bd5efebd1",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1493,
+        "hash": "2b4277923e0f6c556aed2938ca4bcb9b",
+        "textRange": {
+          "startLine": 1493,
+          "endLine": 1493,
+          "startOffset": 33,
+          "endOffset": 36
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1493,
+                  "endLine": 1493,
+                  "startOffset": 17,
+                  "endOffset": 32
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1493,
+                  "endLine": 1493,
+                  "startOffset": 37,
+                  "endOffset": 47
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "37171898-0146-4172-beb4-c815957064b8",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1519,
+        "hash": "40006c47b46ff0f3bb87b96137682107",
+        "textRange": {
+          "startLine": 1519,
+          "endLine": 1519,
+          "startOffset": 48,
+          "endOffset": 51
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1519,
+                  "endLine": 1519,
+                  "startOffset": 32,
+                  "endOffset": 47
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1519,
+                  "endLine": 1519,
+                  "startOffset": 52,
+                  "endOffset": 61
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "8cbeb6d8-6855-4632-a86f-23db876d3fd6",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1563,
+        "hash": "a7acef5a15f9fa2d7e1c9c5a679bb431",
+        "textRange": {
+          "startLine": 1563,
+          "endLine": 1563,
+          "startOffset": 2,
+          "endOffset": 17
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "ee6cead8-dfc1-4b83-885e-4cac9b35bc2f",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1640,
+        "hash": "e8d8df99babf72676bd5fff3c7364740",
+        "textRange": {
+          "startLine": 1640,
+          "endLine": 1640,
+          "startOffset": 22,
+          "endOffset": 25
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1640,
+                  "endLine": 1640,
+                  "startOffset": 6,
+                  "endOffset": 21
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1640,
+                  "endLine": 1640,
+                  "startOffset": 26,
+                  "endOffset": 35
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "5be12d9b-47ae-4bc6-bfdd-5b2cdb56b75a",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1650,
+        "hash": "74e266ab03ffaf8b9025e0401c508c63",
+        "textRange": {
+          "startLine": 1650,
+          "endLine": 1650,
+          "startOffset": 22,
+          "endOffset": 25
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1650,
+                  "endLine": 1650,
+                  "startOffset": 6,
+                  "endOffset": 21
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1650,
+                  "endLine": 1650,
+                  "startOffset": 26,
+                  "endOffset": 35
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "57d21b4a-0d03-458e-87ad-84401030fe4a",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1660,
+        "hash": "1c1b7f4a0ab421e40db914dc0456ce9f",
+        "textRange": {
+          "startLine": 1660,
+          "endLine": 1660,
+          "startOffset": 90,
+          "endOffset": 93
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1660,
+                  "endLine": 1660,
+                  "startOffset": 74,
+                  "endOffset": 89
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1660,
+                  "endLine": 1660,
+                  "startOffset": 94,
+                  "endOffset": 103
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "a6b779dd-8842-47ea-9073-b777599b61e5",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1667,
+        "hash": "2ed45a4b7f31d3fadfb7476282b5d0ab",
+        "textRange": {
+          "startLine": 1667,
+          "endLine": 1667,
+          "startOffset": 32,
+          "endOffset": 35
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1667,
+                  "endLine": 1667,
+                  "startOffset": 16,
+                  "endOffset": 31
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1667,
+                  "endLine": 1667,
+                  "startOffset": 36,
+                  "endOffset": 45
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "a1f0e80b-baf4-4829-ae6d-e6b505606f93",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1694,
+        "hash": "cc0749325d5d68a71a3aec87553626be",
+        "textRange": {
+          "startLine": 1694,
+          "endLine": 1694,
+          "startOffset": 6,
+          "endOffset": 28
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "890eb56d-6c6c-4a89-9812-d155dc8c4523",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1701,
+        "hash": "60e304b1443cde4c941b41826e67fc8a",
+        "textRange": {
+          "startLine": 1701,
+          "endLine": 1701,
+          "startOffset": 4,
+          "endOffset": 21
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "c05b3275-584d-42a3-a6b2-92ab6125f41b",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1746,
+        "hash": "a05d7699112cf8d1c3585e430744e8c9",
+        "textRange": {
+          "startLine": 1746,
+          "endLine": 1746,
+          "startOffset": 34,
+          "endOffset": 37
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1746,
+                  "endLine": 1746,
+                  "startOffset": 18,
+                  "endOffset": 33
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1746,
+                  "endLine": 1746,
+                  "startOffset": 38,
+                  "endOffset": 47
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "edafd07e-6357-49ab-b798-572b969bc38f",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1792,
+        "hash": "0d2c0153a2b40f7e5595d5997d8d73a3",
+        "textRange": {
+          "startLine": 1792,
+          "endLine": 1792,
+          "startOffset": 22,
+          "endOffset": 25
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1792,
+                  "endLine": 1792,
+                  "startOffset": 6,
+                  "endOffset": 21
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1792,
+                  "endLine": 1792,
+                  "startOffset": 26,
+                  "endOffset": 36
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "0b7582d2-2ce5-406b-b420-a17cbd8fd2e2",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1821,
+        "hash": "2e7af913c98e40c7c9a177af9ce513c8",
+        "textRange": {
+          "startLine": 1821,
+          "endLine": 1821,
+          "startOffset": 22,
+          "endOffset": 25
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1821,
+                  "endLine": 1821,
+                  "startOffset": 6,
+                  "endOffset": 21
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1821,
+                  "endLine": 1821,
+                  "startOffset": 26,
+                  "endOffset": 36
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "ecde7186-6108-41bc-b2ed-d5ca622cc248",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1822,
+        "hash": "535270742a55c57209f919838bb2c34d",
+        "textRange": {
+          "startLine": 1822,
+          "endLine": 1822,
+          "startOffset": 7,
+          "endOffset": 24
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "6fbeeb55-a14c-4fa3-b2b2-1fa982b9d63a",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1863,
+        "hash": "dbaebfcf579b45f75e2d9c03523a5017",
+        "textRange": {
+          "startLine": 1863,
+          "endLine": 1863,
+          "startOffset": 678,
+          "endOffset": 681
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1863,
+                  "endLine": 1863,
+                  "startOffset": 663,
+                  "endOffset": 678
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1863,
+                  "endLine": 1863,
+                  "startOffset": 681,
+                  "endOffset": 687
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "7e087077-f8f9-4b0e-8975-26f7c4bd0621",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1863,
+        "hash": "dbaebfcf579b45f75e2d9c03523a5017",
+        "textRange": {
+          "startLine": 1863,
+          "endLine": 1863,
+          "startOffset": 217,
+          "endOffset": 220
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1863,
+                  "endLine": 1863,
+                  "startOffset": 202,
+                  "endOffset": 217
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1863,
+                  "endLine": 1863,
+                  "startOffset": 220,
+                  "endOffset": 230
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "c94fa5f7-cb67-4434-a98e-fa079a90a7af",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1864,
+        "hash": "e44d0317633620c492fd4d27f731410e",
+        "textRange": {
+          "startLine": 1864,
+          "endLine": 1864,
+          "startOffset": 341,
+          "endOffset": 344
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1864,
+                  "endLine": 1864,
+                  "startOffset": 326,
+                  "endOffset": 341
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1864,
+                  "endLine": 1864,
+                  "startOffset": 344,
+                  "endOffset": 354
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "bfefb1d7-f1df-46cd-8c82-b128a293a9d4",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1938,
+        "hash": "b6aea76f5b1d6736862bd7971babc391",
+        "textRange": {
+          "startLine": 1938,
+          "endLine": 1938,
+          "startOffset": 21,
+          "endOffset": 24
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1938,
+                  "endLine": 1938,
+                  "startOffset": 5,
+                  "endOffset": 20
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 1938,
+                  "endLine": 1938,
+                  "startOffset": 25,
+                  "endOffset": 34
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "1b560f1e-0787-43cf-babd-602d2ac67965",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 1949,
+        "hash": "40f41b13f97ece6c02aae9ac4a0e998f",
+        "textRange": {
+          "startLine": 1949,
+          "endLine": 1949,
+          "startOffset": 2,
+          "endOffset": 19
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "ba8e9cc5-9c45-43d5-a4dd-5f2f9c00f06e",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2035,
+        "hash": "7333c37686b49511f936a40e094a0f30",
+        "textRange": {
+          "startLine": 2035,
+          "endLine": 2035,
+          "startOffset": 67,
+          "endOffset": 70
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2035,
+                  "endLine": 2035,
+                  "startOffset": 51,
+                  "endOffset": 66
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2035,
+                  "endLine": 2035,
+                  "startOffset": 71,
+                  "endOffset": 81
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "e7a95aa4-f11c-487c-84f7-d88bad25bf88",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2193,
+        "hash": "2b4277923e0f6c556aed2938ca4bcb9b",
+        "textRange": {
+          "startLine": 2193,
+          "endLine": 2193,
+          "startOffset": 33,
+          "endOffset": 36
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2193,
+                  "endLine": 2193,
+                  "startOffset": 17,
+                  "endOffset": 32
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2193,
+                  "endLine": 2193,
+                  "startOffset": 37,
+                  "endOffset": 47
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "63e2fdd8-b984-4bf2-bcf3-2b7b1677f42c",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2198,
+        "hash": "dbb684c87a72d3a6b6055a92469ea64f",
+        "textRange": {
+          "startLine": 2198,
+          "endLine": 2198,
+          "startOffset": 28,
+          "endOffset": 31
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2198,
+                  "endLine": 2198,
+                  "startOffset": 6,
+                  "endOffset": 27
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2198,
+                  "endLine": 2198,
+                  "startOffset": 32,
+                  "endOffset": 41
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "5e219471-4239-4541-8f68-b15ae2d860b7",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2362,
+        "hash": "eafbaef91694cd111813f997f66b0775",
+        "textRange": {
+          "startLine": 2362,
+          "endLine": 2362,
+          "startOffset": 24,
+          "endOffset": 27
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2362,
+                  "endLine": 2362,
+                  "startOffset": 8,
+                  "endOffset": 23
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2362,
+                  "endLine": 2362,
+                  "startOffset": 28,
+                  "endOffset": 37
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "8e1f4fa7-c35a-4fe1-bc4d-993714f3c285",
+        "rule": "javascript:S3403",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2390,
+        "hash": "ed179239f1d0153668250d98e0856ad9",
+        "textRange": {
+          "startLine": 2390,
+          "endLine": 2390,
+          "startOffset": 22,
+          "endOffset": 25
+        },
+        "flows": [
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2390,
+                  "endLine": 2390,
+                  "startOffset": 6,
+                  "endOffset": 21
+                },
+                "msgFormattings": []
+              }
+            ]
+          },
+          {
+            "locations": [
+              {
+                "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+                "textRange": {
+                  "startLine": 2390,
+                  "endLine": 2390,
+                  "startOffset": 26,
+                  "endOffset": 36
+                },
+                "msgFormattings": []
+              }
+            ]
+          }
+        ],
+        "status": "OPEN",
+        "message": "Remove this \"===\" check; it will always be false. Did you mean to use \"==\"?",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "type-dependent"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "ea3d893f-14c9-4760-98a8-0d27770211b4",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2390,
+        "hash": "ed179239f1d0153668250d98e0856ad9",
+        "textRange": {
+          "startLine": 2390,
+          "endLine": 2390,
+          "startOffset": 40,
+          "endOffset": 57
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "78c24548-23bb-49a0-82d9-8bc2f3e26386",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2683,
+        "hash": "907dfd561292f0d5f6d1daabfe1e48fc",
+        "textRange": {
+          "startLine": 2683,
+          "endLine": 2683,
+          "startOffset": 84,
+          "endOffset": 101
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "c584b022-4902-4a73-bdaa-286292eced1c",
+        "rule": "javascript:S9383",
+        "severity": "MAJOR",
+        "component": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "project": "primax-v2-local",
+        "line": 2703,
+        "hash": "bd3556aaaaad590e95ed0ac3796fd63c",
+        "textRange": {
+          "startLine": 2703,
+          "endLine": 2703,
+          "startOffset": 78,
+          "endOffset": 91
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator.",
+        "effort": "5min",
+        "debt": "5min",
+        "author": "",
+        "tags": [
+          "async",
+          "es2017",
+          "type-dependent",
+          "promise"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "LOGICAL",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "MEDIUM"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "b00eda47-6cce-4f03-a8de-f2cec0f91cdf",
+        "rule": "javascript:S2871",
+        "severity": "CRITICAL",
+        "component": "primax-v2-local:PrintAgent/contract.mjs",
+        "project": "primax-v2-local",
+        "line": 1,
+        "hash": "6dfca14eb746e4940092b4d478d36482",
+        "textRange": {
+          "startLine": 1,
+          "endLine": 1,
+          "startOffset": 188,
+          "endOffset": 192
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Provide a compare function that depends on \"String.localeCompare\", to reliably sort elements alphabetically.",
+        "effort": "10min",
+        "debt": "10min",
+        "author": "",
+        "tags": [
+          "type-dependent",
+          "bad-practice"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "CLEAR",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "HIGH"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "b4f2c3d3-fa80-4a10-b04d-7faa7207c068",
+        "rule": "javascript:S2871",
+        "severity": "CRITICAL",
+        "component": "primax-v2-local:PrintAgent/contract.mjs",
+        "project": "primax-v2-local",
+        "line": 5,
+        "hash": "671d3131a9318b8cfc81697757541930",
+        "textRange": {
+          "startLine": 5,
+          "endLine": 5,
+          "startOffset": 63,
+          "endOffset": 67
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Provide a compare function that depends on \"String.localeCompare\", to reliably sort elements alphabetically.",
+        "effort": "10min",
+        "debt": "10min",
+        "author": "",
+        "tags": [
+          "type-dependent",
+          "bad-practice"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "BUG",
+        "scope": "MAIN",
+        "quickFixAvailable": true,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "CLEAR",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "RELIABILITY",
+            "severity": "HIGH"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "f8d41b50-cc68-4d9f-81f9-6149e6b5610c",
+        "rule": "javascript:S4036",
+        "severity": "MINOR",
+        "component": "primax-v2-local:PrintAgent/server.mjs",
+        "project": "primax-v2-local",
+        "line": 26,
+        "hash": "a736e48f61e3f93eb3ad0033f6d58873",
+        "textRange": {
+          "startLine": 26,
+          "endLine": 26,
+          "startOffset": 13,
+          "endOffset": 29
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Make sure the \"PATH\" variable only contains fixed, unwriteable directories.",
+        "effort": "15min",
+        "debt": "15min",
+        "author": "",
+        "tags": [
+          "cwe",
+          "former-hotspot"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "VULNERABILITY",
+        "scope": "MAIN",
+        "quickFixAvailable": false,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "COMPLETE",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "SECURITY",
+            "severity": "LOW"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      },
+      {
+        "key": "b4653574-2978-44d5-b623-ae41f28fc8be",
+        "rule": "javascript:S5332",
+        "severity": "MINOR",
+        "component": "primax-v2-local:PrintAgent/transport.mjs",
+        "project": "primax-v2-local",
+        "line": 4,
+        "hash": "8fffdd4f0c9b67caa1453ecef1fbffac",
+        "textRange": {
+          "startLine": 4,
+          "endLine": 4,
+          "startOffset": 23,
+          "endOffset": 32
+        },
+        "flows": [],
+        "status": "OPEN",
+        "message": "Using http protocol is insecure. Use https instead.",
+        "effort": "30min",
+        "debt": "30min",
+        "author": "",
+        "tags": [
+          "cwe",
+          "cryptography",
+          "former-hotspot"
+        ],
+        "creationDate": "2026-10-30T17:40:39+0000",
+        "updateDate": "2026-10-30T17:40:39+0000",
+        "type": "VULNERABILITY",
+        "scope": "MAIN",
+        "quickFixAvailable": false,
+        "messageFormattings": [],
+        "codeVariants": [],
+        "cleanCodeAttribute": "COMPLETE",
+        "cleanCodeAttributeCategory": "INTENTIONAL",
+        "impacts": [
+          {
+            "softwareQuality": "SECURITY",
+            "severity": "LOW"
+          }
+        ],
+        "issueStatus": "OPEN",
+        "prioritizedRule": false,
+        "fromSonarQubeUpdate": false,
+        "internalTags": [],
+        "linkedTicketStatus": "NOT_LINKED"
+      }
+    ],
+    "components": [
+      {
+        "key": "primax-v2-local",
+        "enabled": true,
+        "qualifier": "TRK",
+        "name": "Primax V2 local",
+        "longName": "Primax V2 local"
+      },
+      {
+        "key": "primax-v2-local:PrintAgent/transport.mjs",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "transport.mjs",
+        "longName": "PrintAgent/transport.mjs",
+        "path": "PrintAgent/transport.mjs"
+      },
+      {
+        "key": "primax-v2-local:Backend/src/vehicles/recognition.service.ts",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "recognition.service.ts",
+        "longName": "Backend/src/vehicles/recognition.service.ts",
+        "path": "Backend/src/vehicles/recognition.service.ts"
+      },
+      {
+        "key": "primax-v2-local:Backend/src/prisma/prisma.service.ts",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "prisma.service.ts",
+        "longName": "Backend/src/prisma/prisma.service.ts",
+        "path": "Backend/src/prisma/prisma.service.ts"
+      },
+      {
+        "key": "primax-v2-local:Frontend_1_FuelFlow/src/js/script.js",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "script.js",
+        "longName": "Frontend_1_FuelFlow/src/js/script.js",
+        "path": "Frontend_1_FuelFlow/src/js/script.js"
+      },
+      {
+        "key": "primax-v2-local:PrintAgent/contract.mjs",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "contract.mjs",
+        "longName": "PrintAgent/contract.mjs",
+        "path": "PrintAgent/contract.mjs"
+      },
+      {
+        "key": "primax-v2-local:PrintAgent/server.mjs",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "server.mjs",
+        "longName": "PrintAgent/server.mjs",
+        "path": "PrintAgent/server.mjs"
+      },
+      {
+        "key": "primax-v2-local:Frontend_1_FuelFlow/src/js/plateCamera.js",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "plateCamera.js",
+        "longName": "Frontend_1_FuelFlow/src/js/plateCamera.js",
+        "path": "Frontend_1_FuelFlow/src/js/plateCamera.js"
+      },
+      {
+        "key": "primax-v2-local:Frontend_1_FuelFlow/src/js/printReceipt.js",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "printReceipt.js",
+        "longName": "Frontend_1_FuelFlow/src/js/printReceipt.js",
+        "path": "Frontend_1_FuelFlow/src/js/printReceipt.js"
+      },
+      {
+        "key": "primax-v2-local:Backend/src/config/environment.ts",
+        "enabled": true,
+        "qualifier": "FIL",
+        "name": "environment.ts",
+        "longName": "Backend/src/config/environment.ts",
+        "path": "Backend/src/config/environment.ts"
+      }
+    ],
+    "facets": []
+  },
+  "hotspots": {
+    "paging": {
+      "pageIndex": 1,
+      "pageSize": 100,
+      "total": 0
+    },
+    "hotspots": [],
+    "components": []
+  },
+  "criticalSmells": {
+    "total": 0,
+    "p": 1,
+    "ps": 100,
+    "paging": {
+      "pageIndex": 1,
+      "pageSize": 100,
+      "total": 0
+    },
+    "effortTotal": 0,
+    "issues": [],
+    "components": [],
+    "facets": []
+  }
+}

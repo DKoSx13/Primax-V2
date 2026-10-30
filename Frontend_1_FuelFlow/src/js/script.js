@@ -196,7 +196,7 @@ const I18N = {
 
     // Postpago: monto / tanque lleno
     monto_post_title: '¿Cuánto desea cargar?',
-    voz_monto_post: '🎙️ "Elija un monto o opte por tanque lleno."',
+    hint_monto_post: '🎙️ "Elija un monto o opte por tanque lleno."',
     lbl_ident_ok: 'Identificado:',
     tanque_lleno: 'Tanque lleno',
     tanque_lleno_desc: 'Cargar hasta llenar el tanque (~55 L) y detenerse solo',
@@ -530,7 +530,7 @@ const I18N = {
     modal_post_err_t: 'Membership mismatch',
 
     monto_post_title: 'How much do you want to load?',
-    voz_monto_post: '🎙️ "Please choose an amount or select full tank."',
+    hint_monto_post: '🎙️ "Please choose an amount or select full tank."',
     lbl_ident_ok: 'Identified:',
     tanque_lleno: 'Full tank',
     tanque_lleno_desc: 'Fill the tank (~55 L) and stop automatically',
@@ -846,7 +846,7 @@ const I18N = {
     modal_post_err_t: 'Sociota mana tinkichkan',
 
     monto_post_title: 'Qachayta qayllaykita churanki?',
-    voz_monto_post: '🎙️ "Qolqeta akllay utaq tinkita tankita huntichuy."',
+    hint_monto_post: '🎙️ "Qolqeta akllay utaq tinkita tankita huntichuy."',
     lbl_ident_ok: 'Yachasqa:',
     tanque_lleno: 'Tinki tanki',
     tanque_lleno_desc: 'Tankita huntichuy (~55 L) y sayan',
