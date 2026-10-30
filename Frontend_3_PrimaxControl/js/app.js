@@ -1,3 +1,4 @@
+import { bindPaymentRecovery, paymentRecoveryButton } from './payment-recovery.js';
 import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN } from './config.js';
 import { canViewStation, initialView, incidentMessage, controlModules, visibleModules, defaultView } from './control-state.js';
 import { createControlApi } from './control-api.js';
@@ -8,6 +9,7 @@ const apiClient = createControlApi(window.fetch.bind(window), API_BASE_URL);
 const api = apiClient.request;
 const sendToPrintAgent = createPrintAgent();
 let session = null;
+bindPaymentRecovery({ api, onError: showError });
 let selectedStation = '';
 let busy = false;
 let accountRows = [];
@@ -249,7 +251,7 @@ async function renderSupervisor() {
         const prepared = terminal.enablements?.some((entry) => entry.shiftId === shift?.id);
         return `<article class="supervisor-terminal"><h3>${esc(terminal.code)} · Surtidor ${esc(pump?.code || 'sin asignar')}</h3><p>Estado: <strong>${esc(blocked ? 'Bloqueada por administración' : prepared ? 'Estación lista para operar' : terminal.operationalStatus)}</strong></p>${blocked ? '<p class="error" role="alert">La terminal está bloqueada por administración.</p>' : ''}<button class="primary" data-supervisor-action="start" data-terminal-id="${esc(terminal.id)}" ${!open || blocked || !pump ? 'disabled' : ''}>Iniciar estación</button>${!pump ? '<p>No hay un surtidor asignado.</p>' : ''}</article>`;
       }).join('') || panel('No tienes una terminal asignada.')}</section>
-      <section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(operation.status)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
+      <section class="panel"><h2>Pagos de operaciones activas</h2>${terminals.flatMap(terminal => terminal.operations.map(operation => `<p>Terminal ${esc(terminal.code)} · ${paymentRecoveryButton(operation.operationId)}</p>`)).join('') || '<p>No hay operaciones activas.</p>'}</section><section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(operation.status)} ${paymentRecoveryButton(operation.operationId)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
       <section class="panel"><h2>Asistencia</h2><p>Las solicitudes de asistencia de clientes aparecerán aquí cuando estén disponibles.</p></section>`;
   } catch (error) { showError(error, 'No se pudo consultar la estación'); }
 }

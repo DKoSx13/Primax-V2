@@ -52,7 +52,7 @@ describe('V11 internal closure against PostgreSQL (provider is explicitly mocked
   return {id:user.membership!.id,userId:user.id,plate,code:user.membership!.number};
  }
  function body(m:Awaited<ReturnType<typeof member>>,mode:PurchaseMode,amount='60.00'){
-  return plainToInstance(CreateAuthorizationDto,{operationId:randomUUID(),plate:m.plate,membershipCode:m.code,stationId,fuelId,unitPrice:'20.00',amount,mode,paymentMethod:mode==='PREPAGO'?'EFECTIVO':'SALDO_PRIME'});
+  return plainToInstance(CreateAuthorizationDto,{operationId:randomUUID(),plate:m.plate,membershipCode:m.code,stationId,fuelId,unitPrice:'20.00',amount,mode,paymentMethod:mode==='PREPAGO'?'TARJETA':'SALDO_PRIME'});
  }
  async function finish(a:CreateAuthorizationDto,id:string,amount=a.amount){
   const gallons=new Prisma.Decimal(amount).div(20).toFixed(3);

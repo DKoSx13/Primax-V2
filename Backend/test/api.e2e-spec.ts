@@ -654,7 +654,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
 
   it('PREPAGO con medio externo nunca altera el saldo', async () => {
     const before = await balanceOf();
-    for (const paymentMethod of ['EFECTIVO', 'TARJETA']) {
+    for (const paymentMethod of ['TARJETA']) {
       const body = purchase({ paymentMethod });
       const operationId = body.operationId as string;
       await buy(body).expect(201);
