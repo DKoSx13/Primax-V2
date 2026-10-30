@@ -199,6 +199,7 @@ enum InventoryActorKind {
 }
 
 model User {
+  assistanceRequests AssistanceRequest[]
   id           String      @id @default(uuid()) @db.Uuid
   email        String      @unique @db.VarChar(254)
   name         String      @db.VarChar(80)
@@ -274,6 +275,7 @@ model Vehicle {
 }
 
 model Station {
+  assistanceRequests AssistanceRequest[]
   inventory FuelInventory[]
   id           String        @id @default(uuid()) @db.Uuid
   code         String        @unique @db.VarChar(30)
@@ -512,6 +514,7 @@ model SupervisorStationAssignment {
 }
 
 model Pump {
+  assistanceRequests AssistanceRequest[]
   id String @id @default(uuid()) @db.Uuid
   stationId String @db.Uuid
   station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
@@ -531,6 +534,7 @@ model Pump {
 }
 
 model Terminal {
+  assistanceRequests AssistanceRequest[]
   id String @id @default(uuid()) @db.Uuid
   stationId String @db.Uuid
   station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
@@ -635,6 +639,7 @@ model TerminalCredential {
 }
 
 model TerminalOperation {
+  assistanceRequests AssistanceRequest[]
   id String @id @default(uuid()) @db.Uuid
   operationId String @unique @db.Uuid
   stationId String @db.Uuid
@@ -1002,4 +1007,50 @@ model PaymentEvent {
   detail String @db.VarChar(300)
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   @@index([paymentId, createdAt])
+}
+
+enum AssistanceReason {
+  AYUDA_GENERAL
+  ERROR_PAGO
+  PROBLEMA_TERMINAL
+  PROBLEMA_DESPACHO
+  COMPROBANTE_IMPRESION
+  OTRO
+}
+
+enum AssistanceStatus {
+  PENDIENTE
+  EN_ATENCION
+  RESUELTA
+  ESCALADA
+  CANCELADA_POR_CLIENTE
+}
+
+model AssistanceRequest {
+  id String @id @default(uuid()) @db.Uuid
+  requestId String @unique @db.Uuid
+  stationId String @db.Uuid
+  station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
+  terminalId String @db.Uuid
+  terminal Terminal @relation(fields: [terminalId], references: [id], onDelete: Restrict)
+  pumpId String @db.Uuid
+  pump Pump @relation(fields: [pumpId], references: [id], onDelete: Restrict)
+  operationId String? @db.Uuid
+  terminalOperationId String? @db.Uuid
+  terminalOperation TerminalOperation? @relation(fields: [terminalOperationId], references: [id], onDelete: Restrict)
+  plate String? @db.VarChar(7)
+  reason AssistanceReason
+  status AssistanceStatus @default(PENDIENTE)
+  assignedSupervisorId String? @db.Uuid
+  assignedSupervisor User? @relation(fields: [assignedSupervisorId], references: [id], onDelete: Restrict)
+  observation String? @db.VarChar(500)
+  result String? @db.VarChar(500)
+  acceptedAt DateTime? @db.Timestamptz(3)
+  resolvedAt DateTime? @db.Timestamptz(3)
+  escalatedAt DateTime? @db.Timestamptz(3)
+  cancelledAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  @@index([stationId, status, createdAt])
+  @@index([terminalId, createdAt])
 }

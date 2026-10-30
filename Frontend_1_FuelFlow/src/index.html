@@ -584,39 +584,28 @@
   </div>
 
   <!-- ============ ASISTENCIA HUMANA (fijo, acompaña todo el proceso) ============ -->
-  <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Llamar asistencia humana" aria-label="Llamar asistencia humana">
+  <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Solicitar asistencia humana" aria-label="Solicitar asistencia humana">
     <span class="help-btn-icon">🛎️</span>
-    <span class="help-btn-text" data-i18n="btn_ayuda">Llamar asistencia</span>
+    <span class="help-btn-text" data-i18n="btn_ayuda">Solicitar asistencia</span>
   </button>
 
   <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <div class="modal">
       <div id="help-icon" class="modal-icon">📞</div>
-      <h3 id="help-title">Llamando a asistencia…</h3>
-      <p id="help-msg">Un operador del centro de control está siendo notificado. Por favor, permanezca en su vehículo.</p>
-
-      <div id="help-cargando" class="help-cargando">
-        <div class="spinner"></div>
-        <small data-i18n="help_cargando_txt">Cargando…</small>
-      </div>
-
-      <div id="help-bar-wrap" class="help-bar"><span id="help-bar"></span></div>
-
-      <ol id="help-pasos" class="help-pasos">
-        <li data-i18n="help_paso_1">Solicitud enviada al surtidor 03</li>
-        <li data-i18n="help_paso_2">Operador asignado</li>
-        <li data-i18n="help_paso_3">El asistente va en camino</li>
-      </ol>
-
-      <p id="help-estado" class="help-estado">Conectando con el operador…</p>
-
+      <h3 id="help-title">Solicitar asistencia</h3>
+      <p id="help-msg">La solicitud se env?a al personal autorizado de esta estaci?n.</p>
+      <form id="help-form">
+        <label>Motivo<select id="help-motivo" required>
+          <option value="AYUDA_GENERAL">Ayuda general</option><option value="ERROR_PAGO">Error de pago</option>
+          <option value="PROBLEMA_TERMINAL">Problema de terminal</option><option value="PROBLEMA_DESPACHO">Problema de despacho</option>
+          <option value="COMPROBANTE_IMPRESION">Comprobante o impresi?n</option><option value="OTRO">Otro</option>
+        </select></label>
+        <label>Observaci?n (opcional)<textarea id="help-observacion" maxlength="500"></textarea></label>
+        <button id="help-btn-enviar" class="btn btn-primary" type="submit">Enviar solicitud</button>
+      </form>
+      <p id="help-estado" role="status" aria-live="polite"></p>
       <div class="modal-actions">
-        <button id="help-btn-cancelar" class="btn btn-ghost" data-i18n="help_cancelar">Cancelar solicitud</button>
-        <button id="help-btn-cerrar" class="btn btn-primary hidden" data-i18n="help_cerrar">Entendido</button>
+        <button id="help-btn-cancelar" class="btn btn-ghost hidden" type="button">Cancelar solicitud</button>
+        <button id="help-btn-reintentar" class="btn btn-ghost hidden" type="button">Consultar / reintentar</button>
+        <button id="help-btn-cerrar" class="btn btn-primary" type="button">Continuar</button>
       </div>
-    </div>
-  </div>
-
-  <script type="module" src="js/script.js?v=7"></script>
-</body>
-</html>
