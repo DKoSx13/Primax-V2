@@ -1,3 +1,4 @@
+import {matchesMembershipCode} from './membershipCode.js';
 import { ensureKioskSession, kioskAuthEnabled, kioskStationId } from './kioskSession.js';
 await ensureKioskSession();
 /* ============================================================================
@@ -2178,14 +2179,14 @@ async function verificarMembresiaPostpago() {
     let vehicle;
     try { vehicle=await catalogService.vehicle(placa); }
     catch(error) { if(error.status!==404) throw error; }
-    if (!vehicle?.membership || vehicle.membership.number!==codigo) {
+    if (!matchesMembershipCode(vehicle?.membership,codigo)) {
       plateCheckOperation ||= crypto.randomUUID();
       await apiClient('/admin/check-plate', {method:'POST', body:{plate:placa, membershipCode:codigo, operationId:plateCheckOperation}});
     }
     if(!vehicle) throw Error('Vehículo no encontrado');
     if(!vehicle.membership)throw Error('El vehículo no está asociado a una membresía Primax Prime.');
     if(vehicle.membership.status!=='ACTIVE')throw Error('Tu membresía no está activa.');
-    if(vehicle.membership.number!==codigo)throw Error('La placa y la membresía activa deben coincidir.');
+    if(!matchesMembershipCode(vehicle.membership,codigo))throw Error('La placa y la membresía activa deben coincidir.');
     state.placa=placa;state.codigoCliente=codigo;state.esMiembro=true;state.membresiaVerificada={...vehicle.membership,codigo,placa};
     plateCheckOperation=null; $('post-codigo-error').classList.add('hidden');irAMontoPostpago();
   }catch(error){$('post-codigo-error').textContent=error.message;$('post-codigo-error').classList.remove('hidden');}

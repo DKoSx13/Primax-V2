@@ -20,7 +20,7 @@ test('perfil DNI/RUC/razón social persiste en API y se consulta tras recargar',
 });
 test('deuda e historial pendiente se actualizan después de recargar sin doble envío', async ({ page, context }) => {
   let pending = true, calls = 0;
-  await context.route('**/memberships/me', route => route.fulfill({ json: { user: { name: 'Diego', email: 'demo@primaxprime.pe' }, number: 'PRIME-0001', points: 12, pendingBalance: pending ? '7.60' : '0.00', vehicles: [{ plate: 'ABC-123', label: 'Demo' }] } }));
+  await context.route('**/memberships/me', route => route.fulfill({ json: { user: { name: 'Diego', email: 'demo@primaxprime.pe' }, number: 'PRIME-001', points: 12, pendingBalance: pending ? '7.60' : '0.00', vehicles: [{ plate: 'ABC-123', label: 'Demo' }] } }));
   await context.route('**/memberships/me/transactions?*', route => route.fulfill({ json: [{ id: 'debt-tx', amount: '12.60', pointsEarned: 12, createdAt: '2026-10-12T00:00:00Z', vehicle: { plate: 'ABC-123' }, station: { name: 'Primax Sur' }, status: pending ? 'PAYMENT_PENDING' : 'PAID', debt: { amountPending: pending ? '7.60' : '0.00' } }] }));
   await context.route('**/memberships/me/recharges', async route => { calls++; await new Promise(resolve => setTimeout(resolve, 250)); pending = false; await route.fulfill({ json: { balance: '12.40', debtPaid: '7.60' } }); });
   await login(page); await expect(page.locator('.pending-balance')).toContainText('7.60');

@@ -78,7 +78,7 @@ describe('V9: dinero y documentos en PostgreSQL (esquema preservado)', () => {
               passwordHash: demo.passwordHash,
             },
           });
-    number = counter === 1 ? 'PRIME-0001' : `PRIME-V9-${counter}`;
+    number = counter === 1 ? 'PRIME-001' : `PRIME-V9-${counter}`;
     plate =
       counter === 1 ? 'ABC-123' : `V${String(counter).padStart(2, '0')}-123`;
     fixtureDni = counter === 1 ? '12345678' : String(10000000 + counter);

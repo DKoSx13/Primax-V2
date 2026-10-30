@@ -71,7 +71,7 @@ export class CreateTransactionDto extends ReceiptProfileDto {
     description:
       'Código de membresía capturado en el terminal. Si se informa en ' +
       'POSTPAGO, debe coincidir con el de la placa.',
-    example: 'PRIM-001',
+    example: 'PRIME-001',
   })
   @ValidateIf((_object, value: unknown) => value !== undefined)
   @IsString()

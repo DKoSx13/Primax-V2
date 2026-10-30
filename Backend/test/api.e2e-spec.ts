@@ -79,7 +79,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       await db.benefit.findUniqueOrThrow({ where: { code: 'coffee' } })
     ).id;
     memberId = (
-      await db.membership.findUniqueOrThrow({ where: { number: 'PRIME-0001' } })
+      await db.membership.findUniqueOrThrow({ where: { number: 'PRIME-001' } })
     ).id;
   }, 90000);
   beforeEach(async () => {
@@ -182,13 +182,13 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
   it('consulta y normaliza placa con alcance de socio', async () => {
     const res = await getMember('vehicles/abc123').expect(200);
     expect(res.body.plate).toBe('ABC-123');
-    expect(res.body.membership.number).toBe('PRIME-0001');
+    expect(res.body.membership.number).toBe('PRIME-001');
     await getMember('vehicles/XYZ-999').expect(404);
     await getMember('vehicles/invalid').expect(400);
     const vehicles = await getMember('vehicles').expect(200);
     expect(vehicles.body).toHaveLength(2);
   });
-  it('ABC-123 → S/100 → +100 → historial de PRIME-0001', async () => {
+  it('ABC-123 → S/100 → +100 → historial de PRIME-001', async () => {
     const body = purchase();
     mainOperation = body.operationId as string;
     const res = await buy(body).expect(201);
@@ -196,7 +196,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
     expect(res.body.pointsEarned).toBe(11);
     expect(res.body.transaction.amount).toBe('100.00');
     expect(res.body.transaction.membership).toMatchObject({
-      number: 'PRIME-0001',
+      number: 'PRIME-001',
       name: 'Diego',
     });
     const history = await getMember('memberships/me/transactions').expect(200);
@@ -396,7 +396,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
         operationId: randomUUID(),
         plate: 'ABC-123',
         amount: '200.00',
-        membershipCode: 'PRIME-0001',
+        membershipCode: 'PRIME-001',
         stationId,
         fuelId,
         receiptType: 'BOLETA',
@@ -510,7 +510,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
     }).expect(201);
     expect(res.body.transaction.amount).toBe('220.67');
@@ -553,7 +553,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
     }).expect(201);
     expect((await balanceOf()).toFixed(2)).toBe(
@@ -803,7 +803,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
       outcome: 'MANUAL',
     }).expect(201);
@@ -874,7 +874,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
     }).expect(400);
     // El saldo no se altera: la reserva sigue viva para poder cerrarla bien.
@@ -898,7 +898,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
     };
     await buy(body).expect(201);
@@ -981,7 +981,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
       outcome: 'MANUAL',
     };
@@ -1024,7 +1024,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: reserved.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
     }).expect(409);
     expect(
@@ -1046,7 +1046,7 @@ describe('API con PostgreSQL real (esquema aislado)', () => {
       mode: 'POSTPAGO',
       paymentMethod: 'SALDO_PRIME',
       authorizationId: freshId.id,
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       receiptType: 'BOLETA',
       outcome: 'MANUAL',
     }).expect(201);

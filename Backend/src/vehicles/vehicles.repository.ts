@@ -32,7 +32,7 @@ export class VehiclesRepository {
           });
     });
   }
-  membership(number: string) { return this.db.membership.findUnique({where:{number},select:{number:true,status:true,vehicles:{select:{plate:true}}}}); }
+  async membership(number: string) { const select={number:true,status:true,vehicles:{select:{plate:true}}} as const; const direct=await this.db.membership.findUnique({where:{number},select});if(direct)return direct;const alias=await this.db.membershipCodeAlias.findUnique({where:{code:number},include:{membership:{select}}});return alias?.membership??null; }
   findByPlate(plate: string) {
     return this.db.vehicle.findUnique({
       where: { plate },
@@ -41,6 +41,7 @@ export class VehiclesRepository {
           select: {
             id: true,
             number: true,
+            codeAliases: { select: { code: true } },
             status: true,
             userId: true,
             balance: true,
