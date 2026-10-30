@@ -14,7 +14,7 @@ export function createPrintAgent(fetcher = (...args) => fetch(...args), pageOrig
   return function requestPrint(receipt) {
     if (!isLocalControlOrigin(pageOrigin)) return Promise.reject(Error('PrintAgent solo está disponible cuando Primax Control se abre localmente en localhost o 127.0.0.1.'));
     if (!receipt || typeof receipt.id !== 'string' || !/^[A-Za-z0-9-]{1,100}$/.test(receipt.id)) return Promise.reject(Error('Identificador de comprobante inválido.'));
-    if (receipt.pump !== '03') return Promise.reject(Error('La instalación local actual de PrintAgent solo admite el surtidor 03. Usa la impresión del navegador para este comprobante.'));
+    if (receipt.pump !== '03') return Promise.reject(Error('La instalación local actual de PrintAgent solo admite el surtidor 03. Solicita soporte para configurar el surtidor.'));
     const id = `receipt-${receipt.id}`;
     if (active.has(id)) return active.get(id);
     const request = async (method, body) => {
@@ -31,7 +31,7 @@ export function createPrintAgent(fetcher = (...args) => fetch(...args), pageOrig
           signal: AbortSignal.timeout(20000),
         });
       } catch {
-        throw Error('PrintAgent local no está disponible. El comprobante y la transacción siguen guardados; puedes imprimirlo desde el navegador o reintentar.');
+        throw Error('PrintAgent local no está disponible. El comprobante y la transacción siguen guardados; puedes cerrar o consultar el mismo trabajo de nuevo.');
       }
       if (response.status === 404 && method === 'GET') return null;
       let result;
