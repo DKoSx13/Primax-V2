@@ -108,6 +108,24 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         'POST /api/kiosk/session/logout': ['POST', sessionPath + '/logout'],
       };
       const sessionRoute = sessions[req.method + ' ' + url.pathname];
+      if (req.method === 'POST' && url.pathname === '/api/v1/kiosk/session/control-handoff') {
+        if (Object.keys(body).length !== 1 || !/^[A-Za-z0-9_-]{43}$/.test(body.ticket || '')) fail(400, 'Preparación inválida');
+        const { value } = await call('POST', sessionPath + '/control-handoff', body, { terminal: technical });
+        if (!/^[A-Za-z0-9_-]{43}$/.test(value.token || '') || !/^[A-Za-z0-9_-]{43}$/.test(value.csrfToken || '') ||
+            !/^[a-f0-9]{64}$/.test(value.terminalToken || '') || !/^[0-9a-fA-F-]{36}$/.test(value.terminalId || '') ||
+            value.authenticated !== true || !Number.isInteger(value.ttl) || value.ttl < 1 || value.ttl > 1800) fail(502, 'Respuesta inválida');
+        const technicalName = local ? 'primax-terminal-local' : TERMINAL_COOKIE;
+        const csrfName = local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF;
+        const secure = local ? '' : 'Secure; ';
+        res.setHeader('Set-Cookie', [
+          `${cookieName}=${value.token}; ${cookieAttributes}; Max-Age=${value.ttl}`,
+          `${technicalName}=${value.terminalToken}; Path=/; HttpOnly; ${secure}SameSite=Strict; Max-Age=28800`,
+          `${csrfName}=${randomBytes(32).toString('base64url')}; Path=/; ${secure}SameSite=Strict; Max-Age=28800`,
+        ]);
+        res.statusCode = 200;
+        res.end(JSON.stringify({ authenticated: true, csrfToken: value.csrfToken, expiresAt: value.expiresAt, stationId: value.stationId, terminalId: value.terminalId, prepared: true }));
+        return;
+      }
       if (req.method === 'POST' && url.pathname === '/api/supervisor/bootstrap') {
         if (!token || !csrf) fail(403, 'Sesión y CSRF requeridos');
         const authorization = req.headers.authorization || '';
@@ -173,7 +191,7 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
           res.setHeader('Set-Cookie', `${csrfName}=${randomBytes(32).toString('base64url')}; Path=/; ${local ? '' : 'Secure; '}SameSite=Strict; Max-Age=28800`);
         }
         const safe = url.pathname === '/api/v1/terminal/me'
-          ? { prepared: true, canStart: value.canStart === true, operationalStatus: value.operationalStatus }
+          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus }
           : { operationId: value.operationId, status: value.status, closedAt: value.closedAt };
         res.statusCode = status; res.end(JSON.stringify(safe)); return;
       }

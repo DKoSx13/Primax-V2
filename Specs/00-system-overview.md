@@ -1,6 +1,6 @@
 # 00 — Visión del sistema Primax V2
 
-Estado: **base documental aprobada**. Baseline: Primax V12.1 con hotfix de Primax Control. No se implementan cambios funcionales en esta preparación.
+Estado: **base documental aprobada**. Baseline: Primax V12.1 con hotfix de Primax Control. El Incremento 01 implementa acceso por rol y preparación de estación; las demás decisiones V2 siguen pendientes.
 
 Primax conecta autoservicio en el surtidor (FuelFlow), portal del cliente (Primax Prime), administración y operación de estación (Primax Control), API y reglas de negocio (Backend), PostgreSQL, reconocimiento de placas y agente de impresión.
 

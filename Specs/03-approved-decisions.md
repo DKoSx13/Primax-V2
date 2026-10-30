@@ -27,4 +27,4 @@
 
 ## Estado documental
 
-17. **Contrato futuro.** Estas decisiones describen SDD V2 y no afirman que estén implementadas. Referencias bajo `Specs/V12.1-reference/` describen el baseline ejecutable heredado; si difieren, prevalece el contrato futuro de estas Specs para implementación V2. No se modifica código, base de datos, UI, seeds, métodos reales, PrintAgent, repositorios, CI ni despliegues en esta fase.
+17. **Incrementos SDD.** Estas decisiones describen el contrato V2; su implementación se realiza por incrementos y no debe inferirse de esta lista. El Incremento 01 cubre acceso por rol en Primax Control y preparación operacional de estación, según `04-supervisor-assistance.md`. Asistencia completa, métodos de pago, comprobantes y numeración PRIME siguen pendientes. Las referencias bajo `Specs/V12.1-reference/` describen la baseline heredada; cuando difieren, prevalece el contrato V2 para los incrementos futuros.

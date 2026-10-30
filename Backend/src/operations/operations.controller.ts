@@ -6,6 +6,7 @@ import {
   ParseUUIDPipe,
   Post,
   SetMetadata,
+  ForbiddenException,
 } from '@nestjs/common';
 import {
   IsString,
@@ -110,16 +111,12 @@ export class SupervisorController {
     return this.service.enable(userId(actor), id, dto.shiftId);
   }
   @Post('terminals/:id/block') block(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.service.block(userId(actor), id);
+    throw new ForbiddenException('El bloqueo administrativo se realiza desde Primax Control');
   }
   @Post('terminals/:id/restore') restore(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.service.restore(userId(actor), id);
+    throw new ForbiddenException('La restauración administrativa se realiza desde Primax Control');
   }
   @Post('operations/:id/resolve') resolveOperation(
     @CurrentActor() actor: Actor,

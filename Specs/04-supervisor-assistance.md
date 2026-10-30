@@ -17,6 +17,10 @@ Flujo base del Supervisor: `Login → Abrir turno → Iniciar estación → Fuel
 
 Puede abrir/cerrar turno, preparar la estación, consultar su estado operativo, ver terminal/surtidor asignados y operaciones que requieren atención. Cliente normalmente termina la operación sin Supervisor. Pairing, CSRF, HMAC, cookies, credenciales y sesiones técnicas permanecen internos.
 
+### Incremento 01 — preparación de estación
+
+Primax Control presenta una sola acción humana «Iniciar estación». Backend comprueba identidad, asignación vigente, turno `ABIERTO`, terminal registrada, surtidor activo y ausencia de bloqueo administrativo. Una terminal ya preparada debe devolver su estado listo de forma idempotente, sin duplicar habilitaciones, credenciales ni operaciones. La preparación técnica de FuelFlow se completa mediante el canal seguro existente; los secretos y pasos técnicos no se muestran al trabajador. Si falta turno, asignación, terminal o surtidor, o existe bloqueo administrativo, la acción se rechaza con un mensaje comprensible y queda registrado el fallo relevante sin secretos. Cerrar turno impide nuevas operaciones. Supervisor no puede invocar bloqueo/restauración administrativa por ninguna ruta.
+
 ## 4. Solicitud de asistencia
 
 Una solicitud representa **“el cliente necesita ayuda”**; por sí sola no afirma que exista un problema formal. FuelFlow crea una solicitud asociada como mínimo a estación, terminal, surtidor, fecha/hora, motivo y contexto disponible, y operación si ya existe. Los motivos iniciales son `AYUDA_GENERAL`, `ERROR_PAGO`, `PROBLEMA_TERMINAL`, `PROBLEMA_DESPACHO`, `COMPROBANTE_IMPRESION` y `OTRO`. Para `OTRO` se permite descripción/observación. Este catálogo no se amplía en esta versión.

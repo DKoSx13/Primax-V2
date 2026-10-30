@@ -74,6 +74,27 @@ test('session tokens stay in host-only secure cookies and are stripped from JSON
   for (const attribute of ['HttpOnly', 'Secure', 'SameSite=Strict', 'Path=/', 'Max-Age=1800']) assert(response.headers['set-cookie'].includes(attribute));
   assert(!response.headers['set-cookie'].includes('Domain='));
 });
+
+test('Control handoff accepts only a same-origin one-time ticket and keeps technical secrets in HttpOnly cookies', async () => {
+  const calls = [];
+  const ticket = 't'.repeat(43);
+  const terminalId = '33333333-3333-4333-8333-333333333333';
+  const result = await invoke('/api/v1/kiosk/session/control-handoff', {
+    method: 'POST', body: { ticket }, headers: { cookie: '', 'x-csrf-token': '' },
+    fetcher: backend(calls, () => Response.json({ authenticated: true, token, ttl: 1800, csrfToken: csrf, expiresAt: Date.now() + 1800000, stationId, terminalId, terminalToken: 'a'.repeat(64) })),
+  });
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(calls.map(call => call.path), ['/api/v1/kiosk/session/control-handoff']);
+  assert.equal(calls[0].body.ticket, ticket);
+  assert.equal(result.body.prepared, true);
+  assert.equal(result.body.token, undefined);
+  assert.equal(result.body.terminalToken, undefined);
+  assert.equal(result.headers['set-cookie'].length, 3);
+  assert(result.headers['set-cookie'][1].includes('HttpOnly'));
+  assert(result.headers['set-cookie'][1].includes('Secure'));
+  const denied = await invoke('/api/v1/kiosk/session/control-handoff', { method: 'POST', body: { ticket }, headers: { origin: 'https://evil.example' }, fetcher: async () => { throw Error('must not forward'); } });
+  assert.equal(denied.statusCode, 403);
+});
 test('loopback Compose mode uses an HttpOnly local cookie and a private backend origin', async () => {
   const localEnv = { ...env, FUELFLOW_PUBLIC_ORIGIN: 'http://127.0.0.1:26081', BACKEND_ORIGIN: 'http://backend:3000', FUELFLOW_LOCAL_HTTP: 'true' };
   const response = await invoke('/api/kiosk/session', {
@@ -151,7 +172,7 @@ test('reselect sends JSON through the strict gateway and unknown methods stay bl
 test('terminal/me restores a fresh same-origin CSRF cookie only after a valid technical session', async () => {
   const technical='b'.repeat(64);
   const calls=[];
-  const me=await invoke('/api/v1/terminal/me',{headers:{cookie:`__Host-primax-terminal=${technical}`},fetcher:backend(calls, path=>path==='/api/v1/terminal/me'?Response.json({canStart:true,operationalStatus:'DISPONIBLE'}):null)});
+  const me=await invoke('/api/v1/terminal/me',{headers:{cookie:`__Host-primax-terminal=${technical}`},fetcher:backend(calls, path=>path==='/api/v1/terminal/me'?Response.json({prepared:true,canStart:true,operationalStatus:'DISPONIBLE'}):null)});
   assert.equal(me.statusCode,200);
   assert.match(me.headers['set-cookie'],/^__Host-primax-terminal-csrf=/);
   assert.match(me.headers['set-cookie'],/Secure; SameSite=Strict/);

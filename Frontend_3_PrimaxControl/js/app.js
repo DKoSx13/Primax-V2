@@ -1,5 +1,5 @@
-import { API_BASE_URL } from './config.js';
-import { canViewStation, initialView, incidentMessage, controlModules, visibleModules } from './control-state.js';
+import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN } from './config.js';
+import { canViewStation, initialView, incidentMessage, controlModules, visibleModules, defaultView } from './control-state.js';
 import { createControlApi } from './control-api.js';
 import { createPrintAgent } from './print-agent.js';
 
@@ -27,7 +27,7 @@ const queryString = (values) => {
 const dateInputs = () => '<label>Desde<input type="date" name="from"></label><label>Hasta<input type="date" name="to"></label>';
 
 function login(message = '') {
-  app.innerHTML = `<main class="login-wrap"><section class="login-card"><div class="brand"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></div><p class="eyebrow">ADMINISTRACIÓN OPERATIVA</p><h1>Inicia sesión</h1><p class="muted">Acceso para cuentas administrativas aprobadas.</p><form id="login-form"><label>Correo<input name="email" type="email" autocomplete="username" required maxlength="254"></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="72"></label><p class="error" role="alert">${esc(message)}</p><button class="primary" type="submit">Entrar a Control</button></form><div class="public-links"><a href="#request-access">Solicitar acceso</a><button class="text-button" type="button" id="resend-link">Reenviar verificación</button></div></section></main>`;
+  app.innerHTML = `<main class="login-wrap"><section class="login-card"><div class="brand"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></div><p class="eyebrow">OPERACIÓN Y ADMINISTRACIÓN</p><h1>Inicia sesión</h1><p class="muted">Acceso para personal autorizado de estación.</p><form id="login-form"><label>Correo<input name="email" type="email" autocomplete="username" required maxlength="254"></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="72"></label><p class="error" role="alert">${esc(message)}</p><button class="primary" type="submit">Entrar a Control</button></form><div class="public-links"><a href="#request-access">Solicitar acceso administrativo</a><button class="text-button" type="button" id="resend-link">Reenviar verificación</button></div></section></main>`;
 }
 
 function requestAccess(message = '') {
@@ -38,7 +38,10 @@ const nav = controlModules;
 
 function shell(view) {
   const visible = visibleModules(session);
-  app.innerHTML = `<div class="layout"><aside class="sidebar"><a class="brand" href="#dashboard"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></a><div class="nav-label">ADMINISTRACIÓN</div><nav>${visible.map(([id, title]) => `<a href="#${id}" ${view === id ? 'aria-current="page"' : ''}><span aria-hidden="true">${({ dashboard:'▦', operations:'↗', transactions:'S/', customers:'♙', memberships:'★', vehicles:'⌑', terminals:'▣', inventory:'◫', movements:'⇅', supply:'＋', incidents:'◉', accounts:'♙', audit:'☷' })[id]}</span><span>${title}</span></a>`).join('')}</nav><div class="sidebar-foot"><span class="status-dot"></span> Backend conectado</div></aside><section class="workspace"><header class="topbar"><div class="station-picker"><label for="station">Alcance</label><select id="station"><option value="">${session.global ? 'Todas las estaciones' : 'Todas las asignadas'}</option>${session.stations.map((station) => `<option value="${esc(station.id)}" ${station.id === selectedStation ? 'selected' : ''}>${esc(station.name)} · ${esc(station.code)}</option>`).join('')}</select></div><div class="user-menu"><span class="avatar">${esc(session.user.name.slice(0, 1).toUpperCase())}</span><span><strong>${esc(session.user.name)}</strong><small>${esc(session.role)}</small></span><button id="logout" class="quiet">Cerrar sesión</button></div></header><main id="content" tabindex="-1"></main></section></div>`;
+  const stationList = view === 'supervisor' ? session.supervisorStations : session.stations;
+  if (view === 'supervisor' && !stationList.some((station) => station.id === selectedStation)) selectedStation = stationList[0]?.id || '';
+  if (view !== 'supervisor' && !session.global && !stationList.some((station) => station.id === selectedStation)) selectedStation = '';
+  app.innerHTML = `<div class="layout"><aside class="sidebar"><a class="brand" href="#${defaultView(session)}"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></a><div class="nav-label">${view === 'supervisor' ? 'OPERACIÓN' : 'ADMINISTRACIÓN'}</div><nav>${visible.map(([id, title]) => `<a href="#${id}" ${view === id ? 'aria-current="page"' : ''}><span aria-hidden="true">${({ supervisor:'⛽', dashboard:'▦', operations:'↗', transactions:'S/', customers:'♙', memberships:'★', vehicles:'⌑', terminals:'▣', inventory:'◫', movements:'⇅', supply:'＋', incidents:'◉', supervisors:'♙', accounts:'♙', audit:'☷' })[id]}</span><span>${title}</span></a>`).join('')}</nav><div class="sidebar-foot"><span class="status-dot"></span> Backend conectado</div></aside><section class="workspace"><header class="topbar"><div class="station-picker"><label for="station">Estación</label><select id="station">${view === 'supervisor' ? '' : `<option value="">${session.global ? 'Todas las estaciones' : 'Todas las asignadas'}</option>`}${stationList.map((station) => `<option value="${esc(station.id)}" ${station.id === selectedStation ? 'selected' : ''}>${esc(station.name)} · ${esc(station.code)}</option>`).join('')}</select></div><div class="user-menu"><span class="avatar">${esc(session.user.name.slice(0, 1).toUpperCase())}</span><span><strong>${esc(session.user.name)}</strong><small>${esc(view === 'supervisor' ? 'SUPERVISOR' : session.role)}</small></span><button id="logout" class="quiet">Cerrar sesión</button></div></header><main id="content" tabindex="-1"></main></section></div>`;
   document.querySelector('#station').addEventListener('change', (event) => { selectedStation = event.target.value; void route(); });
   document.querySelector('#logout').addEventListener('click', async () => { try { await apiClient.logout(); } finally { session = null; selectedStation = ''; login(); } });
 }
@@ -151,7 +154,7 @@ async function renderTerminals() {
   try {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const { terminals, pumps } = await api(`/control/terminals${suffix}`);
-    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'El estado de conexión se representa mediante la última actividad de credenciales.')}<section class="panel"><div class="panel-head"><h2>Terminales</h2></div><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado</th><th>Surtidor asignado</th><th>Operación activa</th><th>Última actividad</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => { const assignment = terminal.assignments[0]; const operation = terminal.operations[0]; const actions = has('ADMIN_TERMINAL_MANAGE') && !operation ? terminal.operationalStatus === 'FUERA_DE_SERVICIO' ? `<button class="text-button" data-terminal-action="RESTORE" data-terminal-id="${terminal.id}">Restaurar bloqueada</button>` : `<button class="text-button" data-terminal-action="OUT_OF_SERVICE" data-terminal-id="${terminal.id}">Fuera de servicio</button>` : '—'; return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${terminal.operationalStatus === 'FUERA_DE_SERVICIO' || terminal.operationalStatus === 'ASISTENCIA' ? 'warning' : ''}">${esc(terminal.operationalStatus.replaceAll('_', ' '))}</span></td><td>${esc(assignment?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt)}</td><td>${actions}</td></tr>`; }).join('') || '<tr><td colspan="7">No hay terminales para este alcance.</td></tr>'}</tbody></table></div></section><section class="panel table-wrap"><div class="panel-head"><h2>Surtidores</h2></div><table><thead><tr><th>Estación</th><th>Surtidor</th><th>Nombre</th><th>Terminal asignada</th><th>Estado de terminal</th></tr></thead><tbody>${pumps.map((pump) => `<tr><td>${esc(pump.station.name)}</td><td>${esc(pump.code)}</td><td>${esc(pump.name)}</td><td>${esc(pump.assignments[0]?.terminal?.code || 'Sin asignar')}</td><td>${esc(pump.assignments[0]?.terminal?.operationalStatus || '—')}</td></tr>`).join('') || '<tr><td colspan="5">No hay surtidores activos.</td></tr>'}</tbody></table></section>`;
+    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'El estado de conexión se representa mediante la última actividad de credenciales.')}<section class="panel"><div class="panel-head"><h2>Terminales</h2></div><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado</th><th>Surtidor asignado</th><th>Operación activa</th><th>Última actividad</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => { const assignment = terminal.assignments[0]; const operation = terminal.operations[0]; const actions = has('ADMIN_TERMINAL_MANAGE') && !operation ? terminal.operationalStatus === 'FUERA_DE_SERVICIO' ? `<button class="text-button" data-terminal-action="RESTORE" data-terminal-id="${terminal.id}">Desbloquear terminal</button>` : `<button class="text-button" data-terminal-action="OUT_OF_SERVICE" data-terminal-id="${terminal.id}">Bloquear terminal</button>` : '—'; return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${terminal.operationalStatus === 'FUERA_DE_SERVICIO' || terminal.operationalStatus === 'ASISTENCIA' ? 'warning' : ''}">${esc(terminal.operationalStatus.replaceAll('_', ' '))}</span></td><td>${esc(assignment?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt)}</td><td>${actions}</td></tr>`; }).join('') || '<tr><td colspan="7">No hay terminales para este alcance.</td></tr>'}</tbody></table></div></section><section class="panel table-wrap"><div class="panel-head"><h2>Surtidores</h2></div><table><thead><tr><th>Estación</th><th>Surtidor</th><th>Nombre</th><th>Terminal asignada</th><th>Estado de terminal</th></tr></thead><tbody>${pumps.map((pump) => `<tr><td>${esc(pump.station.name)}</td><td>${esc(pump.code)}</td><td>${esc(pump.name)}</td><td>${esc(pump.assignments[0]?.terminal?.code || 'Sin asignar')}</td><td>${esc(pump.assignments[0]?.terminal?.operationalStatus || '—')}</td></tr>`).join('') || '<tr><td colspan="5">No hay surtidores activos.</td></tr>'}</tbody></table></section>`;
   } catch (error) { showError(error); }
 }
 
@@ -223,7 +226,48 @@ async function renderAudit(filters = {}) {
   } catch (error) { showError(error); }
 }
 
+async function renderSupervisor() {
+  loading('Consultando estado de la estación…');
+  try {
+    const stations = await api('/control/supervisor/stations');
+    if (!stations.some((row) => row.stationId === selectedStation)) selectedStation = stations[0]?.stationId || '';
+    if (!selectedStation) { document.querySelector('#content').innerHTML = `${heading('MI ESTACIÓN', 'Sin estación asignada')}${panel('Contacta al administrador para recibir una estación.', 'denied')}`; return; }
+    const [shiftResponse, terminals] = await Promise.all([
+      api(`/control/supervisor/stations/${selectedStation}/shift`),
+      api(`/control/supervisor/stations/${selectedStation}/terminals`),
+    ]);
+    const shift = shiftResponse.shift;
+    const station = stations.find((row) => row.stationId === selectedStation)?.station;
+    const open = shift?.status === 'ABIERTO';
+    const attention = terminals.flatMap((terminal) => terminal.operations.filter((operation) => operation.status === 'INTERVENTION_REQUIRED' || terminal.operationalStatus === 'ASISTENCIA').map((operation) => ({ terminal, operation })));
+    document.querySelector('#content').innerHTML = `${heading('OPERACIÓN', station?.name || 'Mi estación', 'Prepara FuelFlow para el autoservicio y atiende únicamente las operaciones que lo requieran.')}
+      <section class="metrics"><article class="metric"><span>Turno</span><strong>${esc(shift?.status || 'CERRADO')}</strong><small>${shift ? `Abierto ${stamp(shift.openedAt)}` : 'Abre un turno para comenzar'}</small></article><article class="metric"><span>Terminales</span><strong>${terminals.length}</strong><small>Asignadas a la estación</small></article><article class="metric"><span>Operaciones activas</span><strong>${attention.length}</strong><small>Consulta si requieren atención</small></article></section>
+      <section class="panel"><h2>Turno</h2><p>${open ? 'Turno abierto. Puedes iniciar la estación.' : shift ? `El turno está ${esc(shift.status)}.` : 'Debes abrir un turno antes de iniciar la estación.'}</p><div class="actions">${!shift ? '<button class="primary" data-supervisor-action="open">Abrir turno</button>' : open ? '<button class="secondary" data-supervisor-action="close">Cerrar turno</button>' : ''}</div></section>
+      <section class="panel"><h2>Terminales y surtidores</h2>${terminals.map((terminal) => {
+        const pump = terminal.assignments?.[0]?.pump;
+        const blocked = terminal.operationalStatus === 'FUERA_DE_SERVICIO';
+        const prepared = terminal.enablements?.some((entry) => entry.shiftId === shift?.id);
+        return `<article class="supervisor-terminal"><h3>${esc(terminal.code)} · Surtidor ${esc(pump?.code || 'sin asignar')}</h3><p>Estado: <strong>${esc(blocked ? 'Bloqueada por administración' : prepared ? 'Estación lista para operar' : terminal.operationalStatus)}</strong></p>${blocked ? '<p class="error" role="alert">La terminal está bloqueada por administración.</p>' : ''}<button class="primary" data-supervisor-action="start" data-terminal-id="${esc(terminal.id)}" ${!open || blocked || !pump ? 'disabled' : ''}>Iniciar estación</button>${!pump ? '<p>No hay un surtidor asignado.</p>' : ''}</article>`;
+      }).join('') || panel('No tienes una terminal asignada.')}</section>
+      <section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(operation.status)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
+      <section class="panel"><h2>Asistencia</h2><p>Las solicitudes de asistencia de clientes aparecerán aquí cuando estén disponibles.</p></section>`;
+  } catch (error) { showError(error, 'No se pudo consultar la estación'); }
+}
+
+async function renderSupervisors() {
+  loading('Consultando Supervisores…');
+  try {
+    const rows = await api('/control/supervisors');
+    document.querySelector('#content').innerHTML = `${heading('PERSONAL', 'Supervisores', 'Personal operativo dentro de tus estaciones autorizadas.')}
+      <section class="panel table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Estación</th><th>Estado</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${esc(row.user.name)}</td><td>${esc(row.user.email)}</td><td>${esc(row.station.name)}</td><td>${row.user.active ? 'Activo' : 'Inactivo'}</td></tr>`).join('') || '<tr><td colspan="4">No hay Supervisores asignados.</td></tr>'}</tbody></table></section>
+      <section class="panel"><h2>Asignar cuenta existente</h2><p>La cuenta conservará sus demás permisos.</p><form id="assign-supervisor-form"><label>Correo de la cuenta<input name="email" type="email" required maxlength="254"></label><label>Estación<select name="stationId" required>${stationsOptions()}</select></label><p class="error" role="alert"></p><button class="primary" type="submit">Asignar Supervisor</button></form></section>
+      <section class="panel"><h2>Crear cuenta de Supervisor</h2><form id="create-supervisor-form"><label>Nombre<input name="name" required minlength="2" maxlength="80"></label><label>Correo<input name="email" type="email" required maxlength="254"></label><label>Contraseña inicial<input name="password" type="password" required minlength="12" maxlength="72"></label><label>Estación<select name="stationId" required>${stationsOptions()}</select></label><p class="error" role="alert"></p><button class="primary" type="submit">Crear Supervisor</button></form></section>`;
+  } catch (error) { showError(error); }
+}
+
 async function renderView(view, filters = {}) {
+  if (view === 'supervisor') return renderSupervisor();
+  if (view === 'supervisors') return renderSupervisors();
   if (view === 'dashboard') return renderDashboard();
   if (view === 'operations') return renderOperations(filters);
   if (view === 'transactions') return renderTransactions(filters);
@@ -243,9 +287,10 @@ async function renderView(view, filters = {}) {
 }
 
 async function route(filters = {}) {
-  const view = initialView(location.hash);
+  let view = initialView(location.hash);
+  if (view === 'dashboard' && !visibleModules(session).some(([id]) => id === 'dashboard')) view = defaultView(session);
   const routeItem = nav.find(([id]) => id === view);
-  if (!routeItem || (routeItem[2] && !has(routeItem[2])) || (view === 'accounts' && !session.global)) {
+  if (!routeItem || !visibleModules(session).some(([id]) => id === view)) {
     app.innerHTML = `${heading('ACCESO', 'Acceso denegado')}${panel('Tu cuenta no tiene permiso para abrir esta sección.', 'denied')}`;
     return;
   }
@@ -267,7 +312,7 @@ async function boot() {
     return;
   }
   if (location.hash === '#request-access') { requestAccess(); return; }
-  try { session = await apiClient.session(); await route(); }
+  try { session = await apiClient.session(); if (!location.hash || location.hash === '#dashboard' && defaultView(session) === 'supervisor') location.hash = `#${defaultView(session)}`; await route(); }
   catch (error) { session = null; login(error.status === 403 ? 'Esta cuenta no tiene acceso aprobado a Primax Control.' : 'Inicia sesión para continuar.'); }
 }
 
@@ -283,10 +328,22 @@ document.addEventListener('submit', async (event) => {
         history.replaceState(null, '', `${location.pathname}${location.search}#login`); login(result.message);
       } else {
         session = await apiClient.login(Object.fromEntries(new FormData(form)));
-        location.hash = '#dashboard'; await route();
+        location.hash = `#${defaultView(session)}`; await route();
       }
     } catch (error) { form.id === 'request-form' ? requestAccess(incidentMessage(error)) : login(incidentMessage(error)); }
     finally { busy = false; }
+    return;
+  }
+  if (['assign-supervisor-form', 'create-supervisor-form'].includes(form.id)) {
+    event.preventDefault(); busy = true;
+    const button = form.querySelector('button[type="submit"]'); button.disabled = true;
+    const values = Object.fromEntries(new FormData(form));
+    try {
+      if (form.id === 'assign-supervisor-form') await api('/control/supervisors/assign', { method: 'POST', body: JSON.stringify({ email: values.email, stationIds: [values.stationId] }) });
+      else await api('/control/supervisors', { method: 'POST', body: JSON.stringify({ name: values.name, email: values.email, password: values.password, stationIds: [values.stationId] }) });
+      await renderSupervisors();
+    } catch (error) { form.querySelector('[role="alert"]').textContent = incidentMessage(error); button.disabled = false; }
+    finally { values.password = ''; busy = false; }
     return;
   }
   const filterViews = { 'operation-filters': renderOperations, 'transaction-filters': renderTransactions, 'customer-filters': renderCustomers, 'membership-filters': renderMemberships, 'vehicle-filters': renderVehicles, 'movement-filters': renderMovements, 'incident-filters': renderIncidents, 'audit-filters': renderAudit };
@@ -337,6 +394,24 @@ document.addEventListener('submit', async (event) => {
 
 document.addEventListener('click', async (event) => {
   const target = event.target.closest('button'); if (!target) return;
+  if (target.dataset.supervisorAction) {
+    target.disabled = true;
+    try {
+      if (target.dataset.supervisorAction === 'open') await api(`/control/supervisor/stations/${selectedStation}/shifts`, { method: 'POST', body: '{}' });
+      if (target.dataset.supervisorAction === 'close') {
+        const { shift } = await api(`/control/supervisor/stations/${selectedStation}/shift`);
+        if (shift?.id) await api(`/control/supervisor/shifts/${shift.id}/close`, { method: 'POST', body: '{}' });
+      }
+      if (target.dataset.supervisorAction === 'start') {
+        if (!FUELFLOW_PUBLIC_ORIGIN) throw new Error('No se pudo abrir FuelFlow. Contacta al administrador.');
+        const result = await api(`/control/supervisor/terminals/${target.dataset.terminalId}/start`, { method: 'POST', body: '{}' });
+        window.location.assign(`${FUELFLOW_PUBLIC_ORIGIN}/#control-start=${encodeURIComponent(result.handoffTicket)}`);
+        return;
+      }
+      await renderSupervisor();
+    } catch (error) { target.disabled = false; showError(error, 'No se pudo completar la acción'); }
+    return;
+  }
   if (target.id === 'resend-link') {
     const email = window.prompt('Correo de la solicitud:'); if (!email) return;
     try { const result = await api('/control/resend-verification', { method: 'POST', body: JSON.stringify({ email }) }); login(result.message); }
@@ -385,7 +460,7 @@ document.addEventListener('click', async (event) => {
     } catch (error) { window.alert(incidentMessage(error)); }
   }
   if (target.dataset.terminalAction) {
-    const prompt = target.dataset.terminalAction === 'RESTORE' ? 'Restaurar dejará la terminal bloqueada hasta que Supervisor la habilite. ¿Continuar?' : 'Marcar fuera de servicio impedirá nuevas habilitaciones. ¿Continuar?';
+    const prompt = target.dataset.terminalAction === 'RESTORE' ? 'Desbloquear permitirá que el Supervisor vuelva a iniciar la estación. ¿Continuar?' : 'Bloquear impedirá nuevas operaciones. ¿Continuar?';
     if (!window.confirm(prompt)) return;
     target.disabled = true;
     try { await api(`/control/terminals/${target.dataset.terminalId}/status`, { method: 'POST', body: JSON.stringify({ action: target.dataset.terminalAction }) }); await renderTerminals(); }

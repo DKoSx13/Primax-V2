@@ -153,13 +153,17 @@ export class ControlService {
     const account = await this.db.adminControlAccount.findUnique({
       where: { userId: user.id },
     });
+    const supervisor = await this.db.supervisorStationAssignment.findFirst({
+      where: { userId: user.id, endedAt: null, station: { active: true } },
+    });
+    const administrativeAccess = Boolean(systemAdmin || account?.status === 'APPROVED' && account.emailVerifiedAt && await this.db.adminControlGrant.findFirst({
+      where: { userId: user.id, permission: 'ADMIN_CONTROL_ACCESS', revokedAt: null },
+    }));
     if (
-      !systemAdmin &&
-      (!account || account.status !== 'APPROVED' || !account.emailVerifiedAt)
+      !administrativeAccess &&
+      !supervisor
     )
-      throw new ForbiddenException(
-        'Acceso administrativo pendiente o revocado',
-      );
+      throw new ForbiddenException('Acceso a Primax Control no autorizado');
     const token = await this.jwt.signAsync(
       { sub: user.id, ver: user.authVersion },
       { expiresIn: '8h' },
@@ -189,15 +193,22 @@ export class ControlService {
     const grants = await this.db.adminControlGrant.findMany({
       where: { userId, revokedAt: null },
     });
+    const supervisorAssignments = await this.db.supervisorStationAssignment.findMany({
+      where: { userId, endedAt: null, station: { active: true } },
+      include: { station: { select: { id: true, code: true, name: true } } },
+    });
     const root = Boolean(
       await this.db.userPermissionGrant.findFirst({
         where: { userId, permission: 'SYSTEM_ADMIN', revokedAt: null },
       }),
     );
+    const adminAccess = root || Boolean(account?.status === 'APPROVED' && account.emailVerifiedAt && grants.some((grant) => grant.permission === 'ADMIN_CONTROL_ACCESS'));
+    const permissions = root ? ALL_PERMISSIONS : adminAccess ? grants.map((x) => x.permission) : [];
     return {
       user,
-      role: root ? 'SUPER_ADMIN' : account?.role,
-      permissions: root ? ALL_PERMISSIONS : grants.map((x) => x.permission),
+      role: root ? 'SUPER_ADMIN' : adminAccess ? account!.role : 'SUPERVISOR',
+      roles: [...(root ? ['SUPER_ADMIN'] : adminAccess ? [account!.role] : []), ...(supervisorAssignments.length ? ['SUPERVISOR'] : [])],
+      permissions,
       global: root,
       stations: root
         ? await this.db.station.findMany({
@@ -205,7 +216,8 @@ export class ControlService {
             select: { id: true, code: true, name: true },
             orderBy: { name: 'asc' },
           })
-        : (account?.stations.map((x) => x.station) ?? []),
+        : adminAccess ? (account?.stations.map((x) => x.station) ?? []) : [],
+      supervisorStations: supervisorAssignments.map((x) => x.station),
     };
   }
 
@@ -213,13 +225,17 @@ export class ControlService {
     if (!actor.global || actor.role !== 'SUPER_ADMIN')
       throw new ForbiddenException('Solo SUPER_ADMIN puede aprobar cuentas');
   }
-  async createSupervisor(actor: ControlActor, input: { name: string; email: string; password: string; stationIds: string[] }) {
-    await this.assertGlobal(actor);
-    const email = input.email.trim().toLowerCase();
-    const stationIds = [...new Set(input.stationIds)];
-    if (!stationIds.length) throw new BadRequestException('Asigna al menos una estación');
+  private async assertSupervisorScope(actor: ControlActor, stationIds: string[]) {
+    if (!actor.permissions.includes('ADMIN_USER_MANAGE')) throw new ForbiddenException('Permiso administrativo insuficiente');
+    if (!stationIds.length || stationIds.some((id) => !actor.global && !actor.stationIds.includes(id)))
+      throw new ForbiddenException('Estación fuera del alcance autorizado');
     const stations = await this.db.station.findMany({ where: { id: { in: stationIds }, active: true }, select: { id: true } });
     if (stations.length !== stationIds.length) throw new BadRequestException('Estación inválida');
+  }
+  async createSupervisor(actor: ControlActor, input: { name: string; email: string; password: string; stationIds: string[] }) {
+    const email = input.email.trim().toLowerCase();
+    const stationIds = [...new Set(input.stationIds)];
+    await this.assertSupervisorScope(actor, stationIds);
     if (await this.db.user.findUnique({ where: { email } })) throw new ConflictException('Ya existe una cuenta con ese correo');
     return this.db.atomic(async tx => {
       const user = await tx.user.create({ data: { name: input.name.trim(), email, passwordHash: await hash(input.password, 12) } });
@@ -228,8 +244,25 @@ export class ControlService {
     });
   }
   async supervisors(actor: ControlActor) {
-    await this.assertGlobal(actor);
-    return this.db.supervisorStationAssignment.findMany({ where: { endedAt: null }, include: { user: { select: { id: true, name: true, email: true, active: true } }, station: { select: { id: true, name: true, code: true } } }, orderBy: { assignedAt: 'desc' } });
+    if (!actor.permissions.includes('ADMIN_USER_MANAGE')) throw new ForbiddenException('Permiso administrativo insuficiente');
+    return this.db.supervisorStationAssignment.findMany({ where: { endedAt: null, ...(actor.global ? {} : { stationId: { in: actor.stationIds } }) }, include: { user: { select: { id: true, name: true, email: true, active: true } }, station: { select: { id: true, name: true, code: true } } }, orderBy: { assignedAt: 'desc' } });
+  }
+  async assignExistingSupervisor(actor: ControlActor, email: string, stationIds: string[]) {
+    const unique = [...new Set(stationIds)];
+    await this.assertSupervisorScope(actor, unique);
+    const user = await this.db.user.findUnique({ where: { email: email.trim().toLowerCase() }, select: { id: true, active: true } });
+    if (!user?.active) throw new NotFoundException('Usuario activo no encontrado');
+    const userId = user.id;
+    if (!actor.global && (await this.db.adminControlAccount.findUnique({ where: { userId } }) || await this.db.userPermissionGrant.findFirst({ where: { userId, permission: 'SYSTEM_ADMIN', revokedAt: null } })))
+      throw new ForbiddenException('Solo SUPER_ADMIN puede cambiar los roles de una cuenta administrativa');
+    return this.db.atomic(async (tx) => {
+      const assigned = [];
+      for (const stationId of unique) {
+        if (await tx.supervisorStationAssignment.findFirst({ where: { userId, stationId, endedAt: null } })) continue;
+        assigned.push(await tx.supervisorStationAssignment.create({ data: { userId, stationId, grantedByUserId: actor.userId, reason: 'Asignación de Supervisor desde Primax Control' } }));
+      }
+      return { userId, stationIds: unique, assignmentsCreated: assigned.length };
+    });
   }
   async pending(actor: ControlActor) {
     await this.assertGlobal(actor);
