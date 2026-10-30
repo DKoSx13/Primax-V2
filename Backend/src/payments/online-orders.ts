@@ -1,4 +1,6 @@
 import { assertDemoWallet, DemoWalletProvider } from './demo-provider';
+import { recordPaymentIssue } from './payment-incidents';
+import { assertV2PaymentMethod } from './payments.service';
 import { Matches } from 'class-validator';
 import { reserveWelcome } from './welcome';
 import { Inject, ServiceUnavailableException, BadRequestException, Body, ConflictException, Controller, Get, Headers, Injectable, NotFoundException, Param, ParseUUIDPipe, Post, UnauthorizedException } from '@nestjs/common';
@@ -32,7 +34,7 @@ class OrderDto {
 }
 class ReselectDto {
  @IsUUID('4') operationId: string;
- @IsIn(['YAPE','PLIN','TARJETA','EFECTIVO']) method: 'YAPE'|'PLIN'|'TARJETA'|'EFECTIVO';
+ @IsIn(['YAPE','PLIN','TARJETA']) method: 'YAPE'|'PLIN'|'TARJETA';
  @ValidateNested() @Type(()=>CreateAuthorizationDto) authorization: CreateAuthorizationDto;
 }
 class DemoConfirmationDto {
@@ -43,6 +45,7 @@ class DemoConfirmationDto {
 export class OnlineOrdersService {
  constructor(private readonly db:PrismaService,@Inject(PAYMENT_PROVIDER) private readonly provider:PaymentProvider){}
  async reselect(id:string,dto:ReselectDto,actor:Actor){
+  assertV2PaymentMethod(dto.method);
   if(actor.kind!=='kiosk')throw new UnauthorizedException();
   if(!(this.provider instanceof DemoWalletProvider))throw new ConflictException('Cambio de método disponible solo para órdenes DEMO pendientes');
   return this.db.atomic(async tx=>{
@@ -77,6 +80,7 @@ export class OnlineOrdersService {
   });
  }
  async create(dto:OrderDto,actor:Actor){
+  assertV2PaymentMethod(dto.method);
   const demo=this.provider instanceof DemoWalletProvider;
   if(!demo&&!dto.customer)throw new BadRequestException('Datos del cliente requeridos');
   if(Boolean(dto.transactionId)===Boolean(dto.authorization))throw new BadRequestException('Indica compra o cobro pendiente');
@@ -132,6 +136,7 @@ export class OnlineOrdersService {
    await this.db.atomic(async tx=>{
     const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
     if(reservation)await reviewInventoryReservation(tx,reservation.id,'Payment provider result is ambiguous');
+    await recordPaymentIssue(tx,order.operationId,'Payment provider result is ambiguous');
    });
    throw error;
   }
@@ -139,6 +144,7 @@ export class OnlineOrdersService {
    await this.db.atomic(async tx=>{
     const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
     if(reservation)await reviewInventoryReservation(tx,reservation.id,'Payment provider response did not match the intent');
+    await recordPaymentIssue(tx,order.operationId,'Payment provider response did not match the intent');
    });
    throw new ConflictException('Respuesta de proveedor incompatible');
   }
@@ -188,6 +194,7 @@ export class OnlineOrdersService {
      if(auth.inventoryManaged) {
       const reservation=await tx.inventoryReservation.findUnique({where:{authorizationId:auth.id}});
       if(reservation)await reviewInventoryReservation(tx,reservation.id,'Payment refund is being reconciled');
+    await recordPaymentIssue(tx,order.operationId,'Payment refund is being reconciled');
      }
     }
    }
@@ -207,6 +214,7 @@ export class OnlineOrdersService {
     const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
     if(reservation&&reservation.status!=='CANCELLED'&&reservation.status!=='CLOSED')
      await reviewInventoryReservation(tx,reservation.id,'Payment status could not be confirmed');
+    await recordPaymentIssue(tx,order.operationId,'Payment status could not be confirmed');
    });
    throw error;
   }
@@ -289,6 +297,7 @@ export class OnlineOrdersService {
      const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
      if(reservation&&reservation.status!=='CANCELLED'&&reservation.status!=='CLOSED')
       await reviewInventoryReservation(tx,reservation.id,'Payment reference result is ambiguous');
+    await recordPaymentIssue(tx,order.operationId,'Payment reference result is ambiguous');
     });
     throw error;
    }
@@ -297,6 +306,7 @@ export class OnlineOrdersService {
      const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
      if(reservation&&reservation.status!=='CANCELLED'&&reservation.status!=='CLOSED')
       await reviewInventoryReservation(tx,reservation.id,'Payment provider has not resolved the order reference');
+    await recordPaymentIssue(tx,order.operationId,'Payment provider has not resolved the order reference');
     });
     return order;
    }
@@ -311,10 +321,11 @@ export class OnlineOrdersService {
     const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
     if(reservation&&reservation.status!=='CANCELLED'&&reservation.status!=='CLOSED')
      await reviewInventoryReservation(tx,reservation.id,'Payment status could not be confirmed');
+    await recordPaymentIssue(tx,order.operationId,'Payment status could not be confirmed');
    });
    throw error;
   }
-  if(remote.id!==order.providerId||remote.order_number!==order.id||remote.amount!==order.amount.mul(100).toNumber()||remote.currency_code!=='PEN')throw new ConflictException('Evento del proveedor incompatible');
+  if(remote.id!==order.providerId||remote.order_number!==order.id||remote.amount!==order.amount.mul(100).toNumber()||remote.currency_code!=='PEN') { await this.db.atomic(tx=>recordPaymentIssue(tx,order.operationId,'Respuesta del proveedor incompatible')); throw new ConflictException('Evento del proveedor incompatible'); }
   if(['failed','rejected','expired','cancelled'].includes(remote.state))return this.db.atomic(async tx=>{
    await tx.$queryRaw`SELECT id FROM "OnlineOrder" WHERE id=${id}::uuid FOR UPDATE`;
    const fresh=await tx.onlineOrder.findUniqueOrThrow({where:{id}});
@@ -324,14 +335,17 @@ export class OnlineOrdersService {
    const reservation=await tx.inventoryReservation.findUnique({where:{operationId:fresh.operationId}});
    if(reservation)await releaseInventoryReservation(tx,reservation,`payment-rejected:${fresh.operationId}`,'Provider confirmed payment rejection');
    await tx.membership.updateMany({where:{welcomeReservedOperationId:fresh.operationId},data:{welcomeReservedOperationId:null}});
+   if(status==='FAILED')await recordPaymentIssue(tx,fresh.operationId,'El proveedor confirmó el rechazo del pago');
    await tx.paymentEvent.create({data:{eventKey:'terminal:'+id,orderId:id,paymentId:fresh.paymentId,kind:status,detail:'Estado confirmado consultando proveedor'}});
    return tx.onlineOrder.update({where:{id},data:{status}});
   });
+  if(remote.state==='pending') return order;
   if(!verifiedPaid(remote,order)) {
    if(order.paymentId)await this.db.atomic(async tx=>{
     const reservation=await tx.inventoryReservation.findUnique({where:{operationId:order.operationId}});
     if(reservation&&reservation.status!=='CANCELLED'&&reservation.status!=='CLOSED')
      await reviewInventoryReservation(tx,reservation.id,'Payment provider returned an unrecognized state');
+    await recordPaymentIssue(tx,order.operationId,'Payment provider returned an unrecognized state');
    });
    return order;
   }

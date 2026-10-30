@@ -1,3 +1,4 @@
+import {releaseFailedPayment} from './paymentRecovery.js';
 import { ensureKioskSession, kioskAuthEnabled, kioskStationId } from './kioskSession.js';
 await ensureKioskSession();
 /* ============================================================================
@@ -43,11 +44,7 @@ const state = {
   dni: '',
   ruc: '',
   razonSocial: '',
-  metodoPago: null,         // 'YAPE' | 'PLIN' | 'TARJETA' | 'EFECTIVO'
-  efectivoIngresado: 0,
-  efectivoPila: [],         // billetes/monedas insertidos (para "Devolver")
-  efectivoEntregado: 0,     // cuánto dio el cliente
-  efectivoVuelto: 0,        // cuánto se le devolvió
+  metodoPago: null,         // 'YAPE' | 'PLIN' | 'TARJETA'
   // --- Postpago: placa + membresía verificada, monto o tanque lleno ---
   montoPostpago: 0,
   montoPostpagoTexto: '',
@@ -266,7 +263,6 @@ const I18N = {
     m_yape: 'YAPE',
     m_plin: 'PLIN',
     m_tarjeta: 'NFC · TARJETA',
-    m_efectivo: 'EFECTIVO',
     btn_otro_metodo: '← Otro método',
 
     // Yape / Plin (QR)
@@ -281,20 +277,8 @@ const I18N = {
     btn_simular_nfc: 'Simular acercamiento',
 
     // Efectivo
-    ef_title: 'Ingrese su dinero',
-    ef_ingresado: 'Ingresado',
-    ef_falta: 'Falta',
-    ef_billetes: 'Billetes',
-    ef_monedas: 'Monedas',
-    ef_completo: '✓ Efectivo suficiente',
-    ef_vuelto_t: 'Vuelto a devolver',
-    ef_vuelto_entregando: 'Entregando vuelto…',
-    ef_vuelto_ok: '✓ Vuelto entregado',
-    ef_vuelto_exacto: 'Entrega exacta, sin vuelto',
     c_ef_entregado: 'Entregado',
     c_ef_vuelto: 'Vuelto',
-    btn_ef_retirar: '↩ Devolver',
-    btn_ef_confirmar: 'Confirmar efectivo',
 
     // Ticket: nuevo campos
     row_doc: 'Comprobante',
@@ -304,7 +288,6 @@ const I18N = {
     err_dni: 'Ingrese un DNI válido de 8 dígitos.',
     err_ruc: 'Ingrese un RUC válido de 11 dígitos.',
     err_razon: 'Ingrese la razón social o el nombre de la empresa.',
-    err_ef_incompleto: 'Falta {falta} para completar el monto prepago.',
 
     // Procesamiento
     proc_title: 'Procesando pago...',
@@ -432,12 +415,6 @@ const I18N = {
     voz_nfc: 'Pago sin contacto. Acereque su tarjeta al lector.',
     voz_nfc_ok: 'Tarjeta leída. Procesando su pago.',
     voz_pago_qr_ok: 'Pago por billetera virtual recibido. Procesando.',
-    voz_efectivo: 'Ingrese el efectivo en billetes o monedas.',
-    voz_ef_incompleto: 'El efectivo es insuficiente. Ingrese el monto restante.',
-    voz_ef_exacto: 'Efectivo recibido. No hay vuelto.',
-    voz_vuelto: 'Vuelto a devolver: {monto}.',
-    voz_vuelto_ok: 'Vuelto de {monto} entregado. Procesando su pago.',
-    voz_ef_ok: 'Efectivo recibido. Cambio {cambio}. Procesando su pago.',
     voz_ticket: 'Se ha generado su {doc}. Gracias por preferir Primax.',
     voz_help_llamando: 'Solicitando asistencia humana. Por favor, espere un momento.',
     voz_help_cancelada: 'Solicitud cancelada. Seguimos a su disposición.',
@@ -620,7 +597,6 @@ const I18N = {
     m_yape: 'YAPE',
     m_plin: 'PLIN',
     m_tarjeta: 'NFC · CARD',
-    m_efectivo: 'CASH',
     btn_otro_metodo: '← Other method',
 
     qr_msg: 'Scan the code with {app} to pay S/ {monto}.',
@@ -632,20 +608,8 @@ const I18N = {
     nfc_ok: '✓ Card read · processing payment',
     btn_simular_nfc: 'Simulate tap',
 
-    ef_title: 'Insert your money',
-    ef_ingresado: 'Inserted',
-    ef_falta: 'Remaining',
-    ef_billetes: 'Banknotes',
-    ef_monedas: 'Coins',
-    ef_completo: '✓ Enough cash',
-    ef_vuelto_t: 'Change to return',
-    ef_vuelto_entregando: 'Dispensing change…',
-    ef_vuelto_ok: '✓ Change handed over',
-    ef_vuelto_exacto: 'Exact amount, no change',
     c_ef_entregado: 'Received',
     c_ef_vuelto: 'Change',
-    btn_ef_retirar: '↩ Return',
-    btn_ef_confirmar: 'Confirm cash',
 
     row_doc: 'Receipt',
     row_docnum: 'ID / Tax ID',
@@ -653,7 +617,6 @@ const I18N = {
     err_dni: 'Enter a valid 8-digit ID number.',
     err_ruc: 'Enter a valid 11-digit tax ID.',
     err_razon: 'Enter the business name.',
-    err_ef_incompleto: 'You still need {falta} to reach the prepay amount.',
 
     step_live: 'FUELING',
     despacho_title: 'Fueling {fuel}…',
@@ -769,12 +732,6 @@ const I18N = {
     voz_nfc: 'Contactless payment. Please tap your card on the reader.',
     voz_nfc_ok: 'Card read. Processing your payment.',
     voz_pago_qr_ok: 'Wallet payment received. Processing.',
-    voz_efectivo: 'Please insert your cash using banknotes or coins.',
-    voz_ef_incompleto: 'Not enough cash. Please insert the remaining amount.',
-    voz_ef_exacto: 'Cash received. No change needed.',
-    voz_vuelto: 'Change to return: {monto}.',
-    voz_vuelto_ok: 'Change of {monto} handed over. Processing your payment.',
-    voz_ef_ok: 'Cash received. Change {cambio}. Processing your payment.',
     voz_ticket: 'Your {doc} has been generated. Thank you for choosing Primax.',
     voz_help_llamando: 'Requesting human assistance. Please wait a moment.',
     voz_help_cancelada: 'Request cancelled. We remain at your disposal.',
@@ -957,7 +914,6 @@ const I18N = {
     m_yape: 'YAPE',
     m_plin: 'PLIN',
     m_tarjeta: 'NFC · TARJETA',
-    m_efectivo: 'EFECTIVO',
     btn_otro_metodo: '← Huk pay',
 
     qr_msg: '{app} nisqawan QR nisqata qhaway S/ {monto} pagaypaq.',
@@ -969,20 +925,8 @@ const I18N = {
     nfc_ok: '✓ Tarjetayta riqsisqa · pagota ruwachkan',
     btn_simular_nfc: 'Qhawarquy simulay',
 
-    ef_title: 'Qolqeykita churay',
-    ef_ingresado: 'Churasqa',
-    ef_falta: 'Falta',
-    ef_billetes: 'Billetes',
-    ef_monedas: 'Monedas',
-    ef_completo: '✓ Qolqe allin',
-    ef_vuelto_t: 'Qutuy',
-    ef_vuelto_entregando: 'Qutuyta rinchkan…',
-    ef_vuelto_ok: '✓ Qutuy qatasqa',
-    ef_vuelto_exacto: 'Chiqap churay, mana qutuy',
     c_ef_entregado: 'Chaychasqa',
     c_ef_vuelto: 'Qutuy',
-    btn_ef_retirar: '↩ Qutuy',
-    btn_ef_confirmar: 'Qolqeta tokay',
 
     row_doc: 'Comprobante',
     row_docnum: 'DNI / RUC',
@@ -990,7 +934,6 @@ const I18N = {
     err_dni: 'DNI allin mana: huntan pukyuna.',
     err_ruc: 'RUC allin mana: chunka huk punwaq pukyuna.',
     err_razon: 'Razón socialta utaq enterprise sutinta churay.',
-    err_ef_incompleto: 'Ñawpaq pagaypaq {falta} falta.',
 
     step_live: 'CARGACHKAN',
     despacho_title: '{fuel} cargachkan…',
@@ -1106,12 +1049,6 @@ const I18N = {
     voz_nfc: 'Sin contacto pagay. Tarjetaykita llaqtaman apachiy.',
     voz_nfc_ok: 'Tarjetayta riqsisqa. Pagota ruwachkan.',
     voz_pago_qr_ok: 'Billetera virtual pagay chaychasqa. Ruwachkan.',
-    voz_efectivo: 'Qolqeykita billete utaq moneda nisqawan churay.',
-    voz_ef_incompleto: 'Qolqe mana allin. Qelqayta churay.',
-    voz_ef_exacto: 'Qolqe chaychasqa. Mana qutuy.',
-    voz_vuelto: 'Qutuy: {monto}.',
-    voz_vuelto_ok: '{monto} qutuy qatasqa. Pagota ruwachkan.',
-    voz_ef_ok: 'Qolqe chaychasqa. Qutuy {cambio}. Pagota ruwachkan.',
     voz_ticket: '{doc} ruwachasqa. Primaxta akllasqaykiman gracias.',
     voz_help_llamando: 'Runay yanapata waqachkan. Suwita suyay.',
     voz_help_cancelada: 'Wichay saqisqa. Kikinanchikpaq kachkanchik.',
@@ -1926,7 +1863,7 @@ async function mostrarResumen() {
     if(!transactionsService.current()?.payload){
       const total=calcularTotales().total;
       transactionsService.prepare({plate:state.placa,stationId:catalog.station.id,fuelId:state.combustible.id,amount:total.toFixed(2),gallons:state.galones.toFixed(3),mode:state.modalidad,paymentMethod:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,receiptType:state.tipoComprobante,...(state.dni?{receiptDni:state.dni}:{}),...(state.ruc?{receiptRuc:state.ruc}:{}),...(state.razonSocial?{receiptBusinessName:state.razonSocial}:{}),...(state.codigoCliente?{membershipCode:state.codigoCliente}:{}),saveReceiptProfile:Boolean($('save-receipt-profile')?.checked),authorizationId:state.autorizacionId,unitPrice:state.combustible.precio.toFixed(2),outcome:state.motivoFin==='AUTO'?'AUTO':'MANUAL'},
-        {dni:state.dni,ruc:state.ruc,razonSocial:state.razonSocial,efectivoEntregado:state.efectivoEntregado,efectivoVuelto:state.efectivoVuelto,combustible:state.combustible,modalidad:state.modalidad,placa:state.placa,total:state.total,galones:state.galones,montoPrepago:state.montoPrepago,montoPostpago:state.montoPostpago,tanqueLleno:state.tanqueLleno,tipoComprobante:state.tipoComprobante,metodoPago:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,esMiembro:state.esMiembro,codigoCliente:state.codigoCliente,autorizacionId:state.autorizacionId,motivoFin:state.motivoFin});
+        {dni:state.dni,ruc:state.ruc,razonSocial:state.razonSocial,combustible:state.combustible,modalidad:state.modalidad,placa:state.placa,total:state.total,galones:state.galones,montoPrepago:state.montoPrepago,montoPostpago:state.montoPostpago,tanqueLleno:state.tanqueLleno,tipoComprobante:state.tipoComprobante,metodoPago:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,esMiembro:state.esMiembro,codigoCliente:state.codigoCliente,autorizacionId:state.autorizacionId,motivoFin:state.motivoFin});
     }
     await ensureTerminalOperation();
     backendResult=await transactionsService.submit();
@@ -2079,8 +2016,7 @@ async function finalizar() {
     placa: '', esMiembro: false, codigoCliente: '', galones: 0, total: 0,
     ultimoAnuncioGalones: 0, pagoAutorizado: false, despachoTimer: null,
     tipoComprobante: null, dni: '', ruc: '', razonSocial: '',
-    metodoPago: null, efectivoIngresado: 0, efectivoPila: [],
-    efectivoEntregado: 0, efectivoVuelto: 0,
+    metodoPago: null,
     montoPostpago: 0, montoPostpagoTexto: '', tanqueLleno: false, membresiaVerificada: null,
     autorizacionId: null, montoReservado: 0,
   });
@@ -2094,12 +2030,11 @@ async function finalizar() {
   $('check-membresia').checked = false;
   $('membresia-panel').classList.add('hidden');
   $('panel-dni').classList.remove('hidden');
-  ['panel-ruc', 'panel-qr', 'panel-nfc', 'panel-efectivo', 'ef-ok']
+  ['panel-ruc', 'panel-qr', 'panel-nfc']
     .forEach((id) => $(id).classList.add('hidden'));
   ['dni-error', 'ruc-error', 'razon-error', 'prep-placa-error', 'ef-error']
     .forEach((id) => $(id).classList.add('hidden'));
   ['t-doc', 't-docnum'].forEach((id) => { $(id).textContent = '—'; });
-  actualizarEfectivo();
   $('ef-ok').classList.add('hidden');   // con montoPrepago = 0 el saldo da 0; se oculta a mano
   $('membresia-panel').classList.add('hidden');
   limpiarAuto();
@@ -2476,18 +2411,24 @@ function irAMetodoPago() {
   // El postpago nunca pasa por aquí: su saldo se reservó antes de abastecer.
   if (state.modalidad === 'POSTPAGO') { mostrarResumen(); return; }
   state.metodoPago = null;
-  state.efectivoIngresado = 0;
-  state.efectivoPila = [];
   $('metodo-monto').textContent = 'S/ ' + state.montoPrepago.toFixed(2);
   document.querySelectorAll('[data-metodo]').forEach((b) => b.classList.remove('selected'));
-  ['panel-qr', 'panel-nfc', 'panel-efectivo'].forEach((id) => $(id).classList.add('hidden'));
-  pintarEfectivo();
+  ['panel-qr', 'panel-nfc'].forEach((id) => $(id).classList.add('hidden'));
   mostrarPantalla('pantalla-metodo');
   // No se habla aquí: continuarDatos() ya anunció "ahora seleccione su método de pago"
 }
 
 async function elegirMetodoPago(metodo) {
+  if (!['YAPE','PLIN','TARJETA'].includes(metodo)) return;
   if(state.creatingOrder||state.changingMethod||state.confirmingQR||paymentInFlight||state.pagoAutorizado)return;
+  if(state.onlineOrderId){
+    state.changingMethod=true;
+    try {
+      const order = await apiClient('/online-orders/'+state.onlineOrderId);
+      if (['FAILED','CANCELLED'].includes(order.status)) { await releaseFailedPayment(state.onlineOrderId); state.onlineOrderId=null; state.metodoPago=null; await ensureTerminalOperation(); }
+    } catch(error) { mostrarModal('Pago conservado',error.message,'⚠️'); return; }
+    finally { state.changingMethod=false; }
+  }
   if(state.onlineOrderId){
     if(state.metodoPago===metodo)return;
     state.changingMethod=true;
@@ -2498,7 +2439,7 @@ async function elegirMetodoPago(metodo) {
   state.metodoPago = metodo;
   document.querySelectorAll('[data-metodo]').forEach((b) =>
     b.classList.toggle('selected', b.dataset.metodo === metodo));
-  ['panel-qr', 'panel-nfc', 'panel-efectivo'].forEach((id) => $(id).classList.add('hidden'));
+  ['panel-qr', 'panel-nfc'].forEach((id) => $(id).classList.add('hidden'));
   $('btn-nfc-tap').disabled = false;
 
   if (metodo === 'YAPE' || metodo === 'PLIN') {
@@ -2515,9 +2456,6 @@ async function elegirMetodoPago(metodo) {
     $('nfc-zone').classList.remove('tap');
     $('nfc-msg').textContent = t('nfc_hint');
     hablar(t('voz_nfc'));
-  } else {
-    $('panel-efectivo').classList.remove('hidden');
-    hablar(t('voz_efectivo'));
   }
 }
 
@@ -2525,7 +2463,7 @@ async function elegirMetodoPago(metodo) {
 async function volverAMetodos() {
   if(state.creatingOrder||state.confirmingQR)return;
   state.metodoPago = null;
-  ['panel-qr', 'panel-nfc', 'panel-efectivo'].forEach((id) => $(id).classList.add('hidden'));
+  ['panel-qr', 'panel-nfc'].forEach((id) => $(id).classList.add('hidden'));
   $('btn-nfc-tap').disabled = false;
   document.querySelectorAll('[data-metodo]').forEach((b) => b.classList.remove('selected'));
 }
@@ -2547,130 +2485,8 @@ function confirmarPagoNFC() {
   $('btn-nfc-tap').disabled = true;
   const zona = $('nfc-zone');
   zona.classList.add('tap');
-  $('nfc-msg').textContent = t('nfc_ok');
-  hablar(t('voz_nfc_ok'));
+  $('nfc-msg').textContent = 'Consultando autorización de tarjeta en Backend…';
   setTimeout(procesarPago, 900);
-}
-
-// ---------- Efectivo: billetes, monedas y vuelto ----------
-function soles(n) { return 'S/ ' + n.toFixed(2); }
-
-// Denominaciones con las que el cajero devuelve el vuelto
-const DENOM_VUELTO = [200, 100, 50, 20, 10, 5, 2, 1, 0.5, 0.2, 0.1];
-
-/** Descompone el vuelto en billetes y monedas (greedy). */
-function descomponerVuelto(monto) {
-  let resto = Math.round(monto * 100) / 100;
-  const partes = [];
-  DENOM_VUELTO.forEach((d) => {
-    const cant = Math.floor((resto + 1e-9) / d);
-    if (cant > 0) {
-      partes.push({ valor: d, cant });
-      resto = Math.round((resto - cant * d) * 100) / 100;
-    }
-  });
-  return partes;
-}
-
-/** Pinta el vuelto y lo "entrega"; después sigue con el proceso de pago. */
-function devolverVuelto(cambio) {
-  const partes = descomponerVuelto(cambio);
-  $('ef-error').classList.add('hidden');
-  $('ef-vuelto').classList.remove('hidden');
-  $('ef-vuelto-monto').textContent = soles(cambio);
-  $('ef-vuelto-nota').textContent = t('ef_vuelto_entregando');
-
-  const det = $('ef-vuelto-detalle');
-  det.innerHTML = '';
-  partes.forEach((p) => {
-    const b = document.createElement('span');
-    b.className = 'vuelto-item';
-    b.textContent = p.cant > 1 ? `${soles(p.valor)} × ${p.cant}` : soles(p.valor);
-    det.appendChild(b);
-  });
-  if (!partes.length) det.textContent = t('ef_vuelto_exacto');
-
-  // Bloquea el cajero mientras se entrega el vuelto
-  ['btn-ef-retirar', 'btn-ef-confirmar'].forEach((id) => {
-    $(id).disabled = true;
-    $(id).classList.add('btn-disabled');
-  });
-  hablar(t('voz_vuelto', { monto: soles(cambio) }));
-
-  setTimeout(() => {
-    $('ef-vuelto-nota').textContent = t('ef_vuelto_ok');
-    hablar(t('voz_vuelto_ok', { monto: soles(cambio) }));
-    setTimeout(procesarPago, 900);
-  }, 2200);
-}
-
-function pintarEfectivo() {
-  // Botones de billetes y monedas (se generan una sola vez)
-  const mk = (contenedor, lista, etiqueta) => {
-    if (contenedor.childElementCount) return;
-    lista.forEach((v) => {
-      const b = document.createElement('button');
-      b.className = 'chip chip-dinero';
-      b.type = 'button';
-      b.dataset.valor = v;
-      b.textContent = etiqueta(v);
-      b.addEventListener('click', () => insertarEfectivo(v));
-      contenedor.appendChild(b);
-    });
-  };
-  mk($('ef-billetes'), BILLETES, (v) => soles(v));
-  mk($('ef-monedas'), MONEDAS, (v) => soles(v));
-  actualizarEfectivo();
-}
-
-function insertarEfectivo(valor) {
-  state.efectivoPila.push(valor);
-  state.efectivoIngresado = Math.round((state.efectivoIngresado + valor) * 100) / 100;
-  $('ef-error').classList.add('hidden');
-  actualizarEfectivo();
-}
-
-/** "Devolver" saca el último billete o moneda insertado. */
-function retirarEfectivo() {
-  const ultimo = state.efectivoPila.pop();
-  if (ultimo === undefined) return;
-  state.efectivoIngresado = Math.max(0, Math.round((state.efectivoIngresado - ultimo) * 100) / 100);
-  actualizarEfectivo();
-}
-
-function actualizarEfectivo() {
-  // Cada vez que se vuelve a elegir el método, el vuelto se reinicia
-  $('ef-vuelto').classList.add('hidden');
-  $('ef-vuelto-detalle').innerHTML = '';
-  ['btn-ef-retirar', 'btn-ef-confirmar'].forEach((id) => {
-    $(id).disabled = false;
-    $(id).classList.remove('btn-disabled');
-  });
-  const falta = Math.max(0, Math.round((state.montoPrepago - state.efectivoIngresado) * 100) / 100);
-  $('ef-total').textContent = soles(state.efectivoIngresado);
-  $('ef-faltante').textContent = soles(falta);
-  $('ef-ok').classList.toggle('hidden', falta > 0);
-  $('btn-ef-retirar').disabled = state.efectivoPila.length === 0;
-  $('btn-ef-confirmar').disabled = falta > 0;
-  $('btn-ef-confirmar').classList.toggle('btn-disabled', falta > 0);
-}
-
-function confirmarPagoEfectivo() {
-  const falta = Math.max(0, Math.round((state.montoPrepago - state.efectivoIngresado) * 100) / 100);
-  if (falta > 0) {
-    $('ef-error').textContent = t('err_ef_incompleto', { falta: soles(falta) });
-    $('ef-error').classList.remove('hidden');
-    hablar(t('voz_ef_incompleto'));
-    return;
-  }
-  // Si se entregó más de lo Due, se devuelve el vuelto antes de seguir
-  const cambio = Math.round((state.efectivoIngresado - state.montoPrepago) * 100) / 100;
-  state.efectivoVuelto = cambio;
-  state.efectivoEntregado = state.efectivoIngresado;
-  if (cambio > 0) { devolverVuelto(cambio); return; }
-  state.efectivoVuelto = 0;
-  hablar(t('voz_ef_exacto'));
-  procesarPago();
 }
 
 /* ============================================================================
@@ -2895,8 +2711,6 @@ function init() {
     b.addEventListener('click', volverAMetodos));
   $('btn-qr-pagado').addEventListener('click', confirmarPagoQR);
   $('btn-nfc-tap').addEventListener('click', confirmarPagoNFC);
-  $('btn-ef-retirar').addEventListener('click', retirarEfectivo);
-  $('btn-ef-confirmar').addEventListener('click', confirmarPagoEfectivo);
 
   // 6. Despacho
   $('btn-detener').addEventListener('click', () => detenerDespacho(false));

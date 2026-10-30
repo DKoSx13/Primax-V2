@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsBoolean,
+  IsIn,
   IsOptional,
   IsEnum,
   IsString,
@@ -9,6 +10,7 @@ import {
 } from 'class-validator';
 import { PaymentMethod, PurchaseMode, ReceiptType } from '@prisma/client';
 import { PlateDto } from '../vehicles/plate.dto';
+import { V2_PAYMENT_METHODS } from '../payments/payments.service';
 
 /**
  * Solicitud de reserva de saldo, previa al abastecimiento postpago.
@@ -19,7 +21,7 @@ import { PlateDto } from '../vehicles/plate.dto';
  */
 export class CreateAuthorizationDto extends PlateDto {
   @IsOptional() @IsEnum(PurchaseMode) mode?: PurchaseMode;
-  @IsOptional() @IsEnum(PaymentMethod) paymentMethod?: PaymentMethod;
+  @IsOptional() @IsIn(V2_PAYMENT_METHODS) paymentMethod?: PaymentMethod;
   @IsOptional()
   @IsString()
   @Matches(/^\d{1,6}(\.\d{1,2})?$/)
