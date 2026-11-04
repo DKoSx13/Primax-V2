@@ -341,9 +341,6 @@
           <button class="pay-card pay-card-sm" type="button" data-metodo="TARJETA">
             <span class="pay-icon">💳</span><strong data-i18n="m_tarjeta">TARJETA</strong>
           </button>
-          <button class="pay-card pay-card-sm" type="button" data-metodo="EFECTIVO">
-            <span class="pay-icon">💵</span><strong data-i18n="m_efectivo">EFECTIVO</strong>
-          </button>
         </div>
 
         <!-- YAPE / PLIN: código QR -->
@@ -372,37 +369,6 @@
           <div class="nav-row">
             <button class="btn btn-ghost btn-metodo-volver" type="button" data-i18n="btn_otro_metodo">← Otro método</button>
             <button id="btn-nfc-tap" class="btn btn-primary" type="button" data-i18n="btn_simular_nfc">Simular acercamiento</button>
-          </div>
-        </div>
-
-        <!-- EFECTIVO: billetes y monedas -->
-        <div id="panel-efectivo" class="prepago-panel hidden">
-          <h3 data-i18n="ef_title">Ingrese su dinero</h3>
-          <div class="ef-display">
-            <div><small data-i18n="ef_ingresado">Ingresado</small><strong id="ef-total">S/ 0.00</strong></div>
-            <div><small data-i18n="ef_falta">Falta</small><strong id="ef-faltante">S/ 0.00</strong></div>
-          </div>
-          <div id="ef-ok" class="discount-badge hidden" data-i18n="ef_completo">✓ Efectivo suficiente</div>
-
-          <span class="ef-titulo" data-i18n="ef_billetes">Billetes</span>
-          <div class="chips" id="ef-billetes"></div>
-
-          <span class="ef-titulo" data-i18n="ef_monedas">Monedas</span>
-          <div class="chips" id="ef-monedas"></div>
-
-          <p id="ef-error" class="error hidden"></p>
-
-          <!-- Vuelto: se muestra cuando el efectivo excede el monto a pagar -->
-          <div id="ef-vuelto" class="ef-vuelto hidden">
-            <h3 data-i18n="ef_vuelto_t">Vuelto a devolver</h3>
-            <strong id="ef-vuelto-monto">S/ 0.00</strong>
-            <div id="ef-vuelto-detalle" class="chips"></div>
-            <p class="hint" id="ef-vuelto-nota" data-i18n="ef_vuelto_entregando">Entregando vuelto…</p>
-          </div>
-
-          <div class="nav-row">
-            <button id="btn-ef-retirar" class="btn btn-ghost" type="button" data-i18n="btn_ef_retirar">↩ Devolver</button>
-            <button id="btn-ef-confirmar" class="btn btn-primary" type="button" data-i18n="btn_ef_confirmar">Confirmar efectivo</button>
           </div>
         </div>
 

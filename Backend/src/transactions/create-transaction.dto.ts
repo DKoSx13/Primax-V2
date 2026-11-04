@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 import { PaymentMethod, PurchaseMode, ReceiptType } from '@prisma/client';
 import { ReceiptProfileDto } from '../memberships/profile.dto';
+import { V2_PAYMENT_METHODS } from '../payments/payments.service';
 
 export class CreateTransactionDto extends ReceiptProfileDto {
   @ValidateIf((_object, value: unknown) => value !== undefined)
@@ -36,12 +37,12 @@ export class CreateTransactionDto extends ReceiptProfileDto {
   @IsEnum(PurchaseMode)
   mode: PurchaseMode;
   @ApiProperty({
-    enum: PaymentMethod,
+    enum: V2_PAYMENT_METHODS,
     example: 'TARJETA',
     description:
       'Medio externo para PREPAGO; SALDO_PRIME obligatorio para POSTPAGO.',
   })
-  @IsEnum(PaymentMethod)
+  @IsIn(V2_PAYMENT_METHODS)
   paymentMethod: PaymentMethod;
   @ApiPropertyOptional({
     enum: ReceiptType,

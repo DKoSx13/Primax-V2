@@ -17,7 +17,7 @@ import { assertIdentity } from '../memberships/profile.dto';
 import { funding } from '../wallet/debt';
 import { createHash } from 'node:crypto';
 import { Actor } from '../auth/access';
-import { PaymentsService } from '../payments/payments.service';
+import { PaymentsService, assertV2PaymentMethod } from '../payments/payments.service';
 import { PointsPolicyService } from '../rewards/points-policy.service';
 import { WalletRepository } from '../wallet/wallet.repository';
 import { normalizePlate } from '../vehicles/plate.dto';
@@ -43,6 +43,7 @@ export class TransactionsService {
   ) {}
 
   async create(dto: CreateTransactionDto) {
+    assertV2PaymentMethod(dto.paymentMethod);
     const amount = this.policy.amount(dto.amount);
     const plate = normalizePlate(dto.plate) as string;
     const gallons = dto.gallons ? new Prisma.Decimal(dto.gallons) : null;

@@ -215,10 +215,9 @@ describe('TransactionsService', () => {
     expect(closeSql.join(' ')).toContain('inventory_close_reservation');
   });
 
-  it('PREPAGO con medio externo acepta EFECTIVO, TARJETA, YAPE y PLIN', async () => {
+  it('PREPAGO con medio externo acepta TARJETA, YAPE y PLIN', async () => {
     for (const paymentMethod of [
-      'EFECTIVO',
-      'TARJETA',
+            'TARJETA',
       'YAPE',
       'PLIN',
     ] as const) {
