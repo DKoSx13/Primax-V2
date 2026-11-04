@@ -1,6 +1,6 @@
 ﻿# Staging V2 independiente — preparado, no desplegado
 
-Repositorio `DKoSx13/Primax-V2`. Los recursos propuestos en `projects.json` son nuevos; no representan IDs/URLs ya provisionados. No se han cambiado proyectos, secretos, bases ni URLs V12.1. Fuente de despliegue propuesta: `validation/v2-integration`, publicada solo como rama de revisión, sin merge a main.
+Repositorio `DKoSx13/Primax-V2`. Los recursos propuestos en `projects.json` son nuevos; no representan IDs/URLs ya provisionados. No se han cambiado proyectos, secretos, bases ni URLs V12.1. La fuente de despliegue V2 será el `main` definitivo después de integrar la validación final, o el commit final validado que se acuerde para desplegar. No usar `validation/v2-integration`, que es una integración provisional desactualizada. Este documento no afirma que staging esté desplegado ni asigna URLs públicas.
 
 ## Recursos y comandos
 

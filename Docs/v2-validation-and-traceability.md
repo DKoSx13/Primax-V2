@@ -1,8 +1,8 @@
 ﻿# Primax V2 — validación y trazabilidad de incrementos 02–06
 
-Fecha: 2026-10-30. Estado: **funcionalidad y calidad validadas localmente; staging preparado, pendiente de acceso y despliegue público; impresión física pendiente**. No se declara aún «PRIMAX V2 — FUNCIONALIDAD, CALIDAD Y STAGING VALIDADOS».
+Fecha: 2026-11-04. Estado: **PR #2–#7 integrados en el `main` definitivo; validación final integrada local completada; staging preparado, pendiente de acceso y despliegue público; impresión física pendiente**. No se afirma que staging esté desplegado.
 
-Se trabajó únicamente en `C:/Users/MATHIAS/Proyecto/Primax-V2` después de la corrección de ruta del usuario. Main actualizado: `7cde52c`. Cada rama funcional y calidad partió de ese main; no hay merges automáticos. `validation/v2-integration` reúne los commits mediante cherry-pick, resolviendo conflictos de imports y panel Supervisor sin perder funcionalidades.
+La validación final se realiza en `validation/v2-final`, basada en el `main` que ya integra PR #2–#7. La antigua `validation/v2-integration` fue una integración provisional desactualizada y no es fuente de despliegue. Los PR #2–#7 ya forman parte de `main`; esta fase comprueba la combinación consolidada y prepara un PR de validación final, sin modificar `main` directamente.
 
 ## Reporte por incremento
 
