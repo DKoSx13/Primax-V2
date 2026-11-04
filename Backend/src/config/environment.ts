@@ -223,6 +223,9 @@ export function validateEnvironment(env: Record<string, unknown>) {
   }
   if (!['http:', 'https:'].includes(ocrUrl.protocol))
     throw new Error('Invalid PLATE_RECOGNITION_URL');
+  if (env.APP_MODE === 'production' && env.PLATE_RECOGNITION_ENABLED !== 'false' &&
+      (ocrUrl.protocol !== 'https:' || ocrUrl.username || ocrUrl.password || ocrUrl.search || ocrUrl.hash))
+    throw new Error('Production OCR requires a private HTTPS origin without embedded credentials');
   if (env.APP_MODE === 'academic' && env.PLATE_RECOGNITION_ENABLED !== 'false') {
     // Render private services use a single-label internal hostname and HTTP.
     // Only the dedicated staging OCR service may use that exception.
