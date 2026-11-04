@@ -17,6 +17,7 @@ import { AlertsModule } from './alerts/alerts.module';
 import { OperationsModule } from './operations/operations.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { ControlModule } from './control/control.module';
+import { AssistanceModule } from './assistance/assistance.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
@@ -46,6 +47,7 @@ import { ControlModule } from './control/control.module';
     OperationsModule,
     InventoryModule,
     ControlModule,
+    AssistanceModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

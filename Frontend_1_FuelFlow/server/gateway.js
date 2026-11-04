@@ -181,7 +181,10 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       const terminalPath = url.pathname === '/api/v1/terminal/me' && req.method === 'GET' ||
         url.pathname === '/api/v1/terminal/operations' && req.method === 'POST' ||
         new RegExp(`^/api/v1/terminal/operations/${uuid}$`).test(url.pathname) && req.method === 'GET' ||
-        new RegExp(`^/api/v1/terminal/operations/${uuid}/close$`).test(url.pathname) && req.method === 'POST';
+        new RegExp(`^/api/v1/terminal/operations/${uuid}/close$`).test(url.pathname) && req.method === 'POST' ||
+        url.pathname === '/api/v1/terminal/assistance' && req.method === 'POST' ||
+        new RegExp(`^/api/v1/terminal/assistance/${uuid}$`).test(url.pathname) && req.method === 'GET' ||
+        new RegExp(`^/api/v1/terminal/assistance/${uuid}/cancel$`).test(url.pathname) && req.method === 'POST';
       if (terminalPath) {
         if (!technical) fail(401, 'Sesión técnica requerida');
         if (req.method === 'POST' && (!terminalCsrf || !csrf || !equal(terminalCsrf, csrf))) fail(403, 'CSRF inválido');
@@ -190,7 +193,9 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
           const csrfName = local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF;
           res.setHeader('Set-Cookie', `${csrfName}=${randomBytes(32).toString('base64url')}; Path=/; ${local ? '' : 'Secure; '}SameSite=Strict; Max-Age=28800`);
         }
-        const safe = url.pathname === '/api/v1/terminal/me'
+        const safe = url.pathname.startsWith('/api/v1/terminal/assistance')
+          ? { id: value.id, status: value.status, createdAt: value.createdAt, acceptedAt: value.acceptedAt, resolvedAt: value.resolvedAt, escalatedAt: value.escalatedAt, cancelledAt: value.cancelledAt }
+          : url.pathname === '/api/v1/terminal/me'
           ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus }
           : { operationId: value.operationId, status: value.status, closedAt: value.closedAt };
         res.statusCode = status; res.end(JSON.stringify(safe)); return;

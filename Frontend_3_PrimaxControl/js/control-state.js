@@ -14,6 +14,7 @@ export const controlModules = [
   ['inventory', 'Inventario', 'ADMIN_INVENTORY_VIEW'],
   ['movements', 'Movimientos', 'ADMIN_INVENTORY_MOVEMENT_VIEW'],
   ['supply', 'Abastecimiento', 'ADMIN_INVENTORY_RECEIVE'],
+  ['assistance', 'Solicitudes de asistencia', 'ADMIN_INCIDENT_VIEW'],
   ['incidents', 'Incidencias', 'ADMIN_INCIDENT_VIEW'],
   ['supervisors', 'Supervisores', 'ADMIN_USER_MANAGE'],
   ['accounts', 'Personal / accesos', 'ADMIN_USER_MANAGE'],
