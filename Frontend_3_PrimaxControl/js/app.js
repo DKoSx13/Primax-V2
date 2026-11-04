@@ -107,20 +107,11 @@ function receiptMarkup(receipt) {
   return `<div class="receipt-paper"><p class="eyebrow">COMPROBANTE ACADÉMICO · NO TRIBUTARIO</p><h2>PRIMAX · DEMO</h2><p>${esc(receipt.station)} · Surtidor ${esc(receipt.pump || '—')}</p><hr><p>Operación: <span class="mono">${esc(receipt.id)}</span></p><p>Fecha: ${stamp(receipt.issuedAt)}</p><p>Placa: ${esc(receipt.plate)}</p><p>Combustible: ${esc(receipt.fuel)}</p><p>Cantidad: ${fmt(receipt.gallons, 3)} gal</p><p>Precio unitario: S/ ${fmt(receipt.unitPrice)}</p><p>Modalidad / pago: ${esc(receipt.mode)} · ${esc(receipt.paymentMethod)}</p><p>Estado: <strong>${esc(receipt.state)}</strong></p><hr><p class="receipt-total">TOTAL S/ ${fmt(receipt.total)}</p>${receipt.dni ? `<p>DNI: ${esc(receipt.dni)}</p>` : ''}${receipt.ruc ? `<p>RUC: ${esc(receipt.ruc)} · ${esc(receipt.businessName)}</p>` : ''}</div>`;
 }
 
-function printReceiptBrowser(receipt) {
-  const popup = window.open('', '_blank');
-  if (!popup) throw Error('El navegador bloqueó la ventana de impresión. Permite ventanas emergentes o reintenta.');
-  popup.document.write(`<!doctype html><html lang="es"><meta charset="utf-8"><title>Comprobante académico Primax</title><style>body{font:14px system-ui,sans-serif;max-width:420px;margin:28px auto;padding:18px;color:#20242b}.receipt-paper{border:1px dashed #999;padding:20px}.eyebrow{font-size:11px;color:#d71920;font-weight:bold}.mono{overflow-wrap:anywhere}.receipt-total{font-size:20px;font-weight:bold;text-align:right}@media print{body{margin:0}}</style><body>${receiptMarkup(receipt)}</body></html>`);
-  popup.document.close();
-  popup.focus();
-  popup.print();
-}
-
 async function showReceipt(transactionId) {
   try {
     const receipt = await api(`/control/receipts/${encodeURIComponent(transactionId)}`);
     const dialog = document.querySelector('#receipt-dialog');
-    dialog.innerHTML = `<form method="dialog"><button class="close" aria-label="Cerrar">×</button></form>${receiptMarkup(receipt)}<p class="muted">La copia refleja el estado guardado de la transacción. No tiene validez tributaria oficial.</p><p class="error" role="alert"></p><div class="actions"><button type="button" class="primary" data-print-agent="${receipt.id}" ${receipt.pump !== '03' ? 'disabled title="PrintAgent requiere el surtidor 03 en esta instalación"' : ''}>${receipt.pump === '03' ? 'Solicitar a PrintAgent local' : 'PrintAgent no disponible para este surtidor'}</button><button type="button" class="secondary" data-browser-print="${receipt.id}">Imprimir desde navegador</button></div>`;
+    dialog.innerHTML = `<form method="dialog"><button class="close" aria-label="Cerrar">×</button></form>${receiptMarkup(receipt)}<p class="muted">La copia refleja el estado guardado de la transacción. No tiene validez tributaria oficial.</p><p class="error" role="alert"></p><div class="actions"><button type="button" class="primary" data-print-agent="${receipt.id}" ${receipt.pump !== '03' ? 'disabled title="PrintAgent requiere el surtidor 03 en esta instalación"' : ''}>${receipt.pump === '03' ? 'Solicitar a PrintAgent local' : 'PrintAgent no disponible para este surtidor'}</button></div>`;
     dialog.showModal();
     dialog.querySelector('[data-print-agent]').addEventListener('click', async (event) => {
       const button = event.currentTarget; button.disabled = true;
@@ -128,9 +119,7 @@ async function showReceipt(transactionId) {
       catch (error) { dialog.querySelector('.error').textContent = incidentMessage(error); }
       finally { button.disabled = false; }
     });
-    dialog.querySelector('[data-browser-print]').addEventListener('click', () => {
-      try { printReceiptBrowser(receipt); } catch (error) { dialog.querySelector('.error').textContent = incidentMessage(error); }
-    });
+
   } catch (error) { window.alert(incidentMessage(error)); }
 }
 

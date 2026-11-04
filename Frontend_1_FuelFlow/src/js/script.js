@@ -324,9 +324,8 @@ const I18N = {
     estado_pendiente: '⏳ Pendiente de pago',
     miembro_tag: '★ Miembro',
     ticket_foot: 'Gracias por preferir Primax · Que tenga un buen viaje 🛣️',
-    btn_comprobante: 'Finalizar e imprimir',
-    btn_browser_print: 'Imprimir desde navegador',
-    btn_finalizar: 'Finalizar y no imprimir',
+    btn_comprobante: 'Imprimir',
+    btn_finalizar: 'No imprimir',
 
     // Admin
     admin_step: '🔒 ACCESO RESTRINGIDO',
@@ -648,8 +647,7 @@ const I18N = {
     miembro_tag: '★ Member',
     ticket_foot: 'Thank you for choosing Primax · Have a great trip 🛣️',
     btn_comprobante: 'Finish and print',
-    btn_browser_print: 'Print from browser',
-    btn_finalizar: 'Finalizar y no imprimir',
+    btn_finalizar: 'No imprimir',
 
     admin_step: '🔒 RESTRICTED ACCESS',
     admin_title: 'Security / Admin Panel',
@@ -964,9 +962,8 @@ const I18N = {
     estado_pendiente: '⏳ Pagan nin',
     miembro_tag: '★ Socio',
     ticket_foot: 'Primaxta akllasqaykiman gracias · Allin riykita munayku 🛣️',
-    btn_comprobante: 'Finalizar e imprimir',
-    btn_browser_print: 'Imprimir desde navegador',
-    btn_finalizar: 'Finalizar y no imprimir',
+    btn_comprobante: 'Imprimir',
+    btn_finalizar: 'No imprimir',
 
     admin_step: '🔒 YAYKUY HUKNIN',
     admin_title: 'Seguridad / Admin Panel',
@@ -1960,7 +1957,7 @@ let receiptPrinting=false;
 async function imprimirYFinalizar() {
   if(!backendResult||receiptPrinting)return;
   receiptPrinting=true;
-  const buttons=['btn-comprobante','btn-browser-print','btn-finalizar'].map($);
+  const buttons=['btn-comprobante','btn-finalizar'].map($);
   buttons.forEach(b=>b.disabled=true);
   $('print-error').classList.add('hidden');
   try {
@@ -1970,34 +1967,14 @@ async function imprimirYFinalizar() {
     const receipt = thermalReceipt(backendResult.transaction);
     await printReceipt(receipt);
     receiptPrinting=false;
-    finalizar();
+    await finalizar();
     actualizarEstado('Trabajo de impresión aceptado. Salida física no confirmada.');
   } catch(error) {
-    $('print-error').textContent=error.message+' El ticket se conserva. Reintenta con Finalizar e imprimir o elige Finalizar y no imprimir.';
+    $('print-error').textContent=error.message+' El ticket se conserva. Reintenta con Imprimir o elige No imprimir.';
     $('print-error').classList.remove('hidden');
   } finally {
     receiptPrinting=false;
     buttons.forEach(b=>b.disabled=false);
-  }
-}
-
-async function imprimirDesdeNavegador() {
-  if (!backendResult || receiptPrinting) return;
-  receiptPrinting = true;
-  const buttons = ['btn-comprobante', 'btn-browser-print', 'btn-finalizar'].map($);
-  buttons.forEach(button => { button.disabled = true; });
-  $('print-error').classList.add('hidden');
-  try {
-    transactionsService.assertCanFinish(backendResult.transaction.id);
-    backendResult = await transactionsService.confirmedForPrint(backendResult.transaction.id);
-    pintarResumen();
-    window.print();
-  } catch (error) {
-    $('print-error').textContent = error.message || 'No se pudo preparar el comprobante. Puedes finalizar sin imprimir.';
-    $('print-error').classList.remove('hidden');
-  } finally {
-    receiptPrinting = false;
-    buttons.forEach(button => { button.disabled = false; });
   }
 }
 
@@ -2717,7 +2694,6 @@ function init() {
 
   // 7. Resumen
   $('btn-comprobante').addEventListener('click', imprimirYFinalizar);
-  $('btn-browser-print').addEventListener('click', imprimirDesdeNavegador);
   $('btn-finalizar').addEventListener('click', finalizar);
 
   // 8. Admin
