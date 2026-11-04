@@ -341,9 +341,6 @@
           <button class="pay-card pay-card-sm" type="button" data-metodo="TARJETA">
             <span class="pay-icon">💳</span><strong data-i18n="m_tarjeta">TARJETA</strong>
           </button>
-          <button class="pay-card pay-card-sm" type="button" data-metodo="EFECTIVO">
-            <span class="pay-icon">💵</span><strong data-i18n="m_efectivo">EFECTIVO</strong>
-          </button>
         </div>
 
         <!-- YAPE / PLIN: código QR -->
@@ -372,37 +369,6 @@
           <div class="nav-row">
             <button class="btn btn-ghost btn-metodo-volver" type="button" data-i18n="btn_otro_metodo">← Otro método</button>
             <button id="btn-nfc-tap" class="btn btn-primary" type="button" data-i18n="btn_simular_nfc">Simular acercamiento</button>
-          </div>
-        </div>
-
-        <!-- EFECTIVO: billetes y monedas -->
-        <div id="panel-efectivo" class="prepago-panel hidden">
-          <h3 data-i18n="ef_title">Ingrese su dinero</h3>
-          <div class="ef-display">
-            <div><small data-i18n="ef_ingresado">Ingresado</small><strong id="ef-total">S/ 0.00</strong></div>
-            <div><small data-i18n="ef_falta">Falta</small><strong id="ef-faltante">S/ 0.00</strong></div>
-          </div>
-          <div id="ef-ok" class="discount-badge hidden" data-i18n="ef_completo">✓ Efectivo suficiente</div>
-
-          <span class="ef-titulo" data-i18n="ef_billetes">Billetes</span>
-          <div class="chips" id="ef-billetes"></div>
-
-          <span class="ef-titulo" data-i18n="ef_monedas">Monedas</span>
-          <div class="chips" id="ef-monedas"></div>
-
-          <p id="ef-error" class="error hidden"></p>
-
-          <!-- Vuelto: se muestra cuando el efectivo excede el monto a pagar -->
-          <div id="ef-vuelto" class="ef-vuelto hidden">
-            <h3 data-i18n="ef_vuelto_t">Vuelto a devolver</h3>
-            <strong id="ef-vuelto-monto">S/ 0.00</strong>
-            <div id="ef-vuelto-detalle" class="chips"></div>
-            <p class="hint" id="ef-vuelto-nota" data-i18n="ef_vuelto_entregando">Entregando vuelto…</p>
-          </div>
-
-          <div class="nav-row">
-            <button id="btn-ef-retirar" class="btn btn-ghost" type="button" data-i18n="btn_ef_retirar">↩ Devolver</button>
-            <button id="btn-ef-confirmar" class="btn btn-primary" type="button" data-i18n="btn_ef_confirmar">Confirmar efectivo</button>
           </div>
         </div>
 
@@ -478,9 +444,8 @@
         </div>
         <p id="print-error" class="error hidden" role="alert"></p>
         <div class="ticket-actions">
-          <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Finalizar e imprimir</button>
-          <button id="btn-browser-print" class="btn btn-secondary" data-i18n="btn_browser_print">Imprimir desde navegador</button>
-          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">Finalizar y no imprimir</button>
+          <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Imprimir</button>
+          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">No imprimir</button>
         </div>
       </section>
 
@@ -584,35 +549,30 @@
   </div>
 
   <!-- ============ ASISTENCIA HUMANA (fijo, acompaña todo el proceso) ============ -->
-  <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Llamar asistencia humana" aria-label="Llamar asistencia humana">
+  <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Solicitar asistencia humana" aria-label="Solicitar asistencia humana">
     <span class="help-btn-icon">🛎️</span>
-    <span class="help-btn-text" data-i18n="btn_ayuda">Llamar asistencia</span>
+    <span class="help-btn-text" data-i18n="btn_ayuda">Solicitar asistencia</span>
   </button>
 
   <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <div class="modal">
       <div id="help-icon" class="modal-icon">📞</div>
-      <h3 id="help-title">Llamando a asistencia…</h3>
-      <p id="help-msg">Un operador del centro de control está siendo notificado. Por favor, permanezca en su vehículo.</p>
-
-      <div id="help-cargando" class="help-cargando">
-        <div class="spinner"></div>
-        <small data-i18n="help_cargando_txt">Cargando…</small>
-      </div>
-
-      <div id="help-bar-wrap" class="help-bar"><span id="help-bar"></span></div>
-
-      <ol id="help-pasos" class="help-pasos">
-        <li data-i18n="help_paso_1">Solicitud enviada al surtidor 03</li>
-        <li data-i18n="help_paso_2">Operador asignado</li>
-        <li data-i18n="help_paso_3">El asistente va en camino</li>
-      </ol>
-
-      <p id="help-estado" class="help-estado">Conectando con el operador…</p>
-
+      <h3 id="help-title">Solicitar asistencia</h3>
+      <p id="help-msg">La solicitud se env?a al personal autorizado de esta estaci?n.</p>
+      <form id="help-form">
+        <label>Motivo<select id="help-motivo" required>
+          <option value="AYUDA_GENERAL">Ayuda general</option><option value="ERROR_PAGO">Error de pago</option>
+          <option value="PROBLEMA_TERMINAL">Problema de terminal</option><option value="PROBLEMA_DESPACHO">Problema de despacho</option>
+          <option value="COMPROBANTE_IMPRESION">Comprobante o impresión</option><option value="OTRO">Otro</option>
+        </select></label>
+        <label>Observación (opcional)<textarea id="help-observacion" maxlength="500"></textarea></label>
+        <button id="help-btn-enviar" class="btn btn-primary" type="submit">Enviar solicitud</button>
+      </form>
+      <p id="help-estado" role="status" aria-live="polite"></p>
       <div class="modal-actions">
-        <button id="help-btn-cancelar" class="btn btn-ghost" data-i18n="help_cancelar">Cancelar solicitud</button>
-        <button id="help-btn-cerrar" class="btn btn-primary hidden" data-i18n="help_cerrar">Entendido</button>
+        <button id="help-btn-cancelar" class="btn btn-ghost hidden" type="button">Cancelar solicitud</button>
+        <button id="help-btn-reintentar" class="btn btn-ghost hidden" type="button">Consultar / reintentar</button>
+        <button id="help-btn-cerrar" class="btn btn-primary" type="button">Continuar</button>
       </div>
     </div>
   </div>

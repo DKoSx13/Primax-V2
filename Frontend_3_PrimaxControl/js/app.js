@@ -1,6 +1,8 @@
+import { bindPaymentRecovery, paymentRecoveryButton } from './payment-recovery.js';
 import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN } from './config.js';
 import { canViewStation, initialView, incidentMessage, controlModules, visibleModules, defaultView } from './control-state.js';
 import { createControlApi } from './control-api.js';
+import { assistancePanel, bindAssistanceActions, stopAssistancePolling } from './assistance.js';
 import { createPrintAgent } from './print-agent.js';
 
 const app = document.querySelector('#app');
@@ -8,6 +10,8 @@ const apiClient = createControlApi(window.fetch.bind(window), API_BASE_URL);
 const api = apiClient.request;
 const sendToPrintAgent = createPrintAgent();
 let session = null;
+bindPaymentRecovery({ api, onError: showError });
+bindAssistanceActions({ api, getUserId: () => session?.user?.id, onError: showError });
 let selectedStation = '';
 let busy = false;
 let accountRows = [];
@@ -103,20 +107,11 @@ function receiptMarkup(receipt) {
   return `<div class="receipt-paper"><p class="eyebrow">COMPROBANTE ACADÉMICO · NO TRIBUTARIO</p><h2>PRIMAX · DEMO</h2><p>${esc(receipt.station)} · Surtidor ${esc(receipt.pump || '—')}</p><hr><p>Operación: <span class="mono">${esc(receipt.id)}</span></p><p>Fecha: ${stamp(receipt.issuedAt)}</p><p>Placa: ${esc(receipt.plate)}</p><p>Combustible: ${esc(receipt.fuel)}</p><p>Cantidad: ${fmt(receipt.gallons, 3)} gal</p><p>Precio unitario: S/ ${fmt(receipt.unitPrice)}</p><p>Modalidad / pago: ${esc(receipt.mode)} · ${esc(receipt.paymentMethod)}</p><p>Estado: <strong>${esc(receipt.state)}</strong></p><hr><p class="receipt-total">TOTAL S/ ${fmt(receipt.total)}</p>${receipt.dni ? `<p>DNI: ${esc(receipt.dni)}</p>` : ''}${receipt.ruc ? `<p>RUC: ${esc(receipt.ruc)} · ${esc(receipt.businessName)}</p>` : ''}</div>`;
 }
 
-function printReceiptBrowser(receipt) {
-  const popup = window.open('', '_blank');
-  if (!popup) throw Error('El navegador bloqueó la ventana de impresión. Permite ventanas emergentes o reintenta.');
-  popup.document.write(`<!doctype html><html lang="es"><meta charset="utf-8"><title>Comprobante académico Primax</title><style>body{font:14px system-ui,sans-serif;max-width:420px;margin:28px auto;padding:18px;color:#20242b}.receipt-paper{border:1px dashed #999;padding:20px}.eyebrow{font-size:11px;color:#d71920;font-weight:bold}.mono{overflow-wrap:anywhere}.receipt-total{font-size:20px;font-weight:bold;text-align:right}@media print{body{margin:0}}</style><body>${receiptMarkup(receipt)}</body></html>`);
-  popup.document.close();
-  popup.focus();
-  popup.print();
-}
-
 async function showReceipt(transactionId) {
   try {
     const receipt = await api(`/control/receipts/${encodeURIComponent(transactionId)}`);
     const dialog = document.querySelector('#receipt-dialog');
-    dialog.innerHTML = `<form method="dialog"><button class="close" aria-label="Cerrar">×</button></form>${receiptMarkup(receipt)}<p class="muted">La copia refleja el estado guardado de la transacción. No tiene validez tributaria oficial.</p><p class="error" role="alert"></p><div class="actions"><button type="button" class="primary" data-print-agent="${receipt.id}" ${receipt.pump !== '03' ? 'disabled title="PrintAgent requiere el surtidor 03 en esta instalación"' : ''}>${receipt.pump === '03' ? 'Solicitar a PrintAgent local' : 'PrintAgent no disponible para este surtidor'}</button><button type="button" class="secondary" data-browser-print="${receipt.id}">Imprimir desde navegador</button></div>`;
+    dialog.innerHTML = `<form method="dialog"><button class="close" aria-label="Cerrar">×</button></form>${receiptMarkup(receipt)}<p class="muted">La copia refleja el estado guardado de la transacción. No tiene validez tributaria oficial.</p><p class="error" role="alert"></p><div class="actions"><button type="button" class="primary" data-print-agent="${receipt.id}" ${receipt.pump !== '03' ? 'disabled title="PrintAgent requiere el surtidor 03 en esta instalación"' : ''}>${receipt.pump === '03' ? 'Solicitar a PrintAgent local' : 'PrintAgent no disponible para este surtidor'}</button></div>`;
     dialog.showModal();
     dialog.querySelector('[data-print-agent]').addEventListener('click', async (event) => {
       const button = event.currentTarget; button.disabled = true;
@@ -124,9 +119,7 @@ async function showReceipt(transactionId) {
       catch (error) { dialog.querySelector('.error').textContent = incidentMessage(error); }
       finally { button.disabled = false; }
     });
-    dialog.querySelector('[data-browser-print]').addEventListener('click', () => {
-      try { printReceiptBrowser(receipt); } catch (error) { dialog.querySelector('.error').textContent = incidentMessage(error); }
-    });
+
   } catch (error) { window.alert(incidentMessage(error)); }
 }
 
@@ -249,8 +242,10 @@ async function renderSupervisor() {
         const prepared = terminal.enablements?.some((entry) => entry.shiftId === shift?.id);
         return `<article class="supervisor-terminal"><h3>${esc(terminal.code)} · Surtidor ${esc(pump?.code || 'sin asignar')}</h3><p>Estado: <strong>${esc(blocked ? 'Bloqueada por administración' : prepared ? 'Estación lista para operar' : terminal.operationalStatus)}</strong></p>${blocked ? '<p class="error" role="alert">La terminal está bloqueada por administración.</p>' : ''}<button class="primary" data-supervisor-action="start" data-terminal-id="${esc(terminal.id)}" ${!open || blocked || !pump ? 'disabled' : ''}>Iniciar estación</button>${!pump ? '<p>No hay un surtidor asignado.</p>' : ''}</article>`;
       }).join('') || panel('No tienes una terminal asignada.')}</section>
-      <section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(operation.status)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
-      <section class="panel"><h2>Asistencia</h2><p>Las solicitudes de asistencia de clientes aparecerán aquí cuando estén disponibles.</p></section>`;
+      <section class="panel"><h2>Pagos de operaciones activas</h2>${terminals.flatMap(terminal => terminal.operations.map(operation => `<p>Terminal ${esc(terminal.code)} · ${paymentRecoveryButton(operation.operationId)}</p>`)).join('') || '<p>No hay operaciones activas.</p>'}</section>
+      <section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(operation.status)} ${paymentRecoveryButton(operation.operationId)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
+      <section class="panel" id="assistance-panel"></section>`;
+    await assistancePanel({ api, stationId: selectedStation, userId: session.user.id, supervisor: true });
   } catch (error) { showError(error, 'No se pudo consultar la estación'); }
 }
 
@@ -266,6 +261,7 @@ async function renderSupervisors() {
 }
 
 async function renderView(view, filters = {}) {
+  if (view === 'assistance') { document.querySelector('#content').innerHTML = heading('ASISTENCIA', 'Solicitudes e historial') + '<section class="panel" id="assistance-panel"></section>'; return assistancePanel({ api, stationId: selectedStation, userId: session.user.id, supervisor: false }); }
   if (view === 'supervisor') return renderSupervisor();
   if (view === 'supervisors') return renderSupervisors();
   if (view === 'dashboard') return renderDashboard();
@@ -287,6 +283,7 @@ async function renderView(view, filters = {}) {
 }
 
 async function route(filters = {}) {
+  stopAssistancePolling();
   let view = initialView(location.hash);
   if (view === 'dashboard' && !visibleModules(session).some(([id]) => id === 'dashboard')) view = defaultView(session);
   const routeItem = nav.find(([id]) => id === view);

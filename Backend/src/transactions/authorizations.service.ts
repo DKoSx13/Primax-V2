@@ -1,4 +1,5 @@
 import { matchesMembershipCode } from '../users/membership-code';
+import { recordPaymentIssue } from '../payments/payment-incidents';
 import { reserveWelcome } from '../payments/welcome';
 import {
   BadRequestException,
@@ -7,7 +8,7 @@ import {
   NotFoundException,
   Optional,
 } from '@nestjs/common';
-import { PaymentsService } from '../payments/payments.service';
+import { PaymentsService, assertV2PaymentMethod } from '../payments/payments.service';
 import { creditCapacity, funding } from '../wallet/debt';
 import { createHash } from 'node:crypto';
 import {
@@ -126,6 +127,7 @@ export class AuthorizationsService {
    * dos veces el mismo saldo desde dos surtidores simultáneos.
    */
   create(dto: CreateAuthorizationDto) {
+    assertV2PaymentMethod(dto.paymentMethod);
     if (dto.mode === 'PREPAGO') {
       const fingerprint = JSON.stringify(dto);
       const running = this.prepaidInFlight.get(dto.operationId);
@@ -207,7 +209,7 @@ export class AuthorizationsService {
         throw new BadRequestException(
           'El vehículo no está asociado a una membresía Primax Prime',
         );
-      if (!(await matchesMembershipCode(tx,membership,code)))
+      if (!(await matchesMembershipCode(tx, membership, code)))
         throw new BadRequestException(
           'El código de membresía no corresponde al vehículo identificado',
         );
@@ -723,7 +725,7 @@ export class AuthorizationsService {
         where: { plate },
         include: { membership: true },
       });
-      if (dto.membershipCode && !(await matchesMembershipCode(tx,vehicle?.membership,dto.membershipCode)))
+      if (dto.membershipCode && !(await matchesMembershipCode(tx, vehicle?.membership, dto.membershipCode)))
         throw new BadRequestException('El código de membresía no corresponde al vehículo');
 
       let payment = await tx.payment.findUnique({
@@ -811,6 +813,7 @@ export class AuthorizationsService {
         if (error instanceof BadRequestException) {
           await this.repo.atomic(async (tx) => {
             await tx.payment.update({ where: { id: payment!.id }, data: { status: 'REJECTED' } });
+            await recordPaymentIssue(tx,dto.operationId,'La autorización del pago fue rechazada');
             const reservation = await tx.inventoryReservation.findUnique({ where: { operationId: dto.operationId } });
             if (reservation)
               await releaseInventoryReservation(tx, reservation, `payment-rejected:${dto.operationId}`, 'Confirmed payment rejection');
@@ -820,6 +823,7 @@ export class AuthorizationsService {
             const reservation = await tx.inventoryReservation.findUnique({ where: { operationId: dto.operationId } });
             if (reservation)
               await reviewInventoryReservation(tx, reservation.id, 'Payment result is ambiguous');
+            await recordPaymentIssue(tx,dto.operationId,'La autorización del pago requiere conciliación');
           });
         }
         throw error;

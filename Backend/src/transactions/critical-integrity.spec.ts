@@ -44,6 +44,8 @@ function harness(status: PaymentStatus = 'CAPTURED') {
   };
   const vehicle = { id: 'v', membershipId: 'm', membership: member };
   const db = {
+    terminalOperation: { findUnique: jest.fn().mockResolvedValue(null) },
+    transaction: { findUnique: jest.fn().mockResolvedValue(null) },
     $queryRaw: jest.fn(async (strings: TemplateStringsArray, ...values: unknown[]) => {
       if (strings.join('?').includes('inventory_create_reservation')) {
         inventoryReservation = {
