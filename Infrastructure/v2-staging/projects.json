@@ -1,0 +1,14 @@
+﻿{
+  "repository": "DKoSx13/Primax-V2",
+  "sourceBranch": "validation/v2-integration",
+  "status": "PREPARED_NOT_DEPLOYED",
+  "vercel": [
+    { "name": "primax-v2-fuelflow-staging", "rootDirectory": "Frontend_1_FuelFlow", "outputDirectory": "dist", "includeSourceOutsideRoot": false },
+    { "name": "primax-v2-prime-staging", "rootDirectory": "Frontend_2_PrimaxPrime", "outputDirectory": "www", "includeSourceOutsideRoot": false },
+    { "name": "primax-v2-control-staging", "rootDirectory": "Frontend_3_PrimaxControl", "outputDirectory": "dist", "includeSourceOutsideRoot": false }
+  ],
+  "render": { "backend": "primax-v2-backend-staging", "ocr": "primax-v2-ocr-staging", "automaticDeploys": false },
+  "neon": { "projectName": "primax-v2-staging", "databaseName": "primax_v2_staging", "independentProjectRequired": true },
+  "upstash": { "databaseName": "primax-v2-staging", "namespace": "primax-v2-staging" },
+  "protectedReference": "V12.1 projects, databases, credentials and URLs must remain untouched"
+}
