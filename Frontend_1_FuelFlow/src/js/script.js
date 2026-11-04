@@ -20,6 +20,7 @@ import {adminService, renderAlerts} from './adminService.js';
 import {apiClient, catalogService, authorizationService, terminalService} from './apiClient.js';
 import {transactionsService} from './transactionsService.js';
 import {ensureTerminalOperation} from './terminalOperation.js';
+import {createAssistanceClient, assistanceLabels} from './assistance.js';
 let catalog, submitting=false, backendResult=null;
 async function cerrarYDescartar() {
   const operationId=transactionsService.current()?.operationId;
@@ -119,7 +120,7 @@ const I18N = {
     mascota_tag: 'Asistente Primax',
 
     // Asistencia humana
-    btn_ayuda: 'Llamar asistencia',
+    btn_ayuda: 'Solicitar asistencia',
     btn_ayuda_title: 'Llamar asistencia humana',
     help_cargando_txt: 'Cargando…',
     help_t_llamando: 'Llamando a asistencia…',
@@ -2733,89 +2734,57 @@ function cerrarIdiomas() { $('lang-overlay').classList.add('hidden'); }
  *     se muestra un cuadro de "cargando" con barra y pasos; al terminar
  *    _avisa que el asistente ya llegó_.
  * ========================================================================== */
-const HELP_DURACION_MS = 6000;   // tiempo simulado de llegada del asistente
-let helpReloj = null;            // intervalo que dibuja la barra de progreso
-
-/** Detiene el progreso en curso (cancelación o cierre). */
-function detenerProgresoAyuda() {
-  clearInterval(helpReloj);
-  helpReloj = null;
+const assistance = createAssistanceClient({ request: apiClient });
+let helpReloj = null;
+function detenerProgresoAyuda() { clearTimeout(helpReloj); helpReloj = null; }
+function pintarAsistencia(row) {
+  const pending = assistance.current();
+  const active = ['PENDIENTE', 'EN_ATENCION'].includes(row?.status);
+  $('help-estado').textContent = assistanceLabels[row?.status] || 'Selecciona el motivo de tu solicitud.';
+  $('help-form').classList.toggle('hidden', Boolean(pending));
+  $('help-btn-cancelar').classList.toggle('hidden', !active);
+  $('help-btn-reintentar').classList.toggle('hidden', !pending || Boolean(row?.status && !active));
 }
-
-/** Pinta la barra y marca cada paso como activo / completado según el avance. */
-function pintarProgresoAyuda(pct) {
-  $('help-bar').style.width = pct + '%';
-  const pasos = document.querySelectorAll('#help-pasos li');
-  const salto = 100 / pasos.length;
-  pasos.forEach((li, i) => {
-    const umbral = salto * (i + 1);
-    li.classList.toggle('done', pct >= umbral);
-    li.classList.toggle('active', pct >= umbral - salto && pct < umbral);
-  });
-}
-
-/** El asistente ya está en el surtidor: cambia el cuadro por el aviso de llegada. */
-function asistenciaHaLlegado() {
+async function actualizarAsistencia() {
   detenerProgresoAyuda();
-  $('help-icon').textContent = '🛎️';
-  $('help-title').textContent = t('help_t_llegada');
-  $('help-msg').textContent = t('help_m_llegada');
-  $('help-estado').textContent = t('help_e_llegada');
-  $('help-cargando').classList.add('hidden');
-  $('help-bar-wrap').classList.add('hidden');
-  $('help-btn-cancelar').classList.add('hidden');
-  $('help-btn-cerrar').classList.remove('hidden');
-  document.querySelectorAll('#help-pasos li').forEach((li) => {
-    li.classList.add('done');
-    li.classList.remove('active');
-  });
-  hablar(t('voz_help_llegada'));
-}
-
-/** Abre el cuadro de carga y arranca la cuenta de llegada. */
-function abrirAsistencia() {
-  if (state.estadoOperacion === 'INTERVENTION_REQUIRED') {
-    mostrarModal('Intervención requerida', 'La operación está detenida. Contacta al personal de la estación. Este piloto no notifica ni asigna un operador automáticamente.', '⚠️');
-    return;
+  try {
+    const row = await assistance.refresh();
+    pintarAsistencia(row);
+    if (['PENDIENTE', 'EN_ATENCION'].includes(row?.status) && !$('help-overlay').classList.contains('hidden'))
+      helpReloj = setTimeout(actualizarAsistencia, 5000);
+  } catch (error) {
+    $('help-estado').textContent = 'No se pudo consultar la asistencia. ' + error.message;
+    $('help-btn-reintentar').classList.remove('hidden');
   }
-  detenerProgresoAyuda();
+}
+function abrirAsistencia() {
+  assistance.clearCompleted();
   $('help-overlay').classList.remove('hidden');
-  $('help-icon').textContent = '📞';
-  $('help-title').textContent = t('help_t_llamando');
-  $('help-msg').textContent = t('help_m_llamando');
-  $('help-estado').textContent = t('help_e_llamando');
-  $('help-cargando').classList.remove('hidden');
-  $('help-bar-wrap').classList.remove('hidden');
-  $('help-btn-cancelar').classList.remove('hidden');
-  $('help-btn-cerrar').classList.add('hidden');
-  document.querySelectorAll('#help-pasos li').forEach((li) => {
-    li.classList.remove('done', 'active');
-  });
-  pintarProgresoAyuda(0);
-  hablar(t('voz_help_llamando'));
-
-  // Un solo intervalo mueve la barra; al 100 % se dispara la llegada
-  const inicio = Date.now();
-  helpReloj = setInterval(() => {
-    const pct = Math.min(100, ((Date.now() - inicio) / HELP_DURACION_MS) * 100);
-    pintarProgresoAyuda(pct);
-    if (pct >= 100) asistenciaHaLlegado();
-  }, 80);
+  pintarAsistencia(assistance.current());
+  if (assistance.current()) void actualizarAsistencia();
 }
-
-/** El cliente se arrepiente de pedir ayuda. */
-function cancelarAsistencia() {
-  detenerProgresoAyuda();
-  $('help-overlay').classList.add('hidden');
-  hablar(t('voz_help_cancelada'));
+async function enviarAsistencia(event) {
+  event.preventDefault();
+  const button = $('help-btn-enviar'); button.disabled = true;
+  try {
+    const operationId = transactionsService.current()?.operationId;
+    // Only bind a technical operation if it exists; help also works before starting.
+    let linkedOperation;
+    if (operationId) {
+      try { linkedOperation = await terminalService.operation(operationId); }
+      catch (error) { if (error.status !== 404) throw error; }
+    }
+    const row = await assistance.submit({ reason: $('help-motivo').value, observation: $('help-observacion').value,
+      ...(linkedOperation ? { operationId } : {}), ...(state.placa ? { plate: state.placa } : {}) });
+    pintarAsistencia(row); void actualizarAsistencia();
+  } catch (error) { $('help-estado').textContent = error.message; $('help-btn-reintentar').classList.remove('hidden'); }
+  finally { button.disabled = false; }
 }
-
-/** Cierra el cuadro ya llegado y vuelve la línea de estado del asistente. */
-function cerrarAsistencia() {
-  detenerProgresoAyuda();
-  $('help-overlay').classList.add('hidden');
-  $('voice-status-text').textContent = state.vozActivada ? t('voice_ready') : t('voice_muted');
+async function cancelarAsistencia() {
+  try { pintarAsistencia(await assistance.cancel()); detenerProgresoAyuda(); }
+  catch (error) { $('help-estado').textContent = error.message; }
 }
+function cerrarAsistencia() { detenerProgresoAyuda(); $('help-overlay').classList.add('hidden'); }
 
 /* ============================================================================
  * 10. REGISTRO DE EVENTOS (wiring)
@@ -2962,6 +2931,8 @@ function init() {
 
   // Asistencia humana (visible en todas las pantallas)
   $('btn-ayuda').addEventListener('click', abrirAsistencia);
+  $('help-form').addEventListener('submit', enviarAsistencia);
+  $('help-btn-reintentar').addEventListener('click', actualizarAsistencia);
   $('help-btn-cancelar').addEventListener('click', cancelarAsistencia);
   $('help-btn-cerrar').addEventListener('click', cerrarAsistencia);
 

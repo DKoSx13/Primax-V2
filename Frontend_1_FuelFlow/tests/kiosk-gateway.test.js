@@ -240,3 +240,22 @@ test('existing credential requires rotation; rotation installs a new local brows
   assert.doesNotMatch(rotated.headers['set-cookie'][0], /Secure|Domain=/);
   assert.match(rotated.headers['set-cookie'][1], /^primax-terminal-csrf-local=/);
 });
+
+test('assistance creation/read/cancel preserve terminal authentication, CSRF and safe response fields', async () => {
+  const id='33333333-3333-4333-8333-333333333333';
+  const technical='b'.repeat(64), technicalCsrf='t'.repeat(43);
+  const cookie=`__Host-primax-terminal=${technical}; __Host-primax-terminal-csrf=${technicalCsrf}`;
+  for (const [method,path] of [['POST','/api/v1/terminal/assistance'],['GET',`/api/v1/terminal/assistance/${id}`],['POST',`/api/v1/terminal/assistance/${id}/cancel`]]) {
+    const calls=[];
+    const result=await invoke(path,{method,body:method==='POST'?{requestId:id,reason:'OTRO'}:undefined,headers:{cookie,'x-csrf-token':technicalCsrf},fetcher:backend(calls,()=>Response.json({id,status:'PENDIENTE',token:'secret',assignedSupervisorId:'private'}))});
+    assert.equal(result.statusCode,200);assert.equal(result.body.id,id);assert.equal(result.body.token,undefined);assert.equal(result.body.assignedSupervisorId,undefined);
+    assert.equal(calls[0].options.headers['x-terminal-session'],technical);
+    assert.equal(calls[0].options.headers.authorization,'');
+    if(method==='POST') {
+      const denied=await invoke(path,{method,body:{},headers:{cookie,'x-csrf-token':'wrong'},fetcher:async()=>{throw Error('must not call backend')}});
+      assert.equal(denied.statusCode,403);
+    }
+    const denied=await invoke(path,{method,body:{},headers:{cookie:''},fetcher:async()=>{throw Error('must not call backend')}});
+    assert.equal(denied.statusCode,401);
+  }
+});
