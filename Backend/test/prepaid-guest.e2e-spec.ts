@@ -78,7 +78,7 @@ describe('Guest prepayment in PostgreSQL', () => {
     ).body.transaction;
     expect(tx.plate).toBe('ABC-123');
     expect(tx.vehicle.plate).toBe('ABC-123');
-    expect(tx.membership.number).toBe('PRIME-0001');
+    expect(tx.membership.number).toBe('PRIME-001');
     expect(tx.pointsEarned).toBe(11);
     expect(
       await db.rewardMovement.count({ where: { transactionId: tx.id } }),
@@ -169,7 +169,7 @@ describe('Guest prepayment in PostgreSQL', () => {
     await authorize({
       ...body('NEW-126'),
       mode: 'POSTPAGO',
-      membershipCode: 'PRIME-0001',
+      membershipCode: 'PRIME-001',
       paymentMethod: undefined,
     }).expect(404);
   });
@@ -189,7 +189,7 @@ describe('Guest prepayment in PostgreSQL', () => {
     const data = body('NEW-129');
     const a = await authorize(data).expect(201);
     const member = await db.membership.findUniqueOrThrow({
-      where: { number: 'PRIME-0001' },
+      where: { number: 'PRIME-001' },
     });
     await db.vehicle.create({
       data: {

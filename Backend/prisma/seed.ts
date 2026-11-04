@@ -1,3 +1,4 @@
+import { nextMembershipNumber } from '../src/users/membership-number';
 import '../src/config/load-env';
 // Local-only even when this file is invoked directly.
 import { assertLocalDatabase } from '../scripts/database-safety.cjs';
@@ -65,11 +66,9 @@ async function seed() {
       update: {},
       create: { email: DEMO_EMAIL, name: 'Diego', passwordHash },
     });
-    const membership = await tx.membership.upsert({
-      where: { number: 'PRIME-0001' },
-      update: {},
-      create: {
-        number: 'PRIME-0001',
+    const membership = await tx.membership.findUnique({where:{userId:user.id}}) ?? await tx.membership.create({
+      data: {
+        number: await nextMembershipNumber(tx),
         userId: user.id,
         dni: '12345678',
         ruc: '20123456789',
@@ -146,7 +145,7 @@ async function seed() {
         });
   }
   console.log(
-    'Seed OK: Diego / PRIME-0001 / ABC-123; catálogos listos. Sin saldos artificiales.' +
+    'Seed OK: Diego / membresía PRIME / ABC-123; catálogos listos. Sin saldos artificiales.' +
       (existing && !demoDrift ? ' Contraseña demo verificada.' : ''),
   );
 }

@@ -1,3 +1,4 @@
+import { matchesMembershipCode } from '../users/membership-code';
 import { assertDemoWallet, DemoWalletProvider } from './demo-provider';
 import { recordPaymentIssue } from './payment-incidents';
 import { assertV2PaymentMethod } from './payments.service';
@@ -109,7 +110,7 @@ export class OnlineOrdersService {
     const station=await tx.station.findUnique({where:{id:a.stationId}});
     if(!fuel?.active||!station?.active||!fuel.pricePerGallon.eq(a.unitPrice||'0'))throw new BadRequestException('Confirma cat?logo y precio');
     const operation=await terminalOperationFor(tx,dto.operationId,a.stationId);
-    if(a.membershipCode){const v=await tx.vehicle.findUnique({where:{plate:normalizePlate(a.plate) as string},include:{membership:true}});if(v?.membership?.number!==a.membershipCode)throw new BadRequestException('Membresía no corresponde al veh?culo');}
+    if(a.membershipCode){const v=await tx.vehicle.findUnique({where:{plate:normalizePlate(a.plate) as string},include:{membership:true}});if(!(await matchesMembershipCode(tx,v?.membership,a.membershipCode)))throw new BadRequestException('Membresía no corresponde al veh?culo');}
     const hash=createHash('sha256').update(JSON.stringify({...a,plate:normalizePlate(a.plate),amount:amount.toFixed(2)})).digest('hex');
     const pricing=await reserveWelcome(tx,a);
     amount=pricing.amount;

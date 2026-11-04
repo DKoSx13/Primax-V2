@@ -9,11 +9,11 @@ export function formatMembershipNumber(value: bigint): string {
     suffix = String.fromCharCode(65 + Number(group % 26n)) + suffix;
     group /= 26n;
   }
-  return `PRIM-${String(((value - 1n) % 999n) + 1n).padStart(3, '0')}${suffix}`;
+  return `PRIME-${suffix}${String(((value - 1n) % 999n) + 1n).padStart(3, '0')}`;
 }
 
 // The counter row is locked until User + Membership commit. Failed registration
-// rolls back the counter too. Historical codes are skipped, never rewritten.
+// rolls back the counter too. Occupied public codes are skipped atomically.
 export async function nextMembershipNumber(tx: Prisma.TransactionClient) {
   for (;;) {
     const [counter] = await tx.$queryRaw<{ value: bigint }[]>`

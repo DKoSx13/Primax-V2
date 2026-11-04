@@ -8,10 +8,14 @@ export class AlertsService {
 
   async checkPlate(plateInput: string, code: string, operationId: string) {
     const plate = normalizePlate(plateInput) as string;
-    const membership = await this.db.membership.findUnique({
+    let membership = await this.db.membership.findUnique({
       where: { number: code.trim().toUpperCase() },
       include: { vehicles: true, user: { select: { name: true } } },
     });
+    if (!membership) {
+      const alias=await this.db.membershipCodeAlias.findUnique({where:{code:code.trim().toUpperCase()},include:{membership:{include:{vehicles:true,user:{select:{name:true}}}}}});
+      membership=alias?.membership??null;
+    }
     // A typo in an unknown membership is not evidence of a plate mismatch.
     if (!membership || membership.vehicles.some((v) => v.plate === plate))
       return { mismatch: false };

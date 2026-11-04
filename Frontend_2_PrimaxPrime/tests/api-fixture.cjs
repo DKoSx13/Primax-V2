@@ -9,7 +9,7 @@ exports.installApi=async context=>{
    if((body.identifier??body.email)!=='demo@primaxprime.pe'||body.password!=='FixtureOnly123'){status=401;data={message:'Incorrecto'};}
    else data={accessToken:'fixture-jwt',expiresIn:3600,user:{id:'fixture-user',name:'Diego'}};
   }else if(url.pathname.endsWith('/memberships/me/profile')){profile={...profile,...body};data=profile;}
-  else if(url.pathname.endsWith('/memberships/me'))data={...profile,user:{name:'Diego'},number:'PRIME-0001',status:'ACTIVE',points,vehicles:[{plate:'ABC-123',label:'Mi auto'},{plate:'DEF-456',label:'Auto familiar'}]};
+  else if(url.pathname.endsWith('/memberships/me'))data={...profile,user:{name:'Diego'},number:'PRIME-001',status:'ACTIVE',points,vehicles:[{plate:'ABC-123',label:'Mi auto'},{plate:'DEF-456',label:'Auto familiar'}]};
   else if(url.pathname.endsWith('/wallet'))data={balance:String(balance),available:String(balance),reserved:'0.00',total:String(balance),movements};
   else if(url.pathname.endsWith('/recharges')){balance+=Number(body.amount);const movement={id:body.operationId,kind:'RECHARGE',amount:body.amount,createdAt:new Date().toISOString()};movements.unshift(movement);data={movement,balance:String(balance),replayed:false};}
   else if(url.pathname.endsWith('/transactions'))data=[{id:'fixture-tx',amount:'100.00',pointsEarned:11,createdAt:'2026-10-09T00:00:00Z',vehicle:{plate:'ABC-123'},station:{name:'Primax Sur'},status:'PAID'}];
