@@ -33,7 +33,7 @@ export async function recordPaymentIssue(
       context: {
         method: payment?.method ?? null,
         paymentStatus: payment?.status ?? null,
-        supervisorUserId: actorUserId ?? null,
+        actorUserId: actorUserId ?? null,
       },
     },
     update: {},

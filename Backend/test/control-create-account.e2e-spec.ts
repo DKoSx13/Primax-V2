@@ -25,11 +25,9 @@ suite('POST /api/v1/control/accounts on isolated PostgreSQL', () => {
   let rootToken: string;
   let adminToken: string;
   let encargadoToken: string;
-  let supervisorToken: string;
   const rootId = randomUUID();
   const stationId = randomUUID();
   const inactiveStationId = randomUUID();
-  const supervisorId = randomUUID();
   const tag = randomUUID().slice(0, 8);
   const password = 'LocalControlTest!123';
   const permissions = ['ADMIN_CONTROL_ACCESS', 'ADMIN_DASHBOARD_VIEW', 'ADMIN_INCIDENT_VIEW'];
@@ -69,16 +67,13 @@ suite('POST /api/v1/control/accounts on isolated PostgreSQL', () => {
     const passwordHash = await hash(password, 4);
     await db.user.createMany({ data: [
       { id: rootId, email: `root-${tag}@primax.test`, name: 'Root local', passwordHash },
-      { id: supervisorId, email: `supervisor-${tag}@primax.test`, name: 'Supervisor local', passwordHash },
     ] });
     await db.userPermissionGrant.create({ data: { userId: rootId, permission: 'SYSTEM_ADMIN', reason: 'Local integration fixture' } });
     await db.station.createMany({ data: [
       { id: stationId, code: `IT-${tag}`, name: 'Primax local', address: 'Local only', active: true },
       { id: inactiveStationId, code: `IX-${tag}`, name: 'Inactive local', address: 'Local only', active: false },
     ] });
-    await db.supervisorStationAssignment.create({ data: { userId: supervisorId, stationId, reason: 'Local integration fixture' } });
     rootToken = await sign(rootId);
-    supervisorToken = await sign(supervisorId);
   });
 
   afterAll(async () => {
@@ -124,13 +119,14 @@ suite('POST /api/v1/control/accounts on isolated PostgreSQL', () => {
   it('rejects duplicate email, SUPER_ADMIN, inactive or missing station, and missing base grants', async () => {
     await post(rootToken, payload('ADMIN', `admin-${tag}@primax.test`)).expect(409);
     await post(rootToken, payload('SUPER_ADMIN', `super-${tag}@primax.test`)).expect(400);
+    await post(rootToken, payload('SUPERVISOR', `invalid-${tag}@primax.test`)).expect(400);
     await post(rootToken, { ...payload('ADMIN', `inactive-${tag}@primax.test`), stationIds: [inactiveStationId] }).expect(400);
     await post(rootToken, { ...payload('ADMIN', `missing-${tag}@primax.test`), stationIds: [randomUUID()] }).expect(400);
     await post(rootToken, { ...payload('ADMIN', `nogrant-${tag}@primax.test`), permissions: ['ADMIN_CONTROL_ACCESS'] }).expect(400);
   });
 
-  it.each(['ADMIN', 'ENCARGADO', 'SUPERVISOR'])('denies actor %s', async (role) => {
-    const token = role === 'ADMIN' ? adminToken : role === 'ENCARGADO' ? encargadoToken : supervisorToken;
+  it.each(['ADMIN', 'ENCARGADO'])('denies actor %s', async (role) => {
+    const token = role === 'ADMIN' ? adminToken : encargadoToken;
     await post(token, payload('ADMIN', `denied-${role.toLowerCase()}-${tag}@primax.test`)).expect(403);
   });
 

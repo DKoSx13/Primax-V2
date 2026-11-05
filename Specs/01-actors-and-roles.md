@@ -1,20 +1,12 @@
 # 01 — Actores y roles
 
-## Principio de responsabilidades
+Primax Control admite tres perfiles humanos visibles: **Administrador del sistema**, **Administrador** y **Encargado**. El primero usa `SYSTEM_ADMIN` y `SUPER_ADMIN` internamente; los otros usan `ADMIN` y `ENCARGADO`. Cliente Prime es externo a Control.
 
-**Supervisor opera y asiste. Admin administra. SuperAdmin gobierna.** Los roles permanecen separados, aunque una misma cuenta puede acumular más de un rol o grant cuando sea necesario. La asignación de roles, grants y alcance requiere autorización del Backend en cada operación protegida.
-
-| Actor | Alcance y responsabilidad conceptual |
+| Perfil | Alcance |
 | --- | --- |
-| Cliente | Usa FuelFlow para abastecimiento autoservicio y Primax Prime para cuenta, vehículos, membresía e historial. En FuelFlow completa normalmente la operación sin intervención del Supervisor y puede solicitar asistencia. |
-| SUPERVISOR | Trabajador operativo de una estación: abre/cierra turno, inicia y prepara la estación, deja FuelFlow listo, consulta estado operativo, terminal y surtidor asignados, atiende solicitudes e incidencias. No recibe permisos administrativos por asistir. |
-| ADMIN | Administra una o varias estaciones dentro de su alcance: terminales y surtidores, bloqueo/desbloqueo de terminales, Supervisores, operaciones, inventario según permisos, incidencias, solicitudes administrativas y auditoría de sus estaciones. |
-| SUPER_ADMIN | Gobierno de alcance global: administra todas las estaciones, Admins, roles/grants, asignaciones de estación, accesos globales, auditoría global y configuración global. |
+| Administrador del sistema | Todas las estaciones y permisos de Control; crea cuentas y asigna grants y estaciones. |
+| Administrador | Estaciones asignadas y grants activos. Puede gestionar terminales e incidencias si tiene los grants respectivos. |
+| Encargado | Estaciones asignadas y grants activos. Puede habilitar y suspender terminales con `ADMIN_TERMINAL_MANAGE`, y atender asistencia con `ADMIN_INCIDENT_MANAGE`. |
+| Cliente Prime | Usa Primax Prime y FuelFlow; no ingresa a Primax Control. |
 
-## Flujo operativo del Supervisor
-
-`Login → Abrir turno → Iniciar estación → FuelFlow listo`
-
-El Supervisor puede cerrar turno y consultar operaciones activas que requieran atención. Pairing, CSRF, HMAC, cookies, credenciales y sesiones técnicas son procesos internos; no forman parte del flujo visible del trabajador.
-
-La autorización efectiva siempre corresponde al Backend, que valida rol, grant y alcance en cada operación protegida. La interfaz no constituye una barrera de autorización. Esta página no establece un modelo de datos nuevo.
+El Backend valida cuenta aprobada, grant y alcance en cada ruta protegida. La interfaz refleja esos permisos. La operación de FuelFlow no requiere sesión de un empleado.

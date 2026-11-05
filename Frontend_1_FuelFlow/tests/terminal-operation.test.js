@@ -20,7 +20,7 @@ test('starts with the persisted operationId and recovers it after refresh', asyn
 test('requires a prepared terminal before creating a new operation', async () => {
   let started = false;
   const terminal = { me: async () => ({ canStart: false }), operation: async () => { throw Object.assign(Error('missing'), { status: 404 }); }, start: async () => { started = true; } };
-  await assert.rejects(ensureTerminalOperation({ terminal, transactions: { begin: () => ({ operationId: id }) } }), /no está disponible/);
+  await assert.rejects(ensureTerminalOperation({ terminal, transactions: { begin: () => ({ operationId: id }) } }), /temporalmente no disponible/);
   assert.equal(started, false);
 });
 test('closed persisted operation is discarded and a fresh operation starts; active operation is retained', async () => {

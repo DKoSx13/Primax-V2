@@ -75,24 +75,19 @@ test('session tokens stay in host-only secure cookies and are stripped from JSON
   assert(!response.headers['set-cookie'].includes('Domain='));
 });
 
-test('Control handoff accepts only a same-origin one-time ticket and keeps technical secrets in HttpOnly cookies', async () => {
+test('terminal bootstrap keeps technical credentials in HttpOnly cookies', async () => {
   const calls = [];
-  const ticket = 't'.repeat(43);
   const terminalId = '33333333-3333-4333-8333-333333333333';
-  const result = await invoke('/api/v1/kiosk/session/control-handoff', {
-    method: 'POST', body: { ticket }, headers: { cookie: '', 'x-csrf-token': '' },
+  const result = await invoke('/api/kiosk/terminal-bootstrap', {
+    method: 'POST', body: {},
     fetcher: backend(calls, () => Response.json({ authenticated: true, token, ttl: 1800, csrfToken: csrf, expiresAt: Date.now() + 1800000, stationId, terminalId, terminalToken: 'a'.repeat(64) })),
   });
   assert.equal(result.statusCode, 200);
-  assert.deepEqual(calls.map(call => call.path), ['/api/v1/kiosk/session/control-handoff']);
-  assert.equal(calls[0].body.ticket, ticket);
-  assert.equal(result.body.prepared, true);
-  assert.equal(result.body.token, undefined);
+  assert.deepEqual(calls.map(call => call.path), ['/api/v1/kiosk/session/terminal-bootstrap']);
   assert.equal(result.body.terminalToken, undefined);
   assert.equal(result.headers['set-cookie'].length, 3);
   assert(result.headers['set-cookie'][1].includes('HttpOnly'));
-  assert(result.headers['set-cookie'][1].includes('Secure'));
-  const denied = await invoke('/api/v1/kiosk/session/control-handoff', { method: 'POST', body: { ticket }, headers: { origin: 'https://evil.example' }, fetcher: async () => { throw Error('must not forward'); } });
+  const denied = await invoke('/api/kiosk/terminal-bootstrap', { method: 'POST', body: {}, headers: { origin: 'https://evil.example' }, fetcher: async () => { throw Error('must not forward'); } });
   assert.equal(denied.statusCode, 403);
 });
 test('loopback Compose mode uses an HttpOnly local cookie and a private backend origin', async () => {
@@ -131,20 +126,7 @@ test('route policy is identical in the independent backend and gateway packages'
       assert.equal(kioskRoute(method, '/api/v1/' + path), backendPolicy(method, '/api/v1/' + path), method + ' ' + path);
   assert(kioskRoute('POST', '/api/v1/authorizations'));
 });
-test('pairs through signed supervisor request and keeps technical credential out of JSON', async () => {
-  const id = '33333333-3333-4333-8333-333333333333';
-  const secret = 'a'.repeat(64), calls = [];
-  const result = await invoke(`/api/v1/supervisor/terminals/${id}/pair`, {
-    method: 'POST', body: {}, headers: { authorization: 'Bearer supervisor.jwt.token' },
-    fetcher: backend(calls, () => Response.json({ token: secret, terminalId: id, expiresAt: '2030-01-01T00:00:00Z' })),
-  });
-  assert.equal(result.statusCode, 200);
-  assert.equal(result.body.token, undefined);
-  assert.equal(calls[0].options.headers.authorization, 'Bearer supervisor.jwt.token');
-  assert(result.headers['set-cookie'][0].includes('HttpOnly'));
-  assert(result.headers['set-cookie'][0].includes(secret));
-});
-test('terminal writes require technical cookie and matching CSRF without supervisor JWT', async () => {
+test('terminal writes require technical cookie and matching CSRF without a human JWT', async () => {
   const id = '33333333-3333-4333-8333-333333333333';
   const technical = 'b'.repeat(64), technicalCsrf = 't'.repeat(43);
   const cookie = `__Host-primax-terminal=${technical}; __Host-primax-terminal-csrf=${technicalCsrf}`;
@@ -201,54 +183,14 @@ test('INICIAR nested Vercel Functions use the signed BFF and preserve operationI
   const mismatchedId = await invoke(`/api/v1/terminal/operations/${id}?id=other`, { headers: { cookie }, fetcher: async () => { throw Error('upstream must not run'); } });
   assert.equal(mismatchedId.statusCode, 403);
 });
-test('local pairing consumes the credential into an HttpOnly cookie and exposes only CSRF state', async () => {
-  const id = '33333333-3333-4333-8333-333333333333', technical = 'd'.repeat(64);
-  const localEnv = { ...env, FUELFLOW_PUBLIC_ORIGIN: 'http://127.0.0.1:26081', BACKEND_ORIGIN: 'http://backend:3000', FUELFLOW_LOCAL_HTTP: 'true' };
-  const result = await invoke(`/api/v1/supervisor/terminals/${id}/pair`, {
-    method: 'POST', body: {}, gatewayEnv: localEnv,
-    headers: { origin: localEnv.FUELFLOW_PUBLIC_ORIGIN, authorization: 'Bearer supervisor.jwt.token', cookie: 'primax-kiosk-local=' + token },
-    fetcher: async () => Response.json({ token: technical, terminalId: id, expiresAt: '2030-01-01T00:00:00Z' }),
-  });
-  assert.equal(result.statusCode, 200);
-  assert.equal(result.body.token, undefined);
-  assert.equal(result.body.terminalId, undefined);
-  assert.match(result.headers['set-cookie'][0], /^primax-terminal-local=/);
-  assert.match(result.headers['set-cookie'][0], /HttpOnly/);
-  assert.doesNotMatch(result.headers['set-cookie'][0], /Secure/);
-  assert.match(result.headers['set-cookie'][1], /^primax-terminal-csrf-local=/);
-  assert.doesNotMatch(result.headers['set-cookie'][1], /HttpOnly/);
-});
-test('existing credential requires rotation; rotation installs a new local browser cookie', async () => {
-  const id = '33333333-3333-4333-8333-333333333333', technical = 'e'.repeat(64);
-  const localEnv = { ...env, FUELFLOW_PUBLIC_ORIGIN: 'http://127.0.0.1:26081', BACKEND_ORIGIN: 'http://backend:3000', FUELFLOW_LOCAL_HTTP: 'true' };
-  const headers = { origin: localEnv.FUELFLOW_PUBLIC_ORIGIN, authorization: 'Bearer supervisor.jwt.token', cookie: 'primax-kiosk-local=' + token };
-  const conflict = await invoke(`/api/v1/supervisor/terminals/${id}/pair`, {
-    method: 'POST', body: {}, gatewayEnv: localEnv, headers,
-    fetcher: async () => Response.json({ message: 'La terminal ya tiene sesión; usa rotación' }, { status: 409 }),
-  });
-  assert.equal(conflict.statusCode, 409);
-  assert.equal(conflict.headers['set-cookie'], undefined);
-  const rotated = await invoke(`/api/v1/supervisor/terminals/${id}/rotate`, {
-    method: 'POST', body: {}, gatewayEnv: localEnv, headers,
-    fetcher: async () => Response.json({ token: technical, terminalId: id, expiresAt: '2030-01-01T00:00:00Z' }),
-  });
-  assert.equal(rotated.statusCode, 200);
-  assert.equal(rotated.body.paired, true);
-  assert.equal(rotated.body.token, undefined);
-  assert.match(rotated.headers['set-cookie'][0], /^primax-terminal-local=/);
-  assert.match(rotated.headers['set-cookie'][0], /Path=\/; HttpOnly; SameSite=Strict/);
-  assert.doesNotMatch(rotated.headers['set-cookie'][0], /Secure|Domain=/);
-  assert.match(rotated.headers['set-cookie'][1], /^primax-terminal-csrf-local=/);
-});
-
 test('assistance creation/read/cancel preserve terminal authentication, CSRF and safe response fields', async () => {
   const id='33333333-3333-4333-8333-333333333333';
   const technical='b'.repeat(64), technicalCsrf='t'.repeat(43);
   const cookie=`__Host-primax-terminal=${technical}; __Host-primax-terminal-csrf=${technicalCsrf}`;
   for (const [method,path] of [['POST','/api/v1/terminal/assistance'],['GET',`/api/v1/terminal/assistance/${id}`],['POST',`/api/v1/terminal/assistance/${id}/cancel`]]) {
     const calls=[];
-    const result=await invoke(path,{method,body:method==='POST'?{requestId:id,reason:'OTRO'}:undefined,headers:{cookie,'x-csrf-token':technicalCsrf},fetcher:backend(calls,()=>Response.json({id,status:'PENDIENTE',token:'secret',assignedSupervisorId:'private'}))});
-    assert.equal(result.statusCode,200);assert.equal(result.body.id,id);assert.equal(result.body.token,undefined);assert.equal(result.body.assignedSupervisorId,undefined);
+    const result=await invoke(path,{method,body:method==='POST'?{requestId:id,reason:'OTRO'}:undefined,headers:{cookie,'x-csrf-token':technicalCsrf},fetcher:backend(calls,()=>Response.json({id,status:'PENDIENTE',token:'secret',assignedStaffId:'private'}))});
+    assert.equal(result.statusCode,200);assert.equal(result.body.id,id);assert.equal(result.body.token,undefined);assert.equal(result.body.assignedStaffId,undefined);
     assert.equal(calls[0].options.headers['x-terminal-session'],technical);
     assert.equal(calls[0].options.headers.authorization,'');
     if(method==='POST') {

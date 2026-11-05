@@ -31,7 +31,7 @@ La separación de proyectos/root-directory de Vercel sigue su documentación ofi
 
 ## Validación pública pendiente
 
-Una vez autenticados y creados los recursos: registrar URLs/IDs y commits desplegados; comprobar health/API/OCR; login Supervisor/Admin/SuperAdmin; station scope e intentos fuera de alcance; turno e inicio desde Control; consumo/replay/revocación del ticket; FuelFlow con asistencia y cancelación; pagos demo sin efectivo con reintento/reselección; membresía PRIME; comprobantes y cierre sin imprimir. Las pruebas destructivas, carreras y regresión E2E siguen exclusivamente locales. No ejecutar `migrate reset`, seed histórico, eliminación masiva ni tests de fixture sobre staging.
+Una vez autenticados y creados los recursos: registrar URLs/IDs y commits desplegados; comprobar health/API/OCR; login de Administrador del sistema, Administrador y Encargado; grants, alcance de estación e intentos fuera de alcance; habilitación y suspensión de terminal desde Control; sesión técnica automática de FuelFlow, consumo y reintentos; asistencia y cancelación; pagos demo sin efectivo con reintento/reselección; membresía PRIME; comprobantes y cierre sin imprimir. Las pruebas destructivas, carreras y regresión E2E siguen exclusivamente locales. No ejecutar `migrate reset`, seed histórico, eliminación masiva ni tests de fixture sobre staging.
 
 PrintAgent físico funciona solo en instalación local de origen permitido. No se promete impresión desde HTTPS público mientras no exista un transporte seguro compatible con sus restricciones actuales. La PeriPage A6 requerida no está instalada en este equipo; no se reemplazó por Epson, PDF ni impresión del navegador. Staging no se rotula validado antes de resolver este punto y probar la infraestructura real.
 

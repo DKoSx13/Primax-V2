@@ -35,7 +35,7 @@ import { ControlService } from './control.service';
 class AccessRequestDto {
   @IsEmail() @MaxLength(254) email: string;
   @IsString() @MinLength(1) @MaxLength(80) name: string;
-  @IsString() @MinLength(10) @MaxLength(72) password: string;
+  @IsString() @MinLength(8) @MaxLength(72) password: string;
   @IsIn(['ADMIN', 'ENCARGADO']) role: AdminControlRole;
 }
 class VerifyDto {
@@ -58,23 +58,13 @@ class ApprovalDto {
 class CreateAdministrativeAccountDto {
   @IsString() @MinLength(2) @MaxLength(80) name: string;
   @IsEmail() @MaxLength(254) email: string;
-  @IsString() @MinLength(10) @MaxLength(72) password: string;
+  @IsString() @MinLength(8) @MaxLength(72) password: string;
   @IsIn(['ADMIN', 'ENCARGADO']) role: AdminControlRole;
   @IsArray() @IsEnum(AdminControlPermission, { each: true }) permissions: AdminControlPermission[];
   @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
 }
 class StatusDto {
   @IsString() @MinLength(3) @MaxLength(300) reason: string;
-}
-class CreateSupervisorDto {
-  @IsString() @MinLength(2) @MaxLength(80) name: string;
-  @IsEmail() @MaxLength(254) email: string;
-  @IsString() @MinLength(12) @MaxLength(72) password: string;
-  @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
-}
-class AssignExistingSupervisorDto {
-  @IsEmail() @MaxLength(254) email: string;
-  @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
 }
 class IncidentStatusDto {
   @IsEnum(OperationalIncidentStatus) status: OperationalIncidentStatus;
@@ -164,15 +154,6 @@ export class ControlController {
   @Post('accounts') @SetMetadata('access', 'control') @HttpCode(201)
   createAccount(@CurrentActor() actor: Actor, @Body() dto: CreateAdministrativeAccountDto) {
     return this.service.createAdministrativeAccount(actor as Extract<Actor, { kind: 'control' }>, dto);
-  }
-  @Get('supervisors') @SetMetadata('access', 'control') supervisors(@CurrentActor() actor: Actor) {
-    return this.service.supervisors(actor as Extract<Actor, { kind: 'control' }>);
-  }
-  @Post('supervisors') @SetMetadata('access', 'control') createSupervisor(@CurrentActor() actor: Actor, @Body() dto: CreateSupervisorDto) {
-    return this.service.createSupervisor(actor as Extract<Actor, { kind: 'control' }>, dto);
-  }
-  @Post('supervisors/assign') @SetMetadata('access', 'control') assignExistingSupervisor(@CurrentActor() actor: Actor, @Body() dto: AssignExistingSupervisorDto) {
-    return this.service.assignExistingSupervisor(actor as Extract<Actor, { kind: 'control' }>, dto.email, dto.stationIds);
   }
   @Post('accounts/:userId/approve') @SetMetadata('access', 'control') approve(
     @CurrentActor() actor: Actor,

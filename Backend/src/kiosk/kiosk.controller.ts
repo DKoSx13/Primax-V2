@@ -1,17 +1,16 @@
-import { Body, Controller, Get, Post, Req, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import {
   IsIn,
   IsObject,
   IsOptional,
   IsString,
+  IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
 import { Request } from 'express';
 import { Public } from '../auth/access';
 import { KioskService } from './kiosk.service';
-import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from '../prisma/prisma.service';
 
 class OperatorLogin {
   @IsString() @MinLength(1) @MaxLength(80) username: string;
@@ -22,27 +21,21 @@ class TargetOperation {
   @IsString() @MaxLength(200) path: string;
   @IsOptional() @IsObject() body?: Record<string, unknown>;
 }
+class TerminalBootstrapDto {
+  @IsOptional() @IsUUID() terminalId?: string;
+}
 @Public()
 @Controller('kiosk/session')
 export class KioskController {
-  constructor(private readonly service: KioskService, private readonly jwt: JwtService, private readonly db: PrismaService) {}
+  constructor(private readonly service: KioskService) {}
   @Get() status(@Req() req: Request) {
     return this.service.status(req);
   }
   @Post('login') login(@Req() req: Request, @Body() body: OperatorLogin) {
     return this.service.login(req, body);
   }
-  @Post('supervisor-bootstrap') async supervisorBootstrap(@Req() req: Request) {
-    this.service.verifyGateway(req);
-    const bearer = req.header('authorization')?.match(/^Bearer (\S+)$/i)?.[1];
-    if (!bearer) throw new UnauthorizedException('Supervisor requerido');
-    let payload: { sub?: string; ver?: number };
-    try { payload = await this.jwt.verifyAsync(bearer); }
-    catch { throw new UnauthorizedException('Supervisor no autenticado'); }
-    if (!payload.sub) throw new UnauthorizedException('Supervisor no autenticado');
-    const user = await this.db.user.findUnique({ where: { id: payload.sub } });
-    if (!user?.active || user.authVersion !== payload.ver) throw new UnauthorizedException('Supervisor no autenticado');
-    return this.service.bootstrapSupervisor(req, user.id);
+  @Post('terminal-bootstrap') terminalBootstrap(@Req() req: Request, @Body() body: TerminalBootstrapDto) {
+    return this.service.bootstrapTerminal(req, body.terminalId);
   }
   @Post('logout') logout(@Req() req: Request) {
     return this.service.logout(req);

@@ -16,6 +16,7 @@ import {
   VerifyResetCodeDto,
   ResetPasswordDto,
 } from './password-reset.dto';
+import { PRIME_PASSWORD_PATTERN } from './register.dto';
 
 @Injectable()
 export class PasswordResetService {
@@ -126,7 +127,6 @@ export class PasswordResetService {
   }
   async reset(dto: ResetPasswordDto) {
     const tokenHash = createHash('sha256').update(dto.resetToken).digest('hex');
-    const passwordHash = await hash(dto.password, 12);
     const accepted = await this.db.atomic(async (tx) => {
       const row = await tx.passwordReset.findUnique({
         where: { tokenHash },
@@ -140,6 +140,13 @@ export class PasswordResetService {
         row.expiresAt.getTime() <= Date.now()
       )
         return false;
+      const [controlAccount, systemGrant] = await Promise.all([
+        tx.adminControlAccount.findUnique({ where: { userId: row.userId }, select: { id: true } }),
+        tx.userPermissionGrant.findFirst({ where: { userId: row.userId, permission: 'SYSTEM_ADMIN' }, select: { id: true } }),
+      ]);
+      if (!controlAccount && !systemGrant && !PRIME_PASSWORD_PATTERN.test(dto.password))
+        throw new BadRequestException('La contraseña Prime requiere mayúscula, minúscula, número y carácter especial');
+      const passwordHash = await hash(dto.password, 12);
       await tx.user.update({
         where: { id: row.userId },
         data: { passwordHash, authVersion: { increment: 1 } },

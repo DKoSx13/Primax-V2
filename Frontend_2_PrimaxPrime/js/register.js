@@ -5,8 +5,8 @@ export function registerView() {
     <form id="register-form">
       <label for="register-name">Nombre</label><input id="register-name" name="name" autocomplete="name" maxlength="80" required>
       <label for="register-email">Correo</label><input id="register-email" name="email" type="email" inputmode="email" autocomplete="username" maxlength="254" autocapitalize="none" spellcheck="false" required>
-      <label for="register-password">Contraseña</label><div class="password-field"><input id="register-password" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="72" aria-describedby="password-help" required><button type="button" class="password-toggle" data-toggle-password aria-controls="register-password" aria-pressed="false">Mostrar</button></div>
-      <p id="password-help" class="fine-print">Usa al menos 10 caracteres. Máximo 72 bytes.</p>
+      <label for="register-password">Contraseña</label><div class="password-field"><input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="72" aria-describedby="password-help" required><button type="button" class="password-toggle" data-toggle-password aria-controls="register-password" aria-pressed="false">Mostrar</button></div>
+      <p id="password-help" class="fine-print">Usa al menos 8 caracteres, mayúscula, minúscula, número y carácter especial. Máximo 72 bytes.</p>
       <label for="document-type">Tipo de documento (opcional)</label><select id="document-type" data-document-type><option value="dni">DNI</option><option value="passport">Pasaporte</option></select>
       <div data-identity="dni"><label for="register-dni">DNI</label><input id="register-dni" name="dni" inputmode="numeric" pattern="[0-9]{8}" maxlength="8"></div>
       <div data-identity="passport" hidden><label for="register-passport">Pasaporte</label><input id="register-passport" name="passport" pattern="[A-Za-z0-9]{5,20}" maxlength="20" autocapitalize="characters" disabled></div>

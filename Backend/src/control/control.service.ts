@@ -40,10 +40,12 @@ export class ControlService {
     password: string;
     role: AdminControlRole;
   }) {
-    if (input.role === 'SUPER_ADMIN')
+    if (input.role !== 'ADMIN' && input.role !== 'ENCARGADO')
       throw new ForbiddenException(
-        'SUPER_ADMIN se asigna mediante SYSTEM_ADMIN',
+        'Solo se pueden solicitar cuentas ADMIN o ENCARGADO',
       );
+    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 8)
+      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres y máximo 72 bytes');
     if (this.delivery.mode !== 'smtp')
       throw new ServiceUnavailableException('La solicitud por correo no está disponible. Solicita al administrador el alta supervisada.');
     const email = input.email.trim().toLowerCase();
@@ -154,16 +156,10 @@ export class ControlService {
     const account = await this.db.adminControlAccount.findUnique({
       where: { userId: user.id },
     });
-    const supervisor = await this.db.supervisorStationAssignment.findFirst({
-      where: { userId: user.id, endedAt: null, station: { active: true } },
-    });
     const administrativeAccess = Boolean(systemAdmin || account?.status === 'APPROVED' && account.emailVerifiedAt && await this.db.adminControlGrant.findFirst({
       where: { userId: user.id, permission: 'ADMIN_CONTROL_ACCESS', revokedAt: null },
     }));
-    if (
-      !administrativeAccess &&
-      !supervisor
-    )
+    if (!administrativeAccess)
       throw new ForbiddenException('Acceso a Primax Control no autorizado');
     const token = await this.jwt.signAsync(
       { sub: user.id, ver: user.authVersion },
@@ -194,10 +190,6 @@ export class ControlService {
     const grants = await this.db.adminControlGrant.findMany({
       where: { userId, revokedAt: null },
     });
-    const supervisorAssignments = await this.db.supervisorStationAssignment.findMany({
-      where: { userId, endedAt: null, station: { active: true } },
-      include: { station: { select: { id: true, code: true, name: true } } },
-    });
     const root = Boolean(
       await this.db.userPermissionGrant.findFirst({
         where: { userId, permission: 'SYSTEM_ADMIN', revokedAt: null },
@@ -207,8 +199,8 @@ export class ControlService {
     const permissions = root ? ALL_PERMISSIONS : adminAccess ? grants.map((x) => x.permission) : [];
     return {
       user,
-      role: root ? 'SUPER_ADMIN' : adminAccess ? account!.role : 'SUPERVISOR',
-      roles: [...(root ? ['SUPER_ADMIN'] : adminAccess ? [account!.role] : []), ...(supervisorAssignments.length ? ['SUPERVISOR'] : [])],
+      role: root ? 'SUPER_ADMIN' : account!.role,
+      roles: root ? ['SUPER_ADMIN'] : [account!.role],
       permissions,
       global: root,
       stations: root
@@ -218,52 +210,12 @@ export class ControlService {
             orderBy: { name: 'asc' },
           })
         : adminAccess ? (account?.stations.map((x) => x.station) ?? []) : [],
-      supervisorStations: supervisorAssignments.map((x) => x.station),
     };
   }
 
   private async assertGlobal(actor: ControlActor) {
     if (!actor.global || actor.role !== 'SUPER_ADMIN')
       throw new ForbiddenException('Solo SUPER_ADMIN puede aprobar cuentas');
-  }
-  private async assertSupervisorScope(actor: ControlActor, stationIds: string[]) {
-    if (!actor.permissions.includes('ADMIN_USER_MANAGE')) throw new ForbiddenException('Permiso administrativo insuficiente');
-    if (!stationIds.length || stationIds.some((id) => !actor.global && !actor.stationIds.includes(id)))
-      throw new ForbiddenException('Estación fuera del alcance autorizado');
-    const stations = await this.db.station.findMany({ where: { id: { in: stationIds }, active: true }, select: { id: true } });
-    if (stations.length !== stationIds.length) throw new BadRequestException('Estación inválida');
-  }
-  async createSupervisor(actor: ControlActor, input: { name: string; email: string; password: string; stationIds: string[] }) {
-    const email = input.email.trim().toLowerCase();
-    const stationIds = [...new Set(input.stationIds)];
-    await this.assertSupervisorScope(actor, stationIds);
-    if (await this.db.user.findUnique({ where: { email } })) throw new ConflictException('Ya existe una cuenta con ese correo');
-    return this.db.atomic(async tx => {
-      const user = await tx.user.create({ data: { name: input.name.trim(), email, passwordHash: await hash(input.password, 12) } });
-      for (const stationId of stationIds) await tx.supervisorStationAssignment.create({ data: { userId: user.id, stationId, grantedByUserId: actor.userId, reason: 'Alta de Supervisor desde Primax Control' } });
-      return { id: user.id, name: user.name, email: user.email, stationIds };
-    });
-  }
-  async supervisors(actor: ControlActor) {
-    if (!actor.permissions.includes('ADMIN_USER_MANAGE')) throw new ForbiddenException('Permiso administrativo insuficiente');
-    return this.db.supervisorStationAssignment.findMany({ where: { endedAt: null, ...(actor.global ? {} : { stationId: { in: actor.stationIds } }) }, include: { user: { select: { id: true, name: true, email: true, active: true } }, station: { select: { id: true, name: true, code: true } } }, orderBy: { assignedAt: 'desc' } });
-  }
-  async assignExistingSupervisor(actor: ControlActor, email: string, stationIds: string[]) {
-    const unique = [...new Set(stationIds)];
-    await this.assertSupervisorScope(actor, unique);
-    const user = await this.db.user.findUnique({ where: { email: email.trim().toLowerCase() }, select: { id: true, active: true } });
-    if (!user?.active) throw new NotFoundException('Usuario activo no encontrado');
-    const userId = user.id;
-    if (!actor.global && (await this.db.adminControlAccount.findUnique({ where: { userId } }) || await this.db.userPermissionGrant.findFirst({ where: { userId, permission: 'SYSTEM_ADMIN', revokedAt: null } })))
-      throw new ForbiddenException('Solo SUPER_ADMIN puede cambiar los roles de una cuenta administrativa');
-    return this.db.atomic(async (tx) => {
-      const assigned = [];
-      for (const stationId of unique) {
-        if (await tx.supervisorStationAssignment.findFirst({ where: { userId, stationId, endedAt: null } })) continue;
-        assigned.push(await tx.supervisorStationAssignment.create({ data: { userId, stationId, grantedByUserId: actor.userId, reason: 'Asignación de Supervisor desde Primax Control' } }));
-      }
-      return { userId, stationIds: unique, assignmentsCreated: assigned.length };
-    });
   }
   async createAdministrativeAccount(actor: ControlActor, input: {
     name: string;
@@ -280,8 +232,8 @@ export class ControlService {
     if (!systemAdmin) throw new ForbiddenException('Se requiere permiso de Administrador del sistema');
     if (input.role !== 'ADMIN' && input.role !== 'ENCARGADO')
       throw new ForbiddenException('Solo se pueden crear cuentas ADMIN o ENCARGADO');
-    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 10)
-      throw new BadRequestException('La contraseña debe tener entre 10 caracteres y 72 bytes');
+    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 8)
+      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres y máximo 72 bytes');
     const name = input.name.trim();
     const email = input.email.trim().toLowerCase();
     if (!name || !email) throw new BadRequestException('Nombre y correo son obligatorios');

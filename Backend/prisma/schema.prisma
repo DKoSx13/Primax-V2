@@ -222,6 +222,7 @@ model User {
   supervisorShifts SupervisorShift[]
   pumpAssignments TerminalPumpAssignment[]
   terminalEnablements TerminalEnablement[]
+  terminalStatusChanges Terminal[]
   operationalAuditEvents OperationalAuditEvent[]
   resolvedOperationalIncidents OperationalIncident[] @relation("IncidentResolver")
   createdAt    DateTime    @default(now()) @db.Timestamptz(3)
@@ -550,6 +551,10 @@ model Terminal {
   code String @db.VarChar(30)
   lifecycle TerminalLifecycle @default(REGISTRADA)
   operationalStatus TerminalOperationalStatus @default(BLOQUEADA)
+  suspensionReason String? @db.VarChar(500)
+  statusChangedByUserId String? @db.Uuid
+  statusChangedBy User? @relation(fields: [statusChangedByUserId], references: [id], onDelete: Restrict)
+  statusChangedAt DateTime? @db.Timestamptz(3)
   statusVersion Int @default(0)
   registeredAt DateTime @default(now()) @db.Timestamptz(3)
   revokedAt DateTime? @db.Timestamptz(3)
@@ -659,8 +664,8 @@ model TerminalOperation {
   terminal Terminal @relation(fields: [terminalId], references: [id], onDelete: Restrict)
   terminalPumpAssignmentId String @db.Uuid
   terminalPumpAssignment TerminalPumpAssignment @relation(fields: [terminalPumpAssignmentId], references: [id], onDelete: Restrict)
-  enablementId String @db.Uuid
-  enablement TerminalEnablement @relation(fields: [enablementId], references: [id], onDelete: Restrict)
+  enablementId String? @db.Uuid
+  enablement TerminalEnablement? @relation(fields: [enablementId], references: [id], onDelete: Restrict)
   status TerminalOperationStatus @default(ACTIVE)
   openedAt DateTime @default(now()) @db.Timestamptz(3)
   closedAt DateTime? @db.Timestamptz(3)
@@ -1050,8 +1055,8 @@ model AssistanceRequest {
   plate String? @db.VarChar(7)
   reason AssistanceReason
   status AssistanceStatus @default(PENDIENTE)
-  assignedSupervisorId String? @db.Uuid
-  assignedSupervisor User? @relation(fields: [assignedSupervisorId], references: [id], onDelete: Restrict)
+  assignedStaffId String? @map("assignedSupervisorId") @db.Uuid
+  assignedStaff User? @relation(fields: [assignedStaffId], references: [id], onDelete: Restrict)
   observation String? @db.VarChar(500)
   result String? @db.VarChar(500)
   acceptedAt DateTime? @db.Timestamptz(3)

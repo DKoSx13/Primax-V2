@@ -3,7 +3,7 @@ import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { OperationsService } from '../src/operations/operations.service';
-import { SupervisorPaymentsService } from '../src/operations/supervisor-payments';
+import { ControlPaymentsService } from '../src/operations/control-payments';
 import { OnlineOrdersService } from '../src/payments/online-orders';
 import { DemoWalletProvider } from '../src/payments/demo-provider';
 import {
@@ -19,8 +19,8 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
   let db: PrismaService,
     ops: OperationsService,
     orders: OnlineOrdersService,
-    recovery: SupervisorPaymentsService;
-  let stationId: string, fuelId: string, userId: string, shiftId: string;
+    recovery: ControlPaymentsService;
+  let stationId: string, fuelId: string, userId: string;
   let actor: Extract<Actor, { kind: 'control' }>;
   const original = {
     APP_MODE: process.env.APP_MODE,
@@ -43,7 +43,7 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
     await db.$connect();
     ops = new OperationsService(db);
     orders = new OnlineOrdersService(db, new DemoWalletProvider(db));
-    recovery = new SupervisorPaymentsService(db, orders, ops);
+    recovery = new ControlPaymentsService(db, orders, ops);
     const suffix = randomUUID().slice(0, 20);
     stationId = (
       await db.station.create({
@@ -63,15 +63,14 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
       await db.user.create({
         data: {
           email: suffix + '@payments.test',
-          name: 'Supervisor',
+          name: 'Encargado',
           passwordHash: 'not-used',
         },
       })
     ).id;
-    await db.supervisorStationAssignment.create({
-      data: { userId, stationId, reason: 'Local payment test' },
-    });
-    shiftId = (await ops.openShift(userId, stationId)).id;
+    const account = await db.adminControlAccount.create({ data: { userId, role: 'ENCARGADO', status: 'APPROVED', emailVerifiedAt: new Date(), approvedAt: new Date() } });
+    await db.adminStationAssignment.create({ data: { userId, accountId: account.id, stationId, reason: 'Local payment test' } });
+    await db.adminControlGrant.create({ data: { userId, permission: 'ADMIN_INCIDENT_MANAGE', reason: 'Local payment test' } });
     await db.fuelInventory.create({
       data: { stationId, fuelId, liters: 100000 },
     });
@@ -82,9 +81,9 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
     actor = {
       kind: 'control',
       userId,
-      role: 'SUPERVISOR',
-      permissions: [],
-      stationIds: [],
+      role: 'ENCARGADO',
+      permissions: ['ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE'],
+      stationIds: [stationId],
       global: false,
     };
   });
@@ -106,7 +105,6 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
     await db.terminalPumpAssignment.create({
       data: { stationId, terminalId: terminal.id, pumpId: pump.id },
     });
-    await ops.enable(userId, terminal.id, shiftId);
     const operationId = randomUUID();
     await ops.startOperation(terminal.id, operationId);
     const authorization = plainToInstance(CreateAuthorizationDto, {
@@ -257,7 +255,7 @@ suite('V2 payments on dedicated local PostgreSQL', () => {
         { kind: 'kiosk', stationId },
       ),
     ).rejects.toThrow();
-    const outsider = { ...actor, userId: randomUUID() };
+    const outsider = { ...actor, userId: randomUUID(), stationIds: [], global: false };
     await expect(recovery.detail(outsider, f.operationId)).rejects.toThrow(
       'fuera',
     );

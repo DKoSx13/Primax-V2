@@ -46,10 +46,17 @@ describe('Alta administrativa directa de Control', () => {
     expect(result).not.toHaveProperty('passwordHash');
   });
 
-  it.each(['ADMIN', 'ENCARGADO', 'SUPERVISOR'])('rechaza al actor %s', async (role) => {
+  it.each(['ADMIN', 'ENCARGADO'])('rechaza al actor %s', async (role) => {
     const { service, db, input } = setup();
     await expect(service.createAdministrativeAccount({ ...root, role, global: false }, input)).rejects.toBeInstanceOf(ForbiddenException);
     expect(db.atomic).not.toHaveBeenCalled();
+  });
+
+  it('acepta Primax123 con bcrypt cost 12 y rechaza menos de 8 caracteres', async () => {
+    const { service, tx, input } = setup();
+    await service.createAdministrativeAccount(root, { ...input, password: 'Primax123' });
+    expect(tx.user.create.mock.calls[0][0].data.passwordHash).toMatch(/^\$2[aby]\$12\$/);
+    await expect(service.createAdministrativeAccount(root, { ...input, password: 'Corta7!' })).rejects.toBeInstanceOf(BadRequestException);
   });
 
   it('requiere el permiso SYSTEM_ADMIN incluso con contexto global', async () => {

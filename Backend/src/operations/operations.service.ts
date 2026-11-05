@@ -6,7 +6,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Prisma, ShiftStatus, TerminalOperationalStatus } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -61,191 +61,20 @@ export class OperationsService {
     });
   }
 
-  async stations(userId: string) {
-    return this.db.supervisorStationAssignment.findMany({
-      where: { userId, endedAt: null, station: { active: true } },
-      select: {
-        stationId: true,
-        station: { select: { code: true, name: true } },
-      },
-    });
-  }
-
   private async assigned(tx: Db, userId: string, stationId: string) {
-    const row = await tx.supervisorStationAssignment.findFirst({
-      where: {
-        userId,
-        stationId,
-        endedAt: null,
-        user: { active: true },
-        station: { active: true },
-      },
+    const system = await tx.userPermissionGrant.findFirst({
+      where: { userId, permission: 'SYSTEM_ADMIN', revokedAt: null },
     });
-    if (!row)
-      throw new ForbiddenException('Supervisor no asignado a esta estación');
-    return row;
-  }
-
-  async openShift(userId: string, stationId: string) {
-    return this.operationalAtomic(async (tx) => {
-      const assignment = await this.assigned(tx, userId, stationId);
-      const shift = await tx.supervisorShift.create({
-        data: {
-          supervisorUserId: userId,
-          stationId,
-          assignmentId: assignment.id,
-        },
-      });
-      await this.audit(
-        tx,
-        'SHIFT_OPENED',
-        userId,
-        stationId,
-        null,
-        shift.id,
-        shift.id,
-      );
-      return shift;
+    if (system) return;
+    const account = await tx.adminControlAccount.findUnique({
+      where: { userId },
+      include: { stations: { where: { endedAt: null, stationId, station: { active: true } } } },
     });
-  }
-
-  async currentShift(userId: string, stationId?: string) {
-    return this.db.supervisorShift.findFirst({
-      where: { supervisorUserId: userId, ...(stationId ? { stationId } : {}), closedAt: null },
-      include: { station: { select: { id: true, code: true, name: true } } },
-      orderBy: { openedAt: 'desc' },
+    const grant = await tx.adminControlGrant.findFirst({
+      where: { userId, permission: 'ADMIN_INCIDENT_MANAGE', revokedAt: null },
     });
-  }
-
-  private async ownedShift(tx: Db, userId: string, id: string) {
-    const shift = await tx.supervisorShift.findUnique({ where: { id } });
-    if (!shift || shift.supervisorUserId !== userId)
-      throw new NotFoundException('Turno no encontrado');
-    await this.assigned(tx, userId, shift.stationId);
-    return shift;
-  }
-
-  async shiftState(
-    userId: string,
-    id: string,
-    action: 'suspend' | 'resume' | 'close',
-  ) {
-    return this.operationalAtomic(async (tx) => {
-      const shift = await this.ownedShift(tx, userId, id);
-      const expected: Record<typeof action, ShiftStatus> = {
-        suspend: 'ABIERTO',
-        resume: 'SUSPENDIDO',
-        close: 'ABIERTO',
-      };
-      if (
-        shift.status !== expected[action] &&
-        !(action === 'close' && shift.status === 'SUSPENDIDO')
-      )
-        throw new ConflictException('Estado de turno incompatible');
-      if (action !== 'close') {
-        const updated = await tx.supervisorShift.update({
-          where: { id },
-          data: {
-            status: action === 'suspend' ? 'SUSPENDIDO' : 'ABIERTO',
-            suspendedAt: action === 'suspend' ? new Date() : null,
-            version: { increment: 1 },
-          },
-        });
-        const enablements = await tx.terminalEnablement.findMany({
-          where: { shiftId: id, disabledAt: null },
-        });
-        for (const enablement of enablements) {
-          const active = await tx.terminalOperation.findFirst({
-            where: { terminalId: enablement.terminalId, closedAt: null },
-          });
-          if (!active)
-            await tx.terminal.update({
-              where: { id: enablement.terminalId },
-              data: {
-                operationalStatus:
-                  action === 'suspend' ? 'BLOQUEADA' : 'DISPONIBLE',
-                statusVersion: { increment: 1 },
-              },
-            });
-        }
-        await this.audit(
-          tx,
-          action === 'suspend' ? 'SHIFT_SUSPENDED' : 'SHIFT_RESUMED',
-          userId,
-          shift.stationId,
-          null,
-          id,
-          id,
-        );
-        return updated;
-      }
-      const now = new Date();
-      const enablements = await tx.terminalEnablement.findMany({
-        where: { shiftId: id, disabledAt: null },
-      });
-      for (const enablement of enablements) {
-        await tx.terminalEnablement.update({
-          where: { id: enablement.id },
-          data: { disabledAt: now, disableReason: 'SHIFT_CLOSED' },
-        });
-        const active = await tx.terminalOperation.findFirst({
-          where: { terminalId: enablement.terminalId, closedAt: null },
-        });
-        if (!active)
-          await tx.terminal.update({
-            where: { id: enablement.terminalId },
-            data: {
-              operationalStatus: 'BLOQUEADA',
-              statusVersion: { increment: 1 },
-            },
-          });
-      }
-      const pending = await tx.terminalOperation.count({
-        where: { enablement: { shiftId: id }, closedAt: null },
-      });
-      const updated = await tx.supervisorShift.update({
-        where: { id },
-        data: {
-          status: pending ? 'CIERRE_PENDIENTE' : 'CERRADO',
-          closeRequestedAt: now,
-          closedAt: pending ? null : now,
-          version: { increment: 1 },
-        },
-      });
-      await this.audit(
-        tx,
-        'SHIFT_CLOSE_REQUESTED',
-        userId,
-        shift.stationId,
-        null,
-        id,
-        id,
-      );
-      return updated;
-    });
-  }
-
-  async terminals(userId: string, stationId: string) {
-    await this.assigned(this.db, userId, stationId);
-    const terminals = await this.db.terminal.findMany({
-      where: { stationId },
-      include: {
-        assignments: { where: { endedAt: null }, include: { pump: true } },
-        enablements: { where: { disabledAt: null } },
-        operations: { where: { closedAt: null } },
-      },
-      orderBy: { code: 'asc' },
-    });
-    return Promise.all(terminals.map(async terminal => ({
-      ...terminal,
-      operations: await Promise.all(terminal.operations.map(async operation => ({
-        ...operation,
-        canCancelWithoutSale: !(await this.db.fuelAuthorization.findFirst({where:{operationId:operation.operationId}})) &&
-          !(await this.db.transaction.findFirst({where:{operationId:operation.operationId}})) &&
-          !(await this.db.inventoryReservation.findFirst({where:{operationId:operation.operationId,status:{in:['PENDING_PAYMENT','ACTIVE','REVIEW']}}})) &&
-          !(await this.db.onlineOrder.findFirst({where:{operationId:operation.operationId,status:{in:['CREATING','PENDING','CAPTURED','REFUNDING']}}})),
-      }))),
-    })));
+    if (account?.status !== 'APPROVED' || !account.emailVerifiedAt || !grant || !account.stations.length)
+      throw new ForbiddenException('Permiso o estación fuera del alcance autorizado');
   }
 
   async cancelUnpaidOperation(userId: string, operationId: string) {
@@ -260,268 +89,11 @@ export class OperationsService {
     return this.closeOperation(operation.terminalId, operationId, userId);
   }
 
-  async enable(userId: string, terminalId: string, shiftId: string) {
-    return this.operationalAtomic(async (tx) => {
-      const shift = await this.ownedShift(tx, userId, shiftId);
-      if (shift.status !== 'ABIERTO')
-        throw new ConflictException('El turno no está abierto');
-      const terminal = await tx.terminal.findUnique({
-        where: { id: terminalId },
-      });
-      if (!terminal || terminal.stationId !== shift.stationId)
-        throw new NotFoundException('Terminal no encontrada en estación');
-      if (
-        terminal.lifecycle !== 'REGISTRADA' ||
-        terminal.operationalStatus === 'FUERA_DE_SERVICIO'
-      )
-        throw new ConflictException('Terminal no habilitable');
-      const assignment = await tx.terminalPumpAssignment.findFirst({
-        where: {
-          terminalId,
-          stationId: shift.stationId,
-          endedAt: null,
-          pump: { active: true },
-        },
-      });
-      if (!assignment)
-        throw new ConflictException('Terminal sin surtidor activo');
-      const active = await tx.terminalOperation.findFirst({
-        where: { terminalId, closedAt: null },
-      });
-      if (active) throw new ConflictException('Terminal con operación activa');
-      const enablement = await tx.terminalEnablement.create({
-        data: {
-          stationId: shift.stationId,
-          terminalId,
-          terminalPumpAssignmentId: assignment.id,
-          shiftId,
-          enabledByUserId: userId,
-        },
-      });
-      await tx.terminal.update({
-        where: { id: terminalId },
-        data: {
-          operationalStatus: 'DISPONIBLE',
-          statusVersion: { increment: 1 },
-        },
-      });
-      await this.audit(
-        tx,
-        'TERMINAL_ENABLED',
-        userId,
-        shift.stationId,
-        terminalId,
-        enablement.id,
-        shiftId,
-      );
-      return enablement;
-    });
-  }
-
-  async prepareStation(userId: string, terminalId: string) {
-    try {
-      return await this.operationalAtomic(async (tx) => {
-        const terminal = await tx.terminal.findUnique({ where: { id: terminalId } });
-        if (!terminal || terminal.lifecycle !== 'REGISTRADA')
-          throw new ConflictException('No tienes una terminal asignada.');
-        await this.assigned(tx, userId, terminal.stationId);
-        await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
-        const current = await tx.terminal.findUniqueOrThrow({ where: { id: terminalId } });
-        if (current.operationalStatus === 'FUERA_DE_SERVICIO')
-          throw new ConflictException('La terminal está bloqueada por administración.');
-        const shift = await tx.supervisorShift.findFirst({
-          where: { supervisorUserId: userId, stationId: terminal.stationId, status: 'ABIERTO', closedAt: null },
-          orderBy: { openedAt: 'desc' },
-        });
-        if (!shift) throw new ConflictException('Debes abrir un turno antes de iniciar la estación.');
-        const assignment = await tx.terminalPumpAssignment.findFirst({
-          where: { terminalId, stationId: terminal.stationId, endedAt: null, pump: { active: true } },
-          include: { pump: { select: { id: true, code: true, name: true } } },
-        });
-        if (!assignment) throw new ConflictException('No hay un surtidor asignado.');
-        const existing = await tx.terminalEnablement.findFirst({ where: { terminalId, disabledAt: null } });
-        if (existing && existing.shiftId !== shift.id)
-          throw new ConflictException('La terminal está en uso por otro turno.');
-        if (existing && !['DISPONIBLE', 'EN_USO'].includes(current.operationalStatus))
-          throw new ConflictException('No se pudo preparar la estación. Intenta nuevamente o contacta al administrador.');
-        if (!existing) {
-          const active = await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
-          if (active) throw new ConflictException('La terminal tiene una operación activa.');
-          const enablement = await tx.terminalEnablement.create({
-            data: { stationId: terminal.stationId, terminalId, terminalPumpAssignmentId: assignment.id, shiftId: shift.id, enabledByUserId: userId },
-          });
-          await tx.terminal.update({ where: { id: terminalId }, data: { operationalStatus: 'DISPONIBLE', statusVersion: { increment: 1 } } });
-          await this.audit(tx, 'STATION_PREPARED', userId, terminal.stationId, terminalId, enablement.id, shift.id);
-        }
-        return { stationId: terminal.stationId, terminalId, terminalCode: terminal.code, pump: assignment.pump, shiftId: shift.id, prepared: true, alreadyPrepared: Boolean(existing) };
-      });
-    } catch (error) {
-      const terminal = await this.db.terminal.findUnique({ where: { id: terminalId }, select: { stationId: true } }).catch(() => null);
-      if (terminal) await this.db.operationalAuditEvent.create({ data: { eventKey: randomUUID(), actorKind: 'USER', actorUserId: userId, stationId: terminal.stationId, terminalId, action: 'STATION_PREPARATION_FAILED', targetId: terminalId, outcome: 'FAILURE', details: { reason: error instanceof ConflictException ? error.message : 'INTERNAL_ERROR' } } }).catch(() => undefined);
-      throw error;
-    }
-  }
-
-  async block(userId: string, terminalId: string) {
-    return this.operationalAtomic(async (tx) => {
-      const terminal = await tx.terminal.findUnique({
-        where: { id: terminalId },
-      });
-      if (!terminal) throw new NotFoundException('Terminal no encontrada');
-      await this.assigned(tx, userId, terminal.stationId);
-      const enablement = await tx.terminalEnablement.findFirst({
-        where: { terminalId, disabledAt: null },
-      });
-      if (!enablement) throw new ConflictException('Terminal ya bloqueada');
-      await tx.terminalEnablement.update({
-        where: { id: enablement.id },
-        data: { disabledAt: new Date(), disableReason: 'SUPERVISOR_BLOCK' },
-      });
-      const active = await tx.terminalOperation.findFirst({
-        where: { terminalId, closedAt: null },
-      });
-      await tx.terminal.update({
-        where: { id: terminalId },
-        data: {
-          operationalStatus: active ? 'ASISTENCIA' : 'BLOQUEADA',
-          statusVersion: { increment: 1 },
-        },
-      });
-      await this.audit(
-        tx,
-        'TERMINAL_BLOCKED',
-        userId,
-        terminal.stationId,
-        terminalId,
-        enablement.id,
-        enablement.shiftId,
-      );
-      return {
-        terminalId,
-        operationalStatus: active ? 'ASISTENCIA' : 'BLOQUEADA',
-      };
-    });
-  }
-
-  async restore(userId: string, terminalId: string) {
-    return this.operationalAtomic(async (tx) => {
-      const terminal = await tx.terminal.findUnique({
-        where: { id: terminalId },
-      });
-      if (!terminal || terminal.lifecycle !== 'REGISTRADA')
-        throw new NotFoundException('Terminal no disponible');
-      await this.assigned(tx, userId, terminal.stationId);
-      if (
-        !['ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(
-          terminal.operationalStatus,
-        )
-      )
-        throw new ConflictException('Terminal no requiere recuperación');
-      if (
-        await tx.terminalOperation.findFirst({
-          where: { terminalId, closedAt: null },
-        })
-      )
-        throw new ConflictException('Resuelve primero la operación pendiente');
-      const enabled = await tx.terminalEnablement.findFirst({
-        where: { terminalId, disabledAt: null, shift: { status: 'ABIERTO' } },
-      });
-      const status: TerminalOperationalStatus = enabled
-        ? 'DISPONIBLE'
-        : 'BLOQUEADA';
-      const result = await tx.terminal.update({
-        where: { id: terminalId },
-        data: { operationalStatus: status, statusVersion: { increment: 1 } },
-      });
-      await this.audit(
-        tx,
-        'TERMINAL_RESTORED',
-        userId,
-        terminal.stationId,
-        terminalId,
-        terminalId,
-      );
-      return result;
-    });
-  }
-
-  async issueCredential(userId: string, terminalId: string, rotate = false) {
-    return this.operationalAtomic(async (tx) => {
-      const terminal = await tx.terminal.findUnique({
-        where: { id: terminalId },
-      });
-      if (!terminal || terminal.lifecycle !== 'REGISTRADA')
-        throw new NotFoundException('Terminal no disponible');
-      await this.assigned(tx, userId, terminal.stationId);
-      const enablement = await tx.terminalEnablement.findFirst({
-        where: { terminalId, disabledAt: null, shift: { status: 'ABIERTO' } },
-      });
-      if (!enablement)
-        throw new ConflictException('Terminal no habilitada por turno abierto');
-      const previous = await tx.terminalCredential.findFirst({
-        where: { terminalId, revokedAt: null, expiresAt: { gt: new Date() } },
-        orderBy: { issuedAt: 'desc' },
-      });
-      if (previous && !rotate)
-        throw new ConflictException(
-          'La terminal ya tiene sesión; usa rotación',
-        );
-      const now = new Date();
-      const token = randomBytes(32).toString('hex');
-      await tx.terminalCredential.updateMany({
-        where: { terminalId, revokedAt: null },
-        data: { revokedAt: now },
-      });
-      const credential = await tx.terminalCredential.create({
-        data: {
-          terminalId,
-          tokenHash: tokenHash(token),
-          expiresAt: new Date(now.getTime() + 8 * 60 * 60 * 1000),
-          rotatedFromId: previous?.id,
-        },
-      });
-      await this.audit(
-        tx,
-        rotate ? 'TERMINAL_CREDENTIAL_ROTATED' : 'TERMINAL_CREDENTIAL_ISSUED',
-        userId,
-        terminal.stationId,
-        terminalId,
-        credential.id,
-        enablement.shiftId,
-      );
-      return { token, expiresAt: credential.expiresAt, terminalId };
-    });
-  }
-
-  async revokeCredential(userId: string, terminalId: string) {
-    return this.operationalAtomic(async (tx) => {
-      const terminal = await tx.terminal.findUnique({
-        where: { id: terminalId },
-      });
-      if (!terminal) throw new NotFoundException('Terminal no encontrada');
-      await this.assigned(tx, userId, terminal.stationId);
-      const result = await tx.terminalCredential.updateMany({
-        where: { terminalId, revokedAt: null },
-        data: { revokedAt: new Date() },
-      });
-      await this.audit(
-        tx,
-        'TERMINAL_CREDENTIAL_REVOKED',
-        userId,
-        terminal.stationId,
-        terminalId,
-        String(result.count),
-      );
-      return { revoked: result.count };
-    });
-  }
-
   async terminalMe(terminalId: string) {
     const terminal = await this.db.terminal.findUnique({
       where: { id: terminalId },
       include: {
         assignments: { where: { endedAt: null }, include: { pump: true } },
-        enablements: { where: { disabledAt: null }, include: { shift: true } },
         operations: { where: { closedAt: null } },
       },
     });
@@ -534,16 +106,17 @@ export class OperationsService {
       lifecycle: terminal.lifecycle,
       operationalStatus: terminal.operationalStatus,
       pump: terminal.assignments[0]?.pump ?? null,
-      prepared: Boolean(terminal.enablements[0]?.shift.status === 'ABIERTO' && !['BLOQUEADA', 'FUERA_DE_SERVICIO', 'ASISTENCIA'].includes(terminal.operationalStatus)),
+      prepared: ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus) || terminal.operations.length > 0,
       canStart:
         terminal.operationalStatus === 'DISPONIBLE' &&
-        terminal.enablements[0]?.shift.status === 'ABIERTO' &&
-        terminal.operations.length === 0,
+        terminal.operations.length === 0 &&
+        terminal.assignments.some((assignment) => assignment.pump.active),
     };
   }
 
   async startOperation(terminalId: string, operationId: string) {
     return this.operationalAtomic(async (tx) => {
+      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
       const existing = await tx.terminalOperation.findUnique({
         where: { operationId },
       });
@@ -561,18 +134,12 @@ export class OperationsService {
         terminal.operationalStatus !== 'DISPONIBLE'
       )
         throw new ConflictException('Terminal no disponible');
-      const enablement = await tx.terminalEnablement.findFirst({
-        where: { terminalId, disabledAt: null, shift: { status: 'ABIERTO' } },
-      });
-      if (!enablement) throw new ForbiddenException('Terminal no habilitada');
-      if (enablement.stationId !== terminal.stationId)
-        throw new ConflictException('Habilitación de otra estación');
       const active = await tx.terminalOperation.findFirst({
         where: { terminalId, closedAt: null },
       });
       if (active) throw new ConflictException('Terminal con operación activa');
-      const assignment = await tx.terminalPumpAssignment.findUnique({
-        where: { id: enablement.terminalPumpAssignmentId },
+      const assignment = await tx.terminalPumpAssignment.findFirst({
+        where: { terminalId, stationId: terminal.stationId, endedAt: null, pump: { active: true } },
         include: { pump: true },
       });
       if (
@@ -591,7 +158,6 @@ export class OperationsService {
           pumpId: assignment.pumpId,
           terminalId,
           terminalPumpAssignmentId: assignment.id,
-          enablementId: enablement.id,
         },
       });
       await tx.terminal.update({
@@ -605,7 +171,7 @@ export class OperationsService {
         terminal.stationId,
         terminalId,
         operation.id,
-        enablement.shiftId,
+        null,
         'TERMINAL',
       );
       return operation;
@@ -625,17 +191,17 @@ export class OperationsService {
     return this.operationalAtomic(async (tx) => {
       const operation = await tx.terminalOperation.findUnique({
         where: { operationId },
-        include: { enablement: true },
       });
       if (!operation || operation.terminalId !== terminalId)
         throw new NotFoundException('Operación no encontrada');
       if (operation.closedAt) return operation;
+      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
       const terminal = await tx.terminal.findUniqueOrThrow({
         where: { id: terminalId },
       });
       if (terminal.lifecycle === 'REVOCADA')
         throw new UnauthorizedException(
-          'Terminal revocada; requiere supervisor',
+          'Terminal revocada; solicita asistencia al personal',
         );
       const [authorizations, transactions, inventoryReservations] = await Promise.all([
         tx.fuelAuthorization.findMany({
@@ -729,33 +295,14 @@ export class OperationsService {
           version: { increment: 1 },
         },
       });
-      const enabled = await tx.terminalEnablement.findFirst({
-        where: { terminalId, disabledAt: null, shift: { status: 'ABIERTO' } },
-      });
       await tx.terminal.update({
         where: { id: terminalId },
         data: {
-          operationalStatus: enabled ? 'DISPONIBLE' : 'BLOQUEADA',
+          operationalStatus: terminal.operationalStatus === 'EN_USO' ? 'DISPONIBLE' :
+            terminal.operationalStatus === 'ASISTENCIA' ? 'BLOQUEADA' : terminal.operationalStatus,
           statusVersion: { increment: 1 },
         },
       });
-      const shift = await tx.supervisorShift.findUnique({
-        where: { id: operation.enablement.shiftId },
-      });
-      if (shift?.status === 'CIERRE_PENDIENTE') {
-        const pending = await tx.terminalOperation.count({
-          where: { enablement: { shiftId: shift.id }, closedAt: null },
-        });
-        if (!pending)
-          await tx.supervisorShift.update({
-            where: { id: shift.id },
-            data: {
-              status: 'CERRADO',
-              closedAt: new Date(),
-              version: { increment: 1 },
-            },
-          });
-      }
       await this.audit(
         tx,
         'OPERATION_CLOSED',
@@ -763,7 +310,7 @@ export class OperationsService {
         operation.stationId,
         terminalId,
         operation.id,
-        operation.enablement.shiftId,
+        null,
         actorUserId ? 'USER' : 'TERMINAL',
       );
       return updated;
@@ -774,7 +321,7 @@ export class OperationsService {
     return this.operationalAtomic(async (tx) => {
       const operation = await tx.terminalOperation.findUnique({
         where: { operationId },
-        include: { enablement: true, terminal: true },
+        include: { terminal: true },
       });
       if (!operation) throw new NotFoundException('Operación no encontrada');
       await this.assigned(tx, userId, operation.stationId);
@@ -827,23 +374,6 @@ export class OperationsService {
             endReason: 'Terminal revocada; intervención completada',
           },
         });
-      const shift = await tx.supervisorShift.findUnique({
-        where: { id: operation.enablement.shiftId },
-      });
-      if (shift?.status === 'CIERRE_PENDIENTE') {
-        const pending = await tx.terminalOperation.count({
-          where: { enablement: { shiftId: shift.id }, closedAt: null },
-        });
-        if (!pending)
-          await tx.supervisorShift.update({
-            where: { id: shift.id },
-            data: {
-              status: 'CERRADO',
-              closedAt: now,
-              version: { increment: 1 },
-            },
-          });
-      }
       await this.audit(
         tx,
         'OPERATION_RESOLVED',
@@ -851,7 +381,7 @@ export class OperationsService {
         operation.stationId,
         operation.terminalId,
         operation.id,
-        operation.enablement.shiftId,
+        null,
         'USER',
         { reason },
       );
@@ -897,64 +427,6 @@ export class OperationsService {
         'ADMIN_REVOKED',
         actorUserId ?? null,
         null,
-        null,
-        id,
-      );
-      return result;
-    });
-  }
-
-  async assignSupervisor(
-    userId: string,
-    stationId: string,
-    reason: string,
-    actorUserId?: string,
-  ) {
-    return this.operationalAtomic(async (tx) => {
-      const [user, station] = await Promise.all([
-        tx.user.findUnique({ where: { id: userId } }),
-        tx.station.findUnique({ where: { id: stationId } }),
-      ]);
-      if (!user?.active || !station?.active)
-        throw new NotFoundException('Usuario o estación no disponible');
-      const assignment = await tx.supervisorStationAssignment.create({
-        data: { userId, stationId, reason, grantedByUserId: actorUserId },
-      });
-      await this.audit(
-        tx,
-        'SUPERVISOR_ASSIGNED',
-        actorUserId ?? null,
-        stationId,
-        null,
-        assignment.id,
-      );
-      return assignment;
-    });
-  }
-
-  async endSupervisorAssignment(id: string, actorUserId?: string) {
-    return this.operationalAtomic(async (tx) => {
-      const row = await tx.supervisorStationAssignment.findUnique({
-        where: { id },
-      });
-      if (!row || row.endedAt)
-        throw new NotFoundException('Asignación no vigente');
-      const open = await tx.supervisorShift.count({
-        where: { assignmentId: id, closedAt: null },
-      });
-      if (open)
-        throw new ConflictException(
-          'Cierra el turno antes de finalizar asignación',
-        );
-      const result = await tx.supervisorStationAssignment.update({
-        where: { id },
-        data: { endedAt: new Date() },
-      });
-      await this.audit(
-        tx,
-        'SUPERVISOR_ASSIGNMENT_ENDED',
-        actorUserId ?? null,
-        row.stationId,
         null,
         id,
       );
@@ -1052,12 +524,9 @@ export class OperationsService {
         })
       )
         throw new ConflictException('Operación pendiente en esta asignación');
-      if (
-        await tx.terminalEnablement.findFirst({
-          where: { terminalPumpAssignmentId: id, disabledAt: null },
-        })
-      )
-        throw new ConflictException('Bloquea la terminal antes de reasignarla');
+      const terminal = await tx.terminal.findUniqueOrThrow({ where: { id: assignment.terminalId } });
+      if (['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus))
+        throw new ConflictException('Suspende la terminal antes de reasignarla');
       const result = await tx.terminalPumpAssignment.update({
         where: { id },
         data: { endedAt: new Date(), endReason: 'Reasignación administrativa' },
@@ -1085,10 +554,6 @@ export class OperationsService {
       await tx.terminalCredential.updateMany({
         where: { terminalId, revokedAt: null },
         data: { revokedAt: now },
-      });
-      await tx.terminalEnablement.updateMany({
-        where: { terminalId, disabledAt: null },
-        data: { disabledAt: now, disableReason: 'TERMINAL_REVOKED' },
       });
       const active = await tx.terminalOperation.findFirst({
         where: { terminalId, closedAt: null },

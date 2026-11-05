@@ -1,5 +1,5 @@
 import { bindPaymentRecovery, paymentRecoveryButton } from './payment-recovery.js';
-import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN } from './config.js';
+import { API_BASE_URL } from './config.js';
 import { canViewStation, initialView, incidentMessage, controlModules, visibleModules, defaultView } from './control-state.js';
 import { createControlApi } from './control-api.js';
 import { assistancePanel, bindAssistanceActions, stopAssistancePolling } from './assistance.js';
@@ -36,19 +36,18 @@ function login(message = '') {
 }
 
 function requestAccess(message = '') {
-  app.innerHTML = `<main class="login-wrap"><section class="login-card"><div class="brand"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></div><p class="eyebrow">SOLICITUD DE ACCESO</p><h1>Crear solicitud</h1><p class="muted">El acceso requiere verificar el correo y aprobación del Administrador del sistema.</p><form id="request-form"><label>Nombre<input name="name" autocomplete="name" required maxlength="80"></label><label>Correo<input name="email" type="email" autocomplete="email" required maxlength="254"></label><label>Contraseña<input name="password" type="password" autocomplete="new-password" required minlength="10" maxlength="72"></label><label>Acceso solicitado<select name="role"><option value="ENCARGADO">Encargado</option><option value="ADMIN">Administrador</option></select></label><p class="error" role="alert">${esc(message)}</p><button class="primary" type="submit">Enviar solicitud</button></form><div class="public-links"><a href="#login">Volver al acceso</a></div></section></main>`;
+  app.innerHTML = `<main class="login-wrap"><section class="login-card"><div class="brand"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></div><p class="eyebrow">SOLICITUD DE ACCESO</p><h1>Crear solicitud</h1><p class="muted">El acceso requiere verificar el correo y aprobación del Administrador del sistema.</p><form id="request-form"><label>Nombre<input name="name" autocomplete="name" required maxlength="80"></label><label>Correo<input name="email" type="email" autocomplete="email" required maxlength="254"></label><label>Contraseña<input name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="72"></label><label>Acceso solicitado<select name="role"><option value="ENCARGADO">Encargado</option><option value="ADMIN">Administrador</option></select></label><p class="error" role="alert">${esc(message)}</p><button class="primary" type="submit">Enviar solicitud</button></form><div class="public-links"><a href="#login">Volver al acceso</a></div></section></main>`;
 }
 
 const nav = controlModules;
 
 function shell(view) {
   const visible = visibleModules(session);
-  const stationList = view === 'supervisor' ? session.supervisorStations : session.stations;
-  if (view === 'supervisor' && !stationList.some((station) => station.id === selectedStation)) selectedStation = stationList[0]?.id || '';
-  if (view !== 'supervisor' && !session.global && !stationList.some((station) => station.id === selectedStation)) selectedStation = '';
-  const icons = { supervisor:'⛽', dashboard:'▦', operations:'↗', transactions:'S/', customers:'♙', memberships:'★', vehicles:'⌑', terminals:'▣', inventory:'◫', movements:'⇅', supply:'＋', incidents:'◉', assistance:'◉', supervisors:'♙', accounts:'♙', audit:'☷' };
-  const displayedRole = roleLabel(view === 'supervisor' ? 'SUPERVISOR' : session.role === 'SYSTEM_ADMIN' || session.roles?.includes('SYSTEM_ADMIN') ? 'SUPER_ADMIN' : session.role);
-  app.innerHTML = `<div class="layout"><aside class="sidebar"><a class="brand" href="#${defaultView(session)}"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></a><div class="nav-label">${view === 'supervisor' ? 'OPERACIÓN' : 'ADMINISTRACIÓN'}</div><nav>${visible.map(([id, title]) => `<a href="#${id}" ${view === id ? 'aria-current="page"' : ''}><span aria-hidden="true">${icons[id] || '•'}</span><span>${title}</span></a>`).join('')}</nav><div class="sidebar-foot"><span class="status-dot"></span> Servicio conectado</div></aside><section class="workspace"><header class="topbar"><div class="station-picker"><label for="station">Estación</label><select id="station">${view === 'supervisor' ? '' : `<option value="">${session.global ? 'Todas las estaciones' : 'Todas las asignadas'}</option>`}${stationList.map((station) => `<option value="${esc(station.id)}" ${station.id === selectedStation ? 'selected' : ''}>${esc(station.name)} · ${esc(station.code)}</option>`).join('')}</select></div><div class="user-menu"><span class="avatar">${esc(session.user.name.slice(0, 1).toUpperCase())}</span><span><strong>${esc(session.user.name)}</strong><small>${esc(displayedRole)}</small></span><button id="logout" class="quiet">Cerrar sesión</button></div></header><main id="content" tabindex="-1"></main></section></div>`;
+  const stationList = session.stations;
+  if (!session.global && !stationList.some((station) => station.id === selectedStation)) selectedStation = '';
+  const icons = { dashboard:'▦', operations:'↗', transactions:'S/', customers:'♙', memberships:'★', vehicles:'⌑', terminals:'▣', inventory:'◫', movements:'⇅', supply:'＋', incidents:'◉', assistance:'◉', accounts:'♙', audit:'☷' };
+  const displayedRole = roleLabel(session.role === 'SYSTEM_ADMIN' || session.roles?.includes('SYSTEM_ADMIN') ? 'SUPER_ADMIN' : session.role);
+  app.innerHTML = `<div class="layout"><aside class="sidebar"><a class="brand" href="#${defaultView(session)}"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></a><div class="nav-label">ADMINISTRACIÓN</div><nav>${visible.map(([id, title]) => `<a href="#${id}" ${view === id ? 'aria-current="page"' : ''}><span aria-hidden="true">${icons[id] || '•'}</span><span>${title}</span></a>`).join('')}</nav><div class="sidebar-foot"><span class="status-dot"></span> Servicio conectado</div></aside><section class="workspace"><header class="topbar"><div class="station-picker"><label for="station">Estación</label><select id="station"><option value="">${session.global ? 'Todas las estaciones' : 'Todas las asignadas'}</option>${stationList.map((station) => `<option value="${esc(station.id)}" ${station.id === selectedStation ? 'selected' : ''}>${esc(station.name)} · ${esc(station.code)}</option>`).join('')}</select></div><div class="user-menu"><span class="avatar">${esc(session.user.name.slice(0, 1).toUpperCase())}</span><span><strong>${esc(session.user.name)}</strong><small>${esc(displayedRole)}</small></span><button id="logout" class="quiet">Cerrar sesión</button></div></header><main id="content" tabindex="-1"></main></section></div>`;
   document.querySelector('#station').addEventListener('change', (event) => { selectedStation = event.target.value; void route(); });
   document.querySelector('#logout').addEventListener('click', async () => { try { await apiClient.logout(); } finally { session = null; selectedStation = ''; login(); } });
 }
@@ -69,7 +68,7 @@ function stationsOptions(selected = selectedStation) {
 const dateLabel = (value) => value ? new Date(value).toLocaleDateString('es-PE') : '—';
 const paymentLabel = (value) => ({ CAPTURED: 'Confirmado', PAID: 'Pagado', PENDING: 'Pendiente', PAYMENT_PENDING: 'Pendiente', PARTIAL: 'Parcial', REJECTED: 'Rechazado', REFUNDED: 'Reembolsado', CANCELLED: 'Cancelado', ERROR: 'Error', REVIEW: 'En revisión', INTERVENTION_REQUIRED: 'Intervención requerida' })[value] || value || '—';
 const statusLabel = (value) => ({ OPEN: 'Abierta', IN_REVIEW: 'En revisión', RESOLVED: 'Resuelta', DISMISSED: 'Descartada', ACTIVE: 'Activa', INACTIVE: 'Inactiva', PENDING: 'Pendiente', PENDING_APPROVAL: 'Pendiente de aprobación', APPROVED: 'Aprobada', DISABLED: 'Deshabilitada', ABIERTO: 'Abierto', CERRADO: 'Cerrado', READY: 'Lista', EN_ATENCION: 'En atención', FUERA_DE_SERVICIO: 'Fuera de servicio', ASISTENCIA: 'Requiere asistencia', INTERVENTION_REQUIRED: 'Requiere intervención' })[value] || paymentLabel(value);
-const roleLabel = (value) => ({ SYSTEM_ADMIN: 'Administrador del sistema', SUPER_ADMIN: 'Administrador del sistema', ADMIN: 'Administrador', ENCARGADO: 'Encargado', SUPERVISOR: 'Supervisor' })[value] || value || '—';
+const roleLabel = (value) => ({ SYSTEM_ADMIN: 'Administrador del sistema', SUPER_ADMIN: 'Administrador del sistema', ADMIN: 'Administrador', ENCARGADO: 'Encargado' })[value] || value || '—';
 const permissionMask = (value) => value == null ? '—' : esc(value);
 
 async function renderCustomers(filters = {}) {
@@ -152,7 +151,19 @@ async function renderTerminals() {
   try {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const { terminals, pumps } = await api(`/control/terminals${suffix}`);
-    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'El estado de conexión se representa mediante la última actividad de credenciales.')}<section class="panel"><div class="panel-head"><h2>Terminales</h2></div><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado</th><th>Surtidor asignado</th><th>Operación activa</th><th>Última actividad</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => { const assignment = terminal.assignments[0]; const operation = terminal.operations[0]; const actions = has('ADMIN_TERMINAL_MANAGE') && !operation ? terminal.operationalStatus === 'FUERA_DE_SERVICIO' ? `<button class="text-button" data-terminal-action="RESTORE" data-terminal-id="${terminal.id}">Desbloquear terminal</button>` : `<button class="text-button" data-terminal-action="OUT_OF_SERVICE" data-terminal-id="${terminal.id}">Bloquear terminal</button>` : '—'; return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${terminal.operationalStatus === 'FUERA_DE_SERVICIO' || terminal.operationalStatus === 'ASISTENCIA' ? 'warning' : ''}">${esc(terminal.operationalStatus.replaceAll('_', ' '))}</span></td><td>${esc(assignment?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt)}</td><td>${actions}</td></tr>`; }).join('') || '<tr><td colspan="7">No hay terminales para este alcance.</td></tr>'}</tbody></table></div></section><section class="panel table-wrap"><div class="panel-head"><h2>Surtidores</h2></div><table><thead><tr><th>Estación</th><th>Surtidor</th><th>Nombre</th><th>Terminal asignada</th><th>Estado de terminal</th></tr></thead><tbody>${pumps.map((pump) => `<tr><td>${esc(pump.station.name)}</td><td>${esc(pump.code)}</td><td>${esc(pump.name)}</td><td>${esc(pump.assignments[0]?.terminal?.code || 'Sin asignar')}</td><td>${esc(pump.assignments[0]?.terminal?.operationalStatus || '—')}</td></tr>`).join('') || '<tr><td colspan="5">No hay surtidores activos.</td></tr>'}</tbody></table></section>`;
+    const status = { DISPONIBLE: 'Habilitada', EN_USO: 'En uso', BLOQUEADA: 'Suspendida', ASISTENCIA: 'Suspendida · operación activa', FUERA_DE_SERVICIO: 'Fuera de servicio' };
+    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'Habilita o suspende el autoservicio según el estado de la terminal.')}
+      <section class="panel table-wrap"><div class="panel-head"><h2>Terminales</h2></div><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado actual</th><th>Surtidor</th><th>Operación</th><th>Última actividad</th><th>Cambio por</th><th>Motivo de suspensión</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => {
+        const operation = terminal.operations[0];
+        const enabled = ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus);
+        const action = has('ADMIN_TERMINAL_MANAGE') ? enabled
+          ? `<button class="text-button" data-terminal-action="SUSPEND" data-terminal-id="${esc(terminal.id)}">Suspender terminal</button>`
+          : `<button class="text-button" data-terminal-action="ENABLE" data-terminal-id="${esc(terminal.id)}" ${operation || !terminal.assignments[0]?.pump?.active ? 'disabled' : ''}>Habilitar terminal</button>` : '—';
+        const recovery = operation?.status === 'INTERVENTION_REQUIRED' && has('ADMIN_INCIDENT_MANAGE')
+          ? `<button class="text-button" data-operation-resolve="${esc(operation.operationId)}">Resolver operación</button>` : '';
+        return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${enabled ? '' : 'warning'}">${esc(status[terminal.operationalStatus] || terminal.operationalStatus)}</span></td><td>${esc(terminal.assignments[0]?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt || terminal.statusChangedAt)}</td><td>${esc(terminal.statusChangedBy || '—')}</td><td>${esc(terminal.suspensionReason || '—')}</td><td>${action}${recovery}</td></tr>`;
+      }).join('') || '<tr><td colspan="9">No hay terminales para este alcance.</td></tr>'}</tbody></table></section>
+      <section class="panel table-wrap"><div class="panel-head"><h2>Surtidores</h2></div><table><thead><tr><th>Estación</th><th>Surtidor</th><th>Nombre</th><th>Terminal asignada</th></tr></thead><tbody>${pumps.map((pump) => `<tr><td>${esc(pump.station.name)}</td><td>${esc(pump.code)}</td><td>${esc(pump.name)}</td><td>${esc(pump.assignments[0]?.terminal?.code || 'Sin asignar')}</td></tr>`).join('') || '<tr><td colspan="4">No hay surtidores activos.</td></tr>'}</tbody></table></section>`;
   } catch (error) { showError(error); }
 }
 
@@ -210,7 +221,7 @@ async function renderAccounts(message = '') {
   if (!session.global) { document.querySelector('#content').innerHTML = `${heading('ACCESO', 'Personal y accesos')}${panel('Solo el Administrador del sistema puede aprobar cuentas y modificar permisos.', 'denied')}`; return; }
   try {
     accountRows = await api('/control/accounts');
-    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Las asignaciones de Control son independientes de los turnos de Supervisor.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(grant.replace('ADMIN_', ''))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>${administrativeAccountForm(session, esc, message)}`;
+    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Cuentas, estaciones y permisos del personal autorizado.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(grant.replace('ADMIN_', ''))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>${administrativeAccountForm(session, esc, message)}`;
   } catch (error) { showError(error); }
 }
 
@@ -223,51 +234,8 @@ async function renderAudit(filters = {}) {
   } catch (error) { showError(error); }
 }
 
-async function renderSupervisor() {
-  loading('Consultando estado de la estación…');
-  try {
-    const stations = await api('/control/supervisor/stations');
-    if (!stations.some((row) => row.stationId === selectedStation)) selectedStation = stations[0]?.stationId || '';
-    if (!selectedStation) { document.querySelector('#content').innerHTML = `${heading('MI ESTACIÓN', 'Sin estación asignada')}${panel('Contacta al administrador para recibir una estación.', 'denied')}`; return; }
-    const [shiftResponse, terminals] = await Promise.all([
-      api(`/control/supervisor/stations/${selectedStation}/shift`),
-      api(`/control/supervisor/stations/${selectedStation}/terminals`),
-    ]);
-    const shift = shiftResponse.shift;
-    const station = stations.find((row) => row.stationId === selectedStation)?.station;
-    const open = shift?.status === 'ABIERTO';
-    const attention = terminals.flatMap((terminal) => terminal.operations.filter((operation) => operation.status === 'INTERVENTION_REQUIRED' || terminal.operationalStatus === 'ASISTENCIA').map((operation) => ({ terminal, operation })));
-    document.querySelector('#content').innerHTML = `${heading('OPERACIÓN', station?.name || 'Mi estación', 'Prepara FuelFlow para el autoservicio y atiende únicamente las operaciones que lo requieran.')}
-      <section class="metrics"><article class="metric"><span>Turno</span><strong>${esc(statusLabel(shift?.status || 'CERRADO'))}</strong><small>${shift ? `Abierto ${stamp(shift.openedAt)}` : 'Abre un turno para comenzar'}</small></article><article class="metric"><span>Terminales</span><strong>${terminals.length}</strong><small>Asignadas a la estación</small></article><article class="metric"><span>Operaciones activas</span><strong>${attention.length}</strong><small>Consulta si requieren atención</small></article></section>
-      <section class="panel"><h2>Turno</h2><p>${open ? 'Turno abierto. Puedes iniciar la estación.' : shift ? `El turno está ${esc(statusLabel(shift.status))}.` : 'Debes abrir un turno antes de iniciar la estación.'}</p><div class="actions">${!shift ? '<button class="primary" data-supervisor-action="open">Abrir turno</button>' : open ? '<button class="secondary" data-supervisor-action="close">Cerrar turno</button>' : ''}</div></section>
-      <section class="panel"><h2>Terminales y surtidores</h2>${terminals.map((terminal) => {
-        const pump = terminal.assignments?.[0]?.pump;
-        const blocked = terminal.operationalStatus === 'FUERA_DE_SERVICIO';
-        const prepared = terminal.enablements?.some((entry) => entry.shiftId === shift?.id);
-        return `<article class="supervisor-terminal"><h3>${esc(terminal.code)} · Surtidor ${esc(pump?.code || 'sin asignar')}</h3><p>Estado: <strong>${esc(blocked ? 'Bloqueada por administración' : prepared ? 'Estación lista para operar' : statusLabel(terminal.operationalStatus))}</strong></p>${blocked ? '<p class="error" role="alert">La terminal está bloqueada por administración.</p>' : ''}<button class="primary" data-supervisor-action="start" data-terminal-id="${esc(terminal.id)}" ${!open || blocked || !pump ? 'disabled' : ''}>Iniciar estación</button>${!pump ? '<p>No hay un surtidor asignado.</p>' : ''}</article>`;
-      }).join('') || panel('No tienes una terminal asignada.')}</section>
-      <section class="panel"><h2>Pagos de operaciones activas</h2>${terminals.flatMap(terminal => terminal.operations.map(operation => `<p>Terminal ${esc(terminal.code)} · ${paymentRecoveryButton(operation.operationId)}</p>`)).join('') || '<p>No hay operaciones activas.</p>'}</section>
-      <section class="panel"><h2>Operaciones que requieren atención</h2>${attention.map(({ terminal, operation }) => `<p>Terminal ${esc(terminal.code)} · Operación ${esc(operation.operationId)} · ${esc(statusLabel(operation.status))} ${paymentRecoveryButton(operation.operationId)}</p>`).join('') || '<p>No hay operaciones que requieran atención.</p>'}</section>
-      <section class="panel" id="assistance-panel"></section>`;
-    await assistancePanel({ api, stationId: selectedStation, userId: session.user.id, supervisor: true });
-  } catch (error) { showError(error, 'No se pudo consultar la estación'); }
-}
-
-async function renderSupervisors() {
-  loading('Consultando Supervisores…');
-  try {
-    const rows = await api('/control/supervisors');
-    document.querySelector('#content').innerHTML = `${heading('PERSONAL', 'Supervisores', 'Personal operativo dentro de tus estaciones autorizadas.')}
-      <section class="panel table-wrap"><table><thead><tr><th>Nombre</th><th>Correo</th><th>Estación</th><th>Estado</th></tr></thead><tbody>${rows.map((row) => `<tr><td>${esc(row.user.name)}</td><td>${esc(row.user.email)}</td><td>${esc(row.station.name)}</td><td>${row.user.active ? 'Activo' : 'Inactivo'}</td></tr>`).join('') || '<tr><td colspan="4">No hay Supervisores asignados.</td></tr>'}</tbody></table></section>
-      <section class="panel form-panel supervisor-form-panel"><h2>Asignar cuenta existente</h2><p class="muted">La cuenta conservará sus demás permisos.</p><form id="assign-supervisor-form"><label>Correo de la cuenta<input name="email" type="email" required maxlength="254"></label><label>Estación<select name="stationId" required>${stationsOptions()}</select></label><p class="error" role="alert"></p><button class="primary" type="submit">Asignar Supervisor</button></form></section>
-      <section class="panel form-panel supervisor-form-panel"><h2>Crear cuenta de Supervisor</h2><form id="create-supervisor-form"><label>Nombre<input name="name" required minlength="2" maxlength="80"></label><label>Correo<input name="email" type="email" required maxlength="254"></label><label>Contraseña inicial<input name="password" type="password" required minlength="12" maxlength="72"></label><label>Estación<select name="stationId" required>${stationsOptions()}</select></label><p class="error" role="alert"></p><button class="primary" type="submit">Crear Supervisor</button></form></section>`;
-  } catch (error) { showError(error); }
-}
-
 async function renderView(view, filters = {}) {
-  if (view === 'assistance') { document.querySelector('#content').innerHTML = heading('ASISTENCIA', 'Solicitudes e historial') + '<section class="panel" id="assistance-panel"></section>'; return assistancePanel({ api, stationId: selectedStation, userId: session.user.id, supervisor: false }); }
-  if (view === 'supervisor') return renderSupervisor();
-  if (view === 'supervisors') return renderSupervisors();
+  if (view === 'assistance') { document.querySelector('#content').innerHTML = heading('ASISTENCIA', 'Solicitudes e historial') + '<section class="panel" id="assistance-panel"></section>'; return assistancePanel({ api, stationId: selectedStation, userId: session.user.id, canManage: has('ADMIN_INCIDENT_MANAGE') }); }
   if (view === 'dashboard') return renderDashboard();
   if (view === 'operations') return renderOperations(filters);
   if (view === 'transactions') return renderTransactions(filters);
@@ -313,7 +281,7 @@ async function boot() {
     return;
   }
   if (location.hash === '#request-access') { requestAccess(); return; }
-  try { session = await apiClient.session(); if (!location.hash || location.hash === '#dashboard' && defaultView(session) === 'supervisor') location.hash = `#${defaultView(session)}`; await route(); }
+  try { session = await apiClient.session(); if (!location.hash) location.hash = `#${defaultView(session)}`; await route(); }
   catch (error) { session = null; login(error.status === 403 ? 'Esta cuenta no tiene acceso aprobado a Primax Control.' : 'Inicia sesión para continuar.'); }
 }
 
@@ -339,18 +307,6 @@ document.addEventListener('submit', async (event) => {
       }
     } catch (error) { form.id === 'request-form' ? requestAccess(incidentMessage(error)) : login(incidentMessage(error)); }
     finally { busy = false; }
-    return;
-  }
-  if (['assign-supervisor-form', 'create-supervisor-form'].includes(form.id)) {
-    event.preventDefault(); busy = true;
-    const button = form.querySelector('button[type="submit"]'); button.disabled = true;
-    const values = Object.fromEntries(new FormData(form));
-    try {
-      if (form.id === 'assign-supervisor-form') await api('/control/supervisors/assign', { method: 'POST', body: JSON.stringify({ email: values.email, stationIds: [values.stationId] }) });
-      else await api('/control/supervisors', { method: 'POST', body: JSON.stringify({ name: values.name, email: values.email, password: values.password, stationIds: [values.stationId] }) });
-      await renderSupervisors();
-    } catch (error) { form.querySelector('[role="alert"]').textContent = incidentMessage(error); button.disabled = false; }
-    finally { values.password = ''; busy = false; }
     return;
   }
   if (form.id === 'admin-create-form') {
@@ -423,24 +379,6 @@ document.addEventListener('submit', async (event) => {
 
 document.addEventListener('click', async (event) => {
   const target = event.target.closest('button'); if (!target) return;
-  if (target.dataset.supervisorAction) {
-    target.disabled = true;
-    try {
-      if (target.dataset.supervisorAction === 'open') await api(`/control/supervisor/stations/${selectedStation}/shifts`, { method: 'POST', body: '{}' });
-      if (target.dataset.supervisorAction === 'close') {
-        const { shift } = await api(`/control/supervisor/stations/${selectedStation}/shift`);
-        if (shift?.id) await api(`/control/supervisor/shifts/${shift.id}/close`, { method: 'POST', body: '{}' });
-      }
-      if (target.dataset.supervisorAction === 'start') {
-        if (!FUELFLOW_PUBLIC_ORIGIN) throw new Error('No se pudo abrir FuelFlow. Contacta al administrador.');
-        const result = await api(`/control/supervisor/terminals/${target.dataset.terminalId}/start`, { method: 'POST', body: '{}' });
-        window.location.assign(`${FUELFLOW_PUBLIC_ORIGIN}/#control-start=${encodeURIComponent(result.handoffTicket)}`);
-        return;
-      }
-      await renderSupervisor();
-    } catch (error) { target.disabled = false; showError(error, 'No se pudo completar la acción'); }
-    return;
-  }
   if (target.id === 'resend-link') {
     const email = window.prompt('Correo de la solicitud:'); if (!email) return;
     try { const result = await api('/control/resend-verification', { method: 'POST', body: JSON.stringify({ email }) }); login(result.message); }
@@ -489,10 +427,20 @@ document.addEventListener('click', async (event) => {
     } catch (error) { window.alert(incidentMessage(error)); }
   }
   if (target.dataset.terminalAction) {
-    const prompt = target.dataset.terminalAction === 'RESTORE' ? 'Desbloquear permitirá que el Supervisor vuelva a iniciar la estación. ¿Continuar?' : 'Bloquear impedirá nuevas operaciones. ¿Continuar?';
-    if (!window.confirm(prompt)) return;
+    const suspending = target.dataset.terminalAction === 'SUSPEND';
+    const reason = suspending ? window.prompt('Motivo de suspensión:') : undefined;
+    if (suspending && (!reason || reason.trim().length < 3)) return;
     target.disabled = true;
-    try { await api(`/control/terminals/${target.dataset.terminalId}/status`, { method: 'POST', body: JSON.stringify({ action: target.dataset.terminalAction }) }); await renderTerminals(); }
+    try {
+      await api(`/control/terminals/${target.dataset.terminalId}/status`, { method: 'POST', body: JSON.stringify({ action: target.dataset.terminalAction, ...(suspending ? { reason: reason.trim() } : {}) }) });
+      await renderTerminals();
+    } catch (error) { target.disabled = false; window.alert(incidentMessage(error)); }
+  }
+  if (target.dataset.operationResolve) {
+    const reason = window.prompt('Resultado de la intervención:');
+    if (!reason || reason.trim().length < 3) return;
+    target.disabled = true;
+    try { await api(`/control/terminal-operations/${target.dataset.operationResolve}/resolve`, { method: 'POST', body: JSON.stringify({ reason: reason.trim() }) }); await renderTerminals(); }
     catch (error) { target.disabled = false; window.alert(incidentMessage(error)); }
   }
   if (target.dataset.inspectPair || target.dataset.reconcile) {

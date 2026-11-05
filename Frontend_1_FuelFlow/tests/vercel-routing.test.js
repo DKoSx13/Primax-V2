@@ -16,7 +16,6 @@ const routes = [
   ['POST', 'transactions'], ['GET', `transactions/${id}`],
   ['GET', 'terminal/me'], ['POST', 'terminal/operations'],
   ['GET', `terminal/operations/${id}`], ['POST', `terminal/operations/${id}/close`],
-  ['POST', `supervisor/terminals/${id}/pair`], ['POST', `supervisor/terminals/${id}/rotate`],
 ];
 const env = { FUELFLOW_PUBLIC_ORIGIN: 'https://fuel.example.test', BACKEND_ORIGIN: 'https://backend.example.test', KIOSK_GATEWAY_SECRET: randomBytes(32).toString('hex') };
 function request(route, method = 'GET', body, query = `route=${route}`) {
@@ -30,13 +29,13 @@ function request(route, method = 'GET', body, query = `route=${route}`) {
 function response() { return { statusCode: 200, setHeader() {}, end(value) { this.body = JSON.parse(value); } }; }
 
 test('complete FuelFlow browser matrix is routed through one Vercel Function and the strict gateway policy', () => {
-  assert.equal(routes.length, 24);
+  assert.equal(routes.length, 22);
   for (const [method, route] of routes) {
-    assert(route.startsWith('terminal/') || route.startsWith('supervisor/terminals/') || kioskRoute(method, '/api/v1/' + route), `${method} ${route}`);
+    assert(route.startsWith('terminal/') || kioskRoute(method, '/api/v1/' + route), `${method} ${route}`);
   }
 });
 
-test('all 24 browser paths enter the gateway through Vercel rewrite metadata', async () => {
+test('all 22 browser paths enter the gateway through Vercel rewrite metadata', async () => {
   const handler = createVercelGateway({ env, fetcher: async () => Response.json({ allowed: true, stationId: id, operationId: id }) });
   for (const [method, route] of routes) {
     const res = response();

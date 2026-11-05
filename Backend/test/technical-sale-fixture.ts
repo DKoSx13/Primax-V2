@@ -1,16 +1,13 @@
 import { INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { Request } from 'express';
 import { OperationsService } from '../src/operations/operations.service';
 
 /** Test-only gateway boundary. AccessGuard still checks persisted terminal binding. */
 export function technicalSaleFixture(db: PrismaClient) {
   let stationId = '';
-  let supervisorId = '';
-  let shiftId = '';
   let operations: OperationsService;
-  let ready: Promise<void> | undefined;
   const prepared = new Map<string, Promise<string>>();
 
   const gateway = {
@@ -20,22 +17,14 @@ export function technicalSaleFixture(db: PrismaClient) {
         let token = prepared.get(operationId);
         if (!token) {
           token = (async () => {
-            if (!ready) ready = (async () => {
-              const supervisor = await db.user.create({
-                data: { email: `${randomUUID()}@example.test`, name: 'Technical sale fixture', passwordHash: 'fixture' },
-              });
-              supervisorId = supervisor.id;
-              await operations.assignSupervisor(supervisorId, stationId, 'E2E technical fixture');
-              shiftId = (await operations.openShift(supervisorId, stationId)).id;
-            })();
-            await ready;
             const pump = await operations.createPump(stationId, `T${randomUUID().slice(0, 8)}`, 'E2E pump');
             const terminal = await operations.createTerminal(stationId, `T${randomUUID().slice(0, 8)}`);
             await operations.assignTerminal(terminal.id, pump.id);
-            await operations.enable(supervisorId, terminal.id, shiftId);
-            const credential = await operations.issueCredential(supervisorId, terminal.id);
+            await db.terminal.update({ where: { id: terminal.id }, data: { operationalStatus: 'DISPONIBLE' } });
+            const token = randomBytes(32).toString('hex');
+            await db.terminalCredential.create({ data: { terminalId: terminal.id, tokenHash: createHash('sha256').update(token).digest('hex'), expiresAt: new Date(Date.now() + 3600000) } });
             await operations.startOperation(terminal.id, operationId);
-            return credential.token;
+            return token;
           })();
           prepared.set(operationId, token);
         }

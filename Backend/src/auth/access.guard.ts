@@ -39,7 +39,6 @@ export class AccessGuard implements CanActivate {
       );
     if (
       signed &&
-      access !== 'supervisor' &&
       access !== 'terminal' &&
       !req.path.startsWith('/api/v1/kiosk/session')
     ) {
@@ -78,23 +77,8 @@ export class AccessGuard implements CanActivate {
       return true;
     }
     if (access === 'public') return true;
-    if (signed && access !== 'supervisor')
+    if (signed)
       throw new ForbiddenException('Ruta firmada no permitida');
-    if (
-      access === 'supervisor' &&
-      req.path?.match(/\/terminals\/[0-9a-f-]+\/(pair|rotate|revoke-session)$/i)
-    ) {
-      if (!signed) throw new UnauthorizedException('Gateway requerido');
-      this.kiosk.verifyGateway(req);
-      await this.kiosk.session(
-        req.header('x-kiosk-session') || '',
-        req.header('x-csrf-token') || '',
-        false,
-      );
-      await this.kiosk.limitTechnical(req);
-    } else if (signed) {
-      throw new ForbiddenException('Ruta firmada no permitida');
-    }
     const key = req.header('x-kiosk-key');
     if (key && (access === 'kiosk' || access === 'either')) {
       if (this.newKioskSale(req))
@@ -194,15 +178,10 @@ export class AccessGuard implements CanActivate {
           },
         },
       });
-      const supervisorAssignments = await this.db.supervisorStationAssignment.findMany({
-        where: { userId: user.id, endedAt: null, station: { active: true } },
-        select: { stationId: true },
-      });
       const approvedAdmin = Boolean(account?.status === 'APPROVED' && account.emailVerifiedAt);
       if (
         !systemAdmin &&
-        !approvedAdmin &&
-        supervisorAssignments.length === 0
+        !approvedAdmin
       )
         throw new ForbiddenException('Acceso a Primax Control no autorizado');
       const permissions = systemAdmin
@@ -233,16 +212,16 @@ export class AccessGuard implements CanActivate {
             })
           ).map((grant) => grant.permission) : [];
       if (!systemAdmin && !permissions.includes('ADMIN_CONTROL_ACCESS')) permissions.length = 0;
-      if (!systemAdmin && supervisorAssignments.length === 0 && !permissions.includes('ADMIN_CONTROL_ACCESS'))
+      if (!systemAdmin && !permissions.includes('ADMIN_CONTROL_ACCESS'))
         throw new ForbiddenException('Se requiere acceso a Primax Control');
       req.actor = {
         kind: 'control',
         userId: user.id,
-        role: systemAdmin ? 'SUPER_ADMIN' : permissions.length ? account!.role : 'SUPERVISOR',
+        role: systemAdmin ? 'SUPER_ADMIN' : account!.role,
         permissions,
         stationIds: systemAdmin
           ? []
-          : permissions.length ? account!.stations.map((station) => station.stationId) : [],
+          : account!.stations.map((station) => station.stationId),
         global: Boolean(systemAdmin),
       };
       return true;
@@ -259,13 +238,6 @@ export class AccessGuard implements CanActivate {
         'Sesión invalidada. Inicia sesión nuevamente.',
       );
     req.actor = { kind: 'member', userId: user.id };
-    if (
-      access === 'supervisor' &&
-      !(await this.db.supervisorStationAssignment.findFirst({
-        where: { userId: user.id, endedAt: null, station: { active: true } },
-      }))
-    )
-      throw new ForbiddenException('Se requiere asignación de supervisor');
     return true;
   }
 

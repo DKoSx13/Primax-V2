@@ -24,7 +24,6 @@ export type Actor =
 export const Public = () => SetMetadata('access', 'public');
 export const KioskOnly = () => SetMetadata('access', 'kiosk');
 export const MemberOrKiosk = () => SetMetadata('access', 'either');
-export const SupervisorOnly = () => SetMetadata('access', 'supervisor');
 export const TerminalOnly = () => SetMetadata('access', 'terminal');
 export const CurrentActor = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext): Actor =>

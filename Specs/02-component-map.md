@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | `Frontend_1_FuelFlow/` | Autoservicio y operación en surtidor | Fuentes, API, tests y Docker propios |
 | `Frontend_2_PrimaxPrime/` | Portal/app del cliente | Fuentes, Android, tests y Docker propios |
-| `Frontend_3_PrimaxControl/` | Una sola aplicación con un solo login; UI operacional limitada para Supervisor y UI administrativa para Admin/SuperAdmin según rol, grants y alcance | Fuentes, proxy, API, tests y Docker propios |
+| `Frontend_3_PrimaxControl/` | Una sola aplicación con un solo login; UI para Administrador del sistema, Administrador y Encargado según grants y alcance | Fuentes, proxy, API, tests y Docker propios |
 | `Backend/` | NestJS, Prisma, autenticación/autorización y reglas de negocio | `Backend/prisma/`, fuentes, tests, scripts y Docker |
 | `Database/` | Diseño y documentación PostgreSQL | No reemplaza `Backend/prisma/` |
 | `PlateRecognition/` | OCR de placas | Código y tests propios |

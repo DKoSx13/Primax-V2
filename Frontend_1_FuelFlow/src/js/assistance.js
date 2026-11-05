@@ -1,8 +1,8 @@
 export const assistanceReasons = ['AYUDA_GENERAL', 'ERROR_PAGO', 'PROBLEMA_TERMINAL', 'PROBLEMA_DESPACHO', 'COMPROBANTE_IMPRESION', 'OTRO'];
 export const assistanceLabels = {
-  PENDIENTE: 'Solicitud pendiente. Esperando a un Supervisor.',
-  EN_ATENCION: 'Un Supervisor está atendiendo tu solicitud.',
-  RESUELTA: 'El Supervisor registró la solicitud como resuelta.',
+  PENDIENTE: 'Solicitud pendiente. Esperando a personal de la estación.',
+  EN_ATENCION: 'El personal autorizado está atendiendo tu solicitud.',
+  RESUELTA: 'El personal autorizado registró la solicitud como resuelta.',
   ESCALADA: 'La solicitud fue escalada para su revisión.',
   CANCELADA_POR_CLIENTE: 'Solicitud cancelada por el cliente.',
 };

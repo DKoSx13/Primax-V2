@@ -54,7 +54,8 @@ class InventoryReceiptDto {
 }
 
 class TerminalStatusDto {
-  @IsIn(['OUT_OF_SERVICE', 'RESTORE']) action: 'OUT_OF_SERVICE' | 'RESTORE';
+  @IsIn(['SUSPEND', 'ENABLE']) action: 'SUSPEND' | 'ENABLE';
+  @IsOptional() @IsString() @MaxLength(500) reason?: string;
 }
 
 class AuditFilters {
@@ -106,7 +107,7 @@ export class ControlOperationsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: TerminalStatusDto,
   ) {
-    return this.service.terminalStatus(controlActor(actor), id, dto.action);
+    return this.service.terminalStatus(controlActor(actor), id, dto.action, dto.reason);
   }
 
   @Get('inventory') inventory(

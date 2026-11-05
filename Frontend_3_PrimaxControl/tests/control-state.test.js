@@ -52,12 +52,9 @@ test('navigation exposes each administrative module only to its explicit permiss
   assert.equal(initialView('#vehicles'), 'vehicles');
 });
 
-test('Supervisor shares the login but sees only the operational module without administrative grants', async () => {
+test('Control navigation contains only authorized administrative modules', async () => {
   const { visibleModules, defaultView } = await import('../js/control-state.js');
-  const supervisor = { roles: ['SUPERVISOR'], permissions: [], supervisorStations: [{ id: 'station-a' }], stations: [], global: false };
-  assert.deepEqual(visibleModules(supervisor).map(([id]) => id), ['supervisor']);
-  assert.equal(defaultView(supervisor), 'supervisor');
-  const multiRole = { ...supervisor, roles: ['ADMIN', 'SUPERVISOR'], permissions: ['ADMIN_DASHBOARD_VIEW', 'ADMIN_TERMINAL_VIEW'] };
-  assert.deepEqual(visibleModules(multiRole).map(([id]) => id), ['supervisor', 'dashboard', 'terminals']);
-  assert.equal(defaultView(multiRole), 'dashboard');
+  const encargado = { roles: ['ENCARGADO'], permissions: ['ADMIN_TERMINAL_VIEW', 'ADMIN_INCIDENT_VIEW'], stations: [{ id: 'station-a' }], global: false };
+  assert.deepEqual(visibleModules(encargado).map(([id]) => id), ['terminals', 'assistance', 'incidents']);
+  assert.equal(defaultView(encargado), 'terminals');
 });

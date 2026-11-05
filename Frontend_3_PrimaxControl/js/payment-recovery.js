@@ -11,11 +11,11 @@ export function bindPaymentRecovery({api,onError}) {
     dialog.innerHTML=`<h2>Asistencia de pago</h2><p>Operación ${esc(id)} · Terminal ${esc(detail.terminalId)} · Surtidor ${esc(detail.pumpId)}</p><p>Método ${esc(detail.payment?.method)} · Estado financiero ${esc(detail.payment?.status)} · Importe ${esc(detail.payment?.amount)} · Orden ${esc(detail.order?.status)}</p><p>Despachado ${esc(detail.authorization?.dispensedGallons)} galones</p><p>El estado financiero solo puede confirmarlo el proveedor de pago.</p>${detail.incidents.map(i=>`<p>${esc(i.summary)} · ${esc(i.status)}</p>`).join('')}<label>Observación<textarea maxlength="500"></textarea></label><p role="status">${esc(detail.message||'')}</p>${detail.allowedActions.map(action=>`<button type="button" data-recovery-action="${action}">${labels[action]}</button>`).join('')}<form method="dialog"><button>Cerrar</button></form>`;
     dialog.querySelectorAll('[data-recovery-action]').forEach(action=>action.onclick=async()=>{
      action.disabled=true;
-     try{render(await api('/control/supervisor/payments/'+id+'/actions',{method:'POST',body:JSON.stringify({action:action.dataset.recoveryAction,observation:dialog.querySelector('textarea').value})}));}
+     try{render(await api('/control/payments/'+id+'/actions',{method:'POST',body:JSON.stringify({action:action.dataset.recoveryAction,observation:dialog.querySelector('textarea').value})}));}
      catch(error){dialog.querySelector('[role=status]').textContent=error.message;action.disabled=false;}
     });
    };
-   render(await api('/control/supervisor/payments/'+id));dialog.showModal();
+   render(await api('/control/payments/'+id));dialog.showModal();
   }catch(error){onError(error);}
  });
 }

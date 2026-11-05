@@ -259,7 +259,6 @@ export class ControlOperationsService {
         include: {
           station: { select: { id: true, code: true, name: true } },
           assignments: { where: { endedAt: null }, include: { pump: { select: { id: true, code: true, name: true, active: true } } } },
-          enablements: { where: { disabledAt: null }, include: { shift: { select: { id: true, status: true } } } },
           operations: { where: { closedAt: null }, select: { id: true, operationId: true, status: true, openedAt: true } },
           credentials: { select: { lastUsedAt: true }, orderBy: { issuedAt: 'desc' }, take: 1 },
         },
@@ -271,28 +270,46 @@ export class ControlOperationsService {
         orderBy: [{ stationId: 'asc' }, { code: 'asc' }],
       }),
     ]);
-    return { terminals, pumps };
+    const userIds = [...new Set(terminals.map((terminal) => terminal.statusChangedByUserId).filter((id): id is string => Boolean(id)))];
+    const users = userIds.length ? await this.db.user.findMany({ where: { id: { in: userIds } }, select: { id: true, name: true } }) : [];
+    const names = new Map(users.map((user) => [user.id, user.name]));
+    return { terminals: terminals.map((terminal) => ({ ...terminal, statusChangedBy: names.get(terminal.statusChangedByUserId ?? '') ?? null })), pumps };
   }
 
-  async terminalStatus(actor: ControlActor, terminalId: string, action: 'OUT_OF_SERVICE' | 'RESTORE') {
+  async terminalStatus(actor: ControlActor, terminalId: string, action: 'SUSPEND' | 'ENABLE', reason?: string) {
     if (!actor.permissions.includes(AdminControlPermission.ADMIN_TERMINAL_MANAGE))
       throw new ForbiddenException('Permiso administrativo insuficiente');
+    const cleanReason = reason?.trim();
+    if (action === 'SUSPEND' && (!cleanReason || cleanReason.length < 3))
+      throw new BadRequestException('Indica el motivo de suspensión');
     return this.db.atomic(async (tx) => {
       const found = await tx.terminal.findUnique({ where: { id: terminalId } });
       if (!found || found.lifecycle !== 'REGISTRADA') throw new NotFoundException('Terminal registrada no encontrada');
       await this.scope(actor, found.stationId, AdminControlPermission.ADMIN_TERMINAL_MANAGE);
       await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
       const terminal = await tx.terminal.findUniqueOrThrow({ where: { id: terminalId } });
-      const operation = await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
-      if (operation) throw new ConflictException('Resuelve la operación activa antes de cambiar el estado administrativo');
-      if (action === 'OUT_OF_SERVICE') {
-        if (terminal.operationalStatus === 'FUERA_DE_SERVICIO') return terminal;
-        await tx.terminalEnablement.updateMany({ where: { terminalId, disabledAt: null }, data: { disabledAt: new Date(), disableReason: 'ADMIN_ACTION' } });
-      } else if (terminal.operationalStatus !== 'FUERA_DE_SERVICIO') {
-        throw new ConflictException('Solo se puede restaurar una terminal fuera de servicio');
+      if (action === 'ENABLE') {
+        if (terminal.operationalStatus === 'DISPONIBLE' || terminal.operationalStatus === 'EN_USO')
+          throw new ConflictException('La terminal ya está habilitada');
+        if (await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } }))
+          throw new ConflictException('Resuelve la operación activa antes de habilitar');
+        if (!await tx.terminalPumpAssignment.findFirst({ where: { terminalId, stationId: terminal.stationId, endedAt: null, pump: { active: true } } }))
+          throw new ConflictException('La terminal requiere un surtidor activo');
+      } else if (['BLOQUEADA', 'ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(terminal.operationalStatus)) {
+        throw new ConflictException('La terminal ya está suspendida');
       }
-      const updated = await tx.terminal.update({ where: { id: terminalId }, data: { operationalStatus: action === 'OUT_OF_SERVICE' ? 'FUERA_DE_SERVICIO' : 'BLOQUEADA', statusVersion: { increment: 1 } } });
-      await tx.operationalAuditEvent.create({ data: { eventKey: `control-terminal:${terminalId}:${randomUUID()}`, actorKind: 'USER', actorUserId: actor.userId, stationId: terminal.stationId, terminalId, action: action === 'OUT_OF_SERVICE' ? 'ADMIN_TERMINAL_OUT_OF_SERVICE' : 'ADMIN_TERMINAL_RESTORED', targetId: terminalId, outcome: 'SUCCESS', details: { previousStatus: terminal.operationalStatus, status: updated.operationalStatus } } });
+      const active = action === 'SUSPEND' && await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
+      const status = action === 'ENABLE' ? 'DISPONIBLE' : active ? 'ASISTENCIA' : 'BLOQUEADA';
+      const now = new Date();
+      const updated = await tx.terminal.update({ where: { id: terminalId }, data: {
+        operationalStatus: status, suspensionReason: action === 'SUSPEND' ? cleanReason : null,
+        statusChangedByUserId: actor.userId, statusChangedAt: now, statusVersion: { increment: 1 },
+      } });
+      await tx.operationalAuditEvent.create({ data: { eventKey: `control-terminal:${terminalId}:${randomUUID()}`,
+        actorKind: 'USER', actorUserId: actor.userId, stationId: terminal.stationId, terminalId,
+        action: action === 'SUSPEND' ? 'TERMINAL_SUSPENDED' : 'TERMINAL_ENABLED',
+        targetId: terminalId, outcome: 'SUCCESS', details: { previousStatus: terminal.operationalStatus, status, reason: cleanReason ?? null },
+      } });
       return updated;
     });
   }

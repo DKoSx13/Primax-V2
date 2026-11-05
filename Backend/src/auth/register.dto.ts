@@ -10,6 +10,8 @@ import {
 import { ProfileDto, cleanText } from '../memberships/profile.dto';
 import { EmailCredentialsDto } from './login.dto';
 
+export const PRIME_PASSWORD_PATTERN = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+
 export class RegisterDto extends IntersectionType(
   EmailCredentialsDto,
   ProfileDto,
@@ -21,9 +23,11 @@ export class RegisterDto extends IntersectionType(
   @MaxLength(80)
   name: string;
 
-  @ApiProperty({ minLength: 10, maxLength: 72 })
-  @MinLength(10)
+  @ApiProperty({ minLength: 8, maxLength: 72 })
+  @MinLength(8)
   @IsByteLength(0, 72)
-  @Matches(/\S/, { message: 'La contraseña no puede contener solo espacios' })
+  @Matches(PRIME_PASSWORD_PATTERN, {
+    message: 'La contraseña requiere mayúscula, minúscula, número y carácter especial',
+  })
   declare password: string;
 }

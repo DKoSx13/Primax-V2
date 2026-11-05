@@ -36,17 +36,20 @@ const EXPECTED_MIGRATIONS = [
   '20261030020000_v2_assistance',
   '20261030020100_v2_assistance_invariants',
   '20261030050000_v2_prime_numbering',
+  '20261105000000_terminal_independent_operation',
 ];
 
 const SEEDED_TABLES = [
   'Station', 'Fuel', 'FuelInventory', 'InventoryActivation', 'InventoryMovement',
   'Pump', 'Terminal', 'TerminalPumpAssignment', 'User', 'UserPermissionGrant',
-  'SupervisorStationAssignment', 'Membership', 'MembershipCodeAlias', 'Vehicle',
+  'AdminControlAccount', 'AdminControlGrant', 'AdminStationAssignment',
+  'Membership', 'MembershipCodeAlias', 'Vehicle',
 ];
 
 const USERS = [
   ['STAGING_ADMIN_EMAIL', 'STAGING_ADMIN_PASSWORD'],
-  ['STAGING_SUPERVISOR_EMAIL', 'STAGING_SUPERVISOR_PASSWORD'],
+  ['STAGING_CONTROL_ADMIN_EMAIL', 'STAGING_CONTROL_ADMIN_PASSWORD'],
+  ['STAGING_ENCARGADO_EMAIL', 'STAGING_ENCARGADO_PASSWORD'],
   ['STAGING_PRIME_EMAIL', 'STAGING_PRIME_PASSWORD'],
 ];
 
@@ -81,8 +84,10 @@ function assertTarget(env) {
     const email = env[emailKey] || '';
     const password = env[passwordKey] || '';
     const passwordBytes = Buffer.byteLength(password, 'utf8');
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || passwordBytes < 16 || passwordBytes > 72 || isPlaceholder(password))
-      throw new Error(`${emailKey} and a private, non-placeholder 16-72 byte ${passwordKey} are required`);
+    const isPrime = emailKey === 'STAGING_PRIME_EMAIL';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) || password.length < 8 || passwordBytes > 72 || isPlaceholder(password) ||
+        isPrime && (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)))
+      throw new Error(`${emailKey} and a valid 8-72 byte ${passwordKey} are required`);
   }
   if (new Set(USERS.map(([emailKey]) => env[emailKey].toLowerCase())).size !== USERS.length)
     throw new Error('Staging users must have distinct emails');
@@ -102,8 +107,8 @@ async function assertDatabaseReady(tx) {
         const sql = readFileSync(join(__dirname, '..', 'prisma', 'migrations', name, 'migration.sql'));
         return row.checksum !== createHash('sha256').update(sql).digest('hex');
       }) ||
-      applied[applied.length - 1]?.migration_name !== '20261030050000_v2_prime_numbering')
-    throw new Error('Expected exactly the 30 completed Primax V2 migrations, ending in V2 PRIME numbering; no changes made');
+      applied[applied.length - 1]?.migration_name !== '20261105000000_terminal_independent_operation')
+    throw new Error('Expected exactly the 31 completed Primax V2 migrations, ending in independent terminal operation; no changes made');
 
   for (const table of SEEDED_TABLES) {
     const rows = await tx.$queryRawUnsafe(`SELECT COUNT(*)::int AS count FROM public."${table}"`);
@@ -156,16 +161,22 @@ async function main() {
       await tx.userPermissionGrant.create({ data: {
         userId: admin.id, permission: 'SYSTEM_ADMIN', reason: 'Bootstrap académico Primax V2 staging',
       } });
-      const supervisor = await tx.user.create({ data: {
-        email: process.env.STAGING_SUPERVISOR_EMAIL.toLowerCase(),
-        name: 'Supervisor Primax V2 staging', passwordHash: passwords[1],
-      } });
-      await tx.supervisorStationAssignment.create({ data: {
-        userId: supervisor.id, stationId: station.id, reason: 'Asignación académica Primax V2 staging',
-      } });
+      for (const [role, index, label, permissions] of [
+        ['ADMIN', 1, 'Administrador', ['ADMIN_CONTROL_ACCESS', 'ADMIN_DASHBOARD_VIEW', 'ADMIN_TERMINAL_VIEW', 'ADMIN_TERMINAL_MANAGE', 'ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE']],
+        ['ENCARGADO', 2, 'Encargado', ['ADMIN_CONTROL_ACCESS', 'ADMIN_DASHBOARD_VIEW', 'ADMIN_TERMINAL_VIEW', 'ADMIN_TERMINAL_MANAGE', 'ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE']],
+      ]) {
+        const staff = await tx.user.create({ data: {
+          email: process.env[USERS[index][0]].toLowerCase(), name: `${label} Primax V2 staging`, passwordHash: passwords[index],
+        } });
+        const account = await tx.adminControlAccount.create({ data: {
+          userId: staff.id, role, status: 'APPROVED', emailVerifiedAt: new Date(), approvedAt: new Date(), approvedByUserId: admin.id,
+        } });
+        await tx.adminStationAssignment.create({ data: { userId: staff.id, accountId: account.id, stationId: station.id, grantedByUserId: admin.id, reason: 'Bootstrap académico Primax V2 staging' } });
+        await tx.adminControlGrant.createMany({ data: permissions.map(permission => ({ userId: staff.id, permission, grantedByUserId: admin.id, reason: 'Bootstrap académico Primax V2 staging' })) });
+      }
       const prime = await tx.user.create({ data: {
         email: process.env.STAGING_PRIME_EMAIL.toLowerCase(),
-        name: 'Cliente Prime académico V2', passwordHash: passwords[2],
+        name: 'Cliente Prime académico V2', passwordHash: passwords[3],
       } });
       const membership = await tx.membership.create({
         data: { number: 'PRIME-001', userId: prime.id, dni: '12345678' },

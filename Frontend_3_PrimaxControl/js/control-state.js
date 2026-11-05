@@ -3,7 +3,6 @@ export function canViewStation(session, stationId) {
 }
 
 export const controlModules = [
-  ['supervisor', 'Mi estación', null],
   ['dashboard', 'Panel de control', null],
   ['operations', 'Operaciones', 'ADMIN_OPERATION_VIEW'],
   ['transactions', 'Pagos / Transacciones', 'ADMIN_TRANSACTION_VIEW'],
@@ -16,14 +15,12 @@ export const controlModules = [
   ['supply', 'Abastecimiento', 'ADMIN_INVENTORY_RECEIVE'],
   ['assistance', 'Solicitudes de asistencia', 'ADMIN_INCIDENT_VIEW'],
   ['incidents', 'Incidencias', 'ADMIN_INCIDENT_VIEW'],
-  ['supervisors', 'Supervisores', 'ADMIN_USER_MANAGE'],
   ['accounts', 'Personal / accesos', 'ADMIN_USER_MANAGE'],
   ['audit', 'Auditoría', 'ADMIN_AUDIT_VIEW'],
 ];
 
 export function visibleModules(session) {
   return controlModules.filter(([id, , permission]) => {
-    if (id === 'supervisor') return Boolean(session?.roles?.includes('SUPERVISOR'));
     if (id === 'dashboard') return Boolean(session?.permissions?.includes('ADMIN_DASHBOARD_VIEW'));
     if (id === 'accounts') return Boolean(session?.global);
     return !permission || session?.permissions?.includes(permission);

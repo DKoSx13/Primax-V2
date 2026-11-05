@@ -20,7 +20,7 @@ const active: AssistanceStatus[] = ['PENDIENTE', 'EN_ATENCION'];
 const include = {
   terminal: { select: { code: true } },
   pump: { select: { code: true } },
-  assignedSupervisor: { select: { id: true, name: true } },
+  assignedStaff: { select: { id: true, name: true } },
 } satisfies Prisma.AssistanceRequestInclude;
 
 @Injectable()
@@ -164,37 +164,18 @@ export class AssistanceService {
     });
   }
 
-  private async supervisorStations(
-    actor: ControlActor,
-    tx: Prisma.TransactionClient = this.db,
-  ) {
-    const assignments = await tx.supervisorStationAssignment.findMany({
-      where: {
-        userId: actor.userId,
-        endedAt: null,
-        user: { active: true },
-        station: { active: true },
-      },
-      select: { stationId: true },
-    });
-    return assignments.map((x) => x.stationId);
-  }
-  private async readScope(actor: ControlActor, stationId?: string) {
-    const supervisor = await this.supervisorStations(actor);
-    const admin = actor.permissions.includes('ADMIN_INCIDENT_VIEW');
-    const global = admin && actor.global;
-    const ids = [
-      ...new Set([...supervisor, ...(admin ? actor.stationIds : [])]),
-    ];
-    if (stationId && !global && !ids.includes(stationId))
+  private readScope(actor: ControlActor, stationId?: string) {
+    if (!actor.permissions.includes('ADMIN_INCIDENT_VIEW'))
+      throw new ForbiddenException('Permiso de lectura de incidencias requerido');
+    if (stationId && !actor.global && !actor.stationIds.includes(stationId))
       throw new ForbiddenException('Estación fuera del alcance autorizado');
-    return stationId ? { stationId } : global ? {} : { stationId: { in: ids } };
+    return stationId ? { stationId } : actor.global ? {} : { stationId: { in: actor.stationIds } };
   }
   async list(
     actor: ControlActor,
     query: { stationId?: string; status?: AssistanceStatus },
   ) {
-    const scope = await this.readScope(actor, query.stationId);
+    const scope = this.readScope(actor, query.stationId);
     return this.db.assistanceRequest.findMany({
       where: { ...scope, ...(query.status ? { status: query.status } : {}) },
       include,
@@ -203,7 +184,7 @@ export class AssistanceService {
     });
   }
   async detail(actor: ControlActor, id: string) {
-    const scope = await this.readScope(actor);
+    const scope = this.readScope(actor);
     const row = await this.db.assistanceRequest.findFirst({
       where: { id, ...scope },
       include,
@@ -251,22 +232,20 @@ export class AssistanceService {
   }
   async act(actor: ControlActor, id: string, dto: AssistanceActionDto) {
     return this.db.atomic(async (tx) => {
-      const stations = await this.supervisorStations(actor, tx);
+      if (!actor.permissions.includes('ADMIN_INCIDENT_MANAGE'))
+        throw new ForbiddenException('Permiso de gestión de incidencias requerido');
       const row = await tx.assistanceRequest.findFirst({
-        where: { id, stationId: { in: stations } },
+        where: { id, ...(actor.global ? {} : { stationId: { in: actor.stationIds } }) },
       });
-      if (!row)
-        throw new ForbiddenException(
-          'Se requiere asignación de Supervisor a esta estación',
-        );
+      if (!row) throw new ForbiddenException('Estación fuera del alcance autorizado');
       const accepting = dto.action === 'ACCEPT';
       if (
         !accepting &&
         (row.status !== 'EN_ATENCION' ||
-          row.assignedSupervisorId !== actor.userId)
+          row.assignedStaffId !== actor.userId)
       )
         throw new ConflictException(
-          'Solo el Supervisor responsable puede atender una solicitud en atención',
+          'Solo el personal responsable puede atender una solicitud en atención',
         );
       if (['RESOLVE', 'ESCALATE'].includes(dto.action) && !dto.result?.trim())
         throw new BadRequestException('Registra el resultado de la atención');
@@ -287,13 +266,13 @@ export class AssistanceService {
           id,
           status: accepting ? 'PENDIENTE' : 'EN_ATENCION',
           ...(accepting
-            ? { assignedSupervisorId: null }
-            : { assignedSupervisorId: actor.userId }),
+            ? { assignedStaffId: null }
+            : { assignedStaffId: actor.userId }),
         },
         data: {
           status,
           ...(accepting
-            ? { assignedSupervisorId: actor.userId, acceptedAt: now }
+            ? { assignedStaffId: actor.userId, acceptedAt: now }
             : {}),
           ...(dto.observation !== undefined
             ? { observation: dto.observation }
@@ -325,7 +304,7 @@ export class AssistanceService {
             summary: dto.result!.slice(0, 300),
             context: {
               assistanceRequestId: id,
-              assignedSupervisorId: actor.userId,
+              assignedStaffId: actor.userId,
               observation: dto.observation ?? row.observation,
               result: dto.result!,
             },

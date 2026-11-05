@@ -2,10 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {assistanceActions} from '../js/assistance.js';
 import {visibleModules} from '../js/control-state.js';
-test('only pending requests can be taken; only assigned Supervisor can finish',()=>{
+test('only pending requests can be taken; only assigned staff member can finish',()=>{
  assert.deepEqual(assistanceActions({status:'PENDIENTE'},'a',true),['ACCEPT']);
- assert.deepEqual(assistanceActions({status:'EN_ATENCION',assignedSupervisorId:'a'},'b',true),[]);
- assert.deepEqual(assistanceActions({status:'EN_ATENCION',assignedSupervisorId:'a'},'a',true),['NOTE','RESOLVE','ESCALATE','CANCEL']);
+ assert.deepEqual(assistanceActions({status:'EN_ATENCION',assignedStaffId:'a'},'b',true),[]);
+ assert.deepEqual(assistanceActions({status:'EN_ATENCION',assignedStaffId:'a'},'a',true),['NOTE','RESOLVE','ESCALATE','CANCEL']);
  assert.deepEqual(assistanceActions({status:'RESUELTA'},'a',true),[]);
  assert.deepEqual(assistanceActions({status:'PENDIENTE'},'a',false),[]);
 });

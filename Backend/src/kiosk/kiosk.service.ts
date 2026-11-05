@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -197,29 +198,37 @@ export class KioskService {
       throw new UnauthorizedException();
     return this.create(true);
   }
-  async bootstrapSupervisor(req: Request, userId: string) {
+  async bootstrapTerminal(req: Request, requestedTerminalId?: string) {
     this.verifyGateway(req);
-    const token = req.header('x-kiosk-session') || '';
-    await this.session(token, req.header('x-csrf-token') || '', false);
     await this.limitTechnical(req);
     const stationId = this.config.getOrThrow<string>('KIOSK_STATION_ID');
-    const assignment = await this.db.supervisorStationAssignment.findFirst({
-      where: { userId, stationId, endedAt: null, user: { active: true }, station: { active: true } },
+    const terminals = await this.db.terminal.findMany({
+      where: { stationId, lifecycle: 'REGISTRADA', ...(requestedTerminalId ? { id: requestedTerminalId } : {}) },
+      select: { id: true, operationalStatus: true },
+      take: 2,
     });
-    if (!assignment) throw new ForbiddenException('Supervisor no asignado a esta estación');
-    if ((await this.store.command<number>('DEL', this.sessionKey(token))) !== 1)
-      throw new UnauthorizedException('Sesión técnica vencida');
-    return this.create(true);
+    if (terminals.length !== 1)
+      throw new ConflictException('Configura una terminal única para este kiosco');
+    const terminal = terminals[0];
+    const previous = req.header('x-terminal-session') || '';
+    const existing = /^[a-f0-9]{64}$/.test(previous)
+      ? await this.db.terminalCredential.findUnique({ where: { tokenHash: digest(previous) } })
+      : null;
+    if (!['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus) &&
+        !(existing?.terminalId === terminal.id && !existing.revokedAt && existing.expiresAt > new Date() &&
+          await this.db.terminalOperation.findFirst({ where: { terminalId: terminal.id, closedAt: null } })))
+      throw new ConflictException('Terminal temporalmente no disponible');
+    let terminalToken = previous;
+    let expiresAt = existing?.expiresAt;
+    if (!existing || existing.terminalId !== terminal.id || existing.revokedAt || existing.expiresAt <= new Date()) {
+      terminalToken = randomBytes(32).toString('hex');
+      expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
+      await this.db.terminalCredential.create({ data: { terminalId: terminal.id, tokenHash: digest(terminalToken), expiresAt } });
+    }
+    const session = await this.create(true);
+    return { ...session, terminalId: terminal.id, terminalToken, terminalExpiresAt: expiresAt };
   }
-  async handoffSupervisor(userId: string, stationId: string) {
-    if (stationId !== this.config.getOrThrow<string>('KIOSK_STATION_ID'))
-      throw new ForbiddenException('Terminal fuera de la estación autorizada');
-    const assignment = await this.db.supervisorStationAssignment.findFirst({
-      where: { userId, stationId, endedAt: null, user: { active: true }, station: { active: true } },
-    });
-    if (!assignment) throw new ForbiddenException('Supervisor no asignado a esta estación');
-    return this.create(true);
-  }
+
   async logout(req: Request) {
     this.verifyGateway(req);
     const token = req.header('x-kiosk-session') || '';

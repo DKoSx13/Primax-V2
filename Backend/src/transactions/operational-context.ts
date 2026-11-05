@@ -32,10 +32,11 @@ export async function terminalOperationFor(
     operation.terminalPumpAssignment.stationId !== operation.stationId ||
     operation.terminalPumpAssignment.terminalId !== operation.terminalId ||
     operation.terminalPumpAssignment.pumpId !== operation.pumpId ||
-    operation.enablement.stationId !== operation.stationId ||
-    operation.enablement.terminalId !== operation.terminalId ||
-    operation.enablement.terminalPumpAssignmentId !==
-      operation.terminalPumpAssignmentId
+    (operation.enablement && (
+      operation.enablement.stationId !== operation.stationId ||
+      operation.enablement.terminalId !== operation.terminalId ||
+      operation.enablement.terminalPumpAssignmentId !== operation.terminalPumpAssignmentId
+    ))
   )
     throw new ConflictException(
       'El contexto Terminal, Pump y asignación es inconsistente',

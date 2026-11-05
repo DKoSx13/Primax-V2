@@ -1,6 +1,6 @@
 import '../src/config/load-env';
 import { execFileSync } from 'node:child_process';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomBytes, randomUUID } from 'node:crypto';
 import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
@@ -19,8 +19,6 @@ describe('Fase 1B-2: resultado posterior del reembolso parcial', () => {
   let adminToken: string;
   let stationId: string;
   let fuelId: string;
-  let supervisorId: string;
-  let shiftId: string;
   let operations: OperationsService;
 
   const post = (route: string, body: object) =>
@@ -47,8 +45,9 @@ describe('Fase 1B-2: resultado posterior del reembolso parcial', () => {
     const pump = await operations.createPump(stationId, `R${randomUUID().slice(0, 8)}`, 'Refund pump');
     const terminal = await operations.createTerminal(stationId, `R${randomUUID().slice(0, 8)}`);
     await operations.assignTerminal(terminal.id, pump.id);
-    await operations.enable(supervisorId, terminal.id, shiftId);
-    const credential = await operations.issueCredential(supervisorId, terminal.id);
+    await db.terminal.update({ where: { id: terminal.id }, data: { operationalStatus: 'DISPONIBLE' } });
+    const token = randomBytes(32).toString('hex');
+    await db.terminalCredential.create({ data: { terminalId: terminal.id, tokenHash: createHash('sha256').update(token).digest('hex'), expiresAt: new Date(Date.now() + 3600000) } });
     await operations.startOperation(terminal.id, operationId);
     const body = {
       operationId,
@@ -61,7 +60,7 @@ describe('Fase 1B-2: resultado posterior del reembolso parcial', () => {
       paymentMethod: 'TARJETA',
     };
     const authorization = (
-      await technicalPost('authorizations', body, credential.token).expect(201)
+      await technicalPost('authorizations', body, token).expect(201)
     ).body.authorization;
     const paymentId = (
       await db.fuelAuthorization.findUniqueOrThrow({
@@ -74,14 +73,14 @@ describe('Fase 1B-2: resultado posterior del reembolso parcial', () => {
     await technicalPost(`authorizations/${authorization.id}/progress`, {
       amount: delivered,
       gallons,
-    }, credential.token).expect(200);
+    }, token).expect(200);
     const transaction = (
       await technicalPost('transactions', {
         ...body,
         authorizationId: authorization.id,
         amount: delivered,
         gallons,
-      }, credential.token).expect(201)
+      }, token).expect(201)
     ).body.transaction;
     const reservation = await db.inventoryReservation.findUniqueOrThrow({
       where: { operationId },
@@ -148,10 +147,6 @@ describe('Fase 1B-2: resultado posterior del reembolso parcial', () => {
       data: { code: 'RFND', name: 'Refund fuel', pricePerGallon: '20.00' },
     })).id;
     await db.fuelInventory.create({ data: { stationId, fuelId, liters: '1000.000000' } });
-    const supervisor = await db.user.create({ data: { email: `${randomUUID()}@example.test`, name: 'Refund supervisor', passwordHash: 'fixture' } });
-    supervisorId = supervisor.id;
-    await operations.assignSupervisor(supervisorId, stationId, 'Refund E2E fixture');
-    shiftId = (await operations.openShift(supervisorId, stationId)).id;
   }, 90000);
 
   afterAll(async () => {

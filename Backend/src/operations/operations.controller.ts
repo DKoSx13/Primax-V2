@@ -6,7 +6,6 @@ import {
   ParseUUIDPipe,
   Post,
   SetMetadata,
-  ForbiddenException,
 } from '@nestjs/common';
 import {
   IsString,
@@ -18,17 +17,10 @@ import {
 import {
   Actor,
   CurrentActor,
-  SupervisorOnly,
   TerminalOnly,
 } from '../auth/access';
 import { OperationsService } from './operations.service';
 
-class StationDto {
-  @IsUUID() stationId: string;
-}
-class ShiftDto {
-  @IsUUID() shiftId: string;
-}
 class OperationDto {
   @IsUUID('4') operationId: string;
 }
@@ -38,9 +30,6 @@ class ResolutionDto {
 class GrantDto {
   @IsUUID() userId: string;
   @IsString() @MinLength(3) @MaxLength(200) reason: string;
-}
-class AssignSupervisorDto extends GrantDto {
-  @IsUUID() stationId: string;
 }
 class PumpDto {
   @IsUUID() stationId: string;
@@ -55,101 +44,12 @@ class TerminalPumpDto {
   @IsUUID() pumpId: string;
 }
 
-const userId = (actor: Actor) => {
-  if (actor.kind !== 'member') throw new Error('Usuario requerido');
-  return actor.userId;
-};
 const terminalId = (actor: Actor) => {
   if (actor.kind !== 'terminal') throw new Error('Terminal requerida');
   return actor.terminalId;
 };
 const adminId = (actor: Actor) =>
   actor.kind === 'member' ? actor.userId : undefined;
-
-@SupervisorOnly()
-@Controller('supervisor')
-export class SupervisorController {
-  constructor(private readonly service: OperationsService) {}
-  @Get('me/stations') stations(@CurrentActor() actor: Actor) {
-    return this.service.stations(userId(actor));
-  }
-  @Get('shifts/current') currentShift(@CurrentActor() actor: Actor) {
-    return this.service.currentShift(userId(actor));
-  }
-  @Post('shifts') open(@CurrentActor() actor: Actor, @Body() dto: StationDto) {
-    return this.service.openShift(userId(actor), dto.stationId);
-  }
-  @Post('shifts/:id/suspend') suspend(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.shiftState(userId(actor), id, 'suspend');
-  }
-  @Post('shifts/:id/resume') resume(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.shiftState(userId(actor), id, 'resume');
-  }
-  @Post('shifts/:id/close') close(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.shiftState(userId(actor), id, 'close');
-  }
-  @Get('stations/:id/terminals') terminals(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.terminals(userId(actor), id);
-  }
-  @Post('terminals/:id/enable') enable(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: ShiftDto,
-  ) {
-    return this.service.enable(userId(actor), id, dto.shiftId);
-  }
-  @Post('terminals/:id/block') block(
-  ) {
-    throw new ForbiddenException('El bloqueo administrativo se realiza desde Primax Control');
-  }
-  @Post('terminals/:id/restore') restore(
-  ) {
-    throw new ForbiddenException('La restauración administrativa se realiza desde Primax Control');
-  }
-  @Post('operations/:id/resolve') resolveOperation(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: ResolutionDto,
-  ) {
-    return this.service.resolveOperation(userId(actor), id, dto.reason);
-  }
-  @Post('operations/:id/cancel-unpaid') cancelUnpaidOperation(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.cancelUnpaidOperation(userId(actor), id);
-  }
-  @Post('terminals/:id/pair') async pair(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.issueCredential(userId(actor), id);
-  }
-  @Post('terminals/:id/rotate') async rotate(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.issueCredential(userId(actor), id, true);
-  }
-  @Post('terminals/:id/revoke-session') async revoke(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.revokeCredential(userId(actor), id);
-  }
-}
 
 @TerminalOnly()
 @Controller('terminal')
@@ -178,6 +78,27 @@ export class TerminalController {
   }
 }
 
+@SetMetadata('access', 'control')
+@Controller('control/terminal-operations')
+export class ControlTerminalRecoveryController {
+  constructor(private readonly service: OperationsService) {}
+
+  @Post(':id/resolve') resolve(
+    @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ResolutionDto,
+  ) {
+    return this.service.resolveOperation(actor.userId, id, dto.reason);
+  }
+
+  @Post(':id/cancel-unpaid') cancelUnpaid(
+    @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    return this.service.cancelUnpaidOperation(actor.userId, id);
+  }
+}
+
 @SetMetadata('access', 'admin')
 @Controller('operational-admin')
 export class OperationalAdminController {
@@ -193,23 +114,6 @@ export class OperationalAdminController {
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.service.revokeAdminGrant(id, adminId(actor));
-  }
-  @Post('supervisor-assignments') assign(
-    @CurrentActor() actor: Actor,
-    @Body() dto: AssignSupervisorDto,
-  ) {
-    return this.service.assignSupervisor(
-      dto.userId,
-      dto.stationId,
-      dto.reason,
-      adminId(actor),
-    );
-  }
-  @Post('supervisor-assignments/:id/end') end(
-    @CurrentActor() actor: Actor,
-    @Param('id', ParseUUIDPipe) id: string,
-  ) {
-    return this.service.endSupervisorAssignment(id, adminId(actor));
   }
   @Post('pumps') pump(@CurrentActor() actor: Actor, @Body() dto: PumpDto) {
     return this.service.createPump(

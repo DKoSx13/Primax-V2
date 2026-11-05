@@ -1,4 +1,4 @@
-import { kioskHeaders, expireKioskSession, kioskAuthEnabled, refreshKioskSession, supervisorRecovery } from './kioskSession.js';
+import { kioskHeaders, expireKioskSession, kioskAuthEnabled, refreshKioskSession, terminalRecovery } from './kioskSession.js';
 export const API_BASE_URL = globalThis.FUELFLOW_API_BASE_URL || '/api/v1';
 function terminalCsrf() {
   const name = location.protocol === 'https:' ? '__Host-primax-terminal-csrf' : 'primax-terminal-csrf-local';
@@ -16,7 +16,7 @@ export async function apiClient(path, {method='GET',body,token}={}, retried=fals
     return apiClient(path,{method,body,token},true);
   }
   if(response.status===401&&!path.startsWith('/terminal/'))expireKioskSession();
-  if(response.status===401&&path.startsWith('/terminal/'))supervisorRecovery();
+  if(response.status===401&&path.startsWith('/terminal/'))terminalRecovery();
   if(!response.ok)throw Object.assign(Error(response.status>=500?'No pudimos confirmar la compra. Puedes reintentar.':(Array.isArray(result?.message)?result.message.join('. '):result?.message)||'No pudimos completar la operación.'),{status:response.status,details:result});
   return result;
 }

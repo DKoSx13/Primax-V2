@@ -28,7 +28,7 @@ class RecoveryActionDto {
   @IsOptional() @IsString() @MaxLength(500) observation?: string;
 }
 @Injectable()
-export class SupervisorPaymentsService {
+export class ControlPaymentsService {
   constructor(
     private readonly db: PrismaService,
     private readonly orders: OnlineOrdersService,
@@ -39,18 +39,9 @@ export class SupervisorPaymentsService {
       where: { operationId },
     });
     if (!operation) throw new NotFoundException('Operación no encontrada');
-    if (
-      !(await this.db.supervisorStationAssignment.findFirst({
-        where: {
-          userId: actor.userId,
-          stationId: operation.stationId,
-          endedAt: null,
-          user: { active: true },
-          station: { active: true },
-        },
-      }))
-    )
-      throw new ForbiddenException('Supervisor fuera de esta estación');
+    if (!actor.permissions.includes('ADMIN_INCIDENT_VIEW') ||
+        !actor.global && !actor.stationIds.includes(operation.stationId))
+      throw new ForbiddenException('Permiso o estación fuera del alcance autorizado');
     return operation;
   }
   async detail(actor: ControlActor, operationId: string) {
@@ -111,7 +102,7 @@ export class SupervisorPaymentsService {
           }
         : null,
       incidents,
-      allowedActions: [
+      allowedActions: actor.permissions.includes('ADMIN_INCIDENT_MANAGE') ? [
         'ESCALATE',
         ...(order && ['PENDING', 'CREATING'].includes(order.status)
           ? ['RETRY']
@@ -121,10 +112,12 @@ export class SupervisorPaymentsService {
         (!order || ['FAILED', 'CANCELLED'].includes(order.status))
           ? ['CANCEL']
           : []),
-      ],
+      ] : [],
     };
   }
   async act(actor: ControlActor, operationId: string, dto: RecoveryActionDto) {
+    if (!actor.permissions.includes('ADMIN_INCIDENT_MANAGE'))
+      throw new ForbiddenException('Permiso de gestión de incidencias requerido');
     const detail = await this.detail(actor, operationId);
     if (!detail.allowedActions.includes(dto.action))
       throw new ConflictException(
@@ -143,17 +136,17 @@ export class SupervisorPaymentsService {
         await recordPaymentIssue(
           tx,
           operationId,
-          dto.observation?.trim() || 'Supervisor solicita revisión del pago',
+          dto.observation?.trim() || 'Personal autorizado solicita revisión del pago',
           actor.userId,
         );
       await tx.operationalAuditEvent.create({
         data: {
-          eventKey: `supervisor-payment:${randomUUID()}`,
+          eventKey: `control-payment:${randomUUID()}`,
           actorKind: 'USER',
           actorUserId: actor.userId,
           stationId: detail.stationId,
           terminalId: detail.terminalId,
-          action: `SUPERVISOR_PAYMENT_${dto.action}`,
+          action: `CONTROL_PAYMENT_${dto.action}`,
           targetId: operationId,
           outcome: 'SUCCESS',
           details: { operationId, observation: dto.observation ?? null },
@@ -170,9 +163,9 @@ export class SupervisorPaymentsService {
   }
 }
 @SetMetadata('access', 'control')
-@Controller('control/supervisor/payments')
-export class SupervisorPaymentsController {
-  constructor(private readonly service: SupervisorPaymentsService) {}
+@Controller('control/payments')
+export class ControlPaymentsController {
+  constructor(private readonly service: ControlPaymentsService) {}
   @Get(':id') detail(
     @CurrentActor() actor: ControlActor,
     @Param('id', ParseUUIDPipe) id: string,

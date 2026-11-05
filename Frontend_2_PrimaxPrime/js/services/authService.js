@@ -1,11 +1,13 @@
 import { apiClient } from './apiClient.js';
 import { session, clearSession, SESSION_KEY } from './session.js';
+import { validatePrimePassword } from '../passwordPolicy.js';
 export const authService = {
   isAuthenticated: () => Boolean(session()),
   async login(identifier, password) {
     return authenticate('/auth/login', { identifier, password });
   },
   async register(data) {
+    validatePrimePassword(data.password);
     return authenticate('/auth/register', data);
   },
   logout: clearSession,

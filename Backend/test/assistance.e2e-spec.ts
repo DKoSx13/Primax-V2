@@ -58,7 +58,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
       db.user.create({
         data: {
           email: randomUUID() + '@local.test',
-          name: 'Supervisor',
+          name: 'Encargado',
           passwordHash: 'not-a-login-hash',
         },
       });
@@ -71,9 +71,9 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     const actor = (userId: string): typeof a => ({
       kind: 'control',
       userId,
-      role: 'SUPERVISOR',
-      permissions: [],
-      stationIds: [],
+      role: 'ENCARGADO',
+      permissions: ['ADMIN_CONTROL_ACCESS', 'ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE'],
+      stationIds: [station.id],
       global: false,
     });
     a = actor(ua.id);
@@ -90,13 +90,11 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
       permissions: ['ADMIN_INCIDENT_VIEW'],
       global: true,
     };
-    await db.supervisorStationAssignment.createMany({
-      data: [ua, ub].map((u) => ({
-        userId: u.id,
-        stationId: station.id,
-        reason: 'Local V2 test',
-      })),
-    });
+    for (const member of [ua, ub]) {
+      const staffAccount = await db.adminControlAccount.create({ data: { userId: member.id, role: 'ENCARGADO', status: 'APPROVED', emailVerifiedAt: new Date() } });
+      await db.adminStationAssignment.create({ data: { userId: member.id, accountId: staffAccount.id, stationId: station.id, reason: 'Local V2 test' } });
+      await db.adminControlGrant.createMany({ data: ['ADMIN_CONTROL_ACCESS', 'ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE'].map(permission => ({ userId: member.id, permission: permission as 'ADMIN_INCIDENT_MANAGE', reason: 'Local V2 test' })) });
+    }
     const account = await db.adminControlAccount.create({
       data: {
         userId: uc.id,
@@ -206,7 +204,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     for (const extra of [
       { reason: 'FAKE' },
       { stationId: otherTerminal.stationId },
-      { assignedSupervisorId: a.userId },
+      { assignedStaffId: a.userId },
       { status: 'RESUELTA' },
       { paymentStatus: 'CAPTURED' },
     ])
@@ -254,7 +252,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
       }),
     ).rejects.toThrow('fuera');
   });
-  it('accepts exactly one simultaneous Supervisor and returns 409 to the second', async () => {
+  it('accepts exactly one simultaneous staff members and returns 409 to the second', async () => {
     const row = await create();
     const results = await Promise.allSettled([
       service.act(a, row.id, { action: 'ACCEPT' }),
@@ -267,13 +265,13 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     expect(loser.reason.getStatus()).toBe(409);
     expect(loser.reason.message).toMatch(/ya está siendo atendida/);
     const detail = await service.detail(a, row.id);
-    expect([a.userId, b.userId]).toContain(detail.assignedSupervisorId);
+    expect([a.userId, b.userId]).toContain(detail.assignedStaffId);
     expect(detail.acceptedAt).toBeInstanceOf(Date);
     expect(
       detail.events.filter((e) => e.action === 'ASSISTANCE_ACCEPT'),
     ).toHaveLength(1);
   });
-  it('enforces station scope, grants, assigned owner and blocks Admin from acting as Supervisor', async () => {
+  it('enforces station scope, grants, assigned owner and blocks read-only Admin from acting', async () => {
     const row = await create();
     await service.act(a, row.id, { action: 'ACCEPT' });
     await expect(
@@ -284,7 +282,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     ).rejects.toThrow('responsable');
     await expect(
       service.act(admin, row.id, { action: 'RESOLVE', result: 'Admin' }),
-    ).rejects.toThrow('asignación');
+    ).rejects.toThrow('Permiso');
     expect((await service.list(admin, {})).some((r) => r.id === row.id)).toBe(
       true,
     );
@@ -298,7 +296,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     await expect(service.detail(a, outsider.id)).rejects.toThrow('alcance');
     await expect(
       service.detail({ ...admin, permissions: [] }, row.id),
-    ).rejects.toThrow('alcance');
+    ).rejects.toThrow('Permiso');
     expect((await service.detail(root, outsider.id)).id).toBe(outsider.id);
     await expect(service.cancel(otherTerminal, row.id)).rejects.toThrow(
       'no encontrada',
@@ -352,7 +350,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     expect(escalation.escalatedAt).toBeInstanceOf(Date);
     expect(escalation.incidents).toHaveLength(1);
     expect(escalation.incidents[0].context).toMatchObject({
-      assignedSupervisorId: a.userId,
+      assignedStaffId: a.userId,
     });
   });
   it.each([false, true])(

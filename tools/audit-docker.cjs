@@ -14,7 +14,7 @@ async function main() {
   const secrets = [
     env.JWT_SECRET, env.KIOSK_API_KEY, env.DATABASE_URL, env.DATABASE_URL_UNPOOLED,
     env.KIOSK_REDIS_URL, env.DEMO_PASSWORD, env.DEMO_CONTROL_ADMIN_PASSWORD,
-    env.DEMO_SUPERVISOR_PASSWORD, config.services.postgres.environment.POSTGRES_PASSWORD,
+    env.DEMO_ENCARGADO_PASSWORD, config.services.postgres.environment.POSTGRES_PASSWORD,
     redisPassword, env.SMTP_PASSWORD, env.ADMIN_PASSWORD_HASH,
   ].filter(value => typeof value === 'string' && value.length > 0);
   assert(env.JWT_SECRET && env.KIOSK_API_KEY && env.DATABASE_URL && redisPassword, 'Configure local server secrets first');

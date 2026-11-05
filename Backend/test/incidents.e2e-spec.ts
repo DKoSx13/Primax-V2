@@ -22,8 +22,8 @@ describe('Operational incidents PostgreSQL', () => {
   let stationA: string;
   let stationB: string;
   let fuelId: string;
-  let supervisorA: { id: string; token: string };
-  let supervisorB: { id: string; token: string };
+  let staffA: { id: string; token: string };
+  let staffB: { id: string; token: string };
   let operationA: string;
   let authorizationA: string;
 
@@ -111,9 +111,9 @@ describe('Operational incidents PostgreSQL', () => {
         passwordHash: 'test-only',
       },
     });
-    await db.supervisorStationAssignment.create({
-      data: { userId: user.id, stationId, reason: 'Incidents E2E' },
-    });
+    const account = await db.adminControlAccount.create({ data: { userId: user.id, role: 'ENCARGADO', status: 'APPROVED', emailVerifiedAt: new Date() } });
+    await db.adminStationAssignment.create({ data: { userId: user.id, accountId: account.id, stationId, reason: 'Incidents E2E' } });
+    await db.adminControlGrant.createMany({ data: ['ADMIN_CONTROL_ACCESS', 'ADMIN_INCIDENT_VIEW', 'ADMIN_INCIDENT_MANAGE'].map(permission => ({ userId: user.id, permission: permission as 'ADMIN_INCIDENT_MANAGE', reason: 'Incidents E2E' })) });
     const token = await jwt.signAsync({ sub: user.id, ver: user.authVersion });
     return { id: user.id, token };
   }
@@ -179,8 +179,8 @@ describe('Operational incidents PostgreSQL', () => {
         }),
       ),
     );
-    supervisorA = await userWithStation(stationA, 'incident-a');
-    supervisorB = await userWithStation(stationB, 'incident-b');
+    staffA = await userWithStation(stationA, 'incident-a');
+    staffB = await userWithStation(stationB, 'incident-b');
   }, 90000);
 
   afterAll(async () => {
@@ -214,8 +214,7 @@ describe('Operational incidents PostgreSQL', () => {
       `IT-${randomUUID().slice(0, 6)}`,
     );
     await operations.assignTerminal(terminal.id, pump.id);
-    const shift = await operations.openShift(supervisorA.id, stationA);
-    await operations.enable(supervisorA.id, terminal.id, shift.id);
+    await db.terminal.update({ where: { id: terminal.id }, data: { operationalStatus: 'DISPONIBLE' } });
     const terminalOperation = await operations.startOperation(
       terminal.id,
       randomUUID(),
@@ -356,10 +355,10 @@ describe('Operational incidents PostgreSQL', () => {
     expect(one.id).not.toBe(two.id);
   });
 
-  it('lists and details incidents only for assigned supervisors, and resolves idempotently with audit', async () => {
+  it('lists and details incidents only for authorized staff, and resolves idempotently with audit', async () => {
     const list = await request(app.getHttpServer())
-      .get(`/api/v1/incidents?stationId=${stationA}`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .get(`/api/v1/control/incidents?stationId=${stationA}`)
+      .auth(staffA.token, { type: 'bearer' })
       .expect(200);
     const incident = await db.operationalIncident.findUniqueOrThrow({
       where: { code_operationId: { code: 'INC_001', operationId: operationA } },
@@ -368,45 +367,45 @@ describe('Operational incidents PostgreSQL', () => {
       list.body.some((row: { id: string }) => row.id === incident.id),
     ).toBe(true);
     await request(app.getHttpServer())
-      .get(`/api/v1/incidents/${incident.id}`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .get(`/api/v1/control/incidents/${incident.id}`)
+      .auth(staffA.token, { type: 'bearer' })
       .expect(200);
     await request(app.getHttpServer())
-      .get(`/api/v1/incidents/${incident.id}`)
-      .auth(supervisorB.token, { type: 'bearer' })
+      .get(`/api/v1/control/incidents/${incident.id}`)
+      .auth(staffB.token, { type: 'bearer' })
       .expect(403);
     await request(app.getHttpServer())
-      .get(`/api/v1/incidents/${incident.id}`)
+      .get(`/api/v1/control/incidents/${incident.id}`)
       .expect(401);
 
     await request(app.getHttpServer())
-      .post(`/api/v1/incidents/${incident.id}/status`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .post(`/api/v1/control/incidents/${incident.id}/status`)
+      .auth(staffA.token, { type: 'bearer' })
       .send({
         status: 'IN_REVIEW',
         reason: 'Personal revisando el comprobante',
       })
       .expect(201);
     const resolved = await request(app.getHttpServer())
-      .post(`/api/v1/incidents/${incident.id}/status`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .post(`/api/v1/control/incidents/${incident.id}/status`)
+      .auth(staffA.token, { type: 'bearer' })
       .send({ status: 'RESOLVED', reason: 'Atención registrada y conciliada' })
       .expect(201);
     const replay = await request(app.getHttpServer())
-      .post(`/api/v1/incidents/${incident.id}/status`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .post(`/api/v1/control/incidents/${incident.id}/status`)
+      .auth(staffA.token, { type: 'bearer' })
       .send({ status: 'RESOLVED', reason: 'Reintento' })
       .expect(201);
     expect(resolved.body.id).toBe(replay.body.id);
     expect(replay.body.resolution).toBe('Atención registrada y conciliada');
     expect(
       await db.operationalAuditEvent.count({
-        where: { action: 'INCIDENT_RESOLVED', targetId: incident.id },
+        where: { action: 'INCIDENT_STATUS_CHANGED', targetId: incident.id },
       }),
-    ).toBe(1);
+    ).toBe(2);
     await request(app.getHttpServer())
-      .post(`/api/v1/incidents/${incident.id}/status`)
-      .auth(supervisorA.token, { type: 'bearer' })
+      .post(`/api/v1/control/incidents/${incident.id}/status`)
+      .auth(staffA.token, { type: 'bearer' })
       .send({ status: 'DISMISSED', reason: 'Intento incompatible' })
       .expect(409);
   });
