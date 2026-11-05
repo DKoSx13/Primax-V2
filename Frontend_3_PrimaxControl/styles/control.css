@@ -24,3 +24,32 @@ body{background:#f6f7fc}
 .avatar{background:#eceeff;color:var(--blue)}
 .topbar{border-bottom-color:#e2e5f6}
 .brand-logo{width:48px;height:42px;object-fit:contain;background:#fff;border-radius:9px;padding:4px;flex:none}.login-card .brand-logo{width:62px;height:48px}.sidebar .brand-logo{background:#fff}
+
+/* Tables and forms keep their own spacing inside the existing card layout. */
+.panel h2,.panel h3{margin:0 0 12px;color:var(--ink)}
+.panel>p{line-height:1.55}
+.table-wrap{min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+.table-wrap.panel{padding:0}
+.table-wrap.panel>h2,.table-wrap.panel>h3{padding:20px 20px 0;margin:0}
+.table-wrap.panel>table{margin-top:12px}
+.table-wrap table{width:100%;border-collapse:collapse;table-layout:auto}
+.table-wrap th,.table-wrap td{padding:14px 16px;white-space:normal;overflow-wrap:anywhere;vertical-align:top;line-height:1.45}
+.table-wrap th{white-space:normal}
+.table-wrap td .subcell{overflow-wrap:anywhere}
+.form-panel{width:100%;max-width:760px;margin:0 0 20px;padding:24px}
+.form-panel h2{margin:0 0 8px;font-size:17px}
+.form-panel>p.muted{margin:0 0 18px;line-height:1.55}
+.form-panel form{width:100%;gap:16px}
+.form-panel form>label{width:100%;gap:7px;color:var(--ink);font-size:13px}
+.form-panel input:not([type="checkbox"]),.form-panel select,.filter-bar input,.filter-bar select{width:100%;min-width:0;min-height:44px;border-radius:10px}
+.supervisor-form-panel+.supervisor-form-panel{margin-top:20px}
+.filter-bar{gap:14px;margin:20px 0}
+.filter-bar label{flex:1 1 190px;min-width:0;color:var(--ink);font-size:12px}
+.filter-bar input,.filter-bar select{margin-top:2px}
+@media(max-width:760px){
+  .table-wrap.panel>h2,.table-wrap.panel>h3{padding:17px 16px 0}
+  .table-wrap th,.table-wrap td{padding:12px 13px}
+  .form-panel{padding:18px;margin-bottom:16px}
+  .supervisor-form-panel+.supervisor-form-panel{margin-top:16px}
+  .filter-bar label{flex:1 1 100%}
+}

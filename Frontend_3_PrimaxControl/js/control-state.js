@@ -4,7 +4,7 @@ export function canViewStation(session, stationId) {
 
 export const controlModules = [
   ['supervisor', 'Mi estación', null],
-  ['dashboard', 'Dashboard', null],
+  ['dashboard', 'Panel de control', null],
   ['operations', 'Operaciones', 'ADMIN_OPERATION_VIEW'],
   ['transactions', 'Pagos / Transacciones', 'ADMIN_TRANSACTION_VIEW'],
   ['customers', 'Clientes', 'ADMIN_CUSTOMER_VIEW'],
