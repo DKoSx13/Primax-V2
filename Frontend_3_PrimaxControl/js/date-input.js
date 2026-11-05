@@ -28,3 +28,7 @@ export function formatDateForDisplay(value) {
   if (!isCalendarDate(Number(dayText), Number(monthText), Number(yearText))) return '';
   return `${dayText}/${monthText}/${yearText}`;
 }
+
+export function renderDateInputs(filters, esc) {
+  return `<label>Desde<input type="text" name="from" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" maxlength="10" pattern="(?:0[1-9]|[12][0-9]|3[01])/(?:0[1-9]|1[0-2])/[0-9]{4}" data-date-input value="${esc(formatDateForDisplay(filters.from))}"></label><label>Hasta<input type="text" name="to" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" maxlength="10" pattern="(?:0[1-9]|[12][0-9]|3[01])/(?:0[1-9]|1[0-2])/[0-9]{4}" data-date-input value="${esc(formatDateForDisplay(filters.to))}"></label>`;
+}

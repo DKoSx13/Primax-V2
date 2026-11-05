@@ -14,6 +14,7 @@ import {
   AdminControlRole,
   AdminControlStatus,
   OperationalIncidentStatus,
+  Prisma,
 } from '@prisma/client';
 import { compare, hash } from 'bcryptjs';
 import { createHash, randomBytes, randomUUID } from 'node:crypto';
@@ -263,6 +264,66 @@ export class ControlService {
       }
       return { userId, stationIds: unique, assignmentsCreated: assigned.length };
     });
+  }
+  async createAdministrativeAccount(actor: ControlActor, input: {
+    name: string;
+    email: string;
+    password: string;
+    role: AdminControlRole;
+    stationIds: string[];
+    permissions: AdminControlPermission[];
+  }) {
+    await this.assertGlobal(actor);
+    const systemAdmin = await this.db.userPermissionGrant.findFirst({
+      where: { userId: actor.userId, permission: 'SYSTEM_ADMIN', revokedAt: null },
+    });
+    if (!systemAdmin) throw new ForbiddenException('Se requiere permiso de Administrador del sistema');
+    if (input.role !== 'ADMIN' && input.role !== 'ENCARGADO')
+      throw new ForbiddenException('Solo se pueden crear cuentas ADMIN o ENCARGADO');
+    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 10)
+      throw new BadRequestException('La contraseña debe tener entre 10 caracteres y 72 bytes');
+    const name = input.name.trim();
+    const email = input.email.trim().toLowerCase();
+    if (!name || !email) throw new BadRequestException('Nombre y correo son obligatorios');
+    const stationIds = [...new Set(input.stationIds)];
+    const permissions = [...new Set(input.permissions)];
+    if (!stationIds.length) throw new BadRequestException('La cuenta requiere al menos una estación autorizada');
+    if (!permissions.includes('ADMIN_CONTROL_ACCESS') || !permissions.includes('ADMIN_DASHBOARD_VIEW'))
+      throw new BadRequestException('Faltan permisos base de Control');
+    if (permissions.some((permission) => !ALL_PERMISSIONS.includes(permission)))
+      throw new BadRequestException('Permiso de Control inválido');
+    const stations = await this.db.station.findMany({
+      where: { id: { in: stationIds }, active: true }, select: { id: true },
+    });
+    if (stations.length !== stationIds.length) throw new BadRequestException('Estación inválida o inactiva');
+    if (await this.db.user.findUnique({ where: { email } }))
+      throw new ConflictException('Ya existe una cuenta con ese correo');
+    const passwordHash = await hash(input.password, 12);
+    const now = new Date();
+    try {
+      return await this.db.atomic(async (tx) => {
+        const user = await tx.user.create({ data: { name, email, passwordHash } });
+        const account = await tx.adminControlAccount.create({
+          data: { userId: user.id, role: input.role, status: 'APPROVED', emailVerifiedAt: now, approvedAt: now, approvedByUserId: actor.userId },
+        });
+        for (const stationId of stationIds) await tx.adminStationAssignment.create({
+          data: { userId: user.id, accountId: account.id, stationId, grantedByUserId: actor.userId, reason: 'Alta administrativa directa en Primax Control' },
+        });
+        for (const permission of permissions) await tx.adminControlGrant.create({
+          data: { userId: user.id, permission, grantedByUserId: actor.userId, reason: 'Alta administrativa directa en Primax Control' },
+        });
+        await tx.operationalAuditEvent.create({ data: {
+          eventKey: `admin-control:created:${user.id}:${randomUUID()}`,
+          actorKind: 'USER', actorUserId: actor.userId, action: 'ADMIN_ACCOUNT_CREATED',
+          targetId: user.id, outcome: 'SUCCESS', details: { role: input.role, stationIds, permissions },
+        } });
+        return { id: user.id, name: user.name, email: user.email, role: input.role, status: 'APPROVED' as const, stationIds, permissions };
+      }, { retryUnique: false });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002')
+        throw new ConflictException('Ya existe una cuenta con ese correo');
+      throw error;
+    }
   }
   async pending(actor: ControlActor) {
     await this.assertGlobal(actor);

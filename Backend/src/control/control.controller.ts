@@ -55,6 +55,14 @@ class ApprovalDto {
   permissions: AdminControlPermission[];
   @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
 }
+class CreateAdministrativeAccountDto {
+  @IsString() @MinLength(2) @MaxLength(80) name: string;
+  @IsEmail() @MaxLength(254) email: string;
+  @IsString() @MinLength(10) @MaxLength(72) password: string;
+  @IsIn(['ADMIN', 'ENCARGADO']) role: AdminControlRole;
+  @IsArray() @IsEnum(AdminControlPermission, { each: true }) permissions: AdminControlPermission[];
+  @IsArray() @IsUUID(undefined, { each: true }) stationIds: string[];
+}
 class StatusDto {
   @IsString() @MinLength(3) @MaxLength(300) reason: string;
 }
@@ -152,6 +160,10 @@ export class ControlController {
     @CurrentActor() actor: Actor,
   ) {
     return this.service.pending(actor as Extract<Actor, { kind: 'control' }>);
+  }
+  @Post('accounts') @SetMetadata('access', 'control') @HttpCode(201)
+  createAccount(@CurrentActor() actor: Actor, @Body() dto: CreateAdministrativeAccountDto) {
+    return this.service.createAdministrativeAccount(actor as Extract<Actor, { kind: 'control' }>, dto);
   }
   @Get('supervisors') @SetMetadata('access', 'control') supervisors(@CurrentActor() actor: Actor) {
     return this.service.supervisors(actor as Extract<Actor, { kind: 'control' }>);

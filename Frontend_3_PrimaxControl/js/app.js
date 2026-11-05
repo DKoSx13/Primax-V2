@@ -4,7 +4,8 @@ import { canViewStation, initialView, incidentMessage, controlModules, visibleMo
 import { createControlApi } from './control-api.js';
 import { assistancePanel, bindAssistanceActions, stopAssistancePolling } from './assistance.js';
 import { createPrintAgent } from './print-agent.js';
-import { formatDateForDisplay, parseDisplayDate } from './date-input.js';
+import { administrativeAccountForm, fuelSummaryMarkup } from './control-presentation.js';
+import { parseDisplayDate, renderDateInputs } from './date-input.js';
 
 const app = document.querySelector('#app');
 const apiClient = createControlApi(window.fetch.bind(window), API_BASE_URL);
@@ -28,7 +29,7 @@ const queryString = (values) => {
   for (const [key, value] of Object.entries(values)) if (value !== '' && value != null) query.set(key, value);
   return query.toString();
 };
-const dateInputs = (filters = {}) => `<label>Desde<input type="text" name="from" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" maxlength="10" pattern="(?:0[1-9]|[12][0-9]|3[01])/(?:0[1-9]|1[0-2])/[0-9]{4}" data-date-input aria-describedby="date-format-hint-from" value="${esc(formatDateForDisplay(filters.from))}"><small id="date-format-hint-from">Formato: dd/mm/aaaa</small></label><label>Hasta<input type="text" name="to" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" maxlength="10" pattern="(?:0[1-9]|[12][0-9]|3[01])/(?:0[1-9]|1[0-2])/[0-9]{4}" data-date-input aria-describedby="date-format-hint-to" value="${esc(formatDateForDisplay(filters.to))}"><small id="date-format-hint-to">Formato: dd/mm/aaaa</small></label>`;
+const dateInputs = (filters = {}) => renderDateInputs(filters, esc);
 
 function login(message = '') {
   app.innerHTML = `<main class="login-wrap"><section class="login-card"><div class="brand"><img class="brand-logo" src="assets/primax.jpg" alt="Primax"><span>PRIMAX <strong>CONTROL</strong></span></div><p class="eyebrow">OPERACIÓN Y ADMINISTRACIÓN</p><h1>Inicia sesión</h1><p class="muted">Acceso para personal autorizado de estación.</p><form id="login-form"><label>Correo<input name="email" type="email" autocomplete="username" required maxlength="254"></label><label>Contraseña<input name="password" type="password" autocomplete="current-password" required maxlength="72"></label><p class="error" role="alert">${esc(message)}</p><button class="primary" type="submit">Entrar a Control</button></form><div class="public-links"><a href="#request-access">Solicitar acceso administrativo</a><button class="text-button" type="button" id="resend-link">Reenviar verificación</button></div></section></main>`;
@@ -133,7 +134,7 @@ async function renderDashboard() {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const data = await api(`/control/dashboard${suffix}`);
     const unavailable = data.terminals.filter((entry) => ['ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(entry.status)).reduce((sum, entry) => sum + entry.count, 0);
-    document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control', 'Indicadores consultados en tiempo real desde Primax V2.')}<section class="metrics"><article class="metric"><span>Operaciones hoy</span><strong>${data.operationsToday}</strong><small>Transacciones registradas</small></article><article class="metric"><span>Operaciones activas</span><strong>${data.activeOperations}</strong><small>Despachos en curso</small></article><article class="metric"><span>Ingresos confirmados hoy</span><strong>S/ ${fmt(data.capturedRevenueToday)}</strong><small>Pagos confirmados</small></article><article class="metric"><span>Clientes activos</span><strong>${data.activeCustomers ?? '—'}</strong><small>Usuarios activos con actividad en alcance</small></article><article class="metric"><span>Membresías activas</span><strong>${data.activeMemberships ?? '—'}</strong><small>Membresías en estado activo</small></article><article class="metric"><span>Incidencias abiertas</span><strong>${data.openIncidents}</strong><small>Abiertas o en revisión</small></article><article class="metric"><span>Terminales en atención</span><strong>${unavailable}</strong><small>Asistencia o fuera de servicio</small></article></section><div class="grid"><section class="panel"><div class="panel-head"><h2>Combustible disponible</h2><span>${data.reviewPairs} pares en revisión</span></div><div class="table-wrap"><table><thead><tr><th>Estación</th><th>Combustible</th><th>Disponible L</th><th>Reservado L</th><th>Estado</th></tr></thead><tbody>${data.inventory.map((item) => `<tr><td>${esc(data.stations.find((station) => station.id === item.stationId)?.name || 'Estación')}</td><td>${esc(item.fuel.name)}</td><td>${fmt(item.availableLiters, 3)}</td><td>${fmt(item.reservedLiters, 3)}</td><td><span class="badge ${item.activation?.status === 'REVIEW' ? 'warning' : ''}">${esc(statusLabel(item.activation?.status))}</span></td></tr>`).join('') || '<tr><td colspan="5">Sin inventario en este alcance.</td></tr>'}</tbody></table></div></section><section class="panel"><div class="panel-head"><h2>Estado de terminales</h2><span>${data.stations.length} estaciones visibles</span></div><div class="terminal-stats">${data.terminals.map((item) => `<div><span class="status-dot ${['ASISTENCIA','FUERA_DE_SERVICIO'].includes(item.status) ? 'red' : ''}"></span>${esc(statusLabel(item.status))}<strong>${item.count}</strong></div>`).join('') || '<p class="muted">Sin terminales registradas.</p>'}</div></section></div>`;
+    document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control', 'Indicadores consultados en tiempo real desde Primax V2.')}<section class="metrics"><article class="metric"><span>Operaciones hoy</span><strong>${data.operationsToday}</strong><small>Transacciones registradas</small></article><article class="metric"><span>Operaciones activas</span><strong>${data.activeOperations}</strong><small>Despachos en curso</small></article><article class="metric"><span>Ingresos confirmados hoy</span><strong>S/ ${fmt(data.capturedRevenueToday)}</strong><small>Pagos confirmados</small></article><article class="metric"><span>Clientes activos</span><strong>${data.activeCustomers ?? '—'}</strong><small>Usuarios activos con actividad en alcance</small></article><article class="metric"><span>Membresías activas</span><strong>${data.activeMemberships ?? '—'}</strong><small>Membresías en estado activo</small></article><article class="metric"><span>Incidencias abiertas</span><strong>${data.openIncidents}</strong><small>Abiertas o en revisión</small></article><article class="metric"><span>Terminales en atención</span><strong>${unavailable}</strong><small>Asistencia o fuera de servicio</small></article></section><div class="grid dashboard-grid"><section class="panel"><div class="panel-head"><h2>Combustible disponible</h2><span>${data.reviewPairs} pares en revisión</span></div>${fuelSummaryMarkup(data, { esc, fmt, statusLabel })}</section><section class="panel"><div class="panel-head"><h2>Estado de terminales</h2><span>${data.stations.length} estaciones visibles</span></div><div class="terminal-stats">${data.terminals.map((item) => `<div><span class="status-dot ${['ASISTENCIA','FUERA_DE_SERVICIO'].includes(item.status) ? 'red' : ''}"></span>${esc(statusLabel(item.status))}<strong>${item.count}</strong></div>`).join('') || '<p class="muted">Sin terminales registradas.</p>'}</div></section></div>`;
   } catch (error) { document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control')}${panel(incidentMessage(error), 'denied')}`; }
 }
 
@@ -204,12 +205,12 @@ async function renderIncidents(filters = {}) {
   } catch (error) { showError(error); }
 }
 
-async function renderAccounts() {
+async function renderAccounts(message = '') {
   loading('Consultando cuentas administrativas…');
   if (!session.global) { document.querySelector('#content').innerHTML = `${heading('ACCESO', 'Personal y accesos')}${panel('Solo el Administrador del sistema puede aprobar cuentas y modificar permisos.', 'denied')}`; return; }
   try {
     accountRows = await api('/control/accounts');
-    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Las asignaciones de Control son independientes de los turnos de Supervisor.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(grant.replace('ADMIN_', ''))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>`;
+    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Las asignaciones de Control son independientes de los turnos de Supervisor.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(grant.replace('ADMIN_', ''))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>${administrativeAccountForm(session, esc, message)}`;
   } catch (error) { showError(error); }
 }
 
@@ -350,6 +351,29 @@ document.addEventListener('submit', async (event) => {
       await renderSupervisors();
     } catch (error) { form.querySelector('[role="alert"]').textContent = incidentMessage(error); button.disabled = false; }
     finally { values.password = ''; busy = false; }
+    return;
+  }
+  if (form.id === 'admin-create-form') {
+    event.preventDefault();
+    if (!session?.global || session.role !== 'SUPER_ADMIN') return;
+    busy = true;
+    const button = form.querySelector('button[type="submit"]');
+    const errorBox = form.querySelector('[role="alert"]');
+    button.disabled = true;
+    const data = new FormData(form);
+    const body = { name: data.get('name'), email: data.get('email'), password: data.get('password'), role: data.get('role'), stationIds: data.getAll('stationIds'), permissions: data.getAll('permissions') };
+    try {
+      await api('/control/accounts', { method: 'POST', body: JSON.stringify(body) });
+      form.elements.password.value = '';
+      await renderAccounts('Cuenta administrativa creada correctamente.');
+    } catch (error) {
+      form.elements.password.value = '';
+      errorBox.textContent = incidentMessage(error);
+      button.disabled = false;
+    } finally {
+      body.password = '';
+      busy = false;
+    }
     return;
   }
   const filterViews = { 'operation-filters': renderOperations, 'transaction-filters': renderTransactions, 'customer-filters': renderCustomers, 'membership-filters': renderMemberships, 'vehicle-filters': renderVehicles, 'movement-filters': renderMovements, 'incident-filters': renderIncidents, 'audit-filters': renderAudit };
