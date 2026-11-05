@@ -6,7 +6,7 @@ services:
     runtime: node
     plan: free
     repo: https://github.com/DKoSx13/Primax-V2
-    branch: validation/v2-integration
+    branch: main
     rootDir: Backend
     buildCommand: npm ci --no-audit --no-fund && npm run prisma:generate && npm run build
     startCommand: npm start
@@ -66,7 +66,7 @@ services:
     runtime: docker
     plan: free
     repo: https://github.com/DKoSx13/Primax-V2
-    branch: validation/v2-integration
+    branch: main
     rootDir: PlateRecognition
     dockerfilePath: ./Dockerfile
     dockerContext: .
