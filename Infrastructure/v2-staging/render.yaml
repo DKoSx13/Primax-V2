@@ -8,7 +8,7 @@ services:
     repo: https://github.com/DKoSx13/Primax-V2
     branch: main
     rootDir: Backend
-    buildCommand: npm ci --no-audit --no-fund && npm run prisma:generate && npm run build
+    buildCommand: npm ci --include=dev --no-audit --no-fund && npm run prisma:generate && npm run build
     startCommand: npm start
     healthCheckPath: /api/v1/health
     autoDeployTrigger: 'off'
