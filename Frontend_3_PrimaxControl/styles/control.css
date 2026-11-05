@@ -53,3 +53,7 @@ body{background:#f6f7fc}
   .supervisor-form-panel+.supervisor-form-panel{margin-top:16px}
   .filter-bar label{flex:1 1 100%}
 }
+
+/* Keep independent cards spaced consistently across Control screens. */
+#content>.panel+.panel{margin-block-start:18px}
+#content [data-date-input]+small{display:block;margin-top:5px;color:var(--muted);font-size:11px}
