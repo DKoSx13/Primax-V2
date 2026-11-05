@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Readable } from 'node:stream';
+import { readFileSync } from 'node:fs';
 import functionHandler from '../api/v1/[...path].js';
 import { createControlProxy, createControlAdapter } from '../server/controlProxy.js';
 
@@ -15,6 +16,28 @@ function response() {
 }
 test('Control Function exports a handler and keeps API under the browser origin', () => {
   assert.equal(typeof functionHandler, 'function');
+});
+test('Vercel routes nested Control account and terminal actions to the proxy', async () => {
+  const config = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+  const paths = [
+    '/api/v1/control/accounts/11111111-1111-4111-8111-111111111111/access',
+    '/api/v1/control/terminals/22222222-2222-4222-8222-222222222222/status',
+    '/api/v1/control/assistance/11111111-1111-4111-8111-111111111111/actions',
+  ];
+  const calls = [];
+  const handler = createControlAdapter({ env, fetcher: async (url) => {
+    calls.push(url);
+    return Response.json({ status: 'ok' });
+  } });
+  for (const path of paths) {
+    assert(config.rewrites.some(({ source, destination }) =>
+      source === '/api/v1/control/:path*' && destination === '/api/v1/control/[...path]'
+      && path.startsWith('/api/v1/control/')));
+    const res = response();
+    await handler(request(path, 'POST', { action: 'check' }), res);
+    assert.equal(res.statusCode, 200);
+    assert.equal(calls.at(-1), env.BACKEND_ORIGIN + path);
+  }
 });
 test('Control proxy forwards only its auth cookie and preserves Secure Set-Cookie', async () => {
   const calls = [];
