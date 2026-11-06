@@ -19,7 +19,7 @@ export class AlertsService {
     // A typo in an unknown membership is not evidence of a plate mismatch.
     if (!membership || membership.vehicles.some((v) => v.plate === plate))
       return { mismatch: false };
-    const expectedPlates = membership.vehicles.map((v) => v.plate).sort();
+    const expectedPlates = membership.vehicles.map((v) => v.plate).sort((a, b) => a.localeCompare(b));
     await this.db.businessAlert.upsert({
       where: { eventKey: `plate:${operationId}:${membership.id}:${plate}` },
       update: {},

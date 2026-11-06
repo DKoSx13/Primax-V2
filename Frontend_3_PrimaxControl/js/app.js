@@ -4,7 +4,7 @@ import { canViewStation, initialView, incidentMessage, controlModules, visibleMo
 import { createControlApi } from './control-api.js';
 import { assistancePanel, bindAssistanceActions, stopAssistancePolling } from './assistance.js';
 import { createPrintAgent } from './print-agent.js';
-import { administrativeAccountForm, fuelSummaryMarkup } from './control-presentation.js';
+import { administrativeAccountForm, fuelSummaryMarkup, permissionGroups, permissionLabel } from './control-presentation.js';
 import { parseDisplayDate, renderDateInputs } from './date-input.js';
 
 const app = document.querySelector('#app');
@@ -159,7 +159,8 @@ async function renderTerminals() {
         const action = has('ADMIN_TERMINAL_MANAGE') ? enabled
           ? `<button class="text-button" data-terminal-action="SUSPEND" data-terminal-id="${esc(terminal.id)}">Suspender terminal</button>`
           : `<button class="text-button" data-terminal-action="ENABLE" data-terminal-id="${esc(terminal.id)}" ${operation || !terminal.assignments[0]?.pump?.active ? 'disabled' : ''}>Habilitar terminal</button>` : '—';
-        const recovery = operation?.status === 'INTERVENTION_REQUIRED' && has('ADMIN_INCIDENT_MANAGE')
+        const needsRecovery = operation && (operation.status === 'INTERVENTION_REQUIRED' || ['ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(terminal.operationalStatus));
+        const recovery = needsRecovery && has('ADMIN_INCIDENT_MANAGE')
           ? `<button class="text-button" data-operation-resolve="${esc(operation.operationId)}">Resolver operación</button>` : '';
         return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${enabled ? '' : 'warning'}">${esc(status[terminal.operationalStatus] || terminal.operationalStatus)}</span></td><td>${esc(terminal.assignments[0]?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt || terminal.statusChangedAt)}</td><td>${esc(terminal.statusChangedBy || '—')}</td><td>${esc(terminal.suspensionReason || '—')}</td><td>${action}${recovery}</td></tr>`;
       }).join('') || '<tr><td colspan="9">No hay terminales para este alcance.</td></tr>'}</tbody></table></section>
@@ -221,7 +222,7 @@ async function renderAccounts(message = '') {
   if (!session.global) { document.querySelector('#content').innerHTML = `${heading('ACCESO', 'Personal y accesos')}${panel('Solo el Administrador del sistema puede aprobar cuentas y modificar permisos.', 'denied')}`; return; }
   try {
     accountRows = await api('/control/accounts');
-    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Cuentas, estaciones y permisos del personal autorizado.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(grant.replace('ADMIN_', ''))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>${administrativeAccountForm(session, esc, message)}`;
+    document.querySelector('#content').innerHTML = `${heading('ACCESO ADMINISTRATIVO', 'Personal y accesos', 'Cuentas, estaciones y permisos del personal autorizado.')}<section class="panel table-wrap"><table><thead><tr><th>Persona</th><th>Rol</th><th>Estado</th><th>Correo</th><th>Estaciones</th><th>Permisos activos</th><th>Acciones</th></tr></thead><tbody>${accountRows.map((row) => `<tr><td>${esc(row.user.name)}<small class="subcell">${esc(row.user.email)}</small></td><td>${esc(roleLabel(row.role))}</td><td><span class="badge">${esc(statusLabel(row.status))}</span></td><td>${row.emailVerifiedAt ? 'Verificado' : 'Pendiente'}</td><td>${row.stations.map((item) => esc(item.station.code)).join(', ') || '—'}</td><td><small>${row.grants.map((grant) => esc(permissionLabel(grant))).join(', ') || '—'}</small></td><td>${row.status === 'PENDING_APPROVAL' ? `<button class="text-button" data-edit-account="${row.user.id}">Aprobar</button><button class="text-button" data-account-status="REJECTED" data-user="${row.user.id}">Rechazar</button>` : row.status === 'APPROVED' ? `<button class="text-button" data-edit-account="${row.user.id}">Permisos / estaciones</button><button class="text-button" data-account-status="DISABLED" data-user="${row.user.id}">Deshabilitar</button>` : '—'}</td></tr>`).join('') || '<tr><td colspan="7">Sin cuentas administrativas.</td></tr>'}</tbody></table></section><dialog id="account-dialog"></dialog>${administrativeAccountForm(session, esc, message)}`;
   } catch (error) { showError(error); }
 }
 
@@ -439,6 +440,7 @@ document.addEventListener('click', async (event) => {
   if (target.dataset.operationResolve) {
     const reason = window.prompt('Resultado de la intervención:');
     if (!reason || reason.trim().length < 3) return;
+    if (!window.confirm('Se cerrará la operación activa después de verificar que no haya pagos ni reservas pendientes. ¿Continuar?')) return;
     target.disabled = true;
     try { await api(`/control/terminal-operations/${target.dataset.operationResolve}/resolve`, { method: 'POST', body: JSON.stringify({ reason: reason.trim() }) }); await renderTerminals(); }
     catch (error) { target.disabled = false; window.alert(incidentMessage(error)); }
@@ -465,16 +467,30 @@ document.addEventListener('click', async (event) => {
     const dialog = document.querySelector('#account-dialog');
     const currentStations = account.stations.map((item) => item.stationId);
     const currentPermissions = account.grants || [];
-    const grantOptions = session.permissions.filter((permission) => permission.startsWith('ADMIN_'));
-    dialog.innerHTML = `<form id="account-access-form" data-user-id="${account.user.id}" data-mode="${account.status === 'PENDING_APPROVAL' ? 'approve' : 'update'}"><button type="button" class="close" data-close-account aria-label="Cerrar">×</button><p class="eyebrow">PERMISOS Y ALCANCE</p><h2>${account.status === 'PENDING_APPROVAL' ? 'Aprobar cuenta' : 'Actualizar cuenta'}</h2><p>${esc(account.user.name)} · ${esc(account.user.email)}</p><label>Rol<select name="role"><option value="ENCARGADO" ${account.role === 'ENCARGADO' ? 'selected' : ''}>Encargado</option><option value="ADMIN" ${account.role === 'ADMIN' ? 'selected' : ''}>Administrador</option></select></label><h3>Estaciones permitidas</h3><div class="check-list">${session.stations.map((station) => `<label><input type="checkbox" name="stationIds" value="${station.id}" ${currentStations.includes(station.id) ? 'checked' : ''}>${esc(station.name)} · ${esc(station.code)}</label>`).join('')}</div><h3>Permisos</h3><div class="check-list">${grantOptions.map((permission) => `<label><input type="checkbox" name="permissions" value="${permission}" ${currentPermissions.includes(permission) || ['ADMIN_CONTROL_ACCESS','ADMIN_DASHBOARD_VIEW'].includes(permission) ? 'checked' : ''} ${['ADMIN_CONTROL_ACCESS','ADMIN_DASHBOARD_VIEW'].includes(permission) ? 'required' : ''}>${esc(permission)}</label>`).join('')}</div><p class="error" role="alert"></p><button class="primary" type="submit">Guardar acceso</button></form>`;
+    const grantGroups = permissionGroups.map(([title, entries]) => [title, entries.filter(([permission]) => session.permissions.includes(permission))]);
+    dialog.innerHTML = `<form id="account-access-form" data-user-id="${account.user.id}" data-mode="${account.status === 'PENDING_APPROVAL' ? 'approve' : 'update'}"><button type="button" class="close" data-close-account aria-label="Cerrar">×</button><p class="eyebrow">PERMISOS Y ALCANCE</p><h2>${account.status === 'PENDING_APPROVAL' ? 'Aprobar cuenta' : 'Actualizar cuenta'}</h2><p>${esc(account.user.name)} · ${esc(account.user.email)}</p><label>Rol<select name="role"><option value="ENCARGADO" ${account.role === 'ENCARGADO' ? 'selected' : ''}>Encargado</option><option value="ADMIN" ${account.role === 'ADMIN' ? 'selected' : ''}>Administrador</option></select></label><h3>Estaciones permitidas</h3><div class="check-list">${session.stations.map((station) => `<label><input type="checkbox" name="stationIds" value="${station.id}" ${currentStations.includes(station.id) ? 'checked' : ''}>${esc(station.name)} · ${esc(station.code)}</label>`).join('')}</div><h3>Permisos</h3><div class="permission-groups">${grantGroups.map(([title, entries]) => `<div class="permission-group"><h3>${esc(title)}</h3>${entries.map(([permission, label]) => `<label><input type="checkbox" name="permissions" value="${permission}" ${currentPermissions.includes(permission) || ['ADMIN_CONTROL_ACCESS','ADMIN_DASHBOARD_VIEW'].includes(permission) ? 'checked' : ''} ${['ADMIN_CONTROL_ACCESS','ADMIN_DASHBOARD_VIEW'].includes(permission) ? 'required' : ''}>${esc(label)}</label>`).join('')}</div>`).join('')}</div><p class="error" role="alert"></p><button class="primary" type="submit">Guardar acceso</button></form>`;
     dialog.showModal();
   }
   if (target.dataset.closeAccount !== undefined) document.querySelector('#account-dialog')?.close();
   if (target.dataset.accountStatus) {
     const isReject = target.dataset.accountStatus === 'REJECTED';
     const reason = window.prompt(isReject ? 'Motivo del rechazo:' : 'Motivo para deshabilitar:');
-    if (!reason) return;
-    try { await api(`/control/accounts/${target.dataset.user}/${isReject ? 'reject' : 'disable'}`, { method: 'POST', body: JSON.stringify({ reason }) }); await renderAccounts(); }
+    if (!reason || reason.trim().length < 3) return;
+    if (!isReject && !window.confirm('Se deshabilitará esta cuenta y se invalidarán sus sesiones. ¿Continuar?')) return;
+    const password = isReject ? undefined : await new Promise((resolve) => {
+      const dialog = document.querySelector('#account-dialog');
+      dialog.innerHTML = '<form method="dialog"><h2>Confirma tu identidad</h2><label>Contraseña del Administrador del sistema<input name="password" type="password" autocomplete="current-password" required maxlength="72"></label><div class="dialog-actions"><button type="submit" value="confirm" class="primary">Deshabilitar cuenta</button><button type="button" class="secondary" data-cancel-disable>Cancelar</button></div></form>';
+      dialog.returnValue = '';
+      dialog.querySelector('[data-cancel-disable]').onclick = () => dialog.close('cancel');
+      dialog.addEventListener('close', () => {
+        const value = dialog.returnValue === 'confirm' ? dialog.querySelector('[name=password]').value : null;
+        dialog.replaceChildren();
+        resolve(value);
+      }, { once: true });
+      dialog.showModal();
+    });
+    if (!isReject && !password) return;
+    try { await api(`/control/accounts/${target.dataset.user}/${isReject ? 'reject' : 'disable'}`, { method: 'POST', body: JSON.stringify({ reason: reason.trim(), ...(!isReject ? { password } : {}) }) }); await renderAccounts(); }
     catch (error) { window.alert(incidentMessage(error)); }
   }
 });

@@ -6,10 +6,12 @@ export function stopAssistancePolling() { clearTimeout(poll); currentRefresh = n
 export function assistanceActions(row, userId, canManage) {
   if (!canManage) return [];
   if (row.status === 'PENDIENTE') return ['ACCEPT'];
-  return row.status === 'EN_ATENCION' && row.assignedStaffId === userId ? ['NOTE','RESOLVE','ESCALATE','CANCEL'] : [];
+  return row.status === 'EN_ATENCION' && row.assignedStaffId === userId ? ['NOTE','RESOLVE'] : [];
 }
 const statusLabel = (value) => ({ PENDIENTE: 'Pendiente', EN_ATENCION: 'En atención', RESUELTA: 'Resuelta', ESCALADA: 'Escalada', CANCELADA: 'Cancelada', OPEN: 'Abierta', IN_REVIEW: 'En revisión', RESOLVED: 'Resuelta', DISMISSED: 'Descartada' })[value] || value || '—';
-const labels = { ACCEPT:'Aceptar solicitud', NOTE:'Registrar observación', RESOLVE:'Resolver', ESCALATE:'Escalar', CANCEL:'Registrar cancelación del cliente' };
+const labels = { ACCEPT:'Tomar solicitud', NOTE:'Registrar observación', RESOLVE:'Resolver solicitud' };
+const reasonLabel = value => ({ AYUDA_GENERAL:'Ayuda general', ERROR_PAGO:'Error de pago', PROBLEMA_TERMINAL:'Problema de terminal', PROBLEMA_DESPACHO:'Problema de despacho', COMPROBANTE_IMPRESION:'Problema con impresión del comprobante', OTRO:'Otro' })[value] || value;
+const eventLabel = value => ({ ASSISTANCE_CREATED:'Solicitud creada', ASSISTANCE_CANCELLED:'Solicitud cancelada', ASSISTANCE_ACCEPTED:'Solicitud tomada', ASSISTANCE_NOTE:'Observación registrada', ASSISTANCE_RESOLVED:'Solicitud resuelta', ASSISTANCE_ESCALATED:'Solicitud escalada' })[value] || value;
 
 export async function assistancePanel({ api, stationId, userId, canManage }) {
   clearTimeout(poll);
@@ -20,7 +22,7 @@ export async function assistancePanel({ api, stationId, userId, canManage }) {
     try {
       const rows = await api('/control/assistance' + (stationId ? '?stationId=' + encodeURIComponent(stationId) : ''));
       if (!host.isConnected) return;
-      host.innerHTML = `<h2>Solicitudes de asistencia</h2><p role="status">${rows.filter(row => row.status === 'PENDIENTE').length} pendientes · actualización automática cada 10 segundos</p><button data-assistance-refresh>Actualizar</button>${rows.map(row => `<article><h3>${esc(row.reason)} · ${esc(statusLabel(row.status))}</h3><p>Terminal ${esc(row.terminal?.code)} · Surtidor ${esc(row.pump?.code)} · Placa ${esc(row.plate)}</p><p>Operación ${esc(row.operationId)} · Responsable ${esc(row.assignedStaff?.name)}</p><p>Creada ${stamp(row.createdAt)} · Aceptada ${stamp(row.acceptedAt)}</p><button data-assistance-detail="${row.id}">Contexto e historial</button>${assistanceActions(row, userId, canManage).map(action => `<button data-assistance-action="${action}" data-request-id="${row.id}">${labels[action]}</button>`).join('')}</article>`).join('') || '<p>No hay solicitudes en este alcance.</p>'}<dialog id="assistance-dialog"></dialog>`;
+      host.innerHTML = `<h2>Solicitudes de asistencia</h2><p role="status">${rows.filter(row => row.status === 'PENDIENTE').length} pendientes · actualización automática cada 10 segundos</p><button data-assistance-refresh>Actualizar</button>${rows.map(row => `<article><h3>${esc(reasonLabel(row.reason))} · ${esc(statusLabel(row.status))}</h3><p>Estación ${esc(row.station?.name)} · Terminal ${esc(row.terminal?.code)} · Surtidor ${esc(row.pump?.code)} · Placa ${esc(row.plate)}</p><p>Operación ${esc(row.operationId)} · Responsable ${esc(row.assignedStaff?.name)}</p><p>Creada ${stamp(row.createdAt)} · Aceptada ${stamp(row.acceptedAt)}</p><button data-assistance-detail="${row.id}">Contexto e historial</button>${assistanceActions(row, userId, canManage).map(action => `<button data-assistance-action="${action}" data-request-id="${row.id}">${labels[action]}</button>`).join('')}</article>`).join('') || '<p>No hay solicitudes en este alcance.</p>'}<dialog id="assistance-dialog"></dialog>`;
     } catch (error) { if (host.isConnected) host.textContent = 'No se pudo consultar asistencia: ' + error.message; }
   };
   currentRefresh = refresh;
@@ -37,7 +39,7 @@ export function bindAssistanceActions({ api, onError }) {
       try {
         const row = await api('/control/assistance/' + button.dataset.assistanceDetail);
         const dialog = document.querySelector('#assistance-dialog');
-        dialog.innerHTML = `<h2>${esc(row.reason)} · ${esc(statusLabel(row.status))}</h2><p>Estación ${esc(row.stationId)} · Terminal ${esc(row.terminal?.code)} · Surtidor ${esc(row.pump?.code)}</p><p>Operación ${esc(row.operationId)} · Cliente ${esc(row.customerName)} · Placa ${esc(row.plate)}</p><p>Responsable ${esc(row.assignedStaff?.name)}</p><p>Resultado: ${esc(row.result)} · Observación: ${esc(row.observation)}</p><p>Creación ${stamp(row.createdAt)} · Aceptación ${stamp(row.acceptedAt)} · Resolución ${stamp(row.resolvedAt)} · Escalamiento ${stamp(row.escalatedAt)} · Cancelación ${stamp(row.cancelledAt)}</p><h3>Incidencias vinculadas</h3>${row.incidents.map(i => `<p>${esc(i.code)} · ${esc(statusLabel(i.status))} · ${esc(i.summary)}</p>`).join('')}<h3>Historial de atención</h3>${row.events.map(e => `<p>${stamp(e.createdAt)} · ${esc(e.action)} · Actor ${esc(e.actorUserId || e.actorKind)} · ${esc(e.details?.observation)} · ${esc(e.details?.result)}</p>`).join('')}<form method="dialog"><button>Cerrar</button></form>`;
+        dialog.innerHTML = `<h2>${esc(reasonLabel(row.reason))} · ${esc(statusLabel(row.status))}</h2><p>Estación ${esc(row.station?.name)} · Terminal ${esc(row.terminal?.code)} · Surtidor ${esc(row.pump?.code)}</p><p>Operación ${esc(row.operationId)} · Cliente ${esc(row.customerName)} · Placa ${esc(row.plate)}</p><p>Responsable ${esc(row.assignedStaff?.name)}</p><p>Resultado: ${esc(row.result)} · Observación: ${esc(row.observation)}</p><p>Creación ${stamp(row.createdAt)} · Aceptación ${stamp(row.acceptedAt)} · Resolución ${stamp(row.resolvedAt)} · Escalamiento ${stamp(row.escalatedAt)} · Cancelación ${stamp(row.cancelledAt)}</p><h3>Incidencias vinculadas</h3>${row.incidents.map(i => `<p>${esc(i.code)} · ${esc(statusLabel(i.status))} · ${esc(i.summary)}</p>`).join('')}<h3>Historial de atención</h3>${row.events.map(e => `<p>${stamp(e.createdAt)} · ${esc(eventLabel(e.action))} · ${esc(e.details?.observation)} · ${esc(e.details?.result)}</p>`).join('')}<form method="dialog"><button>Cerrar</button></form>`;
         dialog.showModal();
       } catch (error) { onError(error); }
       return;

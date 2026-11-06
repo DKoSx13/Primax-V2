@@ -435,6 +435,7 @@ export class ControlService {
     userId: string,
     status: 'REJECTED' | 'DISABLED',
     reason: string,
+    password?: string,
   ) {
     await this.assertGlobal(actor);
     if (userId === actor.userId)
@@ -457,12 +458,20 @@ export class ControlService {
         'Solo puede deshabilitarse una cuenta aprobada',
       );
     await this.db.atomic(async (tx) => {
+      if (status === 'DISABLED') {
+        const administrator = await tx.user.findUnique({ where: { id: actor.userId } });
+        if (!administrator?.active || !password || !(await compare(password, administrator.passwordHash)))
+          throw new UnauthorizedException('Contraseña de administrador incorrecta');
+      }
       await tx.adminControlAccount.update({
         where: { userId },
         data: {
           status,
           rejectionReason: reason,
-          user: { update: { authVersion: { increment: 1 } } },
+          user: { update: {
+            ...(status === 'DISABLED' ? { active: false } : {}),
+            authVersion: { increment: 1 },
+          } },
         },
       });
       if (status === 'DISABLED' || status === 'REJECTED') {

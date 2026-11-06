@@ -223,7 +223,22 @@ export class KioskService {
     if (!existing || existing.terminalId !== terminal.id || existing.revokedAt || existing.expiresAt <= new Date()) {
       terminalToken = randomBytes(32).toString('hex');
       expiresAt = new Date(Date.now() + 8 * 60 * 60 * 1000);
-      await this.db.terminalCredential.create({ data: { terminalId: terminal.id, tokenHash: digest(terminalToken), expiresAt } });
+      await this.db.atomic(async (tx) => {
+        // The partial unique index permits one unrevoked credential per terminal.
+        // Lock the terminal so concurrent bootstraps cannot both rotate it.
+        await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminal.id}::uuid FOR UPDATE`;
+        const active = await tx.terminalCredential.findFirst({
+          where: { terminalId: terminal.id, revokedAt: null },
+          select: { id: true },
+        });
+        if (active) await tx.terminalCredential.update({
+          where: { id: active.id }, data: { revokedAt: new Date() },
+        });
+        await tx.terminalCredential.create({ data: {
+          terminalId: terminal.id, tokenHash: digest(terminalToken), expiresAt: expiresAt!,
+          rotatedFromId: active?.id,
+        } });
+      });
     }
     const session = await this.create(true);
     return { ...session, terminalId: terminal.id, terminalToken, terminalExpiresAt: expiresAt };

@@ -109,6 +109,29 @@ function fixture() {
   return { a, b, store, db, config, login };
 }
 describe('operator security across independent function instances', () => {
+  it('rotates an existing terminal credential atomically during bootstrap', async () => {
+    const { a, db } = fixture();
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const tx = {
+      $queryRaw: jest.fn().mockResolvedValue([]),
+      terminalCredential: {
+        findFirst: jest.fn().mockResolvedValue({ id }),
+        update: jest.fn().mockResolvedValue({ id }),
+        create: jest.fn().mockResolvedValue({ id: terminalId }),
+      },
+    };
+    const atomic = jest.fn(async (work: (client: typeof tx) => Promise<unknown>) => work(tx));
+    Object.assign(db, {
+      terminal: { findMany: jest.fn().mockResolvedValue([{ id: terminalId, operationalStatus: 'DISPONIBLE' }]) },
+      terminalCredential: { findUnique: jest.fn().mockResolvedValue(null) },
+      atomic,
+    });
+    const result = await a.bootstrapTerminal(request('/api/v1/kiosk/session/terminal-bootstrap', 'POST', {}));
+    expect(result.terminalId).toBe(terminalId);
+    expect(atomic).toHaveBeenCalledTimes(1);
+    expect(tx.terminalCredential.update).toHaveBeenCalledWith({ where: { id }, data: { revokedAt: expect.any(Date) } });
+    expect(tx.terminalCredential.create).toHaveBeenCalledWith({ data: expect.objectContaining({ terminalId, rotatedFromId: id }) });
+  });
   it('cannot use a plate check to claim an existing payment operation', async () => {
     const { a, login, db } = fixture();
     const session = await login();

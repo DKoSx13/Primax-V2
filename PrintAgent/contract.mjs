@@ -1,8 +1,8 @@
-﻿const keys='schemaVersion,id,documentType,demo,issuedAt,station,pump,plate,dni,ruc,businessName,fuel,gallons,unitPrice,subtotal,discount,total,mode,paymentMethod,state,pending'.split(',').sort();
+﻿const keys='schemaVersion,id,documentType,demo,issuedAt,station,pump,plate,dni,ruc,businessName,fuel,gallons,unitPrice,subtotal,discount,total,mode,paymentMethod,state,pending'.split(',').sort((a,b)=>a.localeCompare(b));
 const states=['Pagado','Pago pendiente','Saldo pendiente','Pago por verificar','Reembolsado','Cancelado','Fallido','Rechazado','Error de pago'];
 export function validateReceipt(r) {
   const bad=()=>{throw Error('Comprobante estructurado v2 inválido; no se admite texto libre ni parámetros de impresión.');};
-  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join(',')!==keys.join(','))bad();
+  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort((a,b)=>a.localeCompare(b)).join(',')!==keys.join(','))bad();
   if(r.schemaVersion!==2||r.demo!==true||!['BOLETA','FACTURA'].includes(r.documentType)||!['PREPAGO','POSTPAGO'].includes(r.mode)||!states.includes(r.state))bad();
   const limits={id:100,issuedAt:24,station:160,pump:10,plate:20,dni:8,ruc:11,businessName:160,fuel:80,paymentMethod:30};
   for(const [key,max]of Object.entries(limits))if(typeof r[key]!=='string'||r[key].length>max||/[\x00-\x1f\x7f]/.test(r[key])||/^(undefined|null|NaN)$/i.test(r[key])||(!['dni','ruc','businessName'].includes(key)&&!r[key].trim()))bad();

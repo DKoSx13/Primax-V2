@@ -21,17 +21,21 @@ export function openPlateCamera(onRecognized, kind = 'plate') {
    if(!width||!height)throw Error('La cámara aún no tiene imagen. Vuelve a capturar.');
    const scale=Math.min(1,1280/width);canvas.width=width*scale;canvas.height=height*scale;
    const results=[];
-   for(let frame=0;frame<(source===video?3:1);frame++){
+   for(let frame=0;frame<(source===video?2:1);frame++){
     if(closed)return;canvas.getContext('2d').drawImage(source,0,0,canvas.width,canvas.height);
-    results.push(await apiClient('/plate-recognition',{method:'POST',body:{kind,image:canvas.toDataURL('image/jpeg',.9).split(',')[1]}}));
-    if(source===video)await new Promise(resolve=>setTimeout(resolve,150));
+    const result=await apiClient('/plate-recognition',{method:'POST',body:{kind,image:canvas.toDataURL('image/jpeg',.85).split(',')[1]}});
+    if(!result.recognized){status.textContent='La imagen no tuvo suficiente confianza. Mejora la iluminación o usa el ingreso manual.';return;}
+    results.push(result);
+    if(source===video&&frame===0)await new Promise(resolve=>setTimeout(resolve,250));
    }
    if(closed)return;
    const key=r=>membership?r.number:r.plate;
-   const result=results.find(r=>r.recognized&&results.filter(other=>other.recognized&&key(other)===key(r)).length>=(source===video?2:1));
+   const result=source===video
+    ? (key(results[0])===key(results[1]) ? results[1] : null)
+    : results[0];
    if(!result){status.textContent='No pudimos reconocer con suficiente confianza. Vuelve a capturar o usa el ingreso manual.';return;}
    input.value=key(result);review.hidden=false;status.textContent='Revisa o corrige el resultado antes de confirmarlo.';input.focus();
-  }catch(error){if(!closed)status.textContent=error.status===503?'Reconocimiento no disponible. Usa el ingreso manual.':error.message;}
+  }catch(error){if(!closed)status.textContent=error.status===503?'El reconocimiento está iniciándose o no disponible. Reintenta en unos segundos o usa el ingreso manual.':error.message;}
   finally{busy=false;if(!closed)capture.disabled=!stream;}
  }
  confirm.onclick=async()=>{

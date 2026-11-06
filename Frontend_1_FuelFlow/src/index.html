@@ -445,7 +445,7 @@
         <p id="print-error" class="error hidden" role="alert"></p>
         <div class="ticket-actions">
           <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Imprimir</button>
-          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">No imprimir</button>
+          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">Continuar sin imprimir</button>
         </div>
       </section>
 
@@ -556,6 +556,7 @@
 
   <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <div class="modal">
+      <button id="help-btn-minimizar" class="btn btn-ghost" type="button" aria-label="Cerrar ventana de asistencia">×</button>
       <div id="help-icon" class="modal-icon">📞</div>
       <h3 id="help-title">Solicitar asistencia</h3>
       <p id="help-msg">La solicitud se env?a al personal autorizado de esta estaci?n.</p>
@@ -571,7 +572,7 @@
       <p id="help-estado" role="status" aria-live="polite"></p>
       <div class="modal-actions">
         <button id="help-btn-cancelar" class="btn btn-ghost hidden" type="button">Cancelar solicitud</button>
-        <button id="help-btn-reintentar" class="btn btn-ghost hidden" type="button">Consultar / reintentar</button>
+        <button id="help-btn-reintentar" class="btn btn-ghost hidden" type="button">Reintentar conexión</button>
         <button id="help-btn-cerrar" class="btn btn-primary" type="button">Continuar</button>
       </div>
     </div>

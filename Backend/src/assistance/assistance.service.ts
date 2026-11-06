@@ -18,6 +18,7 @@ type ControlActor = Extract<Actor, { kind: 'control' }>;
 type TerminalActor = Extract<Actor, { kind: 'terminal' }>;
 const active: AssistanceStatus[] = ['PENDIENTE', 'EN_ATENCION'];
 const include = {
+  station: { select: { name: true, code: true } },
   terminal: { select: { code: true } },
   pump: { select: { code: true } },
   assignedStaff: { select: { id: true, name: true } },

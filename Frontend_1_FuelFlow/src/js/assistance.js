@@ -2,7 +2,7 @@ export const assistanceReasons = ['AYUDA_GENERAL', 'ERROR_PAGO', 'PROBLEMA_TERMI
 export const assistanceLabels = {
   PENDIENTE: 'Solicitud pendiente. Esperando a personal de la estación.',
   EN_ATENCION: 'El personal autorizado está atendiendo tu solicitud.',
-  RESUELTA: 'El personal autorizado registró la solicitud como resuelta.',
+  RESUELTA: '✅ Solicitud resuelta. El personal de la estación marcó tu solicitud como resuelta.',
   ESCALADA: 'La solicitud fue escalada para su revisión.',
   CANCELADA_POR_CLIENTE: 'Solicitud cancelada por el cliente.',
 };

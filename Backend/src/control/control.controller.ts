@@ -66,6 +66,9 @@ class CreateAdministrativeAccountDto {
 class StatusDto {
   @IsString() @MinLength(3) @MaxLength(300) reason: string;
 }
+class DisableAccountDto extends StatusDto {
+  @IsString() @MinLength(1) @MaxLength(72) password: string;
+}
 class IncidentStatusDto {
   @IsEnum(OperationalIncidentStatus) status: OperationalIncidentStatus;
   @IsString() @MinLength(3) @MaxLength(500) reason: string;
@@ -195,13 +198,14 @@ export class ControlController {
   @Post('accounts/:userId/disable') @SetMetadata('access', 'control') disable(
     @CurrentActor() actor: Actor,
     @Param('userId', ParseUUIDPipe) userId: string,
-    @Body() dto: StatusDto,
+    @Body() dto: DisableAccountDto,
   ) {
     return this.service.setStatus(
       actor as Extract<Actor, { kind: 'control' }>,
       userId,
       'DISABLED',
       dto.reason,
+      dto.password,
     );
   }
 

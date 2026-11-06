@@ -326,7 +326,7 @@ const I18N = {
     miembro_tag: '★ Miembro',
     ticket_foot: 'Gracias por preferir Primax · Que tenga un buen viaje 🛣️',
     btn_comprobante: 'Imprimir',
-    btn_finalizar: 'No imprimir',
+    btn_finalizar: 'Continuar sin imprimir',
 
     // Admin
     admin_step: '🔒 ACCESO RESTRINGIDO',
@@ -648,7 +648,7 @@ const I18N = {
     miembro_tag: '★ Member',
     ticket_foot: 'Thank you for choosing Primax · Have a great trip 🛣️',
     btn_comprobante: 'Finish and print',
-    btn_finalizar: 'No imprimir',
+    btn_finalizar: 'Continue without printing',
 
     admin_step: '🔒 RESTRICTED ACCESS',
     admin_title: 'Security / Admin Panel',
@@ -964,7 +964,7 @@ const I18N = {
     miembro_tag: '★ Socio',
     ticket_foot: 'Primaxta akllasqaykiman gracias · Allin riykita munayku 🛣️',
     btn_comprobante: 'Imprimir',
-    btn_finalizar: 'No imprimir',
+    btn_finalizar: 'Mana imprimispa qatipay',
 
     admin_step: '🔒 YAYKUY HUKNIN',
     admin_title: 'Seguridad / Admin Panel',
@@ -1108,7 +1108,7 @@ function setIdioma(lang, hablarSaludo = false) {
   try { localStorage.setItem(LS_IDIOMA, lang); } catch (e) { /* sin storage */ }
 
   refrescarTextosDinamicos();   // textos que se generan por JS
-  refrescarAdmin();             // tabla, métricas y alertas
+  void refrescarAdmin();             // tabla, métricas y alertas
 
   if (hablarSaludo) hablar(t('voz_bienvenida'));
 }
@@ -1379,7 +1379,7 @@ function seleccionarCombustible(nombre, precio, tarjeta) {
   precio=fuel.pricePerGallon;
   document.querySelectorAll('.fuel-card').forEach((c) => c.classList.remove('selected'));
   tarjeta.classList.add('selected');
-  state.combustible = { id: fuel.id, nombre, precio: parseFloat(precio) };
+  state.combustible = { id: fuel.id, nombre, precio: Number.parseFloat(precio) };
   $('resumen-fuel-mini').textContent = `${nombre} · S/ ${precio}`;
   hablar(t('voz_seleccion', { fuel: nombre }));
   // Pequeña pausa para que el usuario vea el resaltado antes de avanzar
@@ -1397,8 +1397,8 @@ function elegirModalidad(modo) {
 }
 
 function actualizarMontoDisplay() {
-  const n = parseFloat(state.montoTexto || '0');
-  $('monto-display').textContent = 'S/ ' + (isNaN(n) ? 0 : n).toFixed(2);
+  const n = Number.parseFloat(state.montoTexto || '0');
+  $('monto-display').textContent = 'S/ ' + (Number.isNaN(n) ? 0 : n).toFixed(2);
 }
 
 // Teclado numérico virtual
@@ -1414,9 +1414,9 @@ function teclaPresionada(key) {
 }
 
 function validarYConfirmarMonto() {
-  const monto = parseFloat(state.montoTexto || '0');
+  const monto = Number.parseFloat(state.montoTexto || '0');
   const err = $('monto-error');
-  if (!monto || isNaN(monto) || monto < MONTO_MIN || monto > MONTO_MAX) {
+  if (!monto || Number.isNaN(monto) || monto < MONTO_MIN || monto > MONTO_MAX) {
     err.textContent = t('err_monto', { min: MONTO_MIN, max: MONTO_MAX });
     err.classList.remove('hidden');
     hablar(t('voz_monto_invalido'));
@@ -1560,11 +1560,12 @@ function continuarIdentificacion() {
     state.codigoCliente = cod.toUpperCase();
   } else { state.codigoCliente = ''; }
 
-  procesarPago();
+  void procesarPago();
 }
 
 // Captura real con OCR; completa el campo únicamente después de revisar y confirmar.
-function capturarPlaca(ids = { input: 'input-placa', cam: 'cam-plate' }) {
+function capturarPlaca(ids) {
+  ids ??= { input: 'input-placa', cam: 'cam-plate' };
   if (!ids.input) ids = { input: 'input-placa', cam: 'cam-plate' };
   openPlateCamera(async result => {
     $(ids.input).value = result.plate; $(ids.cam).textContent = result.plate;
@@ -1691,14 +1692,14 @@ function simularDespacho() {
       // Los galones se derivan del importe final para que coincidan con él.
       state.galones = Math.round((state.total / state.combustible.precio) * 1000) / 1000;
       pintarDespacho(esPre);
-      detenerDespacho(true);
+      void detenerDespacho(true);
       return;
     }
     pintarDespacho(esPre);
 
     // Avance validado por backend; no cobra. Se agrupa para no generar una
     // llamada por cada tick del simulador.
-    reportarAvance();
+    void reportarAvance();
 
     // Voz cada 5 galones (o al llegar al tope)
     const hito = Math.floor(state.galones / GALONES_AVISO) * GALONES_AVISO;
@@ -1819,7 +1820,7 @@ function marcarEstadoOperacion(estado) {
 function finDeCarga() {
   if (state.estadoOperacion === 'INTERVENTION_REQUIRED') return;
   if (state.modalidad === 'POSTPAGO') mostrarConsumoPostpago();
-  else mostrarResumen();
+  else void mostrarResumen();
 }
 
 // ---------- Resumen final / ticket ----------
@@ -1946,7 +1947,7 @@ function pintarResumen(){
     monto: Number(backendResult.transaction.amount), estado: paymentState(backendResult.transaction).label,
     status:backendResult.transaction.status,payment:backendResult.transaction.payment,debt:backendResult.transaction.debt,
   });
-  refrescarAdmin(); // mantiene el dashboard al día
+  void refrescarAdmin(); // mantiene el dashboard al día
 
   mostrarPantalla('pantalla-resumen');
   hablar(t('voz_ticket', { doc: esFactura ? t('doc_factura') : t('doc_boleta') }));
@@ -2125,8 +2126,8 @@ function irAMontoPostpago() {
 }
 
 function actualizarMontoPost() {
-  const n = parseFloat(state.montoPostpagoTexto || '0');
-  $('monto-post-display').textContent = 'S/ ' + (isNaN(n) ? 0 : n).toFixed(2);
+  const n = Number.parseFloat(state.montoPostpagoTexto || '0');
+  $('monto-post-display').textContent = 'S/ ' + (Number.isNaN(n) ? 0 : n).toFixed(2);
 }
 
 function teclaPostpago(key) {
@@ -2158,9 +2159,9 @@ function elegirTanqueLleno() {
 
 function confirmarMontoPostpago() {
   if (state.tanqueLleno) { hablar(t('voz_post_listo')); irAComprobante(); return; }
-  const monto = parseFloat(state.montoPostpagoTexto || '0');
+  const monto = Number.parseFloat(state.montoPostpagoTexto || '0');
   const err = $('monto-post-error');
-  if (!monto || isNaN(monto) || monto < MONTO_MIN || monto > MONTO_MAX) {
+  if (!monto || Number.isNaN(monto) || monto < MONTO_MIN || monto > MONTO_MAX) {
     err.textContent = t('err_monto', { min: MONTO_MIN, max: MONTO_MAX });
     err.classList.remove('hidden');
     hablar(t('voz_monto_invalido'));
@@ -2387,7 +2388,7 @@ function ordenAuthorization(method) {
 }
 function irAMetodoPago() {
   // El postpago nunca pasa por aquí: su saldo se reservó antes de abastecer.
-  if (state.modalidad === 'POSTPAGO') { mostrarResumen(); return; }
+  if (state.modalidad === 'POSTPAGO') { void mostrarResumen(); return; }
   state.metodoPago = null;
   $('metodo-monto').textContent = 'S/ ' + state.montoPrepago.toFixed(2);
   document.querySelectorAll('[data-metodo]').forEach((b) => b.classList.remove('selected'));
@@ -2537,7 +2538,8 @@ function pintarAsistencia(row) {
   $('help-estado').textContent = assistanceLabels[row?.status] || 'Selecciona el motivo de tu solicitud.';
   $('help-form').classList.toggle('hidden', Boolean(pending));
   $('help-btn-cancelar').classList.toggle('hidden', !active);
-  $('help-btn-reintentar').classList.toggle('hidden', !pending || Boolean(row?.status && !active));
+  $('help-btn-reintentar').classList.add('hidden');
+  $('help-btn-minimizar').classList.toggle('hidden', row?.status === 'RESUELTA');
 }
 async function actualizarAsistencia() {
   detenerProgresoAyuda();
@@ -2552,7 +2554,6 @@ async function actualizarAsistencia() {
   }
 }
 function abrirAsistencia() {
-  assistance.clearCompleted();
   $('help-overlay').classList.remove('hidden');
   pintarAsistencia(assistance.current());
   if (assistance.current()) void actualizarAsistencia();
@@ -2575,10 +2576,16 @@ async function enviarAsistencia(event) {
   finally { button.disabled = false; }
 }
 async function cancelarAsistencia() {
+  if (!window.confirm('¿Seguro que deseas cancelar la solicitud de asistencia?')) return;
   try { pintarAsistencia(await assistance.cancel()); detenerProgresoAyuda(); }
   catch (error) { $('help-estado').textContent = error.message; }
 }
-function cerrarAsistencia() { detenerProgresoAyuda(); $('help-overlay').classList.add('hidden'); }
+function cerrarAsistencia() { detenerProgresoAyuda(); $('help-overlay').classList.add('hidden'); assistance.clearCompleted(); }
+function minimizarAsistencia() {
+  if (['PENDIENTE', 'EN_ATENCION'].includes(assistance.current()?.status) &&
+      !window.confirm('¿Cerrar esta ventana? Tu solicitud de asistencia continuará activa.')) return;
+  detenerProgresoAyuda(); $('help-overlay').classList.add('hidden');
+}
 
 /* ============================================================================
  * 10. REGISTRO DE EVENTOS (wiring)
@@ -2694,8 +2701,8 @@ function init() {
   $('btn-detener').addEventListener('click', () => detenerDespacho(false));
 
   // 7. Resumen
-  $('btn-comprobante').addEventListener('click', imprimirYFinalizar);
-  $('btn-finalizar').addEventListener('click', finalizar);
+  $('btn-comprobante').addEventListener('click', () => void imprimirYFinalizar());
+  $('btn-finalizar').addEventListener('click', () => void finalizar());
 
   // 8. Admin
   $('btn-admin-open').addEventListener('click', abrirAdmin);
@@ -2726,6 +2733,7 @@ function init() {
   $('help-btn-reintentar').addEventListener('click', actualizarAsistencia);
   $('help-btn-cancelar').addEventListener('click', cancelarAsistencia);
   $('help-btn-cerrar').addEventListener('click', cerrarAsistencia);
+  $('help-btn-minimizar').addEventListener('click', minimizarAsistencia);
 
   // 0. Idioma (botón 🌐 del topbar)
   $('btn-lang').addEventListener('click', abrirIdiomas);
@@ -2757,6 +2765,7 @@ else init();
 
 $('prep-input-placa').addEventListener('change', async () => {
   const plate = formatearPlaca($('prep-input-placa').value);
+  if (!placaValida(plate)) { state.membresiaVerificada = null; return; }
   try {
     const vehicle = await catalogService.vehicle(plate);
     if (formatearPlaca($('prep-input-placa').value) === plate) applyVehicle(vehicle);

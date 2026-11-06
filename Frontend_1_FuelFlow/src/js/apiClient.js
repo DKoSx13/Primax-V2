@@ -20,7 +20,10 @@ export async function apiClient(path, {method='GET',body,token}={}, retried=fals
   if(!response.ok)throw Object.assign(Error(response.status>=500?'No pudimos confirmar la compra. Puedes reintentar.':(Array.isArray(result?.message)?result.message.join('. '):result?.message)||'No pudimos completar la operación.'),{status:response.status,details:result});
   return result;
 }
-export const catalogService={fuels:()=>apiClient('/fuels'),stations:()=>apiClient('/stations'),vehicle:plate=>apiClient('/vehicles/'+encodeURIComponent(plate))};
+export const catalogService={fuels:()=>apiClient('/fuels'),stations:()=>apiClient('/stations'),vehicle:plate=>{
+  if(typeof plate!=='string'||!/^[A-Z0-9]{3}-\d{3}$/.test(plate))return Promise.reject(Error('Ingresa una placa válida antes de consultar.'));
+  return apiClient('/vehicles/'+encodeURIComponent(plate));
+}};
 export const terminalService={
   me:()=>apiClient('/terminal/me'),
   operation:operationId=>apiClient('/terminal/operations/'+encodeURIComponent(operationId)),

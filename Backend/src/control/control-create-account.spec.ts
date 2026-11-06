@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, ForbiddenException } from '@nestjs/common';
-import { compare } from 'bcryptjs';
+import { compare, hashSync } from 'bcryptjs';
 import { AdminControlPermission, AdminControlRole } from '@prisma/client';
 import { ControlService } from './control.service';
 
@@ -29,6 +29,29 @@ function setup() {
 }
 
 describe('Alta administrativa directa de Control', () => {
+  it('deshabilita con reautenticación, invalida sesiones y audita sin permitir autodeshabilitación', async () => {
+    const { service, db, tx } = setup();
+    const password = 'TestControl!123';
+    const passwordHash = hashSync(password, 4);
+    Object.assign(db, {
+      adminControlAccount: { findUnique: jest.fn().mockResolvedValue({ userId, status: 'APPROVED' }) },
+    });
+    Object.assign(tx, {
+      user: { ...tx.user, findUnique: jest.fn().mockResolvedValue({ id: rootId, active: true, passwordHash }) },
+      adminControlAccount: { ...tx.adminControlAccount, update: jest.fn().mockResolvedValue({}) },
+      adminControlGrant: { ...tx.adminControlGrant, updateMany: jest.fn().mockResolvedValue({ count: 1 }) },
+      adminStationAssignment: { ...tx.adminStationAssignment, updateMany: jest.fn().mockResolvedValue({ count: 1 }) },
+    });
+    await expect(service.setStatus(root, rootId, 'DISABLED', 'Salida', password)).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(service.setStatus(root, userId, 'DISABLED', 'Salida', 'incorrecta')).rejects.toThrow('Contraseña de administrador incorrecta');
+    expect(db.atomic).toHaveBeenCalledTimes(1);
+    expect(tx.operationalAuditEvent.create).not.toHaveBeenCalled();
+    await expect(service.setStatus(root, userId, 'DISABLED', 'Salida', password)).resolves.toEqual({ status: 'DISABLED' });
+    expect((tx.adminControlAccount as typeof tx.adminControlAccount & { update: jest.Mock }).update).toHaveBeenCalledWith({
+      where: { userId }, data: expect.objectContaining({ status: 'DISABLED', user: { update: { active: false, authVersion: { increment: 1 } } } }),
+    });
+    expect(tx.operationalAuditEvent.create).toHaveBeenCalledWith({ data: expect.objectContaining({ action: 'ADMIN_ACCOUNT_DISABLED', targetId: userId }) });
+  });
   it.each(['ADMIN', 'ENCARGADO'] as AdminControlRole[])('SYSTEM_ADMIN crea %s con hash, alcance y auditoría', async (role) => {
     const { service, db, tx, input } = setup();
     const result = await service.createAdministrativeAccount(root, { ...input, role });
