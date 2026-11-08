@@ -1,6 +1,6 @@
 export function registerView() {
   return `<section class="login-screen register-screen" aria-labelledby="register-title">
-    <div class="login-brand brand"><img src="assets/primax.jpg" alt="Primax"><span>PRIME</span></div>
+    <div class="login-brand brand"><img src="assets/Logotipo%20corporativo%20PRIMAX%20PRIME.png" alt="Primax Prime" decoding="async"></div>
     <div class="login-heading"><span class="eyebrow">BIENVENIDO A PRIME</span><h1 id="register-title">Crear cuenta</h1><p>Tu membresía y tus beneficios, en un solo lugar.</p></div>
     <form id="register-form">
       <label for="register-name">Nombre</label><input id="register-name" name="name" autocomplete="name" maxlength="80" required>

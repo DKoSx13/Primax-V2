@@ -2,7 +2,7 @@
 
 export function loginView() {
   return `<section class="login-screen" aria-labelledby="login-title">
-    <div class="login-brand brand"><img src="assets/primax.jpg" alt="Primax"><span>PRIME</span></div>
+    <div class="login-brand brand"><img src="assets/Logotipo%20corporativo%20PRIMAX%20PRIME.png" alt="Primax Prime" decoding="async"></div>
     <div class="login-heading"><span class="eyebrow">TU CAMINO EMPIEZA AQUÍ</span><h1 id="login-title">Bienvenido a Primax Prime</h1><p>Ingresa y disfruta tus beneficios en cada parada.</p></div>
     <form id="login-form">
       <label for="login-email">Correo o DNI</label><input id="login-email" name="identifier" type="text" autocomplete="username" placeholder="tu@correo.pe o tu DNI" required aria-describedby="login-error" autocapitalize="none" spellcheck="false">
