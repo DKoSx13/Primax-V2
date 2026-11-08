@@ -8,7 +8,7 @@ import {
 } from './operations.controller';
 import { OperationsService } from './operations.service';
 import { IncidentsModule } from '../incidents/incidents.module';
-import { AuthModule } from '../auth/auth.module';
+import { AuthCoreModule } from '../auth/auth.module';
 
 @Module({
   controllers: [ControlPaymentsController,
@@ -16,7 +16,7 @@ import { AuthModule } from '../auth/auth.module';
     OperationalAdminController,
     ControlTerminalRecoveryController,
   ],
-  imports: [PaymentsModule,IncidentsModule, AuthModule],
+  imports: [PaymentsModule,IncidentsModule, AuthCoreModule],
   providers: [OperationsService,ControlPaymentsService],
 })
 export class OperationsModule {}

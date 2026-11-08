@@ -33,7 +33,7 @@ function harness(status: PaymentStatus = 'CAPTURED') {
   let auth: FuelAuthorization;
   let paid: Payment;
   let purchase: TransactionModel;
-  let inventoryReservation: Record<string, any>;
+  let inventoryReservation: Record<string, unknown>;
   let price = d(20);
   const member = {
     id: 'm',

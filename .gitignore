@@ -39,4 +39,8 @@
 .agents/
 .codex/
 skills-lock.json
+.playwright-mcp/
+**/playwright-report/
+**/venv/
+PrintAgent/data*/
 .neon

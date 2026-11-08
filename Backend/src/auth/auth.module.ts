@@ -1,7 +1,7 @@
 import { KioskService } from '../kiosk/kiosk.service';
 import { KioskStore } from '../kiosk/redis-store';
 import { KioskController } from '../kiosk/kiosk.controller';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
@@ -12,6 +12,7 @@ import { RecoveryDelivery } from './recovery-delivery';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { AdminController } from './admin.controller';
+@Global()
 @Module({
   imports: [
     UsersModule,
@@ -33,7 +34,6 @@ import { AdminController } from './admin.controller';
       }),
     }),
   ],
-  controllers: [AuthController, AdminController, KioskController],
   providers: [
     AuthService,
     KioskService,
@@ -42,6 +42,13 @@ import { AdminController } from './admin.controller';
     RecoveryDelivery,
     { provide: APP_GUARD, useClass: AccessGuard },
   ],
-  exports: [KioskService, KioskStore],
+  exports: [KioskService, KioskStore, AuthService, PasswordResetService, JwtModule],
+})
+export class AuthCoreModule {}
+
+@Module({
+  imports: [AuthCoreModule],
+  controllers: [AuthController, AdminController, KioskController],
+  exports: [AuthCoreModule],
 })
 export class AuthModule {}

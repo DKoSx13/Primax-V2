@@ -13,7 +13,7 @@ suite('PRIME allocation and migration on local PostgreSQL', () => {
   beforeAll(async () => {
     const target = new URL(process.env.DATABASE_URL!);
     if (
-      target.host !== '127.0.0.1:26602' ||
+      (target.host !== '127.0.0.1:26602' && !(process.env.APP_MODE === 'local' && target.host === 'postgres:5432')) ||
       target.pathname !== '/primax_v2_test'
     )
       throw Error('Dedicated local V2 DB required');
