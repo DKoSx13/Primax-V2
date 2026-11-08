@@ -116,21 +116,14 @@ suite('PRIME allocation and migration on local PostgreSQL', () => {
     )
       .replace(/^BEGIN;/, '')
       .replace(/COMMIT;\s*$/, '');
-    // Prisma executeRaw supports individual statements; use pg's simple protocol via local psql container for the migration.
+    // Execute the exact multi-statement SQL with Prisma's bundled schema engine.
+    // This works in Compose without a host Docker CLI or a hardcoded container.
     const { execFileSync } = await import('node:child_process');
     execFileSync(
-      'docker',
+      process.execPath,
       [
-        'exec',
-        '-i',
-        'primax-v2-local-test',
-        'psql',
-        '-U',
-        'primax_v2',
-        '-d',
-        'primax_v2_test',
-        '-v',
-        'ON_ERROR_STOP=1',
+        require.resolve('prisma/build/index.js'),
+        'db', 'execute', '--schema', 'prisma/schema.prisma', '--stdin',
       ],
       {
         input: `BEGIN; SET LOCAL search_path TO "${schema}";\n${migration}\nCOMMIT;`,

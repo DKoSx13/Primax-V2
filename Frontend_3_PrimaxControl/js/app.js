@@ -151,14 +151,12 @@ async function renderTerminals() {
   try {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const { terminals, pumps } = await api(`/control/terminals${suffix}`);
-    const status = { DISPONIBLE: 'Habilitada', EN_USO: 'En uso', BLOQUEADA: 'Suspendida', ASISTENCIA: 'Suspendida · operación activa', FUERA_DE_SERVICIO: 'Fuera de servicio' };
-    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'Habilita o suspende el autoservicio según el estado de la terminal.')}
+    const status = { DISPONIBLE: 'Disponible', EN_USO: 'En uso', BLOQUEADA: 'Disponibilidad autom?tica', ASISTENCIA: 'Suspendida · operación activa', FUERA_DE_SERVICIO: 'Fuera de servicio' };
+    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'Estado de solo lectura. FuelFlow inicia automáticamente; se conservan las intervenciones de seguridad.')}
       <section class="panel table-wrap"><div class="panel-head"><h2>Terminales</h2></div><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado actual</th><th>Surtidor</th><th>Operación</th><th>Última actividad</th><th>Cambio por</th><th>Motivo de suspensión</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => {
         const operation = terminal.operations[0];
         const enabled = ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus);
-        const action = has('ADMIN_TERMINAL_MANAGE') ? enabled
-          ? `<button class="text-button" data-terminal-action="SUSPEND" data-terminal-id="${esc(terminal.id)}">Suspender terminal</button>`
-          : `<button class="text-button" data-terminal-action="ENABLE" data-terminal-id="${esc(terminal.id)}" ${operation || !terminal.assignments[0]?.pump?.active ? 'disabled' : ''}>Habilitar terminal</button>` : '—';
+        const action = '<span class="muted">Disponibilidad autom?tica</span>';
         const recovery = operation?.status === 'INTERVENTION_REQUIRED' && has('ADMIN_INCIDENT_MANAGE')
           ? `<button class="text-button" data-operation-resolve="${esc(operation.operationId)}">Resolver operación</button>` : '';
         return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${enabled ? '' : 'warning'}">${esc(status[terminal.operationalStatus] || terminal.operationalStatus)}</span></td><td>${esc(terminal.assignments[0]?.pump?.code || 'Sin asignar')}</td><td>${operation ? esc(operation.operationId.slice(0, 8)) : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt || terminal.statusChangedAt)}</td><td>${esc(terminal.statusChangedBy || '—')}</td><td>${esc(terminal.suspensionReason || '—')}</td><td>${action}${recovery}</td></tr>`;
@@ -426,16 +424,6 @@ document.addEventListener('click', async (event) => {
         catch (error) { window.alert(incidentMessage(error)); button.disabled = false; }
       }));
     } catch (error) { window.alert(incidentMessage(error)); }
-  }
-  if (target.dataset.terminalAction) {
-    const suspending = target.dataset.terminalAction === 'SUSPEND';
-    const reason = suspending ? window.prompt('Motivo de suspensión:') : undefined;
-    if (suspending && (!reason || reason.trim().length < 3)) return;
-    target.disabled = true;
-    try {
-      await api(`/control/terminals/${target.dataset.terminalId}/status`, { method: 'POST', body: JSON.stringify({ action: target.dataset.terminalAction, ...(suspending ? { reason: reason.trim() } : {}) }) });
-      await renderTerminals();
-    } catch (error) { target.disabled = false; window.alert(incidentMessage(error)); }
   }
   if (target.dataset.operationResolve) {
     const reason = window.prompt('Resultado de la intervención:');

@@ -22,44 +22,32 @@ function fixture(status = 'BLOQUEADA') {
 const actor = (permissions: string[], stationIds = [stationId], role = 'ENCARGADO') =>
   ({ kind: 'control' as const, userId, role, permissions, stationIds, global: false });
 
-describe('terminal control without shifts', () => {
-  it.each(['ENCARGADO', 'ADMIN'])('%s with grant enables and audits', async (role) => {
-    const f = fixture();
-    const result = await f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE'], [stationId], role), terminalId, 'ENABLE');
-    expect(result.operationalStatus).toBe('DISPONIBLE');
-    expect(f.tx.operationalAuditEvent.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ action: 'TERMINAL_ENABLED', actorUserId: userId }) }));
-  });
-
-  it('Encargado with grant suspends with reason and audits', async () => {
-    const f = fixture('DISPONIBLE');
-    const result = await f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE']), terminalId, 'SUSPEND', 'Falla de surtidor');
-    expect(result).toMatchObject({ operationalStatus: 'BLOQUEADA', suspensionReason: 'Falla de surtidor' });
-    expect(f.tx.operationalAuditEvent.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ action: 'TERMINAL_SUSPENDED' }) }));
-  });
-
-  it('denies missing grant, other station, and missing reason', async () => {
-    const f = fixture('DISPONIBLE');
-    await expect(f.control.terminalStatus(actor([]), terminalId, 'SUSPEND', 'Falla')).rejects.toThrow();
-    await expect(f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE'], []), terminalId, 'SUSPEND', 'Falla')).rejects.toThrow();
-    await expect(f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE']), terminalId, 'SUSPEND')).rejects.toThrow();
+describe('automatic availability with safety boundaries', () => {
+  it.each(['ENCARGADO','ADMIN'])('%s cannot enable or disable FuelFlow from Control', async role => {
+    const f=fixture();
+    for(const action of ['ENABLE','SUSPEND'] as const)
+      await expect(f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE'],[stationId],role),terminalId,action,'Reason')).rejects.toThrow('solo lectura');
     expect(f.tx.terminal.update).not.toHaveBeenCalled();
   });
-
-  it('allows a new FuelFlow operation only when enabled without a shift', async () => {
-    const enabled = fixture('DISPONIBLE');
-    await enabled.operations.startOperation(terminalId, '44444444-4444-4444-8444-444444444444');
-    expect(enabled.tx.terminalOperation.create).toHaveBeenCalledWith(expect.objectContaining({ data: expect.not.objectContaining({ enablementId: expect.anything() }) }));
-    const blocked = fixture('BLOQUEADA');
-    await expect(blocked.operations.startOperation(terminalId, '55555555-5555-4555-8555-555555555555')).rejects.toThrow('Terminal no disponible');
-    expect(blocked.tx.terminalOperation.create).not.toHaveBeenCalled();
+  it('retains administrative authentication and grants', async()=>{
+    await expect(fixture().control.terminalStatus(actor([]),terminalId,'SUSPEND')).rejects.toThrow();
   });
-
-  it('lets an existing operation resume while suspension blocks new starts', async () => {
-    const f = fixture('ASISTENCIA');
-    f.tx.terminal.findUnique.mockResolvedValue({
-      id: terminalId, stationId, lifecycle: 'REGISTRADA', operationalStatus: 'ASISTENCIA',
-      assignments: [assignment], operations: [{ id: 'active' }],
-    });
-    expect(await f.operations.terminalMe(terminalId)).toMatchObject({ prepared: true, canStart: false });
+  it.each(['DISPONIBLE','BLOQUEADA'])('starts with %s without administrative activation',async status=>{
+    const f=fixture(status);await f.operations.startOperation(terminalId,'44444444-4444-4444-8444-444444444444');
+    expect(f.tx.terminalOperation.create).toHaveBeenCalledTimes(1);
+  });
+  it.each(['ASISTENCIA','FUERA_DE_SERVICIO'])('keeps real safety state %s blocked',async status=>{
+    const f=fixture(status);await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('Terminal no disponible');
+    expect(f.tx.terminalOperation.create).not.toHaveBeenCalled();
+  });
+  it('does not start two operations or use an inactive pump',async()=>{
+    const f=fixture('DISPONIBLE');f.tx.terminalOperation.findFirst.mockResolvedValue({id:'active'});
+    await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('activa');
+    f.tx.terminalOperation.findFirst.mockResolvedValue(null);f.tx.terminalPumpAssignment.findFirst.mockResolvedValue(null);
+    await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('surtidor');
+  });
+  it('allows recovery of an existing attention while blocking a new unsafe one',async()=>{
+    const f=fixture('ASISTENCIA');f.tx.terminal.findUnique.mockResolvedValue({id:terminalId,stationId,lifecycle:'REGISTRADA',operationalStatus:'ASISTENCIA',assignments:[assignment],operations:[{id:'active'}]});
+    expect(await f.operations.terminalMe(terminalId)).toMatchObject({prepared:true,canStart:false});
   });
 });

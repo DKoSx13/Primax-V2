@@ -113,13 +113,10 @@ suite('Primax Control operational modules on isolated PostgreSQL', () => {
     const auditRows = await service.audit(scoped, { stationId: stationA, action: 'INVENTORY_SUPPLY_RECEIVED' });
     expect(auditRows.some((event) => event.action === 'INVENTORY_SUPPLY_RECEIVED')).toBe(true);
     await expect(service.audit(scoped, { stationId: stationB })).rejects.toBeInstanceOf(ForbiddenException);
-    const enabled = await service.terminalStatus(scoped, terminalId, 'ENABLE');
-    expect(enabled.operationalStatus).toBe('DISPONIBLE');
-    const updated = await service.terminalStatus(scoped, terminalId, 'SUSPEND', 'Falla técnica');
-    expect(updated.operationalStatus).toBe('BLOQUEADA');
-    expect(updated.suspensionReason).toBe('Falla técnica');
-    expect(await db.operationalAuditEvent.count({ where: { terminalId, action: 'TERMINAL_SUSPENDED' } })).toBe(1);
-    await expect(service.terminalStatus(scoped, terminalId, 'ENABLE').then(() => service.terminals(scoped, stationB))).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(service.terminalStatus(scoped,terminalId,'ENABLE')).rejects.toThrow('solo lectura');
+    await expect(service.terminalStatus(scoped,terminalId,'SUSPEND','Reason')).rejects.toThrow('solo lectura');
+    expect(await db.operationalAuditEvent.count({where:{terminalId,action:'TERMINAL_SUSPENDED'}})).toBe(0);
+    await expect(service.terminals(scoped,stationB)).rejects.toBeInstanceOf(ForbiddenException);
     const noManage = { ...scoped, permissions: scoped.permissions.filter((permission) => permission !== 'ADMIN_TERMINAL_MANAGE') };
     await expect(service.terminalStatus(noManage, terminalId, 'SUSPEND', 'Falla técnica')).rejects.toBeInstanceOf(ForbiddenException);
   });

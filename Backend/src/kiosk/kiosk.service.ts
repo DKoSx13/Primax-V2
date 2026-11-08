@@ -16,6 +16,7 @@ import {
 } from 'node:crypto';
 import { compare } from 'bcryptjs';
 import { Request } from 'express';
+import { acceptsNewAttention } from '../operations/terminal-availability';
 import { PrismaService } from '../prisma/prisma.service';
 import { KioskStore } from './redis-store';
 import { kioskRoute } from './policy';
@@ -214,7 +215,7 @@ export class KioskService {
     const existing = /^[a-f0-9]{64}$/.test(previous)
       ? await this.db.terminalCredential.findUnique({ where: { tokenHash: digest(previous) } })
       : null;
-    if (!['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus) &&
+    if (!(acceptsNewAttention(terminal.operationalStatus) || terminal.operationalStatus === 'EN_USO') &&
         !(existing?.terminalId === terminal.id && !existing.revokedAt && existing.expiresAt > new Date() &&
           await this.db.terminalOperation.findFirst({ where: { terminalId: terminal.id, closedAt: null } })))
       throw new ConflictException('Terminal temporalmente no disponible');

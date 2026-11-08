@@ -70,24 +70,15 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     await expect(control.login((await db.user.findUniqueOrThrow({ where: { id: clientId } })).email, password)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
-  it('enforces grant and station scope, audits state changes, and starts without a shift', async () => {
-    const manage = ['ADMIN_TERMINAL_MANAGE'];
-    await expect(terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', []), terminalId, 'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
-    await expect(terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', manage, [otherStationId]), terminalId, 'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', manage), terminalId, 'ENABLE');
+  it('starts automatically and rejects the obsolete administrative switch',async()=>{
+    await expect(terminals.terminals(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_VIEW'],[otherStationId]),stationId)).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',[]),terminalId,'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_MANAGE']),terminalId,'SUSPEND','Reason')).rejects.toThrow('solo lectura');
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
-    const operationId = randomUUID();
-    const operation = await operations.startOperation(terminalId, operationId);
-    expect(operation.enablementId).toBeNull();
-    await terminals.terminalStatus(actor(adminId, 'ADMIN', manage), terminalId, 'SUSPEND', 'Falla técnica');
-    expect((await operations.terminalMe(terminalId)).canStart).toBe(false);
-    await expect(operations.startOperation(terminalId, randomUUID())).rejects.toThrow('Terminal no disponible');
-    await operations.closeOperation(terminalId, operationId);
-    expect((await db.terminal.findUniqueOrThrow({ where: { id: terminalId } })).operationalStatus).toBe('BLOQUEADA');
-    await terminals.terminalStatus(actor(rootId, 'SUPER_ADMIN', manage, [], true), terminalId, 'ENABLE');
+    const id=randomUUID();expect((await operations.startOperation(terminalId,id)).enablementId).toBeNull();
+    await expect(operations.startOperation(terminalId,randomUUID())).rejects.toThrow('Terminal no disponible');
+    await operations.closeOperation(terminalId,id);
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
-    expect(await db.operationalAuditEvent.count({ where: { terminalId, action: 'TERMINAL_ENABLED' } })).toBe(2);
-    expect(await db.operationalAuditEvent.count({ where: { terminalId, action: 'TERMINAL_SUSPENDED', actorUserId: adminId } })).toBe(1);
   });
 
   it('bootstraps a technical session without a human shift and preserves an active operation during suspension', async () => {
@@ -119,14 +110,14 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
     const operationId = randomUUID();
     expect((await operations.startOperation(terminalId, operationId)).enablementId).toBeNull();
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', ['ADMIN_TERMINAL_MANAGE']), terminalId, 'SUSPEND', 'Problema durante venta');
+    await db.terminal.update({where:{id:terminalId},data:{operationalStatus:'ASISTENCIA'}}); // Real fault fixture, not an administrative toggle.
     const resumed = await kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId);
     expect(resumed.terminalToken).toBe(session.terminalToken);
     expect((await operations.terminalMe(terminalId)).prepared).toBe(true);
     await expect(operations.startOperation(terminalId, randomUUID())).rejects.toThrow('Terminal no disponible');
     await operations.closeOperation(terminalId, operationId);
     await expect(kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).rejects.toThrow('temporalmente no disponible');
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', ['ADMIN_TERMINAL_MANAGE']), terminalId, 'ENABLE');
+    await db.terminal.update({where:{id:terminalId},data:{operationalStatus:'DISPONIBLE'}}); // Hardware fault resolved in this isolated fixture.
     expect((await kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).terminalToken).toBe(session.terminalToken);
   });
 });

@@ -35,7 +35,7 @@ async function main() {
 
     const [pump, terminal] = await Promise.all([
       db.pump.upsert({ where: { stationId_code: { stationId: station.id, code: '03' } }, update: {}, create: { stationId: station.id, code: '03', name: 'Surtidor DEMO 03' } }),
-      db.terminal.upsert({ where: { stationId_code: { stationId: station.id, code: 'PRIMAX-SUR-T01' } }, update: {}, create: { stationId: station.id, code: 'PRIMAX-SUR-T01' } }),
+      db.terminal.upsert({ where: { stationId_code: { stationId: station.id, code: 'PRIMAX-SUR-T01' } }, update: {}, create: { stationId: station.id, code: 'PRIMAX-SUR-T01', operationalStatus: 'DISPONIBLE' } }),
     ]);
     const assignment = await db.terminalPumpAssignment.findFirst({ where: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id, endedAt: null } });
     if (!assignment) await db.terminalPumpAssignment.create({ data: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id } });
