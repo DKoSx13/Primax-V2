@@ -87,13 +87,7 @@ suite('Primax Control customers, memberships, vehicles and receipts on isolated 
 
   afterAll(async () => {
     if (!db) return;
-    await db.payment.deleteMany({ where: { transactionId: { in: [transactionA, transactionB, transactionOther] } } });
-    await db.transaction.deleteMany({ where: { id: { in: [transactionA, transactionB, transactionOther] } } });
-    await db.vehicle.deleteMany({ where: { id: { in: [vehicleA, vehicleB, vehicleOther] } } });
-    await db.membership.deleteMany({ where: { id: { in: [membershipA, membershipB] } } });
-    await db.fuel.deleteMany({ where: { id: fuelId } });
-    await db.user.deleteMany({ where: { id: { in: [userA, userB] } } });
-    await db.station.deleteMany({ where: { id: { in: [stationA, stationB] } } });
+    // Append-only documents and their synthetic fixture history are retained.
     await db.$disconnect();
   });
 

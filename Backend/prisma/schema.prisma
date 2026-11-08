@@ -322,6 +322,7 @@ model Fuel {
 }
 
 model Transaction {
+  receipt Receipt?
   originalAmount Decimal? @db.Decimal(12, 2)
   discountAmount Decimal @default(0) @db.Decimal(12, 2)
   alerts BusinessAlert[]
@@ -379,6 +380,21 @@ model Transaction {
   inventoryReservation InventoryReservation? @relation("ReservationTransaction")
   inventoryMovements InventoryMovement[] @relation("MovementTransaction")
   operationalIncidents OperationalIncident[]
+}
+
+// Academic documents: numbering belongs to PostgreSQL, never to a browser.
+model Receipt {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  transactionId String @unique @db.Uuid
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Restrict)
+  documentType ReceiptType
+  series String @db.VarChar(4)
+  correlative BigInt
+  number String @unique @db.VarChar(30)
+  issuedAt DateTime @default(now()) @db.Timestamptz(3)
+  legacy Boolean @default(false)
+
+  @@unique([series, correlative])
 }
 
 /// AutorizaciÃƒÂ³n previa al abastecimiento; prepago exige Payment persistido.
@@ -550,7 +566,7 @@ model Terminal {
   station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
   code String @db.VarChar(30)
   lifecycle TerminalLifecycle @default(REGISTRADA)
-  operationalStatus TerminalOperationalStatus @default(BLOQUEADA)
+  operationalStatus TerminalOperationalStatus @default(DISPONIBLE)
   suspensionReason String? @db.VarChar(500)
   statusChangedByUserId String? @db.Uuid
   statusChangedBy User? @relation(fields: [statusChangedByUserId], references: [id], onDelete: Restrict)
