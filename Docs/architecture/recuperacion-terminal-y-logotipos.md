@@ -78,3 +78,7 @@ Desde la raíz: `docker compose up -d`.
 - Control: http://localhost:26083
 
 Los checks y las migraciones del despliegue siguen automatizados. No se eliminaron volúmenes ni se publicaron cambios remotos. Las pruebas de integración utilizan las bases aisladas definidas por `Backend/scripts/test-compose.cjs`.
+
+## Logo vigente al preparar los Pull Requests
+
+El lateral de Control usa `Frontend_3_PrimaxControl/assets/Logotivo V2.png`, con letras blancas y naranja sobre el azul de la barra. El contenedor y la imagen son transparentes. En acceso y solicitud se conserva el PNG azul/naranja, adecuado para fondo claro. Las capturas anteriores documentan el estado verificado antes de seleccionar V2. El archivo V2 original era PNG sin extensión; se agregó `.png` para servir el MIME correcto, sin editar sus bytes.
