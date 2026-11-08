@@ -7,12 +7,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { createHash, randomBytes, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../prisma/prisma.service';
 
+import { acceptsNewAttention } from './terminal-availability';
+
 type Db = Prisma.TransactionClient;
-const tokenHash = (token: string) =>
-  createHash('sha256').update(token).digest('hex');
 
 @Injectable()
 export class OperationsService {
@@ -106,9 +106,9 @@ export class OperationsService {
       lifecycle: terminal.lifecycle,
       operationalStatus: terminal.operationalStatus,
       pump: terminal.assignments[0]?.pump ?? null,
-      prepared: ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus) || terminal.operations.length > 0,
+      prepared: (acceptsNewAttention(terminal.operationalStatus) || terminal.operationalStatus === 'EN_USO') || terminal.operations.length > 0,
       canStart:
-        terminal.operationalStatus === 'DISPONIBLE' &&
+        acceptsNewAttention(terminal.operationalStatus) &&
         terminal.operations.length === 0 &&
         terminal.assignments.some((assignment) => assignment.pump.active),
     };
@@ -131,7 +131,7 @@ export class OperationsService {
       if (
         !terminal ||
         terminal.lifecycle !== 'REGISTRADA' ||
-        terminal.operationalStatus !== 'DISPONIBLE'
+        !acceptsNewAttention(terminal.operationalStatus)
       )
         throw new ConflictException('Terminal no disponible');
       const active = await tx.terminalOperation.findFirst({
@@ -299,7 +299,7 @@ export class OperationsService {
         where: { id: terminalId },
         data: {
           operationalStatus: terminal.operationalStatus === 'EN_USO' ? 'DISPONIBLE' :
-            terminal.operationalStatus === 'ASISTENCIA' ? 'BLOQUEADA' : terminal.operationalStatus,
+            terminal.operationalStatus === 'BLOQUEADA' ? 'DISPONIBLE' : terminal.operationalStatus,
           statusVersion: { increment: 1 },
         },
       });
@@ -362,7 +362,7 @@ export class OperationsService {
           operationalStatus:
             operation.terminal.lifecycle === 'REVOCADA'
               ? 'FUERA_DE_SERVICIO'
-              : 'ASISTENCIA',
+              : 'DISPONIBLE',
           statusVersion: { increment: 1 },
         },
       });

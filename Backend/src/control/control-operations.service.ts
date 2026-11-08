@@ -282,42 +282,10 @@ export class ControlOperationsService {
     return { terminals: terminals.map((terminal) => ({ ...terminal, statusChangedBy: names.get(terminal.statusChangedByUserId ?? '') ?? null })), pumps };
   }
 
-  async terminalStatus(actor: ControlActor, terminalId: string, action: 'SUSPEND' | 'ENABLE', reason?: string) {
+  async terminalStatus(actor: ControlActor, _terminalId: string, _action: 'SUSPEND' | 'ENABLE', _reason?: string) {
     if (!actor.permissions.includes(AdminControlPermission.ADMIN_TERMINAL_MANAGE))
       throw new ForbiddenException('Permiso administrativo insuficiente');
-    const cleanReason = reason?.trim();
-    if (action === 'SUSPEND' && (!cleanReason || cleanReason.length < 3))
-      throw new BadRequestException('Indica el motivo de suspensión');
-    return this.db.atomic(async (tx) => {
-      const found = await tx.terminal.findUnique({ where: { id: terminalId } });
-      if (!found || found.lifecycle !== 'REGISTRADA') throw new NotFoundException('Terminal registrada no encontrada');
-      await this.scope(actor, found.stationId, AdminControlPermission.ADMIN_TERMINAL_MANAGE);
-      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
-      const terminal = await tx.terminal.findUniqueOrThrow({ where: { id: terminalId } });
-      if (action === 'ENABLE') {
-        if (terminal.operationalStatus === 'DISPONIBLE' || terminal.operationalStatus === 'EN_USO')
-          throw new ConflictException('La terminal ya está habilitada');
-        if (await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } }))
-          throw new ConflictException('Resuelve la operación activa antes de habilitar');
-        if (!await tx.terminalPumpAssignment.findFirst({ where: { terminalId, stationId: terminal.stationId, endedAt: null, pump: { active: true } } }))
-          throw new ConflictException('La terminal requiere un surtidor activo');
-      } else if (['BLOQUEADA', 'ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(terminal.operationalStatus)) {
-        throw new ConflictException('La terminal ya está suspendida');
-      }
-      const active = action === 'SUSPEND' && await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
-      const status = action === 'ENABLE' ? 'DISPONIBLE' : active ? 'ASISTENCIA' : 'BLOQUEADA';
-      const now = new Date();
-      const updated = await tx.terminal.update({ where: { id: terminalId }, data: {
-        operationalStatus: status, suspensionReason: action === 'SUSPEND' ? cleanReason : null,
-        statusChangedByUserId: actor.userId, statusChangedAt: now, statusVersion: { increment: 1 },
-      } });
-      await tx.operationalAuditEvent.create({ data: { eventKey: `control-terminal:${terminalId}:${randomUUID()}`,
-        actorKind: 'USER', actorUserId: actor.userId, stationId: terminal.stationId, terminalId,
-        action: action === 'SUSPEND' ? 'TERMINAL_SUSPENDED' : 'TERMINAL_ENABLED',
-        targetId: terminalId, outcome: 'SUCCESS', details: { previousStatus: terminal.operationalStatus, status, reason: cleanReason ?? null },
-      } });
-      return updated;
-    });
+    throw new ConflictException('FuelFlow está disponible automáticamente. El estado de terminal es de solo lectura; las intervenciones de seguridad se gestionan por operación.');
   }
 
   async inventory(actor: ControlActor, stationId?: string) {

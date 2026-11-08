@@ -51,7 +51,7 @@ suite('Fase 1B-1: inventory reservation and ledger on PostgreSQL', () => {
             id: string,
             op: string,
             gallons: number,
-          ) => tx.$queryRaw<Array<{ id: string }>>`
+          ) => tx.$queryRaw<Array<{ inventory_create_reservation: string }>>`
           SELECT inventory_create_reservation(${op}::uuid,${sid}::uuid,${fid}::uuid,'TERMINAL'::"InventoryReservationSource",${gallons}::numeric,${hash}::char(64),${id}::uuid)`;
           const bound = await tx.$queryRaw<
             Array<{ bound: string }>
@@ -74,7 +74,7 @@ suite('Fase 1B-1: inventory reservation and ledger on PostgreSQL', () => {
           SELECT trim_scale(sum(round(0.001::numeric*3.785411784::numeric,6)))::text incremental FROM generate_series(1,1000)`;
           expect(steps[0].incremental).toBe('3.785');
           const created = await reserve(authId, operationId, 1);
-          const reservationId = (created[0] as any)
+          const reservationId = created[0]
             .inventory_create_reservation;
           let inv = await tx.$queryRaw<
             Array<{ liters: string; reservedLiters: string }>
