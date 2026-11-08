@@ -1,5 +1,7 @@
 import { Prisma } from '@prisma/client';
+import { receiptResponse } from '../receipts/receipt.service';
 export const transactionInclude = {
+  receipt: true,
   vehicle: true,
   fuel: true,
   station: true,
@@ -21,6 +23,7 @@ export function transactionResponse(value: TransactionModel) {
   const { requestHash: _hash, membership, ...transaction } = value;
   return {
     ...transaction,
+    receipt: receiptResponse(value.receipt),
     amount: value.amount.toFixed(2),
     membership: membership
       ? {

@@ -10,7 +10,7 @@ using System.Web.Script.Serialization;
 
 namespace FuelFlow {
  public sealed class Receipt {
-  public int schemaVersion; public string id,documentType,issuedAt,station,pump,plate,dni,ruc,businessName,fuel,gallons,unitPrice,subtotal,discount,total,mode,paymentMethod,state,pending; public bool demo;
+  public int schemaVersion; public string id,transactionId,number,documentType,issuedAt,station,pump,plate,dni,ruc,businessName,fuel,gallons,unitPrice,subtotal,discount,total,mode,paymentMethod,state,pending; public bool demo;
  }
  public sealed class Piece {
   public string Text; public float X,Y,Width,Height,Points; public bool Bold; public string Align;
@@ -72,9 +72,13 @@ namespace FuelFlow {
    Receipt r=Parse(json);float y=p.TopMm;
    y=Add(p,g,"PRIMAX FUELFLOW",p.LeftMm,y,p.WidthMm,10,true,"center");
    y=Add(p,g,r.documentType+" · DEMO",p.LeftMm,y,p.WidthMm,8,true,"center");
+   if(!String.IsNullOrEmpty(r.number)){
+    Require(Regex.IsMatch(r.number,"^"+(r.documentType=="BOLETA"?"EB01":"FT01")+"-[0-9]{4,}$"),"Numero de comprobante invalido.");
+    y=Add(p,g,"N.º "+r.number,p.LeftMm,y,p.WidthMm,8,true,"center");
+   }
    if(r.id.StartsWith("physical-test-",StringComparison.Ordinal))y=Add(p,g,"PRUEBA DE IMPRESIÓN — SIN VALIDEZ FISCAL",p.LeftMm,y,p.WidthMm,7,true,"center");
    y=Add(p,g,"Sin validez fiscal / No validado por SUNAT",p.LeftMm,y,p.WidthMm,7,false,"center");Rule(p,ref y);
-   Row(p,g,ref y,"Operación",r.id,false);
+   Row(p,g,ref y,"Operación",String.IsNullOrEmpty(r.transactionId)?r.id:r.transactionId,false);
    var date=DateTimeOffset.Parse(r.issuedAt,CultureInfo.InvariantCulture,DateTimeStyles.RoundtripKind);
    var lima=TimeZoneInfo.ConvertTimeBySystemTimeZoneId(date,"SA Pacific Standard Time");
    Row(p,g,ref y,"Fecha",lima.ToString("dd/MM/yyyy HH:mm:ss",CultureInfo.InvariantCulture),false);

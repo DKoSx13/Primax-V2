@@ -69,6 +69,8 @@ export class RedeemResponseDto {
   @ApiProperty() replayed: boolean;
 }
 export class TransactionViewDto {
+  @ApiProperty({ nullable: true, example: { number: 'EB01-0001', series: 'EB01', correlative: '1', documentType: 'BOLETA', transactionId: 'uuid', issuedAt: '2026-11-07T00:00:00.000Z', demo: true } })
+  receipt: object | null;
   @ApiProperty({ format: 'uuid' }) id: string;
   @ApiProperty({ format: 'uuid' }) operationId: string;
   @ApiProperty({ example: '100.00', type: String }) amount: string;

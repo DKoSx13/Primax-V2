@@ -1913,6 +1913,7 @@ async function manejarFalloConfirmacion(error) {
 
 /** Pinta el ticket con el resultado que ya existe en backendResult. */
 function pintarResumen(){
+  if ($('receipt-number')) $('receipt-number').textContent = backendResult?.transaction?.receipt?.number ? 'N.º ' + backendResult.transaction.receipt.number : 'Sin comprobante emitido';
   const transaction=backendResult.transaction;
   state.total = Number(backendResult.transaction.amount);
   if(backendResult.transaction.gallons != null) state.galones = Number(backendResult.transaction.gallons);

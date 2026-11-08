@@ -1,3 +1,4 @@
+import { receiptResponse } from '../receipts/receipt.service';
 import {
   BadRequestException,
   ConflictException,
@@ -88,7 +89,7 @@ export class ControlOperationsService {
           pump: { select: { id: true, code: true, name: true } },
           terminalOperation: { select: { id: true, status: true, openedAt: true, closedAt: true } },
           payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } },
-          transaction: { select: { id: true, status: true, amount: true, gallons: true, createdAt: true } },
+          transaction: { select: { id: true, receipt: true, status: true, amount: true, gallons: true, createdAt: true } },
           inventoryReservation: { select: { id: true, status: true, initialLiters: true, remainingLiters: true, consumedLiters: true, releasedLiters: true } },
           operationalIncidents: { select: { id: true, code: true, status: true, summary: true } },
         },
@@ -103,6 +104,7 @@ export class ControlOperationsService {
           ...(filters.mode ? { mode: filters.mode } : {}),
         },
         include: {
+          receipt: true,
           station: { select: { id: true, code: true, name: true } },
           fuel: { select: { id: true, code: true, name: true } },
           terminal: { select: { id: true, code: true } },
@@ -139,6 +141,7 @@ export class ControlOperationsService {
 
     const rows = [
       ...authorizations.map((authorization) => ({
+        receipt: receiptResponse(authorization.transaction?.receipt),
         operationId: authorization.operationId,
         station: authorization.station,
         terminal: authorization.terminal,
@@ -155,6 +158,7 @@ export class ControlOperationsService {
         incident: authorization.operationalIncidents[0] ?? null,
       })),
       ...transactions.map((transaction) => ({
+        receipt: receiptResponse(transaction.receipt),
         operationId: transaction.operationId,
         station: transaction.station,
         terminal: transaction.terminal,
@@ -171,6 +175,7 @@ export class ControlOperationsService {
         incident: transaction.operationalIncidents[0] ?? null,
       })),
       ...emptyOperations.map((operation) => ({
+        receipt: null,
         operationId: operation.operationId,
         station: operation.station,
         terminal: operation.terminal,
@@ -208,7 +213,7 @@ export class ControlOperationsService {
       }),
       this.db.transaction.findUnique({
         where: { operationId },
-        select: { id: true, status: true, amount: true, gallons: true, mode: true, stationId: true, fuelId: true, createdAt: true, authorizationId: true, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } } },
+        select: { id: true, receipt: true, status: true, amount: true, gallons: true, mode: true, stationId: true, fuelId: true, createdAt: true, authorizationId: true, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } } },
       }),
       this.db.terminalOperation.findUnique({
         where: { operationId },
@@ -242,12 +247,13 @@ export class ControlOperationsService {
           dispensedGallons: authorization.dispensedGallons,
         },
         payment: authorization.payment ?? transaction?.payment ?? null,
-        transaction,
+        receipt: receiptResponse(transaction?.receipt),
+        transaction: transaction ? {...transaction, receipt: receiptResponse(transaction.receipt)} : null,
         reservation,
         incident,
       };
     }
-    return { operationId, station: terminalOperation?.station ?? null, terminalOperation, transaction, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
+    return { operationId, station: terminalOperation?.station ?? null, terminalOperation, receipt: receiptResponse(transaction?.receipt), transaction: transaction ? {...transaction,receipt: receiptResponse(transaction.receipt)} : null, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
   }
 
   async terminals(actor: ControlActor, stationId?: string) {
