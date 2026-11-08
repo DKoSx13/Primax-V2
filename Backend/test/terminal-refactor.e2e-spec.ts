@@ -26,7 +26,7 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
 
   beforeAll(async () => {
     const target = new URL(process.env.DATABASE_URL!);
-    if (target.hostname !== '127.0.0.1' || target.port !== '26602' || target.pathname !== '/primax_refactor_validation')
+    if ((target.host !== '127.0.0.1:26602' && !(process.env.APP_MODE === 'local' && target.host === 'postgres:5432')) || target.pathname !== '/primax_refactor_validation')
       throw Error('Dedicated local refactor database required');
     db = new PrismaService();
     await db.$connect();
@@ -119,5 +119,38 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     await expect(kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).rejects.toThrow('temporalmente no disponible');
     await db.terminal.update({where:{id:terminalId},data:{operationalStatus:'DISPONIBLE'}}); // Hardware fault resolved in this isolated fixture.
     expect((await kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).terminalToken).toBe(session.terminalToken);
+  });
+  it('recovers abandoned empty attention, preserves a legitimate session and protects paid evidence',async()=>{
+    const config={get:(key:string,fallback?:string)=>({KIOSK_STATION_ID:stationId,KIOSK_GATEWAY_SECRET:'local-refactor-gateway-secret'}[key]??fallback),getOrThrow:(key:string)=>({KIOSK_STATION_ID:stationId,KIOSK_GATEWAY_SECRET:'local-refactor-gateway-secret'}[key])};
+    const kiosk=new KioskService(config as never,{limit:async()=>true,key:(k:string)=>k,command:async()=> 'OK'} as never,db);
+    jest.spyOn(kiosk,'verifyGateway').mockImplementation(()=>{});
+    jest.spyOn(kiosk,'limitTechnical').mockResolvedValue(undefined);
+    const req=(token='')=>({header:()=>token}) as never;
+    const session=await kiosk.bootstrapTerminal(req(),terminalId);
+    const abandoned=randomUUID();await operations.startOperation(terminalId,abandoned);
+    const old=new Date(Date.now()-10*60*1000);
+    await db.terminalOperation.update({where:{operationId:abandoned},data:{openedAt:old}});
+    await db.terminalCredential.updateMany({where:{terminalId},data:{lastUsedAt:old}});
+    const recovered=await kiosk.bootstrapTerminal(req(),terminalId);
+    expect(recovered.terminalToken).not.toBe(session.terminalToken);
+    expect((await db.terminalOperation.findUniqueOrThrow({where:{operationId:abandoned}})).closedAt).not.toBeNull();
+    expect(await db.operationalAuditEvent.count({where:{terminalId,action:'ABANDONED_EMPTY_ATTENTION_CLOSED'}})).toBe(1);
+    expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
+    const legitimate=randomUUID();await operations.startOperation(terminalId,legitimate);
+    expect((await kiosk.bootstrapTerminal(req(recovered.terminalToken),terminalId)).terminalToken).toBe(recovered.terminalToken);
+    const me=await operations.terminalMe(terminalId);
+    expect(me.activeOperationId).toBe(legitimate);expect(me.emptyAttention).toBe(true);
+    await expect(kiosk.bootstrapTerminal(req(),terminalId)).rejects.toThrow('atención reciente');
+    const payment=await db.payment.create({data:{operationId:legitimate,amount:'20',method:'TARJETA',status:'CAPTURED'}});
+    await db.terminalOperation.update({where:{operationId:legitimate},data:{openedAt:old}});
+    await db.terminalCredential.updateMany({where:{terminalId},data:{lastUsedAt:old}});
+    await expect(kiosk.bootstrapTerminal(req(),terminalId)).rejects.toThrow('intervención autorizada');
+    await expect(operations.closeOperation(terminalId,legitimate)).rejects.toThrow('intervención autorizada');
+    expect((await db.terminalOperation.findUniqueOrThrow({where:{operationId:legitimate}})).closedAt).toBeNull();
+    expect((await db.payment.findUniqueOrThrow({where:{id:payment.id}})).status).toBe('CAPTURED');
+    expect(await db.terminalOperation.count({where:{terminalId,closedAt:null}})).toBe(1);
+    const before=await db.terminalCredential.findFirstOrThrow({where:{terminalId,revokedAt:null}});
+    await operations.terminalMe(terminalId,before.id);
+    expect((await db.terminalCredential.findUniqueOrThrow({where:{id:before.id}})).lastUsedAt!.getTime()).toBeGreaterThan(old.getTime());
   });
 });
