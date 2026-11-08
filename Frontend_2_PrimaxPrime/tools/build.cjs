@@ -12,14 +12,15 @@ fs.writeFileSync(path.join(output,'js/config.js'),
 'export const DEMO_PASSWORD = DEMO_CREDENTIALS ? DEMO_CREDENTIALS.password : "";\n');
 console.log('Primax Prime: build listo en www/'+(demoEnabled?' (demo local: credenciales visibles)':' (sin credenciales demo)'));
 
-// Content version covers every module, including transitive imports.
+// Version includes image bytes so replacing a logo also invalidates cached references.
 const crypto=require('node:crypto');
-const files=[];
-function scan(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){const p=path.join(dir,e.name);if(e.isDirectory())scan(p);else if(/\.(js|css|html)$/.test(e.name))files.push(p)}}
+const files=[];const images=[];
+function scan(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))){const p=path.join(dir,e.name);if(e.isDirectory())scan(p);else if(/\.(js|css|html)$/.test(e.name))files.push(p);else if(/\.(png|jpe?g|svg|webp)$/i.test(e.name))images.push(p)}}
 scan(output);
-const hash=crypto.createHash('sha256');for(const file of files)hash.update(path.relative(output,file).split(path.sep).join('/')).update(fs.readFileSync(file));
+const hash=crypto.createHash('sha256');for(const file of [...files,...images])hash.update(path.relative(output,file).split(path.sep).join('/')).update(fs.readFileSync(file));
 const version='V12-'+hash.digest('hex').slice(0,12);
 for(const file of files){let s=fs.readFileSync(file,'utf8');
+ s=s.replace(/((?:src|href)=["'])([^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?(["'])/gi,(_,a,b,c)=>a+b+'?v='+version+c);
  if(file.endsWith('.js'))s=s.replace(/((?:from\s*|import\s*\(\s*)['"])(\.{1,2}\/[^'"]+?\.js)(?:\?[^'"]*)?(['"])/g,(_,a,b,c)=>a+b+'?v='+version+c);
  if(file.endsWith('.html'))s=s.replace(/((?:src|href)=["'])([^"']+?\.(?:js|css))(?:\?[^"']*)?(["'])/g,(_,a,b,c)=>a+b+'?v='+version+c).replace('</head>','<meta name="app-version" content="'+version+'"></head>');
  fs.writeFileSync(file,s);

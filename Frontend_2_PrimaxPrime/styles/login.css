@@ -2,7 +2,7 @@
 .login-mode main{padding:0}
 .login-screen{min-height:100dvh;padding:calc(42px + env(safe-area-inset-top)) 26px calc(28px + env(safe-area-inset-bottom));background:radial-gradient(ellipse at 100% 0,var(--orange-soft) 0,transparent 45%),#fff;display:flex;flex-direction:column;justify-content:center}
 .login-brand{align-self:center;margin-bottom:42px}
-.login-brand img{width:128px;height:44px}
+.login-brand img{width:260px;max-width:100%;height:auto;object-fit:contain}
 .login-heading{margin-bottom:30px}
 .login-heading h1{color:var(--blue);font-size:30px;max-width:330px;line-height:1.18}
 .login-heading p{font-size:13px;color:var(--muted);margin-top:14px}
