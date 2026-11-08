@@ -5,8 +5,8 @@ import {createPrinter} from '../src/js/printReceipt.js';
 test('receipt business flow offers only PrintAgent or no printing',()=>{
  const html=readFileSync(new URL('../src/index.html',import.meta.url),'utf8');
  const script=readFileSync(new URL('../src/js/script.js',import.meta.url),'utf8');
- assert.match(html,/id="btn-comprobante"[^>]*>Imprimir<\/button>/);
- assert.match(html,/id="btn-finalizar"[^>]*>Continuar sin imprimir<\/button>/);
+ assert.match(html,/id="btn-comprobante"[^>]*>Imprimir y finalizar<\/button>/);
+ assert.match(html,/id="btn-finalizar"[^>]*>No imprimir y finalizar<\/button>/);
  assert.doesNotMatch(html+script,/window\.print\(|btn-browser-print|imprimirDesdeNavegador|Imprimir desde navegador/);
 });
 test('PrintAgent unavailable, rejected, unknown or malformed never change financial data',async()=>{

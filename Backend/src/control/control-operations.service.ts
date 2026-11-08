@@ -1,3 +1,4 @@
+import { receiptResponse } from '../receipts/receipt.service';
 import {
   BadRequestException,
   ConflictException,
@@ -88,7 +89,7 @@ export class ControlOperationsService {
           pump: { select: { id: true, code: true, name: true } },
           terminalOperation: { select: { id: true, status: true, openedAt: true, closedAt: true } },
           payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } },
-          transaction: { select: { id: true, status: true, amount: true, gallons: true, createdAt: true } },
+          transaction: { select: { id: true, receipt: true, status: true, amount: true, gallons: true, createdAt: true } },
           inventoryReservation: { select: { id: true, status: true, initialLiters: true, remainingLiters: true, consumedLiters: true, releasedLiters: true } },
           operationalIncidents: { select: { id: true, code: true, status: true, summary: true } },
         },
@@ -103,6 +104,7 @@ export class ControlOperationsService {
           ...(filters.mode ? { mode: filters.mode } : {}),
         },
         include: {
+          receipt: true,
           station: { select: { id: true, code: true, name: true } },
           fuel: { select: { id: true, code: true, name: true } },
           terminal: { select: { id: true, code: true } },
@@ -139,6 +141,7 @@ export class ControlOperationsService {
 
     const rows = [
       ...authorizations.map((authorization) => ({
+        receipt: receiptResponse(authorization.transaction?.receipt),
         operationId: authorization.operationId,
         station: authorization.station,
         terminal: authorization.terminal,
@@ -155,6 +158,7 @@ export class ControlOperationsService {
         incident: authorization.operationalIncidents[0] ?? null,
       })),
       ...transactions.map((transaction) => ({
+        receipt: receiptResponse(transaction.receipt),
         operationId: transaction.operationId,
         station: transaction.station,
         terminal: transaction.terminal,
@@ -171,6 +175,7 @@ export class ControlOperationsService {
         incident: transaction.operationalIncidents[0] ?? null,
       })),
       ...emptyOperations.map((operation) => ({
+        receipt: null,
         operationId: operation.operationId,
         station: operation.station,
         terminal: operation.terminal,
@@ -208,7 +213,7 @@ export class ControlOperationsService {
       }),
       this.db.transaction.findUnique({
         where: { operationId },
-        select: { id: true, status: true, amount: true, gallons: true, mode: true, stationId: true, fuelId: true, createdAt: true, authorizationId: true, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } } },
+        select: { id: true, receipt: true, status: true, amount: true, gallons: true, mode: true, stationId: true, fuelId: true, createdAt: true, authorizationId: true, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } } },
       }),
       this.db.terminalOperation.findUnique({
         where: { operationId },
@@ -242,12 +247,13 @@ export class ControlOperationsService {
           dispensedGallons: authorization.dispensedGallons,
         },
         payment: authorization.payment ?? transaction?.payment ?? null,
-        transaction,
+        receipt: receiptResponse(transaction?.receipt),
+        transaction: transaction ? {...transaction, receipt: receiptResponse(transaction.receipt)} : null,
         reservation,
         incident,
       };
     }
-    return { operationId, station: terminalOperation?.station ?? null, terminalOperation, transaction, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
+    return { operationId, station: terminalOperation?.station ?? null, terminalOperation, receipt: receiptResponse(transaction?.receipt), transaction: transaction ? {...transaction,receipt: receiptResponse(transaction.receipt)} : null, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
   }
 
   async terminals(actor: ControlActor, stationId?: string) {
@@ -276,42 +282,10 @@ export class ControlOperationsService {
     return { terminals: terminals.map((terminal) => ({ ...terminal, statusChangedBy: names.get(terminal.statusChangedByUserId ?? '') ?? null })), pumps };
   }
 
-  async terminalStatus(actor: ControlActor, terminalId: string, action: 'SUSPEND' | 'ENABLE', reason?: string) {
+  async terminalStatus(actor: ControlActor, _terminalId: string, _action: 'SUSPEND' | 'ENABLE', _reason?: string) {
     if (!actor.permissions.includes(AdminControlPermission.ADMIN_TERMINAL_MANAGE))
       throw new ForbiddenException('Permiso administrativo insuficiente');
-    const cleanReason = reason?.trim();
-    if (action === 'SUSPEND' && (!cleanReason || cleanReason.length < 3))
-      throw new BadRequestException('Indica el motivo de suspensión');
-    return this.db.atomic(async (tx) => {
-      const found = await tx.terminal.findUnique({ where: { id: terminalId } });
-      if (!found || found.lifecycle !== 'REGISTRADA') throw new NotFoundException('Terminal registrada no encontrada');
-      await this.scope(actor, found.stationId, AdminControlPermission.ADMIN_TERMINAL_MANAGE);
-      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
-      const terminal = await tx.terminal.findUniqueOrThrow({ where: { id: terminalId } });
-      if (action === 'ENABLE') {
-        if (terminal.operationalStatus === 'DISPONIBLE' || terminal.operationalStatus === 'EN_USO')
-          throw new ConflictException('La terminal ya está habilitada');
-        if (await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } }))
-          throw new ConflictException('Resuelve la operación activa antes de habilitar');
-        if (!await tx.terminalPumpAssignment.findFirst({ where: { terminalId, stationId: terminal.stationId, endedAt: null, pump: { active: true } } }))
-          throw new ConflictException('La terminal requiere un surtidor activo');
-      } else if (['BLOQUEADA', 'ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(terminal.operationalStatus)) {
-        throw new ConflictException('La terminal ya está suspendida');
-      }
-      const active = action === 'SUSPEND' && await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
-      const status = action === 'ENABLE' ? 'DISPONIBLE' : active ? 'ASISTENCIA' : 'BLOQUEADA';
-      const now = new Date();
-      const updated = await tx.terminal.update({ where: { id: terminalId }, data: {
-        operationalStatus: status, suspensionReason: action === 'SUSPEND' ? cleanReason : null,
-        statusChangedByUserId: actor.userId, statusChangedAt: now, statusVersion: { increment: 1 },
-      } });
-      await tx.operationalAuditEvent.create({ data: { eventKey: `control-terminal:${terminalId}:${randomUUID()}`,
-        actorKind: 'USER', actorUserId: actor.userId, stationId: terminal.stationId, terminalId,
-        action: action === 'SUSPEND' ? 'TERMINAL_SUSPENDED' : 'TERMINAL_ENABLED',
-        targetId: terminalId, outcome: 'SUCCESS', details: { previousStatus: terminal.operationalStatus, status, reason: cleanReason ?? null },
-      } });
-      return updated;
-    });
+    throw new ConflictException('FuelFlow está disponible automáticamente. El estado de terminal es de solo lectura; las intervenciones de seguridad se gestionan por operación.');
   }
 
   async inventory(actor: ControlActor, stationId?: string) {

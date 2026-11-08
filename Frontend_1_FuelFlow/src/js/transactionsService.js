@@ -81,6 +81,14 @@ export function createTransactionsService({
     begin() {
       return current() || save({ operationId: uuid() });
     },
+    resumeEmptyOperation(operationId) {
+      const pending = current();
+      if (pending?.operationId === operationId) return pending;
+      if (pending && (pending.payload || pending.authorizationRequest || pending.authorization || pending.result || pending.intervention))
+        throw Error('La operación local requiere conciliación; no se reemplazará.');
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(operationId)) throw Error('Operación de terminal inválida');
+      return save({ operationId });
+    },
     prepare(payload, snapshot) {
       const pending = this.begin();
       if (pending.payload) return pending;

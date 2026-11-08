@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 import request from 'supertest';
 import { setupApp } from '../src/setup-app';
 import { RecoveryDelivery } from '../src/auth/recovery-delivery';
-import { AuthModule } from '../src/auth/auth.module';
+import { AuthCoreModule } from '../src/auth/auth.module';
 
 describe('V10 real admin alerts and injected email delivery', () => {
   let deliveredCode = '';
@@ -66,7 +66,7 @@ describe('V10 real admin alerts and injected email delivery', () => {
     config.set('DEMO_ADMIN_USER', 'admin-test');
     config.set('DEMO_ADMIN_PASSWORD', 'AdminFixtureOnly123!');
     config.set('PASSWORD_RESET_DELIVERY', 'smtp');
-    const delivery = app.select(AuthModule).get(RecoveryDelivery, { strict: true });
+    const delivery = app.select(AuthCoreModule).get(RecoveryDelivery, { strict: true });
     jest.spyOn(delivery, 'mode', 'get').mockReturnValue('smtp');
     jest.spyOn(delivery, 'send').mockImplementation(async (_email, code) => { deliveredCode = code; });
     admin = (

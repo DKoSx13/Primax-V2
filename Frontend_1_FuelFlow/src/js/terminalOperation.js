@@ -6,7 +6,11 @@ export async function ensureTerminalOperation({ terminal = terminalService, tran
   let state;
   try { state = await terminal.me(); }
   catch { throw Error('Esta terminal no está disponible. Solicita asistencia al personal de la estación.'); }
-  const operationId = transactions.begin().operationId;
+  let operationId = transactions.begin().operationId;
+  if (state.activeOperationId && state.activeOperationId !== operationId) {
+    if (!state.emptyAttention) throw Error('Hay una operación financiera pendiente. Recupera su sesión original o solicita intervención autorizada.');
+    operationId = transactions.resumeEmptyOperation(state.activeOperationId).operationId;
+  }
   try {
     const existing = await terminal.operation(operationId);
     if (existing.operationId !== operationId) throw Error('La operación requiere asistencia.');

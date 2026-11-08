@@ -65,7 +65,16 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       const backend = originOnly(env.BACKEND_ORIGIN, local, true);
       if (!env.KIOSK_GATEWAY_SECRET || env.KIOSK_GATEWAY_SECRET.length < 32 || env.KIOSK_GATEWAY_SECRET.includes('REPLACE_')) fail(503, 'Configuración de terminal pendiente');
       if (req.headers['x-fuelflow-request'] !== '1' || req.headers['sec-fetch-site'] && req.headers['sec-fetch-site'] !== 'same-origin') fail(403, 'Origen no autorizado');
-      if (req.headers.origin && req.headers.origin !== publicOrigin || req.method !== 'GET' && req.headers.origin !== publicOrigin) fail(403, 'Origen no autorizado');
+      const allowedOrigin = value => {
+        if (value === publicOrigin) return true;
+        if (!local || typeof value !== 'string') return false;
+        try {
+          const candidate = new URL(value), configured = new URL(publicOrigin);
+          return candidate.origin === value && candidate.protocol === 'http:' &&
+            ['127.0.0.1','localhost'].includes(candidate.hostname) && candidate.port === configured.port;
+        } catch { return false; }
+      };
+      if (req.headers.origin && !allowedOrigin(req.headers.origin) || req.method !== 'GET' && !allowedOrigin(req.headers.origin)) fail(403, 'Origen no autorizado');
       const url = new URL(req.url, publicOrigin);
       // No client-controlled destination, headers, cookies or query forwarding.
       const dynamicOperation = url.pathname.match(/^\/api\/v1\/terminal\/operations\/([0-9a-fA-F-]{36})(?:\/close)?$/);
@@ -82,6 +91,15 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       const csrf = req.headers['x-csrf-token'] || '';
       if (typeof csrf !== 'string' || csrf.length > 100) fail(403, 'CSRF inválido');
       const body = await readBody(req);
+      if (/^\/api\/v1\/demo-print\/jobs\/receipt-[a-zA-Z0-9-]{1,100}$/.test(url.pathname) && local) {
+        const response = await fetcher(backend + url.pathname, {
+          method: req.method, headers: { 'Content-Type': 'application/json' },
+          ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(5000),
+        });
+        res.statusCode = response.status;
+        res.end(await response.text());
+        return;
+      }
       async function call(method, path, payload = null, { terminal = '', authorization = '' } = {}) {
         const timestamp = String(Date.now());
         const message = JSON.stringify([method, path, timestamp, payload, token, csrf, terminal, authorization]);
@@ -169,7 +187,8 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         const safe = url.pathname.startsWith('/api/v1/terminal/assistance')
           ? { id: value.id, status: value.status, createdAt: value.createdAt, acceptedAt: value.acceptedAt, resolvedAt: value.resolvedAt, escalatedAt: value.escalatedAt, cancelledAt: value.cancelledAt }
           : url.pathname === '/api/v1/terminal/me'
-          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus }
+          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus,
+              activeOperationId: value.activeOperationId || null, emptyAttention: value.emptyAttention === true }
           : { operationId: value.operationId, status: value.status, closedAt: value.closedAt };
         res.statusCode = status; res.end(JSON.stringify(safe)); return;
       }

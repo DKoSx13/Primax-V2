@@ -3,6 +3,7 @@ import { KioskStore } from './redis-store';
 describe('Redis REST storage', () => {
   const store = new KioskStore(
     new ConfigService({
+      KIOSK_REDIS_URL: '', // REST fixture must not inherit Compose's live Redis URL.
       KIOSK_REDIS_REST_URL: 'https://redis.example',
       KIOSK_REDIS_REST_TOKEN: 'fictional-token',
       KIOSK_SESSION_NAMESPACE: 'test',

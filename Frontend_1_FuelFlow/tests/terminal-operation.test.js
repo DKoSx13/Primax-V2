@@ -4,6 +4,24 @@ import { ensureTerminalOperation } from '../src/js/terminalOperation.js';
 import { createTransactionsService, OPERATION_KEY } from '../src/js/transactionsService.js';
 
 const id = '33333333-3333-4333-8333-333333333333';
+test('recovers the backend empty attention when only the browser operation UUID was lost',async()=>{
+  const values=new Map();const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  const transactions=createTransactionsService({storage,uuid:()=> '44444444-4444-4444-8444-444444444444'});
+  const terminal={me:async()=>({activeOperationId:id,emptyAttention:true,canStart:false}),operation:async operationId=>({operationId,status:'ACTIVE'}),start:async()=>assert.fail('must recover existing attention')};
+  assert.equal((await ensureTerminalOperation({terminal,transactions})).operationId,id);
+  assert.equal(transactions.current().operationId,id);
+});
+test('never replaces local financial evidence to resume another empty attention',()=>{
+  const values=new Map([[OPERATION_KEY,JSON.stringify({operationId:'old',authorizationRequest:{amount:'20'}})]]);
+  const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  const transactions=createTransactionsService({storage});
+  assert.throws(()=>transactions.resumeEmptyOperation(id),/conciliación/);
+  assert.equal(transactions.current().operationId,'old');
+});
+test('financial backend attention without its local recovery snapshot requires assistance',async()=>{
+  const terminal={me:async()=>({activeOperationId:id,emptyAttention:false,canStart:false}),start:async()=>assert.fail('must not open another sale')};
+  await assert.rejects(ensureTerminalOperation({terminal,transactions:{begin:()=>({operationId:'other'})}}),/financiera pendiente/);
+});
 test('starts with the persisted operationId and recovers it after refresh', async () => {
   const calls = [];
   const transactions = { begin: () => ({ operationId: id }) };

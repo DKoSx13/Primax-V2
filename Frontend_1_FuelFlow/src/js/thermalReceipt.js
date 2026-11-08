@@ -16,13 +16,14 @@ function text(value,label,max,optional=false) {
 export function thermalReceipt(t) {
   if(!t||!['BOLETA','FACTURA'].includes(t.receiptType))throw Error('Tipo de comprobante no confirmado.');
   if(!['PREPAGO','POSTPAGO'].includes(t.mode))throw Error('Modalidad de comprobante no confirmada.');
-  const date=new Date(t.createdAt);
+  const date=new Date(t.receipt?.issuedAt || t.createdAt);
   if(!t.createdAt||!Number.isFinite(date.getTime()))throw Error('Fecha inválida del comprobante.');
-  const id=text(t.id,'operación',100);
+  const id=text(t.receipt?.id || t.id,'comprobante',100);
   if(!/^[A-Za-z0-9-]+$/.test(id))throw Error('Identificador de comprobante inválido.');
   const invoice=t.receiptType==='FACTURA';
   return {
     schemaVersion:2,id,documentType:t.receiptType,demo:true,issuedAt:date.toISOString(),
+    ...(t.receipt ? {number:text(t.receipt.number,'número',30),transactionId:text(t.id,'operación',100)} : {}),
     station:text(t.station?.name,'estación',160),pump:'03',
     plate:text(t.plate||t.vehicle?.plate,'placa',20),
     dni:invoice?'':text(t.receiptDni,'DNI',8,true),

@@ -2,7 +2,10 @@
 const states=['Pagado','Pago pendiente','Saldo pendiente','Pago por verificar','Reembolsado','Cancelado','Fallido','Rechazado','Error de pago'];
 export function validateReceipt(r) {
   const bad=()=>{throw Error('Comprobante estructurado v2 inválido; no se admite texto libre ni parámetros de impresión.');};
-  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort((a,b)=>a.localeCompare(b)).join(',')!==keys.join(','))bad();
+  const numbered=r?.number!==undefined||r?.transactionId!==undefined;
+  const expected=numbered?[...keys,'number','transactionId'].sort((a,b)=>a.localeCompare(b)):keys;
+  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort((a,b)=>a.localeCompare(b)).join(',')!==expected.join(','))bad();
+  if(numbered&&(!(new RegExp('^'+(r.documentType==='BOLETA'?'EB01':'FT01')+'-[0-9]{4,}$')).test(r.number)||typeof r.transactionId!=='string'||! /^[A-Za-z0-9-]{1,100}$/.test(r.transactionId)||BigInt(r.number.split('-')[1])<1n))bad();
   if(r.schemaVersion!==2||r.demo!==true||!['BOLETA','FACTURA'].includes(r.documentType)||!['PREPAGO','POSTPAGO'].includes(r.mode)||!states.includes(r.state))bad();
   const limits={id:100,issuedAt:24,station:160,pump:10,plate:20,dni:8,ruc:11,businessName:160,fuel:80,paymentMethod:30};
   for(const [key,max]of Object.entries(limits))if(typeof r[key]!=='string'||r[key].length>max||/[\x00-\x1f\x7f]/.test(r[key])||/^(undefined|null|NaN)$/i.test(r[key])||(!['dni','ruc','businessName'].includes(key)&&!r[key].trim()))bad();
@@ -13,7 +16,7 @@ export function validateReceipt(r) {
   if(typeof r.gallons!=='string'||!/^\d{1,10}\.\d{3}$/.test(r.gallons))bad();
   if(Number(r.pending)>0&&r.state==='Pagado')bad();
   // Fixed key order stabilizes hashes independently of JSON property order.
-  return Object.fromEntries(keys.map(k=>[k,r[k]]));
+  return Object.fromEntries(expected.map(k=>[k,r[k]]));
 }
 export function publicJob(job) {
   if(!job)return null;

@@ -325,8 +325,8 @@ const I18N = {
     estado_pendiente: '⏳ Pendiente de pago',
     miembro_tag: '★ Miembro',
     ticket_foot: 'Gracias por preferir Primax · Que tenga un buen viaje 🛣️',
-    btn_comprobante: 'Imprimir',
-    btn_finalizar: 'Continuar sin imprimir',
+    btn_comprobante: 'Imprimir y finalizar',
+    btn_finalizar: 'No imprimir y finalizar',
 
     // Admin
     admin_step: '🔒 ACCESO RESTRINGIDO',
@@ -647,8 +647,8 @@ const I18N = {
     estado_pendiente: '⏳ Pending payment',
     miembro_tag: '★ Member',
     ticket_foot: 'Thank you for choosing Primax · Have a great trip 🛣️',
-    btn_comprobante: 'Finish and print',
-    btn_finalizar: 'Continue without printing',
+    btn_comprobante: 'Print and finish',
+    btn_finalizar: 'Finish without printing',
 
     admin_step: '🔒 RESTRICTED ACCESS',
     admin_title: 'Security / Admin Panel',
@@ -963,8 +963,8 @@ const I18N = {
     estado_pendiente: '⏳ Pagan nin',
     miembro_tag: '★ Socio',
     ticket_foot: 'Primaxta akllasqaykiman gracias · Allin riykita munayku 🛣️',
-    btn_comprobante: 'Imprimir',
-    btn_finalizar: 'Mana imprimispa qatipay',
+    btn_comprobante: 'Imprimir y finalizar',
+    btn_finalizar: 'No imprimir y finalizar',
 
     admin_step: '🔒 YAYKUY HUKNIN',
     admin_title: 'Seguridad / Admin Panel',
@@ -1454,18 +1454,18 @@ function autocompletarPostpago() {
   const socio = state.membresiaVerificada || {};
 
   // La placa siempre: ya se verificó junto con la membresía
-  $('prep-input-placa').value = state.placa || '';
+  $('prep-input-placa').value ||= state.placa || '';
   marcarAuto('prep-input-placa', 'flag-placa', true);
 
   // El DNI solo en boleta
   const dni = esFactura ? '' : (socio.dni || '');
-  $('input-dni').value = dni;
+  $('input-dni').value ||= dni;
   $('input-dni').readOnly = false;
   marcarAuto('input-dni', 'flag-dni', !esFactura && dni !== '');
 
   // RUC y razón social: se limpian y quedan libres
-  $('input-ruc').value = socio.ruc || '';
-  $('input-razon').value = socio.businessName || '';
+  $('input-ruc').value ||= socio.ruc || '';
+  $('input-razon').value ||= socio.businessName || '';
 
   // Avisos en pantalla
   $('post-datos-auto').textContent = 'Datos del perfil Primax Prime. Verifica o completa tu comprobante.';
@@ -1485,7 +1485,6 @@ function limpiarAuto() {
   ['flag-placa', 'flag-dni', 'post-datos-auto', 'post-razon-libre']
     .forEach((id) => $(id).classList.add('hidden'));
   $('input-dni').readOnly = false;
-  $('input-dni').value = '';
 }
 
 function irADatos() {
@@ -1861,7 +1860,7 @@ async function mostrarResumen() {
     state.cobroIniciado = true;
     if(!transactionsService.current()?.payload){
       const total=calcularTotales().total;
-      transactionsService.prepare({plate:state.placa,stationId:catalog.station.id,fuelId:state.combustible.id,amount:total.toFixed(2),gallons:state.galones.toFixed(3),mode:state.modalidad,paymentMethod:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,receiptType:state.tipoComprobante,...(state.dni?{receiptDni:state.dni}:{}),...(state.ruc?{receiptRuc:state.ruc}:{}),...(state.razonSocial?{receiptBusinessName:state.razonSocial}:{}),...(state.codigoCliente?{membershipCode:state.codigoCliente}:{}),saveReceiptProfile:Boolean($('save-receipt-profile')?.checked),authorizationId:state.autorizacionId,unitPrice:state.combustible.precio.toFixed(2),outcome:state.motivoFin==='AUTO'?'AUTO':'MANUAL'},
+      transactionsService.prepare({plate:state.placa,stationId:catalog.station.id,fuelId:state.combustible.id,amount:total.toFixed(2),gallons:state.galones.toFixed(3),mode:state.modalidad,paymentMethod:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,receiptType:state.tipoComprobante,...(state.dni?{receiptDni:state.dni}:{}),...(state.ruc?{receiptRuc:state.ruc}:{}),...(state.razonSocial?{receiptBusinessName:state.razonSocial}:{}),...(state.codigoCliente?{membershipCode:state.codigoCliente}:{}),authorizationId:state.autorizacionId,unitPrice:state.combustible.precio.toFixed(2),outcome:state.motivoFin==='AUTO'?'AUTO':'MANUAL'},
         {dni:state.dni,ruc:state.ruc,razonSocial:state.razonSocial,combustible:state.combustible,modalidad:state.modalidad,placa:state.placa,total:state.total,galones:state.galones,montoPrepago:state.montoPrepago,montoPostpago:state.montoPostpago,tanqueLleno:state.tanqueLleno,tipoComprobante:state.tipoComprobante,metodoPago:state.modalidad==='POSTPAGO'?'SALDO_PRIME':state.metodoPago,esMiembro:state.esMiembro,codigoCliente:state.codigoCliente,autorizacionId:state.autorizacionId,motivoFin:state.motivoFin});
     }
     await ensureTerminalOperation();
@@ -1914,6 +1913,7 @@ async function manejarFalloConfirmacion(error) {
 
 /** Pinta el ticket con el resultado que ya existe en backendResult. */
 function pintarResumen(){
+  if ($('receipt-number')) $('receipt-number').textContent = backendResult?.transaction?.receipt?.number ? 'N.º ' + backendResult.transaction.receipt.number : 'Sin comprobante emitido';
   const transaction=backendResult.transaction;
   state.total = Number(backendResult.transaction.amount);
   if(backendResult.transaction.gallons != null) state.galones = Number(backendResult.transaction.gallons);
@@ -1956,8 +1956,9 @@ function pintarResumen(){
 
 
 let receiptPrinting=false;
+let receiptClosing=false;
 async function imprimirYFinalizar() {
-  if(!backendResult||receiptPrinting)return;
+  if(!backendResult||receiptPrinting||receiptClosing)return;
   receiptPrinting=true;
   const buttons=['btn-comprobante','btn-finalizar'].map($);
   buttons.forEach(b=>b.disabled=true);
@@ -1967,12 +1968,13 @@ async function imprimirYFinalizar() {
     backendResult=await transactionsService.confirmedForPrint(backendResult.transaction.id);
     pintarResumen();
     const receipt = thermalReceipt(backendResult.transaction);
-    await printReceipt(receipt);
+    const printJob = await printReceipt(receipt);
     receiptPrinting=false;
-    await finalizar();
-    actualizarEstado('Trabajo de impresión aceptado. Salida física no confirmada.');
+    if(await finalizar()) {
+      actualizarEstado(printJob.simulation ? 'Simulación: comprobante guardado. No se imprimió papel.' : 'Trabajo de impresión aceptado. Salida física no confirmada.');
+    }
   } catch(error) {
-    $('print-error').textContent=error.message+' El ticket se conserva. Reintenta con Imprimir o elige No imprimir.';
+    $('print-error').textContent=error.message+' El ticket se conserva. Reintenta con Imprimir y finalizar o elige No imprimir y finalizar.';
     $('print-error').classList.remove('hidden');
   } finally {
     receiptPrinting=false;
@@ -1982,48 +1984,65 @@ async function imprimirYFinalizar() {
 
 // Reinicia toda la aplicación al estado inicial
 async function finalizar() {
-  if(receiptPrinting)return;
-  $('print-error').classList.add('hidden');
-  $('save-receipt-profile').checked = false;
-  try{const operationId=transactionsService.current()?.operationId;transactionsService.assertCanFinish(backendResult?.transaction?.id);if(operationId)await terminalService.close(operationId);transactionsService.finish(backendResult?.transaction?.id);backendResult=null;}catch(error){$('print-error').textContent=error.message;$('print-error').classList.remove('hidden');return;}
-  clearInterval(state.despachoTimer);
-  detenerProgresoAyuda();
-  $('help-overlay').classList.add('hidden');
-  Object.assign(state, {
-    onlineOrderId:null, onlineOrderAmount:null,
-    combustible: null, modalidad: null, montoPrepago: 0, montoTexto: '',
-    placa: '', esMiembro: false, codigoCliente: '', galones: 0, total: 0,
-    ultimoAnuncioGalones: 0, pagoAutorizado: false, despachoTimer: null,
-    tipoComprobante: null, dni: '', ruc: '', razonSocial: '',
-    metodoPago: null,
-    montoPostpago: 0, montoPostpagoTexto: '', tanqueLleno: false, membresiaVerificada: null,
-    autorizacionId: null, montoReservado: 0,
-  });
-  // Limpia formularios y selecciones
-  document.querySelectorAll('.fuel-card,.pay-card').forEach((c) => c.classList.remove('selected'));
-  document.querySelectorAll('#prepago-panel .chip, #pantalla-monto-post .chip')
-    .forEach((c) => c.classList.remove('selected'));
-  ['input-placa', 'input-codigo', 'admin-user', 'admin-pass',
-   'input-dni', 'input-ruc', 'input-razon', 'prep-input-placa']
-    .forEach((id) => { $(id).value = ''; });
-  $('check-membresia').checked = false;
-  $('membresia-panel').classList.add('hidden');
-  $('panel-dni').classList.remove('hidden');
-  ['panel-ruc', 'panel-qr', 'panel-nfc']
-    .forEach((id) => $(id).classList.add('hidden'));
-  ['dni-error', 'ruc-error', 'razon-error', 'prep-placa-error', 'ef-error']
-    .forEach((id) => $(id).classList.add('hidden'));
-  ['t-doc', 't-docnum'].forEach((id) => { $(id).textContent = '—'; });
-  $('ef-ok').classList.add('hidden');   // con montoPrepago = 0 el saldo da 0; se oculta a mano
-  $('membresia-panel').classList.add('hidden');
-  limpiarAuto();
-  limpiarPostpago();
-  $('prepago-panel').classList.add('hidden');
-  $('btn-postpago-continuar').classList.add('hidden');
-  actualizarMontoDisplay();
-  mostrarPantalla('pantalla-inicio');
-  hablar(t('voz_sesion'));
-  actualizarEstado(t('status_listo'));
+  if(receiptPrinting||receiptClosing)return false;
+  receiptClosing=true;
+  const buttons=['btn-comprobante','btn-finalizar'].map($);
+  buttons.forEach(b=>b.disabled=true);
+  try {
+    $('print-error').classList.add('hidden');
+    try {
+      const operationId=transactionsService.current()?.operationId;
+      transactionsService.assertCanFinish(backendResult?.transaction?.id);
+      if(operationId)await terminalService.close(operationId);
+      transactionsService.finish(backendResult?.transaction?.id);
+      backendResult=null;
+    } catch(error) {
+      $('print-error').textContent=error.message;
+      $('print-error').classList.remove('hidden');
+      return false;
+    }
+    clearInterval(state.despachoTimer);
+    detenerProgresoAyuda();
+    $('help-overlay').classList.add('hidden');
+    Object.assign(state, {
+      onlineOrderId:null, onlineOrderAmount:null,
+      combustible: null, modalidad: null, montoPrepago: 0, montoTexto: '',
+      placa: '', esMiembro: false, codigoCliente: '', galones: 0, total: 0,
+      ultimoAnuncioGalones: 0, pagoAutorizado: false, despachoTimer: null,
+      tipoComprobante: null, dni: '', ruc: '', razonSocial: '',
+      metodoPago: null,
+      montoPostpago: 0, montoPostpagoTexto: '', tanqueLleno: false, membresiaVerificada: null,
+      autorizacionId: null, montoReservado: 0,
+    });
+    // Limpia formularios y selecciones
+    document.querySelectorAll('.fuel-card,.pay-card').forEach((c) => c.classList.remove('selected'));
+    document.querySelectorAll('#prepago-panel .chip, #pantalla-monto-post .chip')
+      .forEach((c) => c.classList.remove('selected'));
+    ['input-placa', 'input-codigo', 'admin-user', 'admin-pass',
+     'input-dni', 'input-ruc', 'input-razon', 'prep-input-placa']
+      .forEach((id) => { $(id).value = ''; });
+    $('check-membresia').checked = false;
+    $('membresia-panel').classList.add('hidden');
+    $('panel-dni').classList.remove('hidden');
+    ['panel-ruc', 'panel-qr', 'panel-nfc']
+      .forEach((id) => $(id).classList.add('hidden'));
+    ['dni-error', 'ruc-error', 'razon-error', 'prep-placa-error']
+      .forEach((id) => $(id).classList.add('hidden'));
+    ['t-doc', 't-docnum'].forEach((id) => { $(id).textContent = '—'; });
+    $('membresia-panel').classList.add('hidden');
+    limpiarAuto();
+    limpiarPostpago();
+    $('prepago-panel').classList.add('hidden');
+    $('btn-postpago-continuar').classList.add('hidden');
+    actualizarMontoDisplay();
+    mostrarPantalla('pantalla-inicio');
+    hablar(t('voz_sesion'));
+    actualizarEstado(t('status_listo'));
+    return true;
+  } finally {
+    receiptClosing=false;
+    buttons.forEach(b=>b.disabled=false);
+  }
 }
 
 /* ============================================================================
@@ -2060,7 +2079,13 @@ function limpiarEstadoOperacion() {
     cobroIniciado: false,
     montoPostpagoTexto: '', tanqueLleno: false, membresiaVerificada: null,
     codigoCliente: '', esMiembro: false,
+    dni: '', ruc: '', razonSocial: '', placa: '',
   });
+  // Una atención nueva no hereda los datos personales de una descartada.
+  // Volver entre pasos no pasa por este reinicio.
+  ['input-dni', 'input-ruc', 'input-razon', 'prep-input-placa']
+    .forEach(id => { $(id).value = ''; });
+  limpiarAuto();
   backendResult = null;
   marcarEstadoOperacion('PENDIENTE');
 }
@@ -2199,7 +2224,7 @@ async function continuarDatosOnce() {
   if (state.tipoComprobante === 'FACTURA') {
     const ruc = $('input-ruc').value.trim();
     const razon = $('input-razon').value.trim();
-    if (ruc && !rucValido(ruc)) { err('ruc-error', t('err_ruc')); valido = false; } else ok('ruc-error');
+    if ((!esPost && !ruc) || (ruc && !rucValido(ruc))) { err('ruc-error', t('err_ruc')); valido = false; } else ok('ruc-error');
     if (esPost && !razon) ok('razon-error');          // en postpago puede quedar en blanco
     else if (!razon) { err('razon-error', t('err_razon')); valido = false; } else ok('razon-error');
     state.ruc = esPost && !ruc ? '' : ruc;
@@ -2535,7 +2560,8 @@ function detenerProgresoAyuda() { clearTimeout(helpReloj); helpReloj = null; }
 function pintarAsistencia(row) {
   const pending = assistance.current();
   const active = ['PENDIENTE', 'EN_ATENCION'].includes(row?.status);
-  $('help-estado').textContent = assistanceLabels[row?.status] || 'Selecciona el motivo de tu solicitud.';
+  $('help-estado').textContent = assistanceLabels[row?.status] || '';
+  $('help-estado').classList.toggle('hidden', !row?.status);
   $('help-form').classList.toggle('hidden', Boolean(pending));
   $('help-btn-cancelar').classList.toggle('hidden', !active);
   $('help-btn-reintentar').classList.add('hidden');
@@ -2549,7 +2575,7 @@ async function actualizarAsistencia() {
     if (['PENDIENTE', 'EN_ATENCION'].includes(row?.status) && !$('help-overlay').classList.contains('hidden'))
       helpReloj = setTimeout(actualizarAsistencia, 5000);
   } catch (error) {
-    $('help-estado').textContent = 'No se pudo consultar la asistencia. ' + error.message;
+    $('help-estado').classList.remove('hidden'); $('help-estado').textContent = 'No se pudo consultar la asistencia. ' + error.message;
     $('help-btn-reintentar').classList.remove('hidden');
   }
 }
@@ -2572,13 +2598,13 @@ async function enviarAsistencia(event) {
     const row = await assistance.submit({ reason: $('help-motivo').value, observation: $('help-observacion').value,
       ...(linkedOperation ? { operationId } : {}), ...(state.placa ? { plate: state.placa } : {}) });
     pintarAsistencia(row); void actualizarAsistencia();
-  } catch (error) { $('help-estado').textContent = error.message; $('help-btn-reintentar').classList.remove('hidden'); }
+  } catch (error) { $('help-estado').classList.remove('hidden'); $('help-estado').textContent = error.message; $('help-btn-reintentar').classList.remove('hidden'); }
   finally { button.disabled = false; }
 }
 async function cancelarAsistencia() {
   if (!window.confirm('¿Seguro que deseas cancelar la solicitud de asistencia?')) return;
   try { pintarAsistencia(await assistance.cancel()); detenerProgresoAyuda(); }
-  catch (error) { $('help-estado').textContent = error.message; }
+  catch (error) { $('help-estado').classList.remove('hidden'); $('help-estado').textContent = error.message; }
 }
 function cerrarAsistencia() { detenerProgresoAyuda(); $('help-overlay').classList.add('hidden'); assistance.clearCompleted(); }
 function minimizarAsistencia() {

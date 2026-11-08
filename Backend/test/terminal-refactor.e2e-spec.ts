@@ -26,7 +26,7 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
 
   beforeAll(async () => {
     const target = new URL(process.env.DATABASE_URL!);
-    if (target.hostname !== '127.0.0.1' || target.port !== '26602' || target.pathname !== '/primax_refactor_validation')
+    if ((target.host !== '127.0.0.1:26602' && !(process.env.APP_MODE === 'local' && target.host === 'postgres:5432')) || target.pathname !== '/primax_refactor_validation')
       throw Error('Dedicated local refactor database required');
     db = new PrismaService();
     await db.$connect();
@@ -70,24 +70,15 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     await expect(control.login((await db.user.findUniqueOrThrow({ where: { id: clientId } })).email, password)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
-  it('enforces grant and station scope, audits state changes, and starts without a shift', async () => {
-    const manage = ['ADMIN_TERMINAL_MANAGE'];
-    await expect(terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', []), terminalId, 'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
-    await expect(terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', manage, [otherStationId]), terminalId, 'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', manage), terminalId, 'ENABLE');
+  it('starts automatically and rejects the obsolete administrative switch',async()=>{
+    await expect(terminals.terminals(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_VIEW'],[otherStationId]),stationId)).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',[]),terminalId,'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
+    await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_MANAGE']),terminalId,'SUSPEND','Reason')).rejects.toThrow('solo lectura');
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
-    const operationId = randomUUID();
-    const operation = await operations.startOperation(terminalId, operationId);
-    expect(operation.enablementId).toBeNull();
-    await terminals.terminalStatus(actor(adminId, 'ADMIN', manage), terminalId, 'SUSPEND', 'Falla técnica');
-    expect((await operations.terminalMe(terminalId)).canStart).toBe(false);
-    await expect(operations.startOperation(terminalId, randomUUID())).rejects.toThrow('Terminal no disponible');
-    await operations.closeOperation(terminalId, operationId);
-    expect((await db.terminal.findUniqueOrThrow({ where: { id: terminalId } })).operationalStatus).toBe('BLOQUEADA');
-    await terminals.terminalStatus(actor(rootId, 'SUPER_ADMIN', manage, [], true), terminalId, 'ENABLE');
+    const id=randomUUID();expect((await operations.startOperation(terminalId,id)).enablementId).toBeNull();
+    await expect(operations.startOperation(terminalId,randomUUID())).rejects.toThrow('Terminal no disponible');
+    await operations.closeOperation(terminalId,id);
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
-    expect(await db.operationalAuditEvent.count({ where: { terminalId, action: 'TERMINAL_ENABLED' } })).toBe(2);
-    expect(await db.operationalAuditEvent.count({ where: { terminalId, action: 'TERMINAL_SUSPENDED', actorUserId: adminId } })).toBe(1);
   });
 
   it('bootstraps a technical session without a human shift and preserves an active operation during suspension', async () => {
@@ -119,14 +110,47 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
     const operationId = randomUUID();
     expect((await operations.startOperation(terminalId, operationId)).enablementId).toBeNull();
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', ['ADMIN_TERMINAL_MANAGE']), terminalId, 'SUSPEND', 'Problema durante venta');
+    await db.terminal.update({where:{id:terminalId},data:{operationalStatus:'ASISTENCIA'}}); // Real fault fixture, not an administrative toggle.
     const resumed = await kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId);
     expect(resumed.terminalToken).toBe(session.terminalToken);
     expect((await operations.terminalMe(terminalId)).prepared).toBe(true);
     await expect(operations.startOperation(terminalId, randomUUID())).rejects.toThrow('Terminal no disponible');
     await operations.closeOperation(terminalId, operationId);
     await expect(kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).rejects.toThrow('temporalmente no disponible');
-    await terminals.terminalStatus(actor(encargadoId, 'ENCARGADO', ['ADMIN_TERMINAL_MANAGE']), terminalId, 'ENABLE');
+    await db.terminal.update({where:{id:terminalId},data:{operationalStatus:'DISPONIBLE'}}); // Hardware fault resolved in this isolated fixture.
     expect((await kiosk.bootstrapTerminal(signedRequest(session.terminalToken), terminalId)).terminalToken).toBe(session.terminalToken);
+  });
+  it('recovers abandoned empty attention, preserves a legitimate session and protects paid evidence',async()=>{
+    const config={get:(key:string,fallback?:string)=>({KIOSK_STATION_ID:stationId,KIOSK_GATEWAY_SECRET:'local-refactor-gateway-secret'}[key]??fallback),getOrThrow:(key:string)=>({KIOSK_STATION_ID:stationId,KIOSK_GATEWAY_SECRET:'local-refactor-gateway-secret'}[key])};
+    const kiosk=new KioskService(config as never,{limit:async()=>true,key:(k:string)=>k,command:async()=> 'OK'} as never,db);
+    jest.spyOn(kiosk,'verifyGateway').mockImplementation(()=>{});
+    jest.spyOn(kiosk,'limitTechnical').mockResolvedValue(undefined);
+    const req=(token='')=>({header:()=>token}) as never;
+    const session=await kiosk.bootstrapTerminal(req(),terminalId);
+    const abandoned=randomUUID();await operations.startOperation(terminalId,abandoned);
+    const old=new Date(Date.now()-10*60*1000);
+    await db.terminalOperation.update({where:{operationId:abandoned},data:{openedAt:old}});
+    await db.terminalCredential.updateMany({where:{terminalId},data:{lastUsedAt:old}});
+    const recovered=await kiosk.bootstrapTerminal(req(),terminalId);
+    expect(recovered.terminalToken).not.toBe(session.terminalToken);
+    expect((await db.terminalOperation.findUniqueOrThrow({where:{operationId:abandoned}})).closedAt).not.toBeNull();
+    expect(await db.operationalAuditEvent.count({where:{terminalId,action:'ABANDONED_EMPTY_ATTENTION_CLOSED'}})).toBe(1);
+    expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
+    const legitimate=randomUUID();await operations.startOperation(terminalId,legitimate);
+    expect((await kiosk.bootstrapTerminal(req(recovered.terminalToken),terminalId)).terminalToken).toBe(recovered.terminalToken);
+    const me=await operations.terminalMe(terminalId);
+    expect(me.activeOperationId).toBe(legitimate);expect(me.emptyAttention).toBe(true);
+    await expect(kiosk.bootstrapTerminal(req(),terminalId)).rejects.toThrow('atención reciente');
+    const payment=await db.payment.create({data:{operationId:legitimate,amount:'20',method:'TARJETA',status:'CAPTURED'}});
+    await db.terminalOperation.update({where:{operationId:legitimate},data:{openedAt:old}});
+    await db.terminalCredential.updateMany({where:{terminalId},data:{lastUsedAt:old}});
+    await expect(kiosk.bootstrapTerminal(req(),terminalId)).rejects.toThrow('intervención autorizada');
+    await expect(operations.closeOperation(terminalId,legitimate)).rejects.toThrow('intervención autorizada');
+    expect((await db.terminalOperation.findUniqueOrThrow({where:{operationId:legitimate}})).closedAt).toBeNull();
+    expect((await db.payment.findUniqueOrThrow({where:{id:payment.id}})).status).toBe('CAPTURED');
+    expect(await db.terminalOperation.count({where:{terminalId,closedAt:null}})).toBe(1);
+    const before=await db.terminalCredential.findFirstOrThrow({where:{terminalId,revokedAt:null}});
+    await operations.terminalMe(terminalId,before.id);
+    expect((await db.terminalCredential.findUniqueOrThrow({where:{id:before.id}})).lastUsedAt!.getTime()).toBeGreaterThan(old.getTime());
   });
 });

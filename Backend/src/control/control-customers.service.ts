@@ -11,11 +11,35 @@ import {
   Prisma,
   PurchaseMode,
   TransactionStatus,
+  Transaction,
+  FuelAuthorization,
+  Station,
+  Fuel,
+  Vehicle,
+  User,
+  Payment,
+  OperationalIncident,
+  Receipt,
 } from '@prisma/client';
+import { receiptResponse } from '../receipts/receipt.service';
 import { Actor } from '../auth/access';
 import { PrismaService } from '../prisma/prisma.service';
 
 type ControlActor = Extract<Actor, { kind: 'control' }>;
+type OperationRelations = {
+  receipt?: Receipt | null;
+  station: Pick<Station, 'id' | 'code' | 'name'>;
+  fuel: Pick<Fuel, 'name'> & Partial<Pick<Fuel, 'id' | 'code'>>;
+  vehicle: (Pick<Vehicle, 'plate' | 'label'> & Partial<Pick<Vehicle, 'id'>>) | null;
+  membership?: { number: string; user: Pick<User, 'id' | 'name'> } | null;
+  payment: (Pick<Payment, 'status' | 'method' | 'amount' | 'refundedAmount'> & Partial<Pick<Payment, 'id'>>) | null;
+  operationalIncidents: Pick<OperationalIncident, 'code' | 'status'>[];
+};
+type TransactionProjectionRow = Transaction & OperationRelations & {
+  authorization?: Pick<FuelAuthorization, 'id' | 'status' | 'dispensedAmount' | 'dispensedGallons'> | null;
+  terminalOperation?: { status: string } | null;
+};
+type AuthorizationProjectionRow = FuelAuthorization & OperationRelations;
 type Filter = { stationId?: string; q?: string; from?: Date; to?: Date; status?: string; mode?: PurchaseMode; method?: string };
 
 @Injectable()
@@ -116,7 +140,7 @@ export class ControlCustomersService {
       actor.permissions.includes(AdminControlPermission.ADMIN_OPERATION_VIEW)
         ? this.db.transaction.findMany({
             where: { membershipId: membership.id, ...(ids ? { stationId: { in: ids } } : {}) },
-            include: { station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
+            include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
             orderBy: { createdAt: 'desc' }, take: 50,
           })
         : Promise.resolve([]),
@@ -197,7 +221,7 @@ export class ControlCustomersService {
     const [transactions, authorizations] = await Promise.all([
       this.db.transaction.findMany({
         where: { ...stationFilter, ...(createdAt ? { createdAt } : {}), ...(filters.mode ? { mode: filters.mode } : {}), ...this.operationSearch(q) },
-        include: { station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, status: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
+        include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, status: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
       }),
       this.db.fuelAuthorization.findMany({
         where: { ...stationFilter, transaction: null, ...(createdAt ? { createdAt } : {}), ...(filters.mode ? { mode: filters.mode } : {}), ...this.operationSearch(q) },
@@ -209,24 +233,26 @@ export class ControlCustomersService {
   }
 
   async transaction(actor: ControlActor, transactionId: string) {
-    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, operationalIncidents: { select: { id: true, code: true, status: true, summary: true } } } });
+    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, operationalIncidents: { select: { id: true, code: true, status: true, summary: true } } } });
     if (!row) throw new NotFoundException('Transacción no encontrada');
     await this.scope(actor, row.stationId, AdminControlPermission.ADMIN_TRANSACTION_VIEW);
     return this.transactionProjection(row, actor);
   }
 
   async receipt(actor: ControlActor, transactionId: string) {
-    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { station: { select: { id: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, payment: { select: { status: true, method: true } }, debt: { select: { amountPending: true } } } });
+    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { receipt: true, station: { select: { id: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, payment: { select: { status: true, method: true } }, debt: { select: { amountPending: true } } } });
     if (!row) throw new NotFoundException('Comprobante no encontrado');
     await this.scope(actor, row.stationId, AdminControlPermission.ADMIN_RECEIPT_VIEW);
     if (!row.gallons?.gt(0) || !row.plate)
       throw new ConflictException('La operación no contiene cantidad y placa confirmadas para emitir una copia del comprobante.');
     return {
       schemaVersion: 2,
-      id: row.id,
+      id: row.receipt?.id ?? row.id,
+      transactionId: row.id,
+      number: row.receipt?.number ?? null,
       documentType: row.receiptType,
       demo: true,
-      issuedAt: row.createdAt.toISOString(),
+      issuedAt: (row.receipt?.issuedAt ?? row.createdAt).toISOString(),
       station: row.station.name,
       pump: row.pump?.code ?? null,
       plate: row.plate,
@@ -264,7 +290,7 @@ export class ControlCustomersService {
     return `${name.slice(0, 1)}•••@•••`;
   }
 
-  private transactionProjection(row: any, actor: ControlActor) {
+  private transactionProjection(row: TransactionProjectionRow, actor: ControlActor) {
     const incidents = row.operationalIncidents ?? [];
     const physicalStatus = row.authorization?.status ?? row.terminalOperation?.status ?? row.status;
     const financialStatus = row.payment?.status ?? row.status;
@@ -289,12 +315,13 @@ export class ControlCustomersService {
       reviewStatus: physicalStatus === 'INTERVENTION_REQUIRED' || incidents.some((incident: { status: string }) => ['OPEN', 'IN_REVIEW'].includes(incident.status)) ? 'REVIEW' : null,
       authorization: row.authorization ? { id: row.authorization.id, status: row.authorization.status, dispensedAmount: row.authorization.dispensedAmount?.toFixed(2), dispensedGallons: row.authorization.dispensedGallons?.toFixed(3) } : null,
       incidents,
+      receipt: receiptResponse(row.receipt),
       receiptType: row.receiptType,
       receiptAvailable: true,
     };
   }
 
-  private authorizationProjection(row: any, actor: ControlActor) {
+  private authorizationProjection(row: AuthorizationProjectionRow, actor: ControlActor) {
     const incidents = row.operationalIncidents ?? [];
     return {
       id: row.id,
@@ -317,6 +344,7 @@ export class ControlCustomersService {
       reviewStatus: row.status === 'INTERVENTION_REQUIRED' || incidents.some((incident: { status: string }) => ['OPEN', 'IN_REVIEW'].includes(incident.status)) ? 'REVIEW' : null,
       authorization: { id: row.id, status: row.status, dispensedAmount: row.dispensedAmount.toFixed(2), dispensedGallons: row.dispensedGallons.toFixed(3) },
       incidents,
+      receipt: null,
       receiptType: null,
       receiptAvailable: false,
     };

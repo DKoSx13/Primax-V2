@@ -1,6 +1,16 @@
 // Gateway and terminal credentials remain in HttpOnly cookies.
 let current = null;
 let waiting = null;
+let heartbeat = null;
+function keepSessionAlive() {
+  if (heartbeat) return;
+  heartbeat = setInterval(async () => {
+    if (!kioskAuthEnabled() || !current?.authenticated || document.hidden) return;
+    try { if (!await terminalReady()) { current = null; void ensureKioskSession(); } }
+    catch { /* Temporary network failure never cancels a financial operation. */ }
+  }, 30000);
+  heartbeat.unref?.();
+}
 export const kioskAuthEnabled = () => globalThis.FUELFLOW_KIOSK_AUTH === true;
 export const kioskStationId = () => current?.authenticated ? current.stationId : undefined;
 async function request(path, method = 'GET') {
@@ -48,20 +58,32 @@ export function ensureKioskSession() {
     dialog.addEventListener('cancel', event => event.preventDefault());
     document.body.append(dialog);
     dialog.showModal();
-    dialog.innerHTML = '<div class="terminal-access-card"><div class="terminal-access-brand">PRIMAX <span>FuelFlow</span></div><div class="terminal-access-icon" aria-hidden="true">⛽</div><h1>Terminal temporalmente no disponible</h1><p>Solicita asistencia al personal de la estación.</p><button class="primary" type="button">Actualizar estado</button><p class="terminal-access-note" role="status"></p></div>';
+    dialog.innerHTML = '<div class="terminal-access-card"><div class="terminal-access-brand">PRIMAX <span>FuelFlow</span></div><div class="terminal-access-icon" aria-hidden="true">⛽</div><h1>Comprobando terminal…</h1><p>La disponibilidad se recupera automáticamente. Los pagos y abastecimientos pendientes se conservan.</p><button class="primary" type="button" hidden>Reintentar ahora</button><p class="terminal-access-note" role="status"></p></div>';
     const retry = dialog.querySelector('button');
     const note = dialog.querySelector('.terminal-access-note');
+    const title = dialog.querySelector('h1');
+    let timer;
+    let checking = false;
     const check = async () => {
+      if (checking) return;
+      checking = true;
+      clearTimeout(timer);
       retry.disabled = true;
       note.textContent = 'Comprobando terminal…';
       try {
         current = await request('/api/kiosk/terminal-bootstrap', 'POST');
         if (!await terminalReady()) throw Error('Terminal temporalmente no disponible');
-        dialog.close(); dialog.remove(); resolve();
+        dialog.close(); dialog.remove(); keepSessionAlive(); resolve();
       } catch (error) {
         current = null;
+        title.textContent = 'Recuperando disponibilidad de la terminal';
         note.textContent = error.message || 'Inténtalo nuevamente.';
         retry.disabled = false;
+        retry.hidden = false;
+        timer = setTimeout(check, 15000);
+        timer.unref?.();
+      } finally {
+        checking = false;
       }
     };
     retry.addEventListener('click', check);

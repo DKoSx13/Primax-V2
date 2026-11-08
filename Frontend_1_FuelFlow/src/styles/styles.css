@@ -417,7 +417,10 @@ th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spa
 /* ==========================================================
    PREPAGO: comprobante · datos · método de pago
    ========================================================== */
-.pay-grid-4 { grid-template-columns: repeat(4, 1fr); margin-top: 4px; }
+.pay-grid-methods { grid-template-columns: repeat(3,minmax(0,1fr)); width:100%; max-width:760px; margin:4px auto 0; }
+#pantalla-metodo > .nav-row { max-width:760px; margin-left:auto; margin-right:auto; }
+.pay-grid-methods .pay-card { min-width:0; min-height:132px; justify-content:center; text-align:center; }
+.pay-grid-methods .pay-icon { display:grid; place-items:center; height:46px; }
 .pay-card-sm { padding: 20px 8px; }
 .pay-card-sm strong { font-size: 15px; letter-spacing: 1px; }
 .pay-card-sm .pay-icon { font-size: 32px; }
@@ -585,7 +588,7 @@ th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spa
 /* Responsive */
 @media (max-width: 820px) {
   .fuel-grid, .pay-grid, .despacho-grid, .admin-grid { grid-template-columns: 1fr; }
-  .pay-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .pay-grid-methods { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .ef-display { grid-template-columns: 1fr; }
   .hero-features { grid-template-columns: repeat(2, 1fr); }
   .metrics { grid-template-columns: 1fr; }
@@ -614,3 +617,11 @@ th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spa
 .terminal-access p{color:#5a6379;font-size:18px;line-height:1.5}.terminal-access-note{font-size:14px!important;margin-top:28px}
 .terminal-access form{text-align:left}.terminal-access form h1{text-align:center;margin:30px 0}.terminal-access label{display:block;margin:15px 0;color:#171b2e;font-weight:650}.terminal-access input{display:block;width:100%;min-height:52px;padding:12px 14px;margin-top:8px;border:1px solid #cdd4e5;border-radius:12px;background:#fff;color:#171b2e;font:inherit}
 .terminal-access button{width:100%;min-height:54px;margin-top:12px;border:0;border-radius:12px;background:#ff8733;color:#171b2e;font:inherit;font-weight:800;cursor:pointer}.terminal-access button:disabled{opacity:.55;cursor:wait}.terminal-access-error{min-height:22px;color:#a92520!important;font-size:14px!important}
+
+.ticket-actions .btn { flex: 1 1 220px; max-width: 340px; white-space: normal; }
+@media (max-width: 540px) {
+  .ticket-actions .btn { max-width: none; }
+}
+
+@media(max-width:540px){.pay-grid-methods{grid-template-columns:1fr}.pay-grid-methods .pay-card{min-height:120px;padding:16px}}
+#help-overlay .modal{width:min(100%,480px);max-height:min(92dvh,760px);overflow-y:auto;text-align:left;padding:24px}#help-overlay #help-btn-minimizar{top:12px;right:12px}#help-overlay #help-title{padding-right:42px}#help-overlay #help-form{display:grid;gap:8px;margin-top:18px}#help-overlay #help-form.hidden{display:none}#help-overlay #help-form label{display:block;font-weight:650;font-size:14px;margin-top:6px}#help-overlay select,#help-overlay textarea{display:block;width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font:inherit;background:var(--card);color:var(--text)}#help-overlay textarea{min-height:90px;resize:vertical}#help-overlay #help-btn-enviar{margin-top:12px}#help-overlay #help-estado:not(.hidden){padding:12px;border-radius:10px;background:#eef6ff;color:#173b69}#help-overlay .modal-actions{justify-content:flex-start}#help-overlay .modal-actions .btn{flex:1 1 150px}@media(max-width:540px){#help-overlay .modal{padding:18px}#help-overlay .modal-actions .btn{flex-basis:100%}}

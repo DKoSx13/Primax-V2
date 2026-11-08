@@ -56,7 +56,7 @@ const adminId = (actor: Actor) =>
 export class TerminalController {
   constructor(private readonly service: OperationsService) {}
   @Get('me') me(@CurrentActor() actor: Actor) {
-    return this.service.terminalMe(terminalId(actor));
+    return this.service.terminalMe(terminalId(actor), actor.kind === 'terminal' ? actor.credentialId : undefined);
   }
   @Post('operations') open(
     @CurrentActor() actor: Actor,

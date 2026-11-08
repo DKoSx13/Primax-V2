@@ -13,9 +13,15 @@ module.exports = ts.config(
         console: 'readonly',
         process: 'readonly',
         fetch: 'readonly',
+        URL: 'readonly',
+        Buffer: 'readonly',
+        AbortSignal: 'readonly',
       },
     },
-    rules: { '@typescript-eslint/no-require-imports': 'off' },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-redeclare': ['error', { builtinGlobals: false }],
+    },
   },
   {
     rules: {

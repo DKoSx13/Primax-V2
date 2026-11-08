@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Primax · FuelFlow Autónomo</title>
   <link rel="stylesheet" href="styles/styles.css?v=5" />
-</head>
+<link rel="icon" href="../assets/img/logo-primax-horizontal.jpg"></head>
 <body>
   <!-- Fondo animado -->
   <div class="bg-grid" aria-hidden="true"></div>
@@ -314,8 +314,7 @@
             <div><span data-i18n="sum_monto">Monto prepago:</span><strong id="prep-mini-monto">—</strong></div>
           </div>
 
-          <label><input type="checkbox" id="save-receipt-profile"> Guardar estos datos en mi perfil Primax Prime</label>
-            <button id="btn-continuar-datos" class="btn btn-primary" type="button" data-i18n="btn_continuar">Continuar →</button>
+          <button id="btn-continuar-datos" class="btn btn-primary" type="button" data-i18n="btn_continuar">Continuar →</button>
         </div>
         <div class="nav-row">
           <button class="btn btn-ghost" data-nav="pantalla-comprobante" data-i18n="volver">← Volver</button>
@@ -331,7 +330,7 @@
           <p class="selected-fuel"><span data-i18n="lbl_a_cobrar">Total a cobrar:</span> <strong id="metodo-monto">—</strong></p>
         </div>
 
-        <div class="pay-grid pay-grid-4">
+        <div class="pay-grid pay-grid-methods">
           <button class="pay-card pay-card-sm" type="button" data-metodo="YAPE">
             <img class="pay-logo" src="../assets/img/Logo_Yape.png" alt="Yape" decoding="async" /><strong data-i18n="m_yape">YAPE</strong>
           </button>
@@ -442,10 +441,11 @@
           </div>
           <div class="ticket-foot" data-i18n="ticket_foot">Gracias por preferir Primax · Que tenga un buen viaje 🛣️</div>
         </div>
+        <p id="receipt-number" class="receipt-number" aria-live="polite"></p>
         <p id="print-error" class="error hidden" role="alert"></p>
         <div class="ticket-actions">
-          <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Imprimir</button>
-          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">Continuar sin imprimir</button>
+          <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Imprimir y finalizar</button>
+          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">No imprimir y finalizar</button>
         </div>
       </section>
 
@@ -559,21 +559,21 @@
       <button id="help-btn-minimizar" class="btn btn-ghost" type="button" aria-label="Cerrar ventana de asistencia">×</button>
       <div id="help-icon" class="modal-icon">📞</div>
       <h3 id="help-title">Solicitar asistencia</h3>
-      <p id="help-msg">La solicitud se env?a al personal autorizado de esta estaci?n.</p>
+      <p id="help-msg">Un miembro del equipo de esta estación recibirá tu solicitud.</p>
       <form id="help-form">
-        <label>Motivo<select id="help-motivo" required>
+        <label for="help-motivo">Motivo</label><select id="help-motivo" required>
           <option value="AYUDA_GENERAL">Ayuda general</option><option value="ERROR_PAGO">Error de pago</option>
           <option value="PROBLEMA_TERMINAL">Problema de terminal</option><option value="PROBLEMA_DESPACHO">Problema de despacho</option>
           <option value="COMPROBANTE_IMPRESION">Comprobante o impresión</option><option value="OTRO">Otro</option>
-        </select></label>
-        <label>Observación (opcional)<textarea id="help-observacion" maxlength="500"></textarea></label>
+        </select>
+        <label for="help-observacion">Observación (opcional)</label><textarea id="help-observacion" maxlength="500" rows="3"></textarea>
         <button id="help-btn-enviar" class="btn btn-primary" type="submit">Enviar solicitud</button>
       </form>
-      <p id="help-estado" role="status" aria-live="polite"></p>
+      <p id="help-estado" class="hidden" role="status" aria-live="polite"></p>
       <div class="modal-actions">
         <button id="help-btn-cancelar" class="btn btn-ghost hidden" type="button">Cancelar solicitud</button>
         <button id="help-btn-reintentar" class="btn btn-ghost hidden" type="button">Reintentar conexión</button>
-        <button id="help-btn-cerrar" class="btn btn-primary" type="button">Continuar</button>
+        <button id="help-btn-cerrar" class="btn btn-secondary" type="button">Cerrar ventana</button>
       </div>
     </div>
   </div>

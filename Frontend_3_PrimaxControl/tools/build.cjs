@@ -24,8 +24,15 @@ if (fuelFlowOrigin) {
 }
 fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\nexport const FUELFLOW_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowOrigin)};\n`);
 const hash = crypto.createHash('sha256');
-function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) { const file=path.join(dir,item.name); if(item.isDirectory()) scan(file); else if(/\.(js|css|html)$/.test(file)) hash.update(path.relative(output,file)).update(fs.readFileSync(file)); } }
+function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) { const file=path.join(dir,item.name); if(item.isDirectory()) scan(file); else if(/\.(js|css|html|png|jpe?g|svg|webp)$/i.test(file)) hash.update(path.relative(output,file)).update(fs.readFileSync(file)); } }
 scan(output);
 const version = `CONTROL-${hash.digest('hex').slice(0,12)}`;
+for (const name of fs.readdirSync(path.join(output, 'js')).filter(name => name.endsWith('.js'))) {
+  const file = path.join(output, 'js', name);
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(/(assets\/[^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?/gi, '$1?v=' + version));
+}
+const htmlFile = path.join(output, 'index.html');
+fs.writeFileSync(htmlFile, fs.readFileSync(htmlFile, 'utf8')
+  .replace(/((?:src|href)=["'])([^"']+?\.(?:png|jpe?g|svg|webp|js|css))(?:\?[^"']*)?(["'])/gi, (_, a, b, c) => a + b + '?v=' + version + c));
 fs.writeFileSync(path.join(output, 'build.json'), JSON.stringify({ app: 'Primax Control', version }, null, 2));
 console.log(`Primax Control build listo: ${version}`);

@@ -7,12 +7,13 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { createHash, randomBytes, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../prisma/prisma.service';
 
+import { acceptsNewAttention } from './terminal-availability';
+import { isEmptyAttention } from './empty-attention';
+
 type Db = Prisma.TransactionClient;
-const tokenHash = (token: string) =>
-  createHash('sha256').update(token).digest('hex');
 
 @Injectable()
 export class OperationsService {
@@ -89,7 +90,11 @@ export class OperationsService {
     return this.closeOperation(operation.terminalId, operationId, userId);
   }
 
-  async terminalMe(terminalId: string) {
+  async terminalMe(terminalId: string, credentialId?: string) {
+    if (credentialId) await this.db.terminalCredential.updateMany({
+      where: { id: credentialId, terminalId, revokedAt: null, expiresAt: { gt: new Date() } },
+      data: { lastUsedAt: new Date() },
+    });
     const terminal = await this.db.terminal.findUnique({
       where: { id: terminalId },
       include: {
@@ -99,16 +104,19 @@ export class OperationsService {
     });
     if (!terminal || terminal.lifecycle !== 'REGISTRADA')
       throw new UnauthorizedException('Terminal revocada');
+    const active = terminal.operations[0];
     return {
       id: terminal.id,
       stationId: terminal.stationId,
       code: terminal.code,
       lifecycle: terminal.lifecycle,
       operationalStatus: terminal.operationalStatus,
+      activeOperationId: active?.operationId ?? null,
+      emptyAttention: active ? await isEmptyAttention(this.db, active) : false,
       pump: terminal.assignments[0]?.pump ?? null,
-      prepared: ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus) || terminal.operations.length > 0,
+      prepared: (acceptsNewAttention(terminal.operationalStatus) || terminal.operationalStatus === 'EN_USO') || terminal.operations.length > 0,
       canStart:
-        terminal.operationalStatus === 'DISPONIBLE' &&
+        acceptsNewAttention(terminal.operationalStatus) &&
         terminal.operations.length === 0 &&
         terminal.assignments.some((assignment) => assignment.pump.active),
     };
@@ -131,7 +139,7 @@ export class OperationsService {
       if (
         !terminal ||
         terminal.lifecycle !== 'REGISTRADA' ||
-        terminal.operationalStatus !== 'DISPONIBLE'
+        !acceptsNewAttention(terminal.operationalStatus)
       )
         throw new ConflictException('Terminal no disponible');
       const active = await tx.terminalOperation.findFirst({
@@ -225,6 +233,10 @@ export class OperationsService {
           'Vínculos financieros ambiguos; requiere conciliación',
         );
       const authorization = authorizations[0];
+      if (!authorization && (
+        await tx.payment.findFirst({ where: { operationId, status: { notIn: ['CANCELLED', 'REJECTED'] } }, select: { id: true } }) ||
+        await tx.onlineOrder.findFirst({ where: { operationId, status: { notIn: ['FAILED', 'CANCELLED'] } }, select: { id: true } })
+      )) throw new ConflictException('Pago u orden sin autorización conciliada; requiere intervención autorizada');
       if (
         inventoryReservations.some((reservation) =>
           ['PENDING_PAYMENT', 'ACTIVE', 'REVIEW'].includes(reservation.status),
@@ -299,7 +311,7 @@ export class OperationsService {
         where: { id: terminalId },
         data: {
           operationalStatus: terminal.operationalStatus === 'EN_USO' ? 'DISPONIBLE' :
-            terminal.operationalStatus === 'ASISTENCIA' ? 'BLOQUEADA' : terminal.operationalStatus,
+            terminal.operationalStatus === 'BLOQUEADA' ? 'DISPONIBLE' : terminal.operationalStatus,
           statusVersion: { increment: 1 },
         },
       });
@@ -362,7 +374,7 @@ export class OperationsService {
           operationalStatus:
             operation.terminal.lifecycle === 'REVOCADA'
               ? 'FUERA_DE_SERVICIO'
-              : 'ASISTENCIA',
+              : 'DISPONIBLE',
           statusVersion: { increment: 1 },
         },
       });

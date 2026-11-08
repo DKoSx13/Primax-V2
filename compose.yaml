@@ -1,21 +1,23 @@
-name: primax-v12-1
+name: primax-fuelflow-demo
 
 x-backend-env: &backend-env
   NODE_ENV: production
   APP_MODE: local
   PORT: 3000
-  DATABASE_URL: postgresql://${POSTGRES_USER:?Set POSTGRES_USER}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB}?schema=public
-  DATABASE_URL_UNPOOLED: postgresql://${POSTGRES_USER:?Set POSTGRES_USER}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB}?schema=public
+  DATABASE_URL: postgresql://${POSTGRES_USER:-primax_v12_1}:${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_v12_1_local}?schema=public
+  DATABASE_URL_UNPOOLED: postgresql://${POSTGRES_USER:-primax_v12_1}:${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_v12_1_local}?schema=public
   DATABASE_PURPOSE: local-v12.1-demo
-  JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
-  KIOSK_API_KEY: ${KIOSK_API_KEY:?Set KIOSK_API_KEY}
-  KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:?Set KIOSK_GATEWAY_SECRET}
-  KIOSK_OPERATOR_USER: ${KIOSK_OPERATOR_USER:?Set KIOSK_OPERATOR_USER}
-  KIOSK_OPERATOR_PASSWORD_HASH: ${KIOSK_OPERATOR_PASSWORD_HASH:?Set KIOSK_OPERATOR_PASSWORD_HASH}
-  KIOSK_STATION_ID: ${KIOSK_STATION_ID:?Set KIOSK_STATION_ID}
-  KIOSK_REDIS_URL: redis://:${REDIS_PASSWORD:?Set REDIS_PASSWORD}@redis:6379/0
+  JWT_SECRET: ${JWT_SECRET:-LOCAL_DEMO_jwt_secret_at_least_32_characters}
+  KIOSK_API_KEY: ${KIOSK_API_KEY:-LOCAL_DEMO_kiosk_key_at_least_32_characters}
+  KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_gateway_secret_at_least_32_characters}
+  KIOSK_OPERATOR_USER: ${KIOSK_OPERATOR_USER:-operador}
+  KIOSK_OPERATOR_PASSWORD_HASH: ${KIOSK_OPERATOR_PASSWORD_HASH:-$$2b$$12$$IamN03DAQD6hpm9KTb.2DeLK0z57RQzHc7Iy27t33yL3iNpEwgH.e}
+  KIOSK_STATION_ID: ${KIOSK_STATION_ID:-}
+  KIOSK_REDIS_URL: redis://:${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}@redis:6379/0
   KIOSK_SESSION_NAMESPACE: local-v12-1
   PRIME_DEBT_LIMIT: ${PRIME_DEBT_LIMIT:-200}
+  OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ocr_secret_at_least_32_characters}
+  KIOSK_STATION_CODE: PRIMAX-SUR
   PLATE_CONFIDENCE_THRESHOLD: ${PLATE_CONFIDENCE_THRESHOLD:-0.75}
   PLATE_RECOGNITION_URL: ${PLATE_RECOGNITION_URL:-http://plate-recognition:8000}
   PLATE_RECOGNITION_ENABLED: ${PLATE_RECOGNITION_ENABLED:-true}
@@ -25,13 +27,13 @@ x-backend-env: &backend-env
   PRIMAX_CONTROL_PUBLIC_URL: ${PRIMAX_CONTROL_PUBLIC_URL:-http://localhost:${FRONTEND3_PORT:-26083}}
   PAYMENT_ENV: demo
   DEMO_WALLET_ENABLED: "true"
-  DEMO_PASSWORD: ${DEMO_PASSWORD:?Set DEMO_PASSWORD}
+  DEMO_PASSWORD: ${DEMO_PASSWORD:-PrimaxDemo123!}
   DEMO_CONTROL_ADMIN_ENABLED: ${DEMO_CONTROL_ADMIN_ENABLED:-true}
   DEMO_CONTROL_ADMIN_EMAIL: ${DEMO_CONTROL_ADMIN_EMAIL:-control-admin@primax.local}
-  DEMO_CONTROL_ADMIN_PASSWORD: ${DEMO_CONTROL_ADMIN_PASSWORD:?Set DEMO_CONTROL_ADMIN_PASSWORD}
+  DEMO_CONTROL_ADMIN_PASSWORD: ${DEMO_CONTROL_ADMIN_PASSWORD:-AdminDemoLocal123!}
   DEMO_OPERATIONS_ENABLED: ${DEMO_OPERATIONS_ENABLED:-true}
   DEMO_ENCARGADO_EMAIL: ${DEMO_ENCARGADO_EMAIL:-encargado@primax.local}
-  DEMO_ENCARGADO_PASSWORD: ${DEMO_ENCARGADO_PASSWORD:?Set DEMO_ENCARGADO_PASSWORD}
+  DEMO_ENCARGADO_PASSWORD: ${DEMO_ENCARGADO_PASSWORD:-EncargadoDemo123!}
   SHOW_DEMO_ADMIN_CREDENTIALS: "false"
   SOLES_PER_POINT: ${SOLES_PER_POINT:-9}
   CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:26081,http://127.0.0.1:26081,http://localhost:26082,http://127.0.0.1:26082,http://localhost:26083,http://127.0.0.1:26083}
@@ -40,9 +42,9 @@ services:
   postgres:
     image: postgres:17.6-bookworm
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-primax_v12_1_local}
+      POSTGRES_USER: ${POSTGRES_USER:-primax_v12_1}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks: [data]
@@ -56,9 +58,9 @@ services:
 
   redis:
     image: redis:7.4-alpine
-    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:?Set REDIS_PASSWORD}"]
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}"]
     environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD:?Set REDIS_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}
     volumes:
       - redis_data:/data
     networks: [data]
@@ -71,7 +73,10 @@ services:
     security_opt: [no-new-privileges:true]
 
   plate-recognition:
+    pull_policy: build
     build: ./PlateRecognition
+    environment:
+      OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ocr_secret_at_least_32_characters}
     networks: [data]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
@@ -85,6 +90,7 @@ services:
     security_opt: [no-new-privileges:true]
 
   migrate:
+    pull_policy: build
     build:
       context: ./Backend
       target: build
@@ -96,6 +102,7 @@ services:
     restart: "no"
 
   seed:
+    pull_policy: build
     build:
       context: ./Backend
       target: build
@@ -107,6 +114,7 @@ services:
     restart: "no"
 
   seed-control-admin:
+    pull_policy: build
     build:
       context: ./Backend
       target: build
@@ -118,6 +126,7 @@ services:
     restart: "no"
 
   seed-operations:
+    pull_policy: build
     build:
       context: ./Backend
       target: build
@@ -128,14 +137,15 @@ services:
     networks: [data]
     restart: "no"
 
-  backend:
+  identity-service: &domain-service
+    pull_policy: build
     build:
       context: ./Backend
       target: runtime
+    image: ${COMPOSE_PROJECT_NAME:-primax-fuelflow-demo}-domain:demo
     environment: *backend-env
-    ports:
-      - "127.0.0.1:${BACKEND_PORT:-26000}:3000"
-    networks: [web, data]
+    command: ["node", "dist/src/apps/identity/main.js"]
+    networks: [data]
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -150,7 +160,47 @@ services:
     restart: unless-stopped
     security_opt: [no-new-privileges:true]
 
+  catalog-service:
+    <<: *domain-service
+    command: ["node", "dist/src/apps/catalog/main.js"]
+
+  commerce-service:
+    <<: *domain-service
+    command: ["node", "dist/src/apps/commerce/main.js"]
+
+  administration-service:
+    <<: *domain-service
+    command: ["node", "dist/src/apps/administration/main.js"]
+
+  backend:
+    pull_policy: build
+    build:
+      context: ./Backend
+      target: runtime
+    image: ${COMPOSE_PROJECT_NAME:-primax-fuelflow-demo}-domain:demo
+    command: ["node", "gateway/server.cjs"]
+    environment:
+      PORT: 3000
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:26081,http://127.0.0.1:26081,http://localhost:26082,http://127.0.0.1:26082,http://localhost:26083,http://127.0.0.1:26083}
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-26000}:3000"
+    networks: [web, data]
+    depends_on:
+      identity-service: { condition: service_healthy }
+      catalog-service: { condition: service_healthy }
+      commerce-service: { condition: service_healthy }
+      administration-service: { condition: service_healthy }
+      print-service: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+
   fuelflow-gateway:
+    pull_policy: build
     build:
       context: ./Frontend_1_FuelFlow
       target: gateway
@@ -158,7 +208,7 @@ services:
       FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-26081}
       BACKEND_ORIGIN: http://backend:3000
       FUELFLOW_LOCAL_HTTP: "true"
-      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:?Set KIOSK_GATEWAY_SECRET}
+      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_gateway_secret_at_least_32_characters}
     networks: [web]
     depends_on:
       backend: { condition: service_healthy }
@@ -171,11 +221,13 @@ services:
     security_opt: [no-new-privileges:true]
 
   frontend1:
+    pull_policy: build
     build:
       context: ./Frontend_1_FuelFlow
       args:
         FUELFLOW_DEMO: "0"
         FUELFLOW_KIOSK_AUTH: "true"
+        FUELFLOW_PRINT_DEMO: ${FUELFLOW_PRINT_DEMO:-true}
     environment:
       FUELFLOW_GATEWAY_UPSTREAM: http://fuelflow-gateway:3001
       PRIME_WEB_PORT: ${FRONTEND2_PORT:-26082}
@@ -193,6 +245,7 @@ services:
     security_opt: [no-new-privileges:true]
 
   frontend2:
+    pull_policy: build
     build:
       context: ./Frontend_2_PrimaxPrime
       args:
@@ -213,6 +266,7 @@ services:
     security_opt: [no-new-privileges:true]
 
   frontend3:
+    pull_policy: build
     build:
       context: ./Frontend_3_PrimaxControl
       args:
@@ -232,7 +286,35 @@ services:
     restart: unless-stopped
     security_opt: [no-new-privileges:true]
 
+  print-service:
+    pull_policy: build
+    build: ./PrintAgent
+    volumes: ["print_data:/data"]
+    networks: [data]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    security_opt: [no-new-privileges:true]
+
+  backend-tests:
+    pull_policy: build
+    profiles: [test]
+    build:
+      context: ./Backend
+      target: test
+    environment: *backend-env
+    command: ["node", "scripts/test-compose.cjs"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    networks: [data]
+    restart: "no"
+
 volumes:
+  print_data:
   postgres_data:
   redis_data:
 
