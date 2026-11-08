@@ -169,7 +169,8 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         const safe = url.pathname.startsWith('/api/v1/terminal/assistance')
           ? { id: value.id, status: value.status, createdAt: value.createdAt, acceptedAt: value.acceptedAt, resolvedAt: value.resolvedAt, escalatedAt: value.escalatedAt, cancelledAt: value.cancelledAt }
           : url.pathname === '/api/v1/terminal/me'
-          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus }
+          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus,
+              activeOperationId: value.activeOperationId || null, emptyAttention: value.emptyAttention === true }
           : { operationId: value.operationId, status: value.status, closedAt: value.closedAt };
         res.statusCode = status; res.end(JSON.stringify(safe)); return;
       }
