@@ -4,6 +4,8 @@ export function isLocalPrintOrigin(origin){
   try{const u=new URL(origin);return u.origin===origin&&u.protocol==='http:'&&['localhost','127.0.0.1'].includes(u.hostname)&&/^\d+$/.test(u.port);}catch{return false;}
 }
 export function createPrinter(fetcher = (...args) => fetch(...args),pageOrigin=globalThis.location?.origin) {
+  const demo = globalThis.FUELFLOW_PRINT_DEMO === true;
+  const endpoint = demo ? '/api/v1/demo-print' : PRINT_AGENT_URL;
   const active = new Map();
   return function printReceipt(receipt) {
     if(pageOrigin!==undefined&&!isLocalPrintOrigin(pageOrigin))return Promise.reject(Error('La impresión HTTP requiere abrir FuelFlow en localhost o 127.0.0.1. No está habilitada desde la LAN o Internet.'));
@@ -13,9 +15,9 @@ export function createPrinter(fetcher = (...args) => fetch(...args),pageOrigin=g
     const request = async (method, body) => {
       let response;
       try {
-        response = await fetcher(PRINT_AGENT_URL+'/jobs/' + encodeURIComponent(id), {
+        response = await fetcher(endpoint+'/jobs/' + encodeURIComponent(id), {
           method, mode: 'cors', credentials: 'omit', cache: 'no-store',redirect:'error',
-          headers: {'X-FuelFlow-Print': '1',...(body?{'Content-Type':'application/json'}:{})},
+          headers: {'X-FuelFlow-Print': '1',...(demo?{'X-FuelFlow-Request':'1'}:{}),...(body?{'Content-Type':'application/json'}:{})},
           ...(body ? {body: JSON.stringify(body)} : {}), signal: AbortSignal.timeout(20000),
         });
       } catch {

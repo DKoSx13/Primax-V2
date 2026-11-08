@@ -37,7 +37,7 @@ suite('POST /api/v1/control/accounts on isolated PostgreSQL', () => {
 
   beforeAll(async () => {
     const target = new URL(isolated!);
-    if (target.protocol !== 'postgresql:' || target.hostname !== '127.0.0.1' || target.port !== '26544' || target.pathname !== '/primax_control_test' || target.search)
+    if (target.protocol !== 'postgresql:' || (target.host !== '127.0.0.1:26544' && !(process.env.APP_MODE === 'local' && target.host === 'postgres:5432')) || target.pathname !== '/primax_control_test' || target.search)
       throw new Error('Only the dedicated local PostgreSQL fixture is allowed');
     process.env.DATABASE_URL = isolated;
     process.env.DATABASE_URL_UNPOOLED = isolated;

@@ -12,7 +12,6 @@ import { JwtService } from '@nestjs/jwt';
 import {
   AdminControlPermission,
   AdminControlRole,
-  AdminControlStatus,
   OperationalIncidentStatus,
   Prisma,
 } from '@prisma/client';

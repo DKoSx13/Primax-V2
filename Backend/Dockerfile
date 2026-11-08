@@ -14,6 +14,7 @@ RUN npm run build
 
 FROM build AS test
 COPY test ./test
+COPY gateway ./gateway
 COPY jest.config.cjs eslint.config.cjs .prettierrc.json ./
 CMD ["npm", "test"]
 
@@ -26,6 +27,7 @@ COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package*.json ./
 COPY scripts ./scripts
+COPY gateway ./gateway
 USER node
 EXPOSE 3000
 CMD ["node", "dist/src/main.js"]
