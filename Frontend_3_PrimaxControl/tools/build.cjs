@@ -24,8 +24,23 @@ if (fuelFlowOrigin) {
 }
 fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\nexport const FUELFLOW_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowOrigin)};\n`);
 const hash = crypto.createHash('sha256');
-function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) { const file=path.join(dir,item.name); if(item.isDirectory()) scan(file); else if(/\.(js|css|html)$/.test(file)) hash.update(path.relative(output,file)).update(fs.readFileSync(file)); } }
+const textFiles = [];
+function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) {
+  const file=path.join(dir,item.name);
+  if(item.isDirectory()) scan(file);
+  else {
+    hash.update(path.relative(output,file)).update(fs.readFileSync(file));
+    if(/\.(js|css|html)$/.test(file)) textFiles.push(file);
+  }
+} }
 scan(output);
 const version = `CONTROL-${hash.digest('hex').slice(0,12)}`;
+for (const file of textFiles) {
+  let source=fs.readFileSync(file,'utf8');
+  source=source.replace(/((?:src|href)=["'])([^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?(["'])/gi,(_,a,b,c)=>a+b+'?v='+version+c);
+  if(file.endsWith('.js')) source=source.replace(/((?:from\s*|import\s*\(\s*)['"])(\.{1,2}\/[^'"]+?\.js)(?:\?[^'"]*)?(['"])/g,(_,a,b,c)=>a+b+'?v='+version+c);
+  if(file.endsWith('.html')) source=source.replace(/((?:src|href)=["'])([^"']+?\.(?:js|css))(?:\?[^"']*)?(["'])/g,(_,a,b,c)=>a+b+'?v='+version+c);
+  fs.writeFileSync(file,source);
+}
 fs.writeFileSync(path.join(output, 'build.json'), JSON.stringify({ app: 'Primax Control', version }, null, 2));
 console.log(`Primax Control build listo: ${version}`);
