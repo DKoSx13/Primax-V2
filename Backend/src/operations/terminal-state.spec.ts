@@ -36,6 +36,13 @@ describe('automatic availability with safety boundaries', () => {
     const f=fixture(status);await f.operations.startOperation(terminalId,'44444444-4444-4444-8444-444444444444');
     expect(f.tx.terminalOperation.create).toHaveBeenCalledTimes(1);
   });
+  it('returns the same persisted OP01 number on an idempotent start retry', async () => {
+    const f = fixture('DISPONIBLE');
+    const existing = { id: 'operation', terminalId, operationId: '44444444-4444-4444-8444-444444444444', number: 'OP01-0001' };
+    f.tx.terminalOperation.findUnique.mockResolvedValue(existing);
+    await expect(f.operations.startOperation(terminalId, existing.operationId)).resolves.toBe(existing);
+    expect(f.tx.terminalOperation.create).not.toHaveBeenCalled();
+  });
   it.each(['ASISTENCIA','FUERA_DE_SERVICIO'])('keeps real safety state %s blocked',async status=>{
     const f=fixture(status);await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('Terminal no disponible');
     expect(f.tx.terminalOperation.create).not.toHaveBeenCalled();
@@ -45,6 +52,12 @@ describe('automatic availability with safety boundaries', () => {
     await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('activa');
     f.tx.terminalOperation.findFirst.mockResolvedValue(null);f.tx.terminalPumpAssignment.findFirst.mockResolvedValue(null);
     await expect(f.operations.startOperation(terminalId,'operation')).rejects.toThrow('surtidor');
+  });
+  it('blocks a second terminal when its assigned pump still has an active attention', async () => {
+    const f = fixture('DISPONIBLE');
+    f.tx.terminalOperation.findFirst.mockResolvedValueOnce(null).mockResolvedValueOnce({ id: 'other-terminal-operation' });
+    await expect(f.operations.startOperation(terminalId, '44444444-4444-4444-8444-444444444444')).rejects.toThrow('Surtidor con operación activa');
+    expect(f.tx.terminalOperation.create).not.toHaveBeenCalled();
   });
   it('allows recovery of an existing attention while blocking a new unsafe one',async()=>{
     const f=fixture('ASISTENCIA');f.tx.terminal.findUnique.mockResolvedValue({id:terminalId,stationId,lifecycle:'REGISTRADA',operationalStatus:'ASISTENCIA',assignments:[assignment],operations:[{id:'active'}]});

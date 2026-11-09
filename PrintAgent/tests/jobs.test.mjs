@@ -8,7 +8,7 @@ import http from 'node:http';
 import {JobStore} from '../store.mjs';
 import {handler} from '../routes.mjs';
 import {thermalReceipt} from '../../Frontend_1_FuelFlow/src/js/thermalReceipt.js';
-const receipt=thermalReceipt({id:'test-1',createdAt:'2026-10-24T17:00:00Z',station:{name:'Primax Sur'},plate:'ABC-123',fuel:{name:'Premium'},gallons:'1',unitPrice:'20',amount:'20',receiptType:'BOLETA',receiptDni:'70123456',mode:'PREPAGO',status:'PAID',payment:{method:'YAPE',status:'CAPTURED'}});
+const receipt=thermalReceipt({id:'test-1',createdAt:'2026-10-24T17:00:00Z',station:{name:'Primax Sur'},plate:'ABC-123',fuel:{name:'Premium'},gallons:'1',unitPrice:'20',amount:'20',receiptType:'BOLETA',receiptDni:'70123456',mode:'PREPAGO',status:'PAID',payment:{method:'YAPE',status:'CAPTURED'}},'03');
 function store(t,adapter) {const dir=mkdtempSync(join(testRoot,'fuelflow-print-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));return new JobStore(dir,adapter);}
 test('concurrent clicks, replay and process restart send only once',async t=>{
   let calls=0,release;

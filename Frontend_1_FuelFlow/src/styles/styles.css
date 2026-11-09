@@ -633,6 +633,8 @@ th { color: var(--muted); text-transform: uppercase; font-size: 11px; letter-spa
 .terminal-access p{color:#5a6379;font-size:18px;line-height:1.5}.terminal-access-note{font-size:14px!important;margin-top:28px}
 .terminal-access form{text-align:left}.terminal-access form h1{text-align:center;margin:30px 0}.terminal-access label{display:block;margin:15px 0;color:#171b2e;font-weight:650}.terminal-access input{display:block;width:100%;min-height:52px;padding:12px 14px;margin-top:8px;border:1px solid #cdd4e5;border-radius:12px;background:#fff;color:#171b2e;font:inherit}
 .terminal-access button{width:100%;min-height:54px;margin-top:12px;border:0;border-radius:12px;background:#ff8733;color:#171b2e;font:inherit;font-weight:800;cursor:pointer}.terminal-access button:disabled{opacity:.55;cursor:wait}.terminal-access-error{min-height:22px;color:#a92520!important;font-size:14px!important}
+.terminal-access [hidden]{display:none!important}
+.recovery-desk{overflow-y:auto}.recovery-desk .terminal-access-card{max-height:calc(100dvh - 48px);overflow-y:auto;text-align:left}.recovery-desk h1{text-align:center}.recovery-desk dl{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;margin:20px 0;font-size:15px}.recovery-desk dt{color:#5a6379}.recovery-desk dd{margin:0;overflow-wrap:anywhere}.recovery-desk [data-identity]{font-weight:750;text-align:center}
 
 .ticket-actions .btn { flex: 1 1 220px; max-width: 340px; white-space: normal; }
 @media (max-width: 540px) {

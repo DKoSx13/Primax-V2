@@ -18,6 +18,18 @@ test('never replaces local financial evidence to resume another empty attention'
   assert.throws(()=>transactions.resumeEmptyOperation(id),/conciliación/);
   assert.equal(transactions.current().operationId,'old');
 });
+test('never replaces a pending QR order when another attention is observed',()=>{
+  const values=new Map([[OPERATION_KEY,JSON.stringify({operationId:'old',snapshot:{onlineOrderId:id}})]]);
+  const storage={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+  const transactions=createTransactionsService({storage});
+  assert.throws(()=>transactions.resumeEmptyOperation(id),/conciliación/);
+  assert.equal(transactions.current().snapshot.onlineOrderId,id);
+});
+test('blocks an active financial attention without a saved QR order even when its UUID matches',async()=>{
+  const terminal={me:async()=>({activeOperationId:id,emptyAttention:false,canStart:false}),operation:async()=>assert.fail('must not reuse financial attention')};
+  const transactions={begin:()=>({operationId:id}),current:()=>({operationId:id})};
+  await assert.rejects(ensureTerminalOperation({terminal,transactions}),/Backend conserva un pago/);
+});
 test('financial backend attention without its local recovery snapshot requires assistance',async()=>{
   const terminal={me:async()=>({activeOperationId:id,emptyAttention:false,canStart:false}),start:async()=>assert.fail('must not open another sale')};
   await assert.rejects(ensureTerminalOperation({terminal,transactions:{begin:()=>({operationId:'other'})}}),/financiera pendiente/);

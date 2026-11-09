@@ -77,6 +77,27 @@ suite('Primax Control operational modules on isolated PostgreSQL', () => {
     await expect(service.operationDetail(scoped, operationIdB)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
+  it('assigns distinct persisted OP01 numbers and scopes terminal and pump filters', async () => {
+    const secondTerminal = await db.terminal.create({ data: { stationId: stationA, code: `OPS-TERM2-${code}`, operationalStatus: 'DISPONIBLE' } });
+    const secondPump = await db.pump.create({ data: { stationId: stationA, code: `OPS-PUMP2-${code}`, name: 'Second pump' } });
+    const firstAssignment = await db.terminalPumpAssignment.findFirstOrThrow({ where: { terminalId, endedAt: null } });
+    const secondAssignment = await db.terminalPumpAssignment.create({ data: { stationId: stationA, terminalId: secondTerminal.id, pumpId: secondPump.id } });
+    const ids = [randomUUID(), randomUUID()];
+    const [first, second] = await Promise.all([
+      db.terminalOperation.create({ data: { operationId: ids[0], stationId: stationA, terminalId, pumpId: firstAssignment.pumpId, terminalPumpAssignmentId: firstAssignment.id, status: 'CLOSED', openedAt: new Date(Date.now() - 1000), closedAt: new Date() } }),
+      db.terminalOperation.create({ data: { operationId: ids[1], stationId: stationA, terminalId: secondTerminal.id, pumpId: secondPump.id, terminalPumpAssignmentId: secondAssignment.id, status: 'CLOSED', openedAt: new Date(Date.now() - 1000), closedAt: new Date() } }),
+    ]);
+    expect(first.number).toMatch(/^OP01-\d{4,}$/);
+    expect(second.number).toMatch(/^OP01-\d{4,}$/);
+    expect(first.number).not.toBe(second.number);
+    expect((await db.terminalOperation.findUniqueOrThrow({ where: { operationId: ids[0] } })).number).toBe(first.number);
+    const filtered = await service.operations(scoped, { stationId: stationA, terminalId: secondTerminal.id, pumpId: secondPump.id });
+    expect(filtered.find((row) => row.operationId === ids[1])?.number).toBe(second.number);
+    expect(filtered.some((row) => row.operationId === ids[0])).toBe(false);
+    expect((await service.operationDetail(scoped, ids[0])).number).toBe(first.number);
+    await expect(service.operations(scoped, { stationId: stationB, terminalId: secondTerminal.id })).rejects.toBeInstanceOf(ForbiddenException);
+  });
+
   it('receives physical liters atomically, preserves reserved liters, records ledger and audit, and replays idempotently', async () => {
     const before = await db.fuelInventory.findUniqueOrThrow({ where: { stationId_fuelId: { stationId: stationA, fuelId } } });
     const input = { requestId, stationId: stationA, fuelId, liters: '25.500000', reference: 'recepción local' };

@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { hash } from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { ExecutionContext, ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { AdminControlPermission } from '@prisma/client';
@@ -311,10 +311,11 @@ suite('Primax Control foundation on isolated PostgreSQL', () => {
       pendingId,
       'DISABLED',
       'Disable test account',
+      'ControlTest!123',
     );
     await expect(
       service.login(`pending-${pendingId}@primax.test`, 'ControlTest!123'),
-    ).rejects.toBeInstanceOf(ForbiddenException);
+    ).rejects.toBeInstanceOf(UnauthorizedException);
   });
 
   it('admits approved ENCARGADO and scopes session to active assigned stations', async () => {

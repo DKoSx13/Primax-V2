@@ -37,9 +37,9 @@ type OperationRelations = {
 };
 type TransactionProjectionRow = Transaction & OperationRelations & {
   authorization?: Pick<FuelAuthorization, 'id' | 'status' | 'dispensedAmount' | 'dispensedGallons'> | null;
-  terminalOperation?: { status: string } | null;
+  terminalOperation?: { status: string; number: string } | null;
 };
-type AuthorizationProjectionRow = FuelAuthorization & OperationRelations;
+type AuthorizationProjectionRow = FuelAuthorization & OperationRelations & { terminalOperation?: { number: string } | null };
 type Filter = { stationId?: string; q?: string; from?: Date; to?: Date; status?: string; mode?: PurchaseMode; method?: string };
 
 @Injectable()
@@ -140,14 +140,14 @@ export class ControlCustomersService {
       actor.permissions.includes(AdminControlPermission.ADMIN_OPERATION_VIEW)
         ? this.db.transaction.findMany({
             where: { membershipId: membership.id, ...(ids ? { stationId: { in: ids } } : {}) },
-            include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
+            include: { receipt: true, terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
             orderBy: { createdAt: 'desc' }, take: 50,
           })
         : Promise.resolve([]),
       actor.permissions.includes(AdminControlPermission.ADMIN_OPERATION_VIEW)
         ? this.db.fuelAuthorization.findMany({
             where: { membershipId: membership.id, ...(ids ? { stationId: { in: ids } } : {}), transaction: null },
-            include: { station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
+            include: { terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },
             orderBy: { createdAt: 'desc' }, take: 50,
           })
         : Promise.resolve([]),
@@ -221,11 +221,11 @@ export class ControlCustomersService {
     const [transactions, authorizations] = await Promise.all([
       this.db.transaction.findMany({
         where: { ...stationFilter, ...(createdAt ? { createdAt } : {}), ...(filters.mode ? { mode: filters.mode } : {}), ...this.operationSearch(q) },
-        include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, status: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
+        include: { receipt: true, terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, status: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
       }),
       this.db.fuelAuthorization.findMany({
         where: { ...stationFilter, transaction: null, ...(createdAt ? { createdAt } : {}), ...(filters.mode ? { mode: filters.mode } : {}), ...this.operationSearch(q) },
-        include: { station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
+        include: { terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, terminal: { select: { code: true } }, pump: { select: { code: true } }, operationalIncidents: { select: { code: true, status: true } } }, orderBy: { createdAt: 'desc' }, take: 150,
       }),
     ]);
     const rows = [...transactions.map((row) => this.transactionProjection(row, actor)), ...authorizations.map((row) => this.authorizationProjection(row, actor))].filter((row) => (!filters.status || row.financialStatus === filters.status || row.physicalStatus === filters.status || row.reviewStatus === filters.status) && (!filters.method || row.method === filters.method)).sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime()).slice(0, 100);
@@ -233,7 +233,7 @@ export class ControlCustomersService {
   }
 
   async transaction(actor: ControlActor, transactionId: string) {
-    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { receipt: true, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, operationalIncidents: { select: { id: true, code: true, status: true, summary: true } } } });
+    const row = await this.db.transaction.findUnique({ where: { id: transactionId }, include: { receipt: true, terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { id: true, code: true, name: true } }, vehicle: { select: { id: true, plate: true, label: true } }, membership: { select: { id: true, number: true, user: { select: { id: true, name: true } } } }, payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } }, authorization: { select: { id: true, status: true, mode: true, dispensedAmount: true, dispensedGallons: true } }, operationalIncidents: { select: { id: true, code: true, status: true, summary: true } } } });
     if (!row) throw new NotFoundException('Transacción no encontrada');
     await this.scope(actor, row.stationId, AdminControlPermission.ADMIN_TRANSACTION_VIEW);
     return this.transactionProjection(row, actor);
@@ -298,6 +298,7 @@ export class ControlCustomersService {
       id: row.id,
       transactionId: row.id,
       operationId: row.operationId,
+      number: row.terminalOperation?.number ?? null,
       occurredAt: row.createdAt,
       station: row.station,
       fuel: row.fuel,
@@ -327,6 +328,7 @@ export class ControlCustomersService {
       id: row.id,
       transactionId: null,
       operationId: row.operationId,
+      number: row.terminalOperation?.number ?? null,
       occurredAt: row.createdAt,
       station: row.station,
       fuel: row.fuel,

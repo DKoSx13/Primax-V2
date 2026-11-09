@@ -21,6 +21,7 @@ import { EMPTY_ATTENTION_IDLE_MS, isEmptyAttention } from '../operations/empty-a
 import { PrismaService } from '../prisma/prisma.service';
 import { KioskStore } from './redis-store';
 import { kioskRoute } from './policy';
+import { Actor } from '../auth/access';
 
 export type KioskSession = {
   authenticated: boolean;
@@ -28,6 +29,8 @@ export type KioskSession = {
   version: string;
   expiresAt: number;
   stationId: string;
+  recoveryOperationId?: string;
+  recoveryTerminalId?: string;
 };
 const digest = (value: string) =>
   createHash('sha256').update(value).digest('hex');
@@ -78,6 +81,7 @@ export class KioskService {
       req.header('x-csrf-token') || '',
       req.header('x-terminal-session') || '',
       req.header('authorization') || '',
+      req.header('x-terminal-owner') || '',
     ]);
     const expected = createHmac(
       'sha256',
@@ -121,7 +125,7 @@ export class KioskService {
       throw new ForbiddenException('Verificación CSRF fallida');
     return value;
   }
-  private async create(authenticated: boolean) {
+  private async create(authenticated: boolean, recovery?: { operationId: string; terminalId: string }) {
     const token = randomBytes(32).toString('base64url');
     const ttl = authenticated ? 1800 : 300;
     const session: KioskSession = {
@@ -130,6 +134,7 @@ export class KioskService {
       version: this.version(),
       expiresAt: Date.now() + ttl * 1000,
       stationId: this.config.getOrThrow<string>('KIOSK_STATION_ID'),
+      ...(recovery ? { recoveryOperationId: recovery.operationId, recoveryTerminalId: recovery.terminalId } : {}),
     };
     if (
       (await this.store.command(
@@ -150,6 +155,7 @@ export class KioskService {
       csrfToken: value.csrf,
       expiresAt: value.expiresAt,
       stationId: value.authenticated ? value.stationId : undefined,
+      ...(value.recoveryOperationId ? { recoveryOperationId: value.recoveryOperationId } : {}),
     };
   }
   async status(req: Request) {
@@ -200,12 +206,12 @@ export class KioskService {
       throw new UnauthorizedException();
     return this.create(true);
   }
-  async bootstrapTerminal(req: Request, requestedTerminalId?: string) {
+  async bootstrapTerminal(req: Request, requestedTerminalId?: string, requestedTerminalCode?: string) {
     this.verifyGateway(req);
     await this.limitTechnical(req);
     const stationId = this.config.getOrThrow<string>('KIOSK_STATION_ID');
     const terminals = await this.db.terminal.findMany({
-      where: { stationId, lifecycle: 'REGISTRADA', ...(requestedTerminalId ? { id: requestedTerminalId } : {}) },
+      where: { stationId, lifecycle: 'REGISTRADA', ...(requestedTerminalId ? { id: requestedTerminalId } : {}), ...(requestedTerminalCode ? { code: requestedTerminalCode } : {}) },
       select: { id: true, operationalStatus: true },
       take: 2,
     });
@@ -269,6 +275,235 @@ export class KioskService {
     return { ...session, terminalId, terminalToken: credential.terminalToken, terminalExpiresAt: credential.expiresAt };
   }
 
+  private async recoveryEvidence(tx: PrismaService, operation: { id: string; operationId: string; stationId: string; terminalId: string; pumpId: string }) {
+    const operationId = operation.operationId;
+    const [orders, payments, authorizations, reservations, sales] = await Promise.all([
+      tx.onlineOrder.findMany({ where: { operationId }, select: { id: true, status: true, paymentId: true, transactionId: true, userId: true, method: true, amount: true, providerId: true } }),
+      tx.payment.findMany({ where: { operationId }, select: { id: true, status: true, transactionId: true, method: true, amount: true, refundedAmount: true, provider: true } }),
+      tx.fuelAuthorization.findMany({ where: { operationId }, select: { id: true, status: true, paymentId: true, stationId: true, terminalId: true, pumpId: true, terminalOperationId: true, dispensedAmount: true } }),
+      tx.inventoryReservation.findMany({ where: { operationId }, select: { id: true, status: true, authorizationId: true, transactionId: true, stationId: true, terminalOperationId: true } }),
+      tx.transaction.findMany({ where: { operationId }, select: { id: true, status: true, authorizationId: true, stationId: true, terminalId: true, pumpId: true, terminalOperationId: true } }),
+    ]);
+    if (orders.length > 1 || payments.length > 1 || authorizations.length > 1 || reservations.length > 1 || sales.length > 1)
+      throw new ConflictException('Vínculos financieros ambiguos');
+    const order = orders[0], payment = payments[0], auth = authorizations[0], reservation = reservations[0], sale = sales[0];
+    const consistent = order && payment && reservation && !order.userId && !order.transactionId &&
+      order.method === payment.method && order.amount.eq(payment.amount) && payment.refundedAmount.isZero() &&
+      payment.provider === 'DEMO' && order.providerId === `demo:${order.id}` &&
+      reservation.stationId === operation.stationId && reservation.terminalOperationId === operation.id &&
+      (!auth || (auth.stationId === operation.stationId && auth.terminalId === operation.terminalId &&
+        auth.pumpId === operation.pumpId && auth.terminalOperationId === operation.id)) &&
+      (!sale || (sale.stationId === operation.stationId && sale.terminalId === operation.terminalId &&
+        sale.pumpId === operation.pumpId && sale.terminalOperationId === operation.id));
+    if (!consistent) throw new ConflictException('Vínculos financieros incompatibles');
+    const events = await tx.paymentEvent.findMany({ where: { orderId: order.id }, orderBy: { createdAt: 'asc' }, select: { eventKey: true, detail: true, kind: true } });
+    const providerEvent = events.find(event => event.eventKey === `demo-terminal:${order.id}`) ||
+      events.find(event => event.eventKey === `demo-confirm:${order.id}`) ||
+      events.find(event => event.eventKey === `demo-intent:${order.id}`);
+    let providerState: string | undefined;
+    try {
+      const remote = JSON.parse(providerEvent?.detail ?? '') as { id?: string; order_number?: string; amount?: number; currency_code?: string; state?: string };
+      if (remote.id === order.providerId && remote.order_number === order.id && remote.amount === order.amount.mul(100).toNumber() && remote.currency_code === 'PEN')
+        providerState = remote.state;
+    } catch { /* invalid provider evidence is rejected below */ }
+    const receipt = sale ? await tx.receipt.findUnique({ where: { transactionId: sale.id }, select: { id: true, number: true } }) : null;
+    const pending = providerState === 'pending' && order?.status === 'PENDING' && payment?.status === 'PENDING' &&
+      order.paymentId === payment.id && !auth && !sale && reservation?.status === 'PENDING_PAYMENT' &&
+      !reservation.authorizationId && !reservation.transactionId && !payment.transactionId;
+    const settled = providerState === 'paid' && order?.status === 'CAPTURED' && payment?.status === 'CAPTURED' &&
+      order.paymentId === payment.id && payment.transactionId === sale?.id &&
+      auth?.status === 'SETTLED' && auth.paymentId === payment.id &&
+      reservation?.status === 'CLOSED' && reservation.authorizationId === auth.id &&
+      reservation.transactionId === sale?.id && sale?.status === 'PAID' && sale.authorizationId === auth.id &&
+      auth.dispensedAmount.gt(0) && receipt;
+    if (!pending && !settled) throw new ConflictException('Estado financiero no apto para recuperación');
+    return {
+      kind: pending ? 'PENDING_PAYMENT' : 'SETTLED_SALE',
+      orderId: order.id, orderStatus: order.status, paymentId: payment.id,
+      paymentStatus: payment.status, authorizationId: auth?.id ?? null,
+      authorizationStatus: auth?.status ?? null, reservationId: reservation.id,
+      reservationStatus: reservation.status, transactionId: sale?.id ?? null,
+      transactionStatus: sale?.status ?? null,
+      receiptId: receipt?.id ?? null, receiptNumber: receipt?.number ?? null,
+      providerEventKey: providerEvent?.eventKey ?? null, providerState,
+    };
+  }
+
+  async issueRecoveryTicket(actor: Extract<Actor, { kind: 'control' }>, operationId: string, reason: string) {
+    if (reason.trim().length < 10) throw new BadRequestException('Justificación insuficiente');
+    if (!actor.global || actor.role !== 'SUPER_ADMIN' ||
+      !actor.permissions.includes('ADMIN_TERMINAL_MANAGE') ||
+      !actor.permissions.includes('ADMIN_INCIDENT_MANAGE'))
+      throw new ForbiddenException('Recuperación excepcional reservada a SUPER_ADMIN');
+    const ticket = randomBytes(32).toString('base64url');
+    const result = await this.db.atomic(async tx => {
+      const candidate = await tx.terminalOperation.findUnique({ where: { operationId } });
+      if (!candidate) throw new NotFoundException('Operación no encontrada');
+      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${candidate.terminalId}::uuid FOR UPDATE`;
+      const operation = await tx.terminalOperation.findUniqueOrThrow({ where: { operationId }, include: { terminal: true } });
+      const systemGrant = await tx.userPermissionGrant.findFirst({ where: { userId: actor.userId, permission: 'SYSTEM_ADMIN', revokedAt: null } });
+      const adminUser = await tx.user.findUnique({ where: { id: actor.userId }, select: { active: true } });
+      if (!systemGrant || !adminUser?.active) throw new ForbiddenException('Autorización administrativa vencida');
+      if (operation.id !== candidate.id || operation.terminalId !== candidate.terminalId || operation.status !== 'ACTIVE' || operation.closedAt ||
+          operation.terminal.lifecycle !== 'REGISTRADA' || operation.terminal.stationId !== operation.stationId)
+        throw new ConflictException('Operación o terminal cambió de estado');
+      const credential = await tx.terminalCredential.findFirst({ where: { terminalId: operation.terminalId, revokedAt: null, expiresAt: { gt: new Date() } } });
+      if (credential) throw new ConflictException('La terminal aún tiene una credencial vigente');
+      const evidence = await this.recoveryEvidence(tx as PrismaService, operation);
+      const key = this.store.key(`recovery-ticket:${digest(ticket)}`);
+      const pendingKey = this.store.key(`recovery-pending:${operation.terminalId}`);
+      const claim = await this.store.command<string>('SET', pendingKey, digest(ticket), 'EX', 300, 'NX');
+      if (claim !== 'OK') throw new ConflictException('Ya existe una recuperación pendiente');
+      await this.store.command('SET', key, JSON.stringify({ operationId, operationRowId: operation.id, terminalId: operation.terminalId, stationId: operation.stationId, actorUserId: actor.userId, evidence }), 'EX', 300);
+      await tx.operationalAuditEvent.create({ data: {
+        eventKey: `terminal-recovery-request:${digest(ticket)}`, actorKind: 'USER', actorUserId: actor.userId,
+        stationId: operation.stationId, terminalId: operation.terminalId, targetId: operation.id,
+        action: 'TERMINAL_RECOVERY_REQUESTED', outcome: 'SUCCESS',
+        details: { operationId, reason, evidence },
+      } });
+      return { terminalId: operation.terminalId, terminalCode: operation.terminal.code, evidence };
+    });
+    return { ticket, expiresInSeconds: 300, operationId, ...result };
+  }
+
+  async auditRecoveryDenied(actor: Extract<Actor, { kind: 'control' }>, operationId: string, reason: string, error: unknown) {
+    const operation = await this.db.terminalOperation.findUnique({ where: { operationId } });
+    await this.db.operationalAuditEvent.create({ data: {
+      eventKey: `terminal-recovery-denied:${randomBytes(16).toString('hex')}`,
+      actorKind: 'USER', actorUserId: actor.userId,
+      stationId: operation?.stationId ?? null, terminalId: operation?.terminalId ?? null,
+      targetId: operation?.id ?? null, action: 'TERMINAL_RECOVERY_REQUESTED', outcome: 'ERROR',
+      details: { operationId, reason, message: error instanceof Error ? error.message.slice(0, 200) : 'unknown' },
+    } });
+  }
+
+  async exchangeRecoveryTicket(req: Request, ticket: string, terminalCode: string) {
+    this.verifyGateway(req);
+    await this.limitTechnical(req);
+    const owner = req.header('x-terminal-owner') || '';
+    if (!uuid.test(owner) || !opaque.test(ticket)) throw new BadRequestException('Datos de recuperación inválidos');
+    const key = this.store.key(`recovery-ticket:${digest(ticket)}`);
+    const raw = await this.store.command<string | null>('GET', key);
+    if (!raw) throw new UnauthorizedException('Recuperación vencida o utilizada');
+    const grant = JSON.parse(raw) as { operationId: string; operationRowId: string; terminalId: string; stationId: string; actorUserId: string; evidence: unknown };
+    const result = await this.db.atomic(async tx => {
+      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${grant.terminalId}::uuid FOR UPDATE`;
+      const terminal = await tx.terminal.findUniqueOrThrow({ where: { id: grant.terminalId } });
+      const operation = await tx.terminalOperation.findUniqueOrThrow({ where: { operationId: grant.operationId } });
+      const systemGrant = await tx.userPermissionGrant.findFirst({ where: { userId: grant.actorUserId, permission: 'SYSTEM_ADMIN', revokedAt: null } });
+      const adminUser = await tx.user.findUnique({ where: { id: grant.actorUserId }, select: { active: true } });
+      if (!systemGrant || !adminUser?.active) throw new ForbiddenException('Autorización administrativa revocada');
+      if (terminal.code !== terminalCode || terminal.stationId !== grant.stationId ||
+          terminal.stationId !== this.config.getOrThrow<string>('KIOSK_STATION_ID') ||
+          terminal.lifecycle !== 'REGISTRADA' || operation.id !== grant.operationRowId ||
+          operation.terminalId !== terminal.id || operation.status !== 'ACTIVE' || operation.closedAt)
+        throw new ConflictException('Terminal u operación incompatible');
+      const evidence = await this.recoveryEvidence(tx as PrismaService, operation);
+      if (JSON.stringify(evidence) !== JSON.stringify(grant.evidence))
+        throw new ConflictException('El estado financiero cambió durante la recuperación');
+      const pendingKey = this.store.key(`recovery-pending:${terminal.id}`);
+      if (await this.store.command<string | null>('GET', pendingKey) !== digest(ticket))
+        throw new UnauthorizedException('Recuperación reemplazada');
+      if (await this.store.command<string | null>('GETDEL', key) !== raw)
+        throw new UnauthorizedException('Recuperación ya utilizada');
+      const token = randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 15 * 60_000);
+      await tx.terminalCredential.updateMany({ where: { terminalId: terminal.id, revokedAt: null }, data: { revokedAt: new Date() } });
+      await this.store.command('DEL', this.store.key(`terminal-owner:${terminal.id}`));
+      await this.store.command('SET', this.store.key(`terminal-owner:${terminal.id}`), digest(owner), 'EX', 900);
+      await this.store.command('SET', this.store.key(`recovery-credential:${digest(token)}`), JSON.stringify({ terminalId: terminal.id, stationId: terminal.stationId, operationId: grant.operationId, owner: digest(owner), expiresAt: expiresAt.getTime() }), 'EX', 900);
+      await this.store.command('SET', this.store.key(`recovery-current:${terminal.id}`), digest(token), 'EX', 900);
+      await this.store.command('DEL', pendingKey);
+      await tx.operationalAuditEvent.create({ data: {
+        eventKey: `terminal-recovery-granted:${digest(ticket)}`, actorKind: 'USER', actorUserId: grant.actorUserId,
+        stationId: terminal.stationId, terminalId: terminal.id, targetId: operation.id,
+        action: 'TERMINAL_RECOVERY_GRANTED', outcome: 'SUCCESS',
+        details: { operationId: grant.operationId, evidence },
+      } });
+      return { token, expiresAt, operationId: grant.operationId, terminalId: terminal.id, evidence };
+    }).catch(async error => {
+      await this.db.operationalAuditEvent.create({ data: {
+        eventKey: `terminal-recovery-exchange-denied:${randomBytes(16).toString('hex')}`,
+        actorKind: 'USER', actorUserId: grant.actorUserId, stationId: grant.stationId,
+        terminalId: grant.terminalId, targetId: grant.operationRowId,
+        action: 'TERMINAL_RECOVERY_GRANTED', outcome: 'ERROR',
+        details: { operationId: grant.operationId, message: error instanceof Error ? error.message.slice(0, 200) : 'unknown' },
+      } }).catch(() => undefined);
+      throw error;
+    });
+    const session = await this.create(true, { operationId: result.operationId, terminalId: result.terminalId });
+    return { ...session, terminalToken: result.token, terminalExpiresAt: result.expiresAt, operationId: result.operationId, evidence: result.evidence };
+  }
+
+  async recoveryCredential(token: string, owner: string) {
+    if (!/^[a-f0-9]{64}$/.test(token) || !uuid.test(owner)) throw new UnauthorizedException('Credencial de recuperación requerida');
+    const raw = await this.store.command<string | null>('GET', this.store.key(`recovery-credential:${digest(token)}`));
+    if (!raw) throw new UnauthorizedException('Credencial de recuperación vencida');
+    const scope = JSON.parse(raw) as { terminalId: string; stationId: string; operationId: string; owner: string; expiresAt: number };
+    if (scope.expiresAt <= Date.now() || scope.owner !== digest(owner) ||
+        await this.store.command<string | null>('GET', this.store.key(`recovery-current:${scope.terminalId}`)) !== digest(token) ||
+        await this.store.command<string | null>('GET', this.store.key(`terminal-owner:${scope.terminalId}`)) !== scope.owner)
+      throw new UnauthorizedException('Control de terminal inválido');
+    return scope;
+  }
+
+  async claimTerminal(req: Request, terminalId: string, operationId?: string) {
+    const owner = req.header('x-terminal-owner') || '';
+    if (!uuid.test(owner)) throw new BadRequestException('Identidad de pestaña requerida');
+    return this.db.atomic(async (tx) => {
+      await tx.$queryRaw`SELECT "id" FROM "Terminal" WHERE "id"=${terminalId}::uuid FOR UPDATE`;
+      const active = await tx.terminalOperation.findFirst({ where: { terminalId, closedAt: null } });
+      const key = this.store.key(`terminal-owner:${terminalId}`);
+      const hash = digest(owner);
+      const current = await this.store.command<string | null>('GET', key);
+      if (current && current !== hash) {
+        const recoveryHash = await this.store.command<string | null>('GET', this.store.key(`recovery-current:${terminalId}`));
+        const raw = recoveryHash && !active
+          ? await this.store.command<string | null>('GET', this.store.key(`recovery-credential:${recoveryHash}`)) : null;
+        let closedRecovery = false;
+        if (raw) {
+          const scope = JSON.parse(raw) as { terminalId: string; operationId: string; owner: string };
+          const prior = scope.terminalId === terminalId && scope.owner === current
+            ? await tx.terminalOperation.findUnique({ where: { operationId: scope.operationId }, select: { closedAt: true } }) : null;
+          closedRecovery = Boolean(prior?.closedAt);
+        }
+        if (!closedRecovery)
+          throw new ConflictException('Terminal ocupada en otra pestaña. Conserva la sesión original.');
+        await this.store.command('SET', key, hash, 'EX', 120);
+        await this.store.command('DEL', this.store.key(`recovery-current:${terminalId}`));
+      }
+      if (active && !current && (operationId !== active.operationId || !(await isEmptyAttention(tx, active))))
+        throw new ConflictException('Operación activa; recupera la pestaña original o solicita asistencia.');
+      if (!current) await this.store.command('SET', key, hash, 'EX', 120);
+      else await this.store.command('EXPIRE', key, 120);
+      return { claimed: true, activeOperationId: active?.operationId ?? null };
+    });
+  }
+
+  async assertTerminalOwner(terminalId: string, owner: string, strict = false) {
+    const key = this.store.key(`terminal-owner:${terminalId}`);
+    const current = await this.store.command<string | null>('GET', key);
+    if (!current && !strict) return; // Existing in-flight sessions before this feature remain recoverable.
+    if (!uuid.test(owner) || current !== digest(owner))
+      throw new ConflictException('Terminal ocupada en otra pestaña. Conserva la sesión original.');
+    await this.store.command('EXPIRE', key, 120);
+  }
+  async touchTerminalOwner(terminalId: string, owner: string) {
+    if (!uuid.test(owner)) return;
+    const key = this.store.key(`terminal-owner:${terminalId}`);
+    if (await this.store.command<string | null>('GET', key) === digest(owner))
+      await this.store.command('EXPIRE', key, 120);
+  }
+
+  async releaseClosedRecovery(terminalId: string, operationId: string, owner: string) {
+    if (!uuid.test(owner)) return;
+    const operation = await this.db.terminalOperation.findUnique({ where: { operationId }, select: { terminalId: true, closedAt: true } });
+    if (!operation?.closedAt || operation.terminalId !== terminalId) return;
+    const key = this.store.key(`terminal-owner:${terminalId}`);
+    if (await this.store.command<string | null>('GET', key) === digest(owner))
+      await this.store.command('DEL', key);
+  }
+
   async logout(req: Request) {
     this.verifyGateway(req);
     const token = req.header('x-kiosk-session') || '';
@@ -324,6 +559,22 @@ export class KioskService {
     if (!kioskRoute(method, path))
       throw new ForbiddenException('Operación de terminal no permitida');
     const stationId = session.stationId;
+    const technical = req.header('x-terminal-session') || '';
+    if (session.recoveryOperationId) {
+      const scope = await this.recoveryCredential(technical, req.header('x-terminal-owner') || '');
+      if (scope.operationId !== session.recoveryOperationId || scope.terminalId !== session.recoveryTerminalId || scope.stationId !== stationId)
+        throw new ForbiddenException('Recuperación fuera de alcance');
+      const order = await this.db.onlineOrder.findUnique({ where: { operationId: scope.operationId } });
+      if (!order || order.userId || order.transactionId ||
+          !(method === 'POST' && path === `/api/v1/online-orders/${order.id}/cancel` && order.status === 'PENDING'))
+        throw new ForbiddenException('Recuperación limitada a la orden existente');
+    }
+    if (!session.recoveryOperationId && method === 'POST' && technical && /^[a-f0-9]{64}$/.test(technical) &&
+        (/^\/api\/v1\/(authorizations|transactions|online-orders)(?:\/|$)/.test(path))) {
+      const credential = await this.db.terminalCredential.findUnique({ where: { tokenHash: digest(technical) } });
+      if (!credential || credential.revokedAt || credential.expiresAt <= new Date()) throw new UnauthorizedException('Credencial técnica vencida');
+      await this.assertTerminalOwner(credential.terminalId, req.header('x-terminal-owner') || '');
+    }
     if (method === 'POST' && path === '/api/v1/admin/check-plate') {
       await this.binding(body.operationId, stationId, true, 'plate-check');
     }
@@ -401,7 +652,9 @@ export class KioskService {
         const order = await this.db.onlineOrder.findUnique({ where: { id } });
         if (!order || order.userId || order.transactionId)
           throw new ForbiddenException();
-        await this.binding(order.operationId, stationId, false);
+        if (session.recoveryOperationId) {
+          if (order.operationId !== session.recoveryOperationId) throw new ForbiddenException();
+        } else await this.binding(order.operationId, stationId, false);
       }
       if (resource === 'payments') {
         const row = await this.db.payment.findUnique({

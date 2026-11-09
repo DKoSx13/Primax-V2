@@ -97,7 +97,7 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
       const body = { terminalId };
       const path = '/api/v1/kiosk/session/terminal-bootstrap';
       const signature = createHmac('sha256', values.KIOSK_GATEWAY_SECRET)
-        .update(JSON.stringify(['POST', path, timestamp, body, '', '', technical, '']))
+        .update(JSON.stringify(['POST', path, timestamp, body, '', '', technical, '', '']))
         .digest('hex');
       const headers: Record<string, string> = { 'x-kiosk-time': timestamp,
         'x-kiosk-signature': signature, 'x-terminal-session': technical };

@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { createHmac, randomBytes } from 'node:crypto';
+import { createHash, createHmac, randomBytes } from 'node:crypto';
 import { hashSync } from 'bcryptjs';
 import { Request } from 'express';
 import { KioskService } from './kiosk.service';
@@ -37,6 +37,7 @@ class SharedTestStore {
       this.data.set(k, String(args[1]));
       return 'OK';
     }
+    if (command === 'EXPIRE') return Number(this.data.has(k));
     throw Error('Unexpected command');
   }
   async limit(scope: string, max: number) {
@@ -60,7 +61,7 @@ function request(
   };
   headers['x-kiosk-signature'] = createHmac('sha256', key)
     .update(
-      JSON.stringify([method, path, timestamp, body, token, csrf, '', '']),
+      JSON.stringify([method, path, timestamp, body, token, csrf, '', '', '']),
     )
     .digest('hex');
   return {
@@ -109,6 +110,62 @@ function fixture() {
   return { a, b, store, db, config, login };
 }
 describe('operator security across independent function instances', () => {
+  it('assigns one tab owner and refuses a competing tab while preserving financial attention', async () => {
+    const { a, b, db, store } = fixture();
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const operationId = '55555555-5555-4555-8555-555555555555';
+    const first = '66666666-6666-4666-8666-666666666666';
+    const second = '77777777-7777-4777-8777-777777777777';
+    const tx = {
+      $queryRaw: jest.fn().mockResolvedValue([]),
+      terminalOperation: { findFirst: jest.fn().mockResolvedValue(null) },
+      fuelAuthorization: { findFirst: jest.fn().mockResolvedValue(null) },
+      transaction: { findFirst: jest.fn().mockResolvedValue(null) },
+      payment: { findFirst: jest.fn().mockResolvedValue({ id }) },
+      onlineOrder: { findFirst: jest.fn().mockResolvedValue(null) },
+      inventoryReservation: { findFirst: jest.fn().mockResolvedValue(null) },
+      operationalIncident: { findFirst: jest.fn().mockResolvedValue(null) },
+    };
+    Object.assign(db, { atomic: jest.fn(async (work: (client: typeof tx) => Promise<unknown>) => work(tx)) });
+    const tab = (value: string) => ({ header: (name: string) => name === 'x-terminal-owner' ? value : '' }) as Request;
+    await expect(a.claimTerminal(tab(first), terminalId)).resolves.toMatchObject({ claimed: true });
+    tx.terminalOperation.findFirst.mockResolvedValue({ operationId, id: operationId, terminalId, status: 'ACTIVE' });
+    await expect(b.claimTerminal(tab(second), terminalId, operationId)).rejects.toThrow('ocupada');
+    await expect(b.assertTerminalOwner(terminalId, second, true)).rejects.toThrow('ocupada');
+    await expect(a.assertTerminalOwner(terminalId, first, true)).resolves.toBeUndefined();
+    store.data.delete(store.key(`terminal-owner:${terminalId}`));
+    await expect(b.claimTerminal(tab(second), terminalId, operationId)).rejects.toThrow('Operación activa');
+  });
+  it('reclaims only a closed recovery owner, never an active financial operation', async () => {
+    const { a, db, store } = fixture();
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const operationId = '55555555-5555-4555-8555-555555555555';
+    const first = '66666666-6666-4666-8666-666666666666';
+    const second = '77777777-7777-4777-8777-777777777777';
+    const digestOwner = (owner: string) => createHash('sha256').update(owner).digest('hex');
+    const recoveryHash = 'a'.repeat(64);
+    const tx = {
+      $queryRaw: jest.fn().mockResolvedValue([]),
+      terminalOperation: { findFirst: jest.fn().mockResolvedValue(null), findUnique: jest.fn().mockResolvedValue({ closedAt: new Date() }) },
+    };
+    Object.assign(db, { atomic: jest.fn(async (work: (client: typeof tx) => Promise<unknown>) => work(tx)) });
+    const tab = (owner: string) => ({ header: (name: string) => name === 'x-terminal-owner' ? owner : '' }) as Request;
+    store.data.set(store.key(`terminal-owner:${terminalId}`), digestOwner(first));
+    store.data.set(store.key(`recovery-current:${terminalId}`), recoveryHash);
+    store.data.set(store.key(`recovery-credential:${recoveryHash}`), JSON.stringify({ terminalId, operationId, owner: digestOwner(first) }));
+    await expect(a.claimTerminal(tab(second), terminalId)).resolves.toMatchObject({ claimed: true });
+    expect(store.data.get(store.key(`terminal-owner:${terminalId}`))).toBe(digestOwner(second));
+    expect(store.data.has(store.key(`recovery-current:${terminalId}`))).toBe(false);
+    store.data.set(store.key(`terminal-owner:${terminalId}`), digestOwner(first));
+    store.data.set(store.key(`recovery-current:${terminalId}`), recoveryHash);
+    tx.terminalOperation.findUnique.mockResolvedValue({ closedAt: null });
+    await expect(a.claimTerminal(tab(second), terminalId)).rejects.toThrow('ocupada');
+    tx.terminalOperation.findFirst.mockResolvedValue({ operationId, id: operationId, terminalId, status: 'ACTIVE' });
+    await expect(a.claimTerminal(tab(second), terminalId)).rejects.toThrow('ocupada');
+    Object.assign(db, { terminalOperation: { findUnique: jest.fn().mockResolvedValue({ terminalId, closedAt: new Date() }) } });
+    await a.releaseClosedRecovery(terminalId, operationId, first);
+    expect(store.data.has(store.key(`terminal-owner:${terminalId}`))).toBe(false);
+  });
   it('rotates an existing terminal credential atomically during bootstrap', async () => {
     const { a, db } = fixture();
     const terminalId = '44444444-4444-4444-8444-444444444444';

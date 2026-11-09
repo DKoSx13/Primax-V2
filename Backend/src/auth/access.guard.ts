@@ -58,8 +58,18 @@ export class AccessGuard implements CanActivate {
         where: { tokenHash: createHash('sha256').update(token).digest('hex') },
         include: { terminal: true },
       });
+      if (!credential) {
+        const recovery = await this.kiosk.recoveryCredential(token, req.header('x-terminal-owner') || '');
+        const terminal = await this.db.terminal.findUnique({ where: { id: recovery.terminalId } });
+        const operation = await this.db.terminalOperation.findUnique({ where: { operationId: recovery.operationId } });
+        if (!terminal || terminal.lifecycle !== 'REGISTRADA' || terminal.stationId !== recovery.stationId ||
+            !operation || operation.terminalId !== terminal.id || operation.closedAt)
+          throw new UnauthorizedException('Recuperación ya no válida');
+        req.actor = { kind: 'terminal', terminalId: terminal.id, stationId: terminal.stationId,
+          credentialId: '', recoveredOperationId: recovery.operationId };
+        return true;
+      }
       if (
-        !credential ||
         credential.revokedAt ||
         credential.expiresAt <= new Date() ||
         credential.terminal.lifecycle !== 'REGISTRADA' ||

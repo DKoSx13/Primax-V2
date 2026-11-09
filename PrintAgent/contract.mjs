@@ -9,7 +9,7 @@ export function validateReceipt(r) {
   if(r.schemaVersion!==2||r.demo!==true||!['BOLETA','FACTURA'].includes(r.documentType)||!['PREPAGO','POSTPAGO'].includes(r.mode)||!states.includes(r.state))bad();
   const limits={id:100,issuedAt:24,station:160,pump:10,plate:20,dni:8,ruc:11,businessName:160,fuel:80,paymentMethod:30};
   for(const [key,max]of Object.entries(limits))if(typeof r[key]!=='string'||r[key].length>max||/[\x00-\x1f\x7f]/.test(r[key])||/^(undefined|null|NaN)$/i.test(r[key])||(!['dni','ruc','businessName'].includes(key)&&!r[key].trim()))bad();
-  if(!/^[A-Za-z0-9-]+$/.test(r.id)||r.pump!=='03'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(r.issuedAt)||!Number.isFinite(Date.parse(r.issuedAt))||new Date(r.issuedAt).toISOString()!==r.issuedAt)bad();
+  if(!/^[A-Za-z0-9-]+$/.test(r.id)||!/^\d{2}$/.test(r.pump)||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$/.test(r.issuedAt)||!Number.isFinite(Date.parse(r.issuedAt))||new Date(r.issuedAt).toISOString()!==r.issuedAt)bad();
   if((r.dni&&!/^\d{8}$/.test(r.dni))||(r.ruc&&!/^\d{11}$/.test(r.ruc)))bad();
   if(r.documentType==='BOLETA'?(r.ruc!==''||r.businessName!==''):r.dni!=='')bad();
   for(const key of ['unitPrice','subtotal','discount','total','pending'])if(typeof r[key]!=='string'||!/^\d{1,10}\.\d{2}$/.test(r[key]))bad();

@@ -27,6 +27,8 @@ import { ControlOperationsService } from './control-operations.service';
 
 class ControlOperationFilters {
   @IsOptional() @IsUUID() stationId?: string;
+  @IsOptional() @IsUUID() terminalId?: string;
+  @IsOptional() @IsUUID() pumpId?: string;
   @IsOptional() @IsString() @MaxLength(40) status?: string;
   @IsOptional() @IsEnum(PurchaseMode) mode?: PurchaseMode;
   @IsOptional() @IsDateString() from?: string;
@@ -81,6 +83,8 @@ export class ControlOperationsController {
   ) {
     return this.service.operations(controlActor(actor), {
       stationId: query.stationId,
+      terminalId: query.terminalId,
+      pumpId: query.pumpId,
       status: query.status,
       mode: query.mode,
       from: date(query.from),

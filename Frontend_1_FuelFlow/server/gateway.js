@@ -23,7 +23,7 @@ function cookieToken(value = '', name = COOKIE) {
   if (token && !/^[A-Za-z0-9_-]{43}$/.test(token)) fail(401, 'Sesión inválida');
   return token;
 }
-function terminalCookies(value = '', local = false) {
+function terminalCookies(value = '', names) {
   const entries = value.split(';').map(v => v.trim());
   function one(name, pattern) {
     const found = entries.filter(v => v.startsWith(name + '='));
@@ -32,7 +32,17 @@ function terminalCookies(value = '', local = false) {
     if (token && !pattern.test(token)) fail(401, 'Sesión técnica inválida');
     return token;
   }
-  return { technical: one(local ? 'primax-terminal-local' : TERMINAL_COOKIE, /^[a-f0-9]{64}$/), terminalCsrf: one(local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF, /^[A-Za-z0-9_-]{43}$/) };
+  return { technical: one(names.technical, /^[a-f0-9]{64}$/), terminalCsrf: one(names.csrf, /^[A-Za-z0-9_-]{43}$/) };
+}
+function cookieNames(env, local) {
+  const scope = env.FUELFLOW_COOKIE_SCOPE || '';
+  if (scope && !/^[0-9]{2,5}$/.test(scope)) fail(503, 'Configuración de terminal pendiente');
+  const suffix = scope ? `-${scope}` : '';
+  return {
+    session: (local ? LOCAL_COOKIE : COOKIE) + suffix,
+    technical: (local ? 'primax-terminal-local' : TERMINAL_COOKIE) + suffix,
+    csrf: (local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF) + suffix,
+  };
 }
 function equal(a, b) {
   const left = Buffer.from(a), right = Buffer.from(b);
@@ -77,17 +87,20 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       if (req.headers.origin && !allowedOrigin(req.headers.origin) || req.method !== 'GET' && !allowedOrigin(req.headers.origin)) fail(403, 'Origen no autorizado');
       const url = new URL(req.url, publicOrigin);
       // No client-controlled destination, headers, cookies or query forwarding.
-      const dynamicOperation = url.pathname.match(/^\/api\/v1\/terminal\/operations\/([0-9a-fA-F-]{36})(?:\/close)?$/);
+      const dynamicOperation = url.pathname.match(/^\/api\/v1\/terminal\/operations\/([0-9a-fA-F-]{36})(?:\/(?:close|recovery-state))?$/);
       const dynamicBusiness = url.pathname.match(/^\/api\/v1\/(?:authorizations|online-orders|transactions)\/([0-9a-fA-F-]{36})(?:\/(?:progress|release|intervention|demo-confirm|cancel|reselect))?$/);
       const dynamicVehicle = url.pathname.match(/^\/api\/v1\/vehicles\/([A-Z0-9]{3}-[0-9]{3})$/);
       const routeId = dynamicOperation?.[1] || dynamicBusiness?.[1] || dynamicVehicle?.[1];
       const routeParam = dynamicVehicle ? 'plate' : 'id';
       const frameworkValues = url.searchParams.getAll(routeParam);
       if ((!routeId && url.search) || (routeId && (frameworkValues.length > 1 || [...url.searchParams.keys()].some(key => key !== routeParam) || (frameworkValues.length && frameworkValues[0] !== routeId))) || !['GET', 'POST'].includes(req.method)) fail(403, 'Operación no permitida');
-      const cookieName = local ? LOCAL_COOKIE : COOKIE;
+      const names = cookieNames(env, local);
+      const cookieName = names.session;
       const cookieAttributes = `Path=/; HttpOnly; ${local ? '' : 'Secure; '}SameSite=Strict`;
       const token = cookieToken(req.headers.cookie, cookieName);
-      const { technical, terminalCsrf } = terminalCookies(req.headers.cookie, local);
+      const { technical, terminalCsrf } = terminalCookies(req.headers.cookie, names);
+      const owner = req.headers['x-fuelflow-tab'] || '';
+      if (typeof owner !== 'string' || owner && !/^[0-9a-fA-F-]{36}$/.test(owner)) fail(400, 'Identidad de pestaña inválida');
       const csrf = req.headers['x-csrf-token'] || '';
       if (typeof csrf !== 'string' || csrf.length > 100) fail(403, 'CSRF inválido');
       const body = await readBody(req);
@@ -102,12 +115,12 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       }
       async function call(method, path, payload = null, { terminal = '', authorization = '' } = {}) {
         const timestamp = String(Date.now());
-        const message = JSON.stringify([method, path, timestamp, payload, token, csrf, terminal, authorization]);
+        const message = JSON.stringify([method, path, timestamp, payload, token, csrf, terminal, authorization, owner]);
         const signature = createHmac('sha256', env.KIOSK_GATEWAY_SECRET).update(message).digest('hex');
         let response;
         try {
           response = await fetcher(backend + path, { method, redirect: 'error', cache: 'no-store',
-            headers: { 'Content-Type': 'application/json', 'x-kiosk-time': timestamp, 'x-kiosk-signature': signature, 'x-kiosk-session': token, 'x-csrf-token': csrf, 'x-terminal-session': terminal, authorization },
+            headers: { 'Content-Type': 'application/json', 'x-kiosk-time': timestamp, 'x-kiosk-signature': signature, 'x-kiosk-session': token, 'x-csrf-token': csrf, 'x-terminal-session': terminal, authorization, 'x-terminal-owner': owner },
             ...(method !== 'GET' ? { body: JSON.stringify(payload) } : {}), signal: AbortSignal.timeout(18000),
           });
         } catch { fail(503, 'Servicio temporalmente no disponible'); }
@@ -125,16 +138,36 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         'POST /api/kiosk/session/logout': ['POST', sessionPath + '/logout'],
       };
       const sessionRoute = sessions[req.method + ' ' + url.pathname];
+      if (req.method === 'POST' && url.pathname === '/api/kiosk/terminal-recovery') {
+        if (!owner || !body || Object.keys(body).length !== 1 || !/^[A-Za-z0-9_-]{43}$/.test(body.ticket || '')) fail(400, 'Recuperación inválida');
+        const terminalCode = env.FUELFLOW_TERMINAL_CODE;
+        if (!terminalCode || !/^[A-Z0-9-]{3,30}$/.test(terminalCode)) fail(503, 'Terminal no configurada');
+        const { value } = await call('POST', sessionPath + '/terminal-recovery', { ticket: body.ticket, terminalCode });
+        if (!/^[A-Za-z0-9_-]{43}$/.test(value.token || '') || !/^[A-Za-z0-9_-]{43}$/.test(value.csrfToken || '') ||
+            !/^[a-f0-9]{64}$/.test(value.terminalToken || '') || !/^[0-9a-fA-F-]{36}$/.test(value.operationId || '') ||
+            value.authenticated !== true) fail(502, 'Respuesta inválida');
+        res.setHeader('Set-Cookie', [
+          `${names.session}=${value.token}; ${cookieAttributes}; Max-Age=${value.ttl}`,
+          `${names.technical}=${value.terminalToken}; Path=/; HttpOnly; ${local ? '' : 'Secure; '}SameSite=Strict; Max-Age=900`,
+          `${names.csrf}=${randomBytes(32).toString('base64url')}; Path=/; ${local ? '' : 'Secure; '}SameSite=Strict; Max-Age=900`,
+        ]);
+        res.statusCode = 200;
+        res.end(JSON.stringify({ authenticated: true, operationId: value.operationId, evidence: value.evidence,
+          csrfToken: value.csrfToken, expiresAt: value.terminalExpiresAt }));
+        return;
+      }
       if (req.method === 'POST' && url.pathname === '/api/kiosk/terminal-bootstrap') {
         if (Object.keys(body).length) fail(400, 'Solicitud inválida');
         const terminalId = env.FUELFLOW_TERMINAL_ID;
         if (terminalId && !/^[0-9a-fA-F-]{36}$/.test(terminalId)) fail(503, 'Configuración de terminal pendiente');
-        const { value } = await call('POST', sessionPath + '/terminal-bootstrap', terminalId ? { terminalId } : {}, { terminal: technical });
+        const terminalCode = env.FUELFLOW_TERMINAL_CODE;
+        if (terminalCode && !/^[A-Z0-9-]{3,30}$/.test(terminalCode)) fail(503, 'Configuración de terminal pendiente');
+        const { value } = await call('POST', sessionPath + '/terminal-bootstrap', { ...(terminalId ? { terminalId } : {}), ...(terminalCode ? { terminalCode } : {}) }, { terminal: technical });
         if (!/^[A-Za-z0-9_-]{43}$/.test(value.token || '') || !/^[A-Za-z0-9_-]{43}$/.test(value.csrfToken || '') ||
             !/^[a-f0-9]{64}$/.test(value.terminalToken || '') || !/^[0-9a-fA-F-]{36}$/.test(value.terminalId || '') ||
             value.authenticated !== true || !Number.isInteger(value.ttl) || value.ttl < 1 || value.ttl > 1800) fail(502, 'Respuesta inválida');
-        const technicalName = local ? 'primax-terminal-local' : TERMINAL_COOKIE;
-        const csrfName = local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF;
+        const technicalName = names.technical;
+        const csrfName = names.csrf;
         const secure = local ? '' : 'Secure; ';
         res.setHeader('Set-Cookie', [
           `${cookieName}=${value.token}; ${cookieAttributes}; Max-Age=${value.ttl}`,
@@ -151,6 +184,7 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         const { value, status } = await call(...sessionRoute, body);
         const { token: replacement, ttl } = value;
         const safe = { authenticated: value.authenticated === true, csrfToken: value.csrfToken, expiresAt: value.expiresAt,
+          ...(value.recoveryOperationId ? { recoveryOperationId: value.recoveryOperationId } : {}),
           ...(value.authenticated === true ? { stationId: value.stationId } : {}) };
         if (replacement) {
           if (!/^[A-Za-z0-9_-]{43}$/.test(replacement) || !Number.isInteger(ttl) || ttl < 1 || ttl > 1800) fail(502, 'Respuesta inválida');
@@ -170,8 +204,10 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         res.statusCode = upstream.status; res.end(content); return;
       }
       const terminalPath = url.pathname === '/api/v1/terminal/me' && req.method === 'GET' ||
+        url.pathname === '/api/v1/terminal/claim' && req.method === 'POST' ||
         url.pathname === '/api/v1/terminal/operations' && req.method === 'POST' ||
         new RegExp(`^/api/v1/terminal/operations/${uuid}$`).test(url.pathname) && req.method === 'GET' ||
+        new RegExp(`^/api/v1/terminal/operations/${uuid}/recovery-state$`).test(url.pathname) && req.method === 'GET' ||
         new RegExp(`^/api/v1/terminal/operations/${uuid}/close$`).test(url.pathname) && req.method === 'POST' ||
         url.pathname === '/api/v1/terminal/assistance' && req.method === 'POST' ||
         new RegExp(`^/api/v1/terminal/assistance/${uuid}$`).test(url.pathname) && req.method === 'GET' ||
@@ -181,14 +217,21 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
         if (req.method === 'POST' && (!terminalCsrf || !csrf || !equal(terminalCsrf, csrf))) fail(403, 'CSRF inválido');
         const { value, status } = await call(req.method, url.pathname, body, { terminal: technical });
         if (url.pathname === '/api/v1/terminal/me') {
-          const csrfName = local ? 'primax-terminal-csrf-local' : TERMINAL_CSRF;
+          const csrfName = names.csrf;
           res.setHeader('Set-Cookie', `${csrfName}=${randomBytes(32).toString('base64url')}; Path=/; ${local ? '' : 'Secure; '}SameSite=Strict; Max-Age=28800`);
         }
-        const safe = url.pathname.startsWith('/api/v1/terminal/assistance')
+        const safe = url.pathname === '/api/v1/terminal/claim'
+          ? { claimed: value.claimed === true, activeOperationId: value.activeOperationId || null }
+          : url.pathname.startsWith('/api/v1/terminal/assistance')
           ? { id: value.id, status: value.status, createdAt: value.createdAt, acceptedAt: value.acceptedAt, resolvedAt: value.resolvedAt, escalatedAt: value.escalatedAt, cancelledAt: value.cancelledAt }
           : url.pathname === '/api/v1/terminal/me'
-          ? { prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus,
+          ? { code: value.code, pumpCode: value.pump?.code || null, prepared: value.prepared === true, canStart: value.canStart === true, operationalStatus: value.operationalStatus,
               activeOperationId: value.activeOperationId || null, emptyAttention: value.emptyAttention === true }
+          : url.pathname.endsWith('/recovery-state')
+          ? { operationId: value.operationId, number: value.number, status: value.status, closedAt: value.closedAt,
+              terminalCode: value.terminalCode, pumpCode: value.pumpCode,
+              order: value.order, payment: value.payment, authorization: value.authorization,
+              reservation: value.reservation, sale: value.sale, receipt: value.receipt }
           : { operationId: value.operationId, status: value.status, closedAt: value.closedAt };
         res.statusCode = status; res.end(JSON.stringify(safe)); return;
       }
@@ -196,11 +239,11 @@ export function createGateway({ env = process.env, fetcher = globalThis.fetch } 
       if (!token || !csrf) fail(401, 'Inicia sesión de operador');
       const saleCreate = req.method === 'POST' && (['/api/v1/authorizations', '/api/v1/online-orders', '/api/v1/transactions'].includes(url.pathname) || new RegExp(`^/api/v1/online-orders/${uuid}/reselect$`).test(url.pathname));
       if (saleCreate && !technical) fail(401, 'Esta terminal no está disponible en este momento');
-      const { value: session } = await call('POST', sessionPath + '/authorize', { method: req.method, path: url.pathname, ...(body ? { body } : {}) });
+      const { value: session } = await call('POST', sessionPath + '/authorize', { method: req.method, path: url.pathname, ...(body ? { body } : {}) }, { terminal: technical });
       if (!session.allowed || typeof session.stationId !== 'string') fail(401, 'Inicia sesión de operador');
       // Station comes from authenticated server state, never from browser configuration.
       if (body?.stationId !== undefined && body.stationId !== session.stationId || body?.authorization?.stationId !== undefined && body.authorization.stationId !== session.stationId) fail(403, 'Estación no autorizada');
-      const { value, status } = await call(req.method, url.pathname, body, { terminal: saleCreate ? technical : '' });
+      const { value, status } = await call(req.method, url.pathname, body, { terminal: technical });
       res.statusCode = status; res.end(JSON.stringify(value));
     } catch (error) {
       res.statusCode = error instanceof GatewayError ? error.status : 503;

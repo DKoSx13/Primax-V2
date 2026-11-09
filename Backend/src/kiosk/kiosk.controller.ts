@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  Matches,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -23,6 +24,11 @@ class TargetOperation {
 }
 class TerminalBootstrapDto {
   @IsOptional() @IsUUID() terminalId?: string;
+  @IsOptional() @IsString() @Matches(/^[A-Z0-9-]{3,30}$/) terminalCode?: string;
+}
+class TerminalRecoveryDto {
+  @IsString() @Matches(/^[A-Za-z0-9_-]{43}$/) ticket: string;
+  @IsString() @Matches(/^[A-Z0-9-]{3,30}$/) terminalCode: string;
 }
 @Public()
 @Controller('kiosk/session')
@@ -35,7 +41,10 @@ export class KioskController {
     return this.service.login(req, body);
   }
   @Post('terminal-bootstrap') terminalBootstrap(@Req() req: Request, @Body() body: TerminalBootstrapDto) {
-    return this.service.bootstrapTerminal(req, body.terminalId);
+    return this.service.bootstrapTerminal(req, body.terminalId, body.terminalCode);
+  }
+  @Post('terminal-recovery') terminalRecovery(@Req() req: Request, @Body() body: TerminalRecoveryDto) {
+    return this.service.exchangeRecoveryTicket(req, body.ticket, body.terminalCode);
   }
   @Post('logout') logout(@Req() req: Request) {
     return this.service.logout(req);

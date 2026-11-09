@@ -10,6 +10,7 @@ test('temporary contention retries automatically without requiring an update but
   const button = { disabled: false, addEventListener: (_event, handler) => { click = handler; } };
   const note = { textContent: '' };
   const title = { textContent: '' };
+  const inert = { hidden: true, addEventListener: () => {} };
   try {
     globalThis.FUELFLOW_KIOSK_AUTH = true;
     globalThis.document = {
@@ -17,10 +18,11 @@ test('temporary contention retries automatically without requiring an update but
       createElement: () => ({
         className: '', innerHTML: '', setAttribute: () => {}, showModal: () => {},
         close: () => {}, remove: () => {}, addEventListener: () => {},
-        querySelector: (selector) => selector === 'button' ? button : selector === 'h1' ? title : note,
+        querySelector: (selector) => selector === 'button' || selector === '[data-retry]' ? button : selector === 'h1' ? title : selector === '.terminal-access-note' ? note : inert,
       }),
     };
     globalThis.fetch = async (path) => {
+      if (path === '/api/kiosk/session') return { ok: true, json: async () => ({ authenticated: false }) };
       if (path === '/api/kiosk/terminal-bootstrap') {
         bootstrapCalls++;
         return bootstrapCalls === 1

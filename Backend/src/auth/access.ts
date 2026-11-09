@@ -19,6 +19,7 @@ export type Actor =
       terminalId: string;
       stationId: string;
       credentialId: string;
+      recoveredOperationId?: string;
     }
   | { kind: 'kiosk'; stationId?: string };
 export const Public = () => SetMetadata('access', 'public');

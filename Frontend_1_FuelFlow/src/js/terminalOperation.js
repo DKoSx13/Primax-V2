@@ -7,10 +7,15 @@ export async function ensureTerminalOperation({ terminal = terminalService, tran
   try { state = await terminal.me(); }
   catch { throw Error('Esta terminal no está disponible. Solicita asistencia al personal de la estación.'); }
   let operationId = transactions.begin().operationId;
+  const pending = transactions.current?.();
   if (state.activeOperationId && state.activeOperationId !== operationId) {
     if (!state.emptyAttention) throw Error('Hay una operación financiera pendiente. Recupera su sesión original o solicita intervención autorizada.');
     operationId = transactions.resumeEmptyOperation(state.activeOperationId).operationId;
   }
+  if (state.activeOperationId === operationId && !state.emptyAttention &&
+      !pending?.payload && !pending?.authorizationRequest && !pending?.authorization &&
+      !pending?.result && !pending?.intervention && !pending?.snapshot?.onlineOrderId)
+    throw Error('Backend conserva un pago o una reserva de esta operación. Recupera la pestaña original o solicita asistencia antes de iniciar otro pago.');
   try {
     const existing = await terminal.operation(operationId);
     if (existing.operationId !== operationId) throw Error('La operación requiere asistencia.');

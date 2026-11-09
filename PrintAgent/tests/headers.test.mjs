@@ -14,7 +14,7 @@ test('health GET only requires the authorized Origin/Host; jobs keep the protoco
  assert.equal((await request('GET','/health',{'Content-Type':'application/json; charset=utf-8'})).status,200);
  assert.equal((await request('GET','/jobs/receipt-header-test')).data.code,'PRINT_MARKER_REQUIRED');
  assert.equal((await request('GET','/jobs/receipt-header-test',{'X-FuelFlow-Print':'1'})).status,404);
- const receipt=thermalReceipt({id:'header-test',createdAt:'2026-10-25T15:00:00Z',station:{name:'DEMO'},plate:'DEMO-001',fuel:{name:'DEMO'},gallons:'1',unitPrice:'10',amount:'10',receiptType:'BOLETA',receiptDni:'00000000',mode:'PREPAGO',status:'PAYMENT_PENDING',payment:{method:'PRUEBA',status:'PENDING'}});
+ const receipt=thermalReceipt({id:'header-test',createdAt:'2026-10-25T15:00:00Z',station:{name:'DEMO'},plate:'DEMO-001',fuel:{name:'DEMO'},gallons:'1',unitPrice:'10',amount:'10',receiptType:'BOLETA',receiptDni:'00000000',mode:'PREPAGO',status:'PAYMENT_PENDING',payment:{method:'PRUEBA',status:'PENDING'}},'03');
  assert.equal((await request('POST','/jobs/receipt-header-test',{'Content-Type':'application/json'},receipt)).data.code,'PRINT_MARKER_REQUIRED');
  assert.equal((await request('POST','/jobs/receipt-header-test',{'X-FuelFlow-Print':'1'},receipt)).data.code,'JSON_CONTENT_TYPE_REQUIRED');
  assert.equal(submissions,0);

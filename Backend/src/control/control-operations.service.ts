@@ -58,6 +58,8 @@ export class ControlOperationsService {
     actor: ControlActor,
     filters: {
       stationId?: string;
+      terminalId?: string;
+      pumpId?: string;
       status?: string;
       mode?: PurchaseMode;
       from?: Date;
@@ -71,6 +73,10 @@ export class ControlOperationsService {
     );
     const range = this.dateRange(filters.from, filters.to);
     const station = ids ? { stationId: { in: ids } } : {};
+    const equipment = {
+      ...(filters.terminalId ? { terminalId: filters.terminalId } : {}),
+      ...(filters.pumpId ? { pumpId: filters.pumpId } : {}),
+    };
     const createdAt =
       range.from || range.to
         ? { ...(range.from ? { gte: range.from } : {}), ...(range.to ? { lte: range.to } : {}) }
@@ -79,6 +85,7 @@ export class ControlOperationsService {
       this.db.fuelAuthorization.findMany({
         where: {
           ...station,
+          ...equipment,
           ...(createdAt ? { createdAt } : {}),
           ...(filters.mode ? { mode: filters.mode } : {}),
         },
@@ -87,7 +94,7 @@ export class ControlOperationsService {
           fuel: { select: { id: true, code: true, name: true } },
           terminal: { select: { id: true, code: true } },
           pump: { select: { id: true, code: true, name: true } },
-          terminalOperation: { select: { id: true, status: true, openedAt: true, closedAt: true } },
+          terminalOperation: { select: { id: true, number: true, status: true, openedAt: true, closedAt: true } },
           payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } },
           transaction: { select: { id: true, receipt: true, status: true, amount: true, gallons: true, createdAt: true } },
           inventoryReservation: { select: { id: true, status: true, initialLiters: true, remainingLiters: true, consumedLiters: true, releasedLiters: true } },
@@ -99,6 +106,7 @@ export class ControlOperationsService {
       this.db.transaction.findMany({
         where: {
           ...station,
+          ...equipment,
           authorizationId: null,
           ...(createdAt ? { createdAt } : {}),
           ...(filters.mode ? { mode: filters.mode } : {}),
@@ -109,7 +117,7 @@ export class ControlOperationsService {
           fuel: { select: { id: true, code: true, name: true } },
           terminal: { select: { id: true, code: true } },
           pump: { select: { id: true, code: true, name: true } },
-          terminalOperation: { select: { id: true, status: true, openedAt: true, closedAt: true } },
+          terminalOperation: { select: { id: true, number: true, status: true, openedAt: true, closedAt: true } },
           payment: { select: { id: true, status: true, method: true, amount: true, refundedAmount: true } },
           operationalIncidents: { select: { id: true, code: true, status: true, summary: true } },
         },
@@ -119,6 +127,7 @@ export class ControlOperationsService {
       this.db.terminalOperation.findMany({
         where: {
           ...station,
+          ...equipment,
           authorizations: { none: {} },
           transaction: null,
           ...(filters.status && ['ACTIVE', 'INTERVENTION_REQUIRED', 'CLOSED'].includes(filters.status)
@@ -143,6 +152,7 @@ export class ControlOperationsService {
       ...authorizations.map((authorization) => ({
         receipt: receiptResponse(authorization.transaction?.receipt),
         operationId: authorization.operationId,
+        number: authorization.terminalOperation?.number ?? null,
         station: authorization.station,
         terminal: authorization.terminal,
         pump: authorization.pump,
@@ -160,6 +170,7 @@ export class ControlOperationsService {
       ...transactions.map((transaction) => ({
         receipt: receiptResponse(transaction.receipt),
         operationId: transaction.operationId,
+        number: transaction.terminalOperation?.number ?? null,
         station: transaction.station,
         terminal: transaction.terminal,
         pump: transaction.pump,
@@ -177,6 +188,7 @@ export class ControlOperationsService {
       ...emptyOperations.map((operation) => ({
         receipt: null,
         operationId: operation.operationId,
+        number: operation.number,
         station: operation.station,
         terminal: operation.terminal,
         pump: operation.pump,
@@ -235,6 +247,7 @@ export class ControlOperationsService {
     if (authorization) {
       return {
         operationId,
+        number: terminalOperation?.number ?? null,
         station: authorization.station,
         terminalOperation,
         fuel: authorization.fuel,
@@ -253,7 +266,7 @@ export class ControlOperationsService {
         incident,
       };
     }
-    return { operationId, station: terminalOperation?.station ?? null, terminalOperation, receipt: receiptResponse(transaction?.receipt), transaction: transaction ? {...transaction,receipt: receiptResponse(transaction.receipt)} : null, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
+    return { operationId, number: terminalOperation?.number ?? null, station: terminalOperation?.station ?? null, terminalOperation, receipt: receiptResponse(transaction?.receipt), transaction: transaction ? {...transaction,receipt: receiptResponse(transaction.receipt)} : null, authorization: null, payment: transaction?.payment ?? null, reservation: null, incident };
   }
 
   async terminals(actor: ControlActor, stationId?: string) {
@@ -265,7 +278,7 @@ export class ControlOperationsService {
         include: {
           station: { select: { id: true, code: true, name: true } },
           assignments: { where: { endedAt: null }, include: { pump: { select: { id: true, code: true, name: true, active: true } } } },
-          operations: { where: { closedAt: null }, select: { id: true, operationId: true, status: true, openedAt: true } },
+          operations: { where: { closedAt: null }, select: { id: true, operationId: true, number: true, status: true, openedAt: true } },
           credentials: { select: { lastUsedAt: true }, orderBy: { issuedAt: 'desc' }, take: 1 },
         },
         orderBy: [{ stationId: 'asc' }, { code: 'asc' }],

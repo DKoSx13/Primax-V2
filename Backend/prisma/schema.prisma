@@ -672,6 +672,7 @@ model TerminalOperation {
   assistanceRequests AssistanceRequest[]
   id String @id @default(uuid()) @db.Uuid
   operationId String @unique @db.Uuid
+  number String @unique @default(dbgenerated("next_operation_number()")) @db.VarChar(30)
   stationId String @db.Uuid
   station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
   pumpId String @db.Uuid

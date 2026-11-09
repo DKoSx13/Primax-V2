@@ -3,8 +3,12 @@ import assert from 'node:assert/strict';
 import {validateReceipt,publicJob} from '../contract.mjs';
 import {validateConfig,verifyProbe} from '../config.mjs';
 import {thermalReceipt} from '../../Frontend_1_FuelFlow/src/js/thermalReceipt.js';
-const r=thermalReceipt({id:'test-1',createdAt:'2026-10-24T17:00:00Z',station:{name:'Primax Sur'},plate:'ABC-123',fuel:{name:'Premium'},gallons:'1',unitPrice:'20',amount:'20',receiptType:'BOLETA',receiptDni:'70123456',mode:'PREPAGO',status:'PAID',payment:{method:'YAPE',status:'CAPTURED'}});
+const r=thermalReceipt({id:'test-1',createdAt:'2026-10-24T17:00:00Z',station:{name:'Primax Sur'},plate:'ABC-123',fuel:{name:'Premium'},gallons:'1',unitPrice:'20',amount:'20',receiptType:'BOLETA',receiptDni:'70123456',mode:'PREPAGO',status:'PAID',payment:{method:'YAPE',status:'CAPTURED'}},'03');
 test('valid full v2 contract uses canonical property order',()=>{assert.deepEqual(validateReceipt(r),r);assert.deepEqual(validateReceipt(Object.fromEntries(Object.entries(r).reverse())),validateReceipt(r))});
+test('pump code in the receipt may reflect T02 without changing the document contract',()=>{
+  assert.equal(validateReceipt({...r,pump:'04'}).pump,'04');
+  assert.throws(()=>validateReceipt({...r,pump:'T02'}));
+});
 for(const delta of [{text:'arbitrary'},{printerName:'EPSON'},{copies:2},{demo:false},{dni:'123'},{ruc:'20123456789'},{total:'NaN'},{pending:'1.00',state:'Pagado'},{station:'x\nPrint()'},{documentType:'OTRO'},{schemaVersion:1}])test('rejects arbitrary or incompatible print data '+JSON.stringify(delta),()=>assert.throws(()=>validateReceipt({...r,...delta})));
 test('legacy text-only requests rejected without guessing boleta/factura',()=>assert.throws(()=>validateReceipt({id:r.id,text:'DEMO'})));
 test('status does not disclose receipt, hash or personal data',()=>{const j=publicJob({id:'receipt-test-1',status:'accepted',receipt:r,hash:'secret',physicalConfirmed:true});assert.equal(j.receipt,undefined);assert.equal(j.hash,undefined);assert.equal(j.physicalConfirmed,false)});

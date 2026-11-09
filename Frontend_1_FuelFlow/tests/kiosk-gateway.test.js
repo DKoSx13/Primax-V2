@@ -22,7 +22,7 @@ function backend(calls, special) {
     const path = new URL(url).pathname, body = options.body ? JSON.parse(options.body) : null;
     calls.push({ path, options, body });
     const h = options.headers;
-    const expected = createHmac('sha256', env.KIOSK_GATEWAY_SECRET).update(JSON.stringify([options.method, path, h['x-kiosk-time'], body, h['x-kiosk-session'], h['x-csrf-token'], h['x-terminal-session'], h.authorization])).digest('hex');
+    const expected = createHmac('sha256', env.KIOSK_GATEWAY_SECRET).update(JSON.stringify([options.method, path, h['x-kiosk-time'], body, h['x-kiosk-session'], h['x-csrf-token'], h['x-terminal-session'], h.authorization, h['x-terminal-owner']])).digest('hex');
     assert.equal(h['x-kiosk-signature'], expected);
     assert.equal(h.cookie, undefined); assert.equal(h['x-kiosk-key'], undefined);
     const override = special?.(path, body); if (override) return override;
@@ -105,6 +105,61 @@ test('loopback Compose mode uses an HttpOnly local cookie and a private backend 
   assert.match(response.headers['set-cookie'], /HttpOnly; SameSite=Strict/);
   assert.doesNotMatch(response.headers['set-cookie'], /Secure/);
   assert.equal(response.body.token, undefined);
+});
+test('T01 and T02 use distinct cookies on the same hostname and bind bootstrap to server codes', async () => {
+  const ids = ['27181', '27184'];
+  const codes = ['PRIMAX-SUR-T01', 'PRIMAX-SUR-T02'];
+  const technical = ['a'.repeat(64), 'b'.repeat(64)];
+  for (let index = 0; index < ids.length; index++) {
+    const port = ids[index];
+    const localEnv = { ...env, FUELFLOW_PUBLIC_ORIGIN: `http://127.0.0.1:${port}`, BACKEND_ORIGIN: 'http://backend:3000', FUELFLOW_LOCAL_HTTP: 'true', FUELFLOW_COOKIE_SCOPE: port, FUELFLOW_TERMINAL_CODE: codes[index] };
+    const calls = [];
+    const response = await invoke('/api/kiosk/terminal-bootstrap', {
+      gatewayEnv: localEnv, method: 'POST', body: {},
+      headers: { origin: localEnv.FUELFLOW_PUBLIC_ORIGIN, cookie: `primax-terminal-local-${ids[0]}=${technical[0]}; primax-terminal-local-${ids[1]}=${technical[1]}` },
+      fetcher: backend(calls, () => Response.json({ authenticated: true, token, ttl: 1800, csrfToken: csrf, expiresAt: Date.now() + 1800000, stationId, terminalId: '33333333-3333-4333-8333-333333333333', terminalToken: technical[index] })),
+    });
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(calls[0].body, { terminalCode: codes[index] });
+    assert.equal(calls[0].options.headers['x-terminal-session'], technical[index]);
+    assert(response.headers['set-cookie'][0].startsWith(`primax-kiosk-local-${port}=`));
+    assert(response.headers['set-cookie'][1].startsWith(`primax-terminal-local-${port}=`));
+    assert(response.headers['set-cookie'][2].startsWith(`primax-terminal-csrf-local-${port}=`));
+    assert.equal(response.body.terminalToken, undefined);
+  }
+});
+test('terminal claim forwards the signed tab identity and never exposes the technical cookie', async () => {
+  const calls = [];
+  const owner = '44444444-4444-4444-8444-444444444444';
+  const result = await invoke('/api/v1/terminal/claim', {
+    method: 'POST', body: { operationId: '33333333-3333-4333-8333-333333333333' },
+    headers: { cookie: `__Host-primax-terminal=${'a'.repeat(64)}; __Host-primax-terminal-csrf=${csrf}`, 'x-fuelflow-tab': owner },
+    fetcher: backend(calls, () => Response.json({ claimed: true, activeOperationId: '33333333-3333-4333-8333-333333333333', terminalToken: 'private' })),
+  });
+  assert.equal(result.statusCode, 200);
+  assert.equal(calls[0].options.headers['x-terminal-owner'], owner);
+  assert.equal(calls[0].options.headers['x-terminal-session'], 'a'.repeat(64));
+  assert.equal(result.body.terminalToken, undefined);
+});
+test('administrative recovery exchanges one ticket for scoped HttpOnly cookies', async () => {
+  const calls = [];
+  const owner = '44444444-4444-4444-8444-444444444444';
+  const operationId = '33333333-3333-4333-8333-333333333333';
+  const technical = 'b'.repeat(64);
+  const ticket = 'c'.repeat(43);
+  const result = await invoke('/api/kiosk/terminal-recovery', {
+    method: 'POST', body: { ticket }, headers: { 'x-fuelflow-tab': owner }, gatewayEnv: { ...env, FUELFLOW_TERMINAL_CODE: 'PRIMAX-SUR-T01' },
+    fetcher: backend(calls, () => Response.json({ authenticated: true, token, ttl: 1800, csrfToken: csrf,
+      operationId, terminalToken: technical, evidence: { kind: 'PENDING_PAYMENT' }, terminalExpiresAt: new Date().toISOString() })),
+  });
+  assert.equal(result.statusCode, 200);
+  assert.deepEqual(calls[0].body, { ticket, terminalCode: 'PRIMAX-SUR-T01' });
+  assert.equal(calls[0].options.headers['x-terminal-owner'], owner);
+  assert.equal(result.body.operationId, operationId);
+  assert.equal(result.body.terminalToken, undefined);
+  assert.equal(result.body.token, undefined);
+  assert(result.headers['set-cookie'][1].includes('HttpOnly'));
+  assert(result.headers['set-cookie'][1].includes('Max-Age=900'));
 });
 test('logout clears the cookie only after shared revocation succeeds', async () => {
   const success = await invoke('/api/kiosk/session/logout', { method: 'POST', body: {}, fetcher: backend([], () => Response.json({ authenticated: false })) });
@@ -200,4 +255,25 @@ test('assistance creation/read/cancel preserve terminal authentication, CSRF and
     const denied=await invoke(path,{method,body:{},headers:{cookie:''},fetcher:async()=>{throw Error('must not call backend')}});
     assert.equal(denied.statusCode,401);
   }
+});
+test('recovery state is read only, requires the technical cookie and exposes only financial facts', async () => {
+  const id = '33333333-3333-4333-8333-333333333333';
+  const technical = 'b'.repeat(64);
+  const cookie = `__Host-primax-terminal=${technical}`;
+  const calls = [];
+  const state = await invoke(`/api/v1/terminal/operations/${id}/recovery-state`, {
+    headers: { cookie }, fetcher: backend(calls, () => Response.json({ operationId: id,
+      number: 'OP01-0012', status: 'ACTIVE', terminalCode: 'PRIMAX-SUR-T02', pumpCode: '04',
+      order: { id, status: 'PENDING' }, payment: { status: 'PENDING' }, reservation: { status: 'PENDING_PAYMENT' },
+      authorization: null, sale: null, receipt: null, internalSecret: 'hidden' })) });
+  assert.equal(state.statusCode, 200);
+  assert.equal(state.body.number, 'OP01-0012');
+  assert.equal(state.body.internalSecret, undefined);
+  assert.equal(calls[0].options.headers['x-terminal-session'], technical);
+  const denied = await invoke(`/api/v1/terminal/operations/${id}/recovery-state`, {
+    headers: { cookie: '' }, fetcher: async () => { throw Error('must not call backend'); } });
+  assert.equal(denied.statusCode, 401);
+  const write = await invoke(`/api/v1/terminal/operations/${id}/recovery-state`, {
+    method: 'POST', body: {}, headers: { cookie }, fetcher: async () => { throw Error('must not call backend'); } });
+  assert.equal(write.statusCode, 403);
 });

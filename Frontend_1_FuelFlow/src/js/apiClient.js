@@ -1,7 +1,8 @@
 import { kioskHeaders, expireKioskSession, kioskAuthEnabled, refreshKioskSession, terminalRecovery } from './kioskSession.js';
 export const API_BASE_URL = globalThis.FUELFLOW_API_BASE_URL || '/api/v1';
 function terminalCsrf() {
-  const name = location.protocol === 'https:' ? '__Host-primax-terminal-csrf' : 'primax-terminal-csrf-local';
+  const scope = location.protocol === 'http:' && ['127.0.0.1', 'localhost'].includes(location.hostname) && /^\d{2,5}$/.test(location.port) ? `-${location.port}` : '';
+  const name = (location.protocol === 'https:' ? '__Host-primax-terminal-csrf' : 'primax-terminal-csrf-local') + scope;
   return document.cookie.split(';').map(part => part.trim()).find(part => part.startsWith(name + '='))?.slice(name.length + 1) || '';
 }
 export async function apiClient(path, {method='GET',body,token}={}, retried=false) {
@@ -26,7 +27,9 @@ export const catalogService={fuels:()=>apiClient('/fuels'),stations:()=>apiClien
 }};
 export const terminalService={
   me:()=>apiClient('/terminal/me'),
+  claim:operationId=>apiClient('/terminal/claim',{method:'POST',body:operationId?{operationId}:{}}),
   operation:operationId=>apiClient('/terminal/operations/'+encodeURIComponent(operationId)),
+  recoveryState:operationId=>apiClient('/terminal/operations/'+encodeURIComponent(operationId)+'/recovery-state'),
   start:operationId=>apiClient('/terminal/operations',{method:'POST',body:{operationId}}),
   close:operationId=>apiClient('/terminal/operations/'+encodeURIComponent(operationId)+'/close',{method:'POST',body:{}}),
 };

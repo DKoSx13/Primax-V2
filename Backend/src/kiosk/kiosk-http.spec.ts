@@ -94,7 +94,7 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
     const timestamp = String(Date.now());
     const signature = createHmac('sha256', secret)
       .update(
-        JSON.stringify([method, path, timestamp, body, token, csrf, technical, '']),
+        JSON.stringify([method, path, timestamp, body, token, csrf, technical, '', '']),
       )
       .digest('hex');
     const result =
@@ -190,7 +190,7 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
     function terminalRequest(token: string) {
       const timestamp = String(Date.now());
       const signature = createHmac('sha256', secret)
-        .update(JSON.stringify(['GET', path, timestamp, null, '', '', token, '']))
+        .update(JSON.stringify(['GET', path, timestamp, null, '', '', token, '', '']))
         .digest('hex');
       return request(app.getHttpServer()).get(path)
         .set('x-kiosk-time', timestamp)

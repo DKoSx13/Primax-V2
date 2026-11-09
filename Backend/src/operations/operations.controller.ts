@@ -5,7 +5,10 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Req,
   SetMetadata,
+  ForbiddenException,
+  Header,
 } from '@nestjs/common';
 import {
   IsString,
@@ -14,18 +17,27 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Request } from 'express';
+import { IsOptional } from 'class-validator';
 import {
   Actor,
   CurrentActor,
   TerminalOnly,
 } from '../auth/access';
 import { OperationsService } from './operations.service';
+import { KioskService } from '../kiosk/kiosk.service';
 
 class OperationDto {
   @IsUUID('4') operationId: string;
 }
+class TerminalClaimDto {
+  @IsOptional() @IsUUID('4') operationId?: string;
+}
 class ResolutionDto {
   @IsString() @MinLength(3) @MaxLength(200) reason: string;
+}
+class RecoveryDto {
+  @IsString() @MinLength(10) @MaxLength(200) reason: string;
 }
 class GrantDto {
   @IsUUID() userId: string;
@@ -54,34 +66,72 @@ const adminId = (actor: Actor) =>
 @TerminalOnly()
 @Controller('terminal')
 export class TerminalController {
-  constructor(private readonly service: OperationsService) {}
-  @Get('me') me(@CurrentActor() actor: Actor) {
+  constructor(private readonly service: OperationsService, private readonly kiosk: KioskService) {}
+  @Post('claim') claim(@CurrentActor() actor: Actor, @Req() req: Request, @Body() dto: TerminalClaimDto) {
+    return this.kiosk.claimTerminal(req, terminalId(actor), dto.operationId);
+  }
+  @Get('me') async me(@CurrentActor() actor: Actor, @Req() req: Request) {
+    await this.kiosk.touchTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '');
     return this.service.terminalMe(terminalId(actor), actor.kind === 'terminal' ? actor.credentialId : undefined);
   }
-  @Post('operations') open(
+  @Post('operations') async open(
     @CurrentActor() actor: Actor,
+    @Req() req: Request,
     @Body() dto: OperationDto,
   ) {
+    if (actor.kind === 'terminal' && actor.recoveredOperationId)
+      throw new ForbiddenException('La recuperación no permite abrir operaciones');
+    await this.kiosk.assertTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '', true);
     return this.service.startOperation(terminalId(actor), dto.operationId);
   }
-  @Get('operations/:id') operation(
+  @Get('operations/:id') async operation(
     @CurrentActor() actor: Actor,
+    @Req() req: Request,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
+    if (actor.kind === 'terminal' && actor.recoveredOperationId && actor.recoveredOperationId !== id)
+      throw new ForbiddenException('Credencial limitada a otra operación');
+    await this.kiosk.assertTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '');
     return this.service.operation(terminalId(actor), id);
   }
-  @Post('operations/:id/close') close(
+  @Get('operations/:id/recovery-state') async recoveryState(
     @CurrentActor() actor: Actor,
+    @Req() req: Request,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.service.closeOperation(terminalId(actor), id);
+    if (actor.kind !== 'terminal' || actor.recoveredOperationId !== id)
+      throw new ForbiddenException('Estado disponible solo para la operación recuperada');
+    await this.kiosk.assertTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '');
+    return this.service.recoveryState(terminalId(actor), id);
+  }
+  @Post('operations/:id/close') async close(
+    @CurrentActor() actor: Actor,
+    @Req() req: Request,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    if (actor.kind === 'terminal' && actor.recoveredOperationId && actor.recoveredOperationId !== id)
+      throw new ForbiddenException('Credencial limitada a otra operación');
+    await this.kiosk.assertTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '');
+    const result = await this.service.closeOperation(terminalId(actor), id);
+    if (actor.kind === 'terminal' && actor.recoveredOperationId === id && result.closedAt)
+      await this.kiosk.releaseClosedRecovery(actor.terminalId, id, req.header('x-terminal-owner') || '');
+    return result;
   }
 }
 
 @SetMetadata('access', 'control')
 @Controller('control/terminal-operations')
 export class ControlTerminalRecoveryController {
-  constructor(private readonly service: OperationsService) {}
+  constructor(private readonly service: OperationsService, private readonly kiosk: KioskService) {}
+
+  @Post(':id/recovery-ticket') @Header('Cache-Control', 'no-store') async recoveryTicket(
+    @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: RecoveryDto,
+  ) {
+    try { return await this.kiosk.issueRecoveryTicket(actor, id, dto.reason.trim()); }
+    catch (error) { await this.kiosk.auditRecoveryDenied(actor, id, dto.reason.trim(), error).catch(() => undefined); throw error; }
+  }
 
   @Post(':id/resolve') resolve(
     @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,

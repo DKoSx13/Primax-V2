@@ -159,6 +159,11 @@ export class OperationsService {
         assignment.pump.stationId !== terminal.stationId
       )
         throw new ConflictException('Asignación de surtidor inválida');
+      await tx.$queryRaw`SELECT "id" FROM "Pump" WHERE "id"=${assignment.pumpId}::uuid FOR UPDATE`;
+      const pumpAttention = await tx.terminalOperation.findFirst({
+        where: { pumpId: assignment.pumpId, closedAt: null },
+      });
+      if (pumpAttention) throw new ConflictException('Surtidor con operación activa');
       const operation = await tx.terminalOperation.create({
         data: {
           operationId,
@@ -193,6 +198,25 @@ export class OperationsService {
     if (!operation || operation.terminalId !== terminalId)
       throw new NotFoundException('Operación no encontrada');
     return operation;
+  }
+
+  async recoveryState(terminalId: string, operationId: string) {
+    const operation = await this.operation(terminalId, operationId);
+    const [terminal, pump, order, payment, authorization, reservation, sale] = await Promise.all([
+      this.db.terminal.findUnique({ where: { id: terminalId }, select: { code: true } }),
+      this.db.pump.findUnique({ where: { id: operation.pumpId }, select: { code: true } }),
+      this.db.onlineOrder.findUnique({ where: { operationId }, select: { id: true, status: true, method: true, amount: true } }),
+      this.db.payment.findUnique({ where: { operationId }, select: { id: true, status: true, amount: true } }),
+      this.db.fuelAuthorization.findUnique({ where: { operationId }, select: { id: true, status: true } }),
+      this.db.inventoryReservation.findUnique({ where: { operationId }, select: { id: true, status: true } }),
+      this.db.transaction.findUnique({ where: { operationId }, select: { id: true, status: true } }),
+    ]);
+    const receipt = sale ? await this.db.receipt.findUnique({ where: { transactionId: sale.id }, select: { number: true } }) : null;
+    return {
+      operationId, number: operation.number, status: operation.status, closedAt: operation.closedAt,
+      terminalCode: terminal?.code ?? null, pumpCode: pump?.code ?? null,
+      order, payment, authorization, reservation, sale, receipt,
+    };
   }
 
   async closeOperation(terminalId: string, operationId: string, actorUserId?: string) {

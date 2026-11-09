@@ -1,7 +1,15 @@
 import {matchesMembershipCode} from './membershipCode.js';
 import {releaseFailedPayment} from './paymentRecovery.js';
-import { ensureKioskSession, kioskAuthEnabled, kioskStationId } from './kioskSession.js';
+import { ensureKioskSession, kioskAuthEnabled, kioskStationId, recoveredOperationId } from './kioskSession.js';
+import { reserveBrowserTab, claimServerTerminal } from './terminalTab.js';
+import { showRecoveryDesk } from './recoveryDesk.js';
+import { pumpCode, terminalIdentityText } from './terminalIdentity.js';
+await reserveBrowserTab();
 await ensureKioskSession();
+if (recoveredOperationId()) await showRecoveryDesk();
+await claimServerTerminal();
+let confirmedTerminal = null;
+try { if (kioskAuthEnabled()) confirmedTerminal = await terminalService.me(); } catch { /* Identidad genérica hasta recuperar Backend. */ }
 /* ============================================================================
  * PRIMAX FuelFlow Autónomo — script.js
  * JavaScript vanilla, modular y comentado en español.
@@ -124,11 +132,11 @@ const I18N = {
     help_t_llamando: 'Llamando a asistencia…',
     help_m_llamando: 'Un operador del centro de control está siendo notificado. Por favor, permanezca en su vehículo.',
     help_e_llamando: 'Conectando con el operador…',
-    help_paso_1: 'Solicitud enviada al surtidor 03',
+    help_paso_1: 'Solicitud enviada al surtidor {pump}',
     help_paso_2: 'Operador asignado',
     help_paso_3: 'El asistente va en camino',
     help_t_llegada: '¡El asistente ha llegado!',
-    help_m_llegada: 'Un asesor de Primax está junto a usted en el surtidor 03. ¿En qué podemos ayudarle?',
+    help_m_llegada: 'Un asesor de Primax está junto a usted en el surtidor {pump}. ¿En qué podemos ayudarle?',
     help_e_llegada: '● Asistente en sitio',
     help_cancelar: 'Cancelar solicitud',
     help_cerrar: 'Entendido',
@@ -142,7 +150,7 @@ const I18N = {
     feat_secure: 'Compra segura',
     btn_iniciar: 'INICIAR ▶',
     hint_inicio: 'Toque INICIAR · El asistente le guiará por voz en cada paso',
-    kiosk_note: 'Kiosco 01 · Estación Primax Sur · Operativo 24/7',
+    kiosk_note: 'Terminal Primax',
 
     // Combustible
     step_1: 'PASO 1 / 5',
@@ -310,7 +318,7 @@ const I18N = {
     // Resumen / ticket
     step_ok: '✓ CARGA COMPLETADA',
     resumen_title: 'Ticket digital',
-    ticket_sub: 'FuelFlow Autónomo · Kiosco 01',
+    ticket_sub: 'FuelFlow Autónomo · Terminal Primax',
     row_placa: 'Placa',
     row_fuel: 'Combustible',
     row_galones: 'Galones cargados',
@@ -361,7 +369,7 @@ const I18N = {
 
     // Footer y modales
     status_listo: '● Sistema listo',
-    footer_surtidor: 'Surtidor 03 · Precios S/ incluyen impuestos',
+    footer_surtidor: 'Surtidor {pump} · Precios S/ incluyen impuestos',
     btn_entendido: 'Entendido',
 
     // Mensajes de error / modales
@@ -371,7 +379,7 @@ const I18N = {
     err_codigo: 'Ingrese su código de cliente Primax.',
     err_admin: 'Credenciales incorrectas.',
     modal_pago_t: 'Pago autorizado',
-    modal_pago_m: 'Proceda a abastecer. El surtidor 03 está listo.',
+    modal_pago_m: 'Proceda a abastecer. El surtidor {pump} está listo.',
     modal_sincarga_t: 'Sin carga',
     modal_sincarga_m: 'Aún no se ha cargado combustible.',
     modal_cierre_t: 'Sesión finalizada',
@@ -426,7 +434,7 @@ const I18N = {
 
     // Comprobante (.txt)
     c_titulo: 'PRIMAX - COMPROBANTE',
-    c_subtitulo: 'FuelFlow Autónomo - Kiosco 01',
+    c_subtitulo: 'FuelFlow Autónomo - Terminal Primax',
     c_fecha: 'Fecha',
     c_doc: 'Comprobante',
     c_docnum: 'DNI/RUC',
@@ -466,11 +474,11 @@ const I18N = {
     help_t_llamando: 'Calling assistance…',
     help_m_llamando: 'A control center operator is being notified. Please stay in your vehicle.',
     help_e_llamando: 'Connecting with the operator…',
-    help_paso_1: 'Request sent to pump 03',
+    help_paso_1: 'Request sent to pump {pump}',
     help_paso_2: 'Operator assigned',
     help_paso_3: 'The assistant is on the way',
     help_t_llegada: 'The assistant has arrived!',
-    help_m_llegada: 'A Primax advisor is next to you at pump 03. How can we help you?',
+    help_m_llegada: 'A Primax advisor is next to you at pump {pump}. How can we help you?',
     help_e_llegada: '● Assistant on site',
     help_cancelar: 'Cancel request',
     help_cerrar: 'Got it',
@@ -483,7 +491,7 @@ const I18N = {
     feat_secure: 'Safe purchase',
     btn_iniciar: 'START ▶',
     hint_inicio: 'Tap START · The assistant will guide you by voice at every step',
-    kiosk_note: 'Kiosk 01 · Primax Sur Station · Open 24/7',
+    kiosk_note: 'Primax terminal',
 
     step_1: 'STEP 1 / 5',
     fuel_title: 'Select your fuel',
@@ -636,7 +644,7 @@ const I18N = {
 
     step_ok: '✓ FUELING COMPLETED',
     resumen_title: 'Digital ticket',
-    ticket_sub: 'FuelFlow Autonomous · Kiosk 01',
+    ticket_sub: 'FuelFlow Autonomous · Primax terminal',
     row_placa: 'Plate',
     row_fuel: 'Fuel',
     row_galones: 'Gallons loaded',
@@ -685,7 +693,7 @@ const I18N = {
 
 
     status_listo: '● System ready',
-    footer_surtidor: 'Pump 03 · Prices S/ include taxes',
+    footer_surtidor: 'Pump {pump} · Prices S/ include taxes',
     btn_entendido: 'Got it',
 
     err_monto: 'Invalid amount. Enter a value between S/ {min} and S/ {max}.',
@@ -694,7 +702,7 @@ const I18N = {
     err_codigo: 'Enter your Primax customer code.',
     err_admin: 'Wrong credentials.',
     modal_pago_t: 'Payment authorized',
-    modal_pago_m: 'Please proceed to fuel. Pump 03 is ready.',
+    modal_pago_m: 'Please proceed to fuel. Pump {pump} is ready.',
     modal_sincarga_t: 'No fueling',
     modal_sincarga_m: 'No fuel has been loaded yet.',
     modal_cierre_t: 'Session finished',
@@ -745,7 +753,7 @@ const I18N = {
     voz_help_llegada: 'The assistant has arrived. It is next to you at the pump.',
 
     c_titulo: 'PRIMAX - RECEIPT',
-    c_subtitulo: 'FuelFlow Autonomous - Kiosk 01',
+    c_subtitulo: 'FuelFlow Autonomous - Primax terminal',
     c_fecha: 'Date',
     c_doc: 'Receipt',
     c_docnum: 'ID/Tax ID',
@@ -786,11 +794,11 @@ const I18N = {
     help_t_llamando: 'Yanapata waqachkan…',
     help_m_llamando: 'Kunan muruchiq qhaway simiyman. Carroypi kikillan mana puriychu.',
     help_e_llamando: 'Yanapaqta tinkichkan…',
-    help_paso_1: 'Solicitud surtidor 03man pusasqa',
+    help_paso_1: 'Solicitud surtidor {pump}man pusasqa',
     help_paso_2: 'Yanapaq asignasqa',
     help_paso_3: 'Yanapaq chayman rinan',
     help_t_llegada: 'Yanapaq chayam!',
-    help_m_llegada: 'Primax yanapaqmi surtidor 03pi kikilla. ¿Imayna yanapayqanchik?',
+    help_m_llegada: 'Primax yanapaqmi surtidor {pump}pi kikilla. ¿Imayna yanapayqanchik?',
     help_e_llegada: '● Yanapaq chaypi kachkan',
     help_cancelar: 'Wichayta saqiy',
     help_cerrar: 'Ari',
@@ -803,7 +811,7 @@ const I18N = {
     feat_secure: "Jap'iy compra",
     btn_iniciar: 'QALLARIY ▶',
     hint_inicio: 'QALLARIYTAROJQA ñitiy · Yanapaqqa simintin huk huktanchu qatiyan',
-    kiosk_note: 'Kiosco 01 · Primax Sur · 24/7',
+    kiosk_note: 'Primax terminal',
 
     step_1: 'PASO 1 / 5',
     fuel_title: 'Combustiblekita akllay',
@@ -956,7 +964,7 @@ const I18N = {
 
     step_ok: '✓ CARGA TUKUSQA',
     resumen_title: 'Ticket digital',
-    ticket_sub: 'FuelFlow · Kiosco 01',
+    ticket_sub: 'FuelFlow · Primax terminal',
     row_placa: 'Plaka',
     row_fuel: 'Combustible',
     row_galones: 'Cargaq galones',
@@ -1005,7 +1013,7 @@ const I18N = {
 
 
     status_listo: '● Sistema listo',
-    footer_surtidor: 'Surtidor 03 · Precios S/ impueston kan',
+    footer_surtidor: 'Surtidor {pump} · Precios S/ impueston kan',
     btn_entendido: 'Ari',
 
     err_monto: 'Qolqe mana allinchu. S/ {min} - S/ {max} churay.',
@@ -1014,7 +1022,7 @@ const I18N = {
     err_codigo: 'Primax cliente codigota churay.',
     err_admin: 'Credenciales mana allinchu.',
     modal_pago_t: 'Pago allichasqa',
-    modal_pago_m: 'Kunan cargayta qallariy. Surtidor 03 listo.',
+    modal_pago_m: 'Kunan cargayta qallariy. Surtidor {pump} listo.',
     modal_sincarga_t: 'Manan cargasqa',
     modal_sincarga_m: 'Aman cargaqchu.',
     modal_cierre_t: 'Sesión tukusqa',
@@ -1065,7 +1073,7 @@ const I18N = {
     voz_help_llegada: 'Yanapaq chayam. Surtidormanta kikilla.',
 
     c_titulo: 'PRIMAX - TICKET',
-    c_subtitulo: 'FuelFlow - Kiosco 01',
+    c_subtitulo: 'FuelFlow - Primax terminal',
     c_fecha: 'Fecha',
     c_doc: 'Comprobante',
     c_docnum: 'DNI/RUC',
@@ -1090,6 +1098,13 @@ const I18N = {
 function t(clave, params) {
   const pack = I18N[state.idioma] || I18N.es;
   let texto = pack[clave] || I18N.es[clave] || clave;
+  if (['kiosk_note', 'ticket_sub', 'c_subtitulo'].includes(clave) && confirmedTerminal) {
+    const label = terminalIdentityText(confirmedTerminal, state.idioma);
+    if (label) {
+      texto = clave === 'kiosk_note' ? label : `${clave === 'ticket_sub' ? pack.brand_sub : 'FuelFlow'} · ${label}`;
+    }
+  }
+  texto = texto.replaceAll('{pump}', pumpCode(confirmedTerminal));
   if (params) {
     Object.keys(params).forEach((k) => { texto = texto.split('{' + k + '}').join(params[k]); });
   }
@@ -1345,6 +1360,24 @@ async function iniciar() {
       Object.assign(state,pending.snapshot||{});
       state.autorizacionId = pending.authorization?.authorization?.id || state.autorizacionId;
       requerirIntervencion(Error(pending.intervention || 'Operación interrumpida antes del cierre; revisar autorización y consumo.'));
+      return;
+    }
+    if(pending?.snapshot?.onlineOrderId && !pending?.payload){
+      Object.assign(state,pending.snapshot);
+      let order;
+      try { order=await apiClient('/online-orders/'+state.onlineOrderId); }
+      catch(error){mostrarModal('Orden conservada',error.message+' Consulta la misma orden antes de otro pago.','⚠️');return;}
+      if(order.operationId!==pending.operationId){mostrarModal('Orden conservada','La orden no coincide con la operación local. Solicita asistencia.','⚠️');return;}
+      if(!['PENDING','CREATING'].includes(order.status)){
+        mostrarModal('Orden conservada','El pago tiene estado '+order.status+'. Solicita asistencia para continuar con esta misma operación.','⚠️');return;
+      }
+      state.onlineOrderAmount=order.amount;
+      state.metodoPago=order.method;
+      mostrarPantalla('pantalla-metodo');
+      if(['YAPE','PLIN'].includes(order.method)){
+        $('panel-qr').classList.remove('hidden');
+        await crearOrdenQR(order.method);
+      } else mostrarModal('Orden conservada','Consulta esta misma orden con el personal antes de continuar.','⚠️');
       return;
     }
     if(pending?.payload){
@@ -1989,7 +2022,10 @@ async function imprimirYFinalizar() {
     transactionsService.assertCanFinish(backendResult.transaction.id);
     backendResult=await transactionsService.confirmedForPrint(backendResult.transaction.id);
     pintarResumen();
-    const receipt = thermalReceipt(backendResult.transaction);
+    const liveTerminal = await terminalService.me();
+    if (liveTerminal.code !== confirmedTerminal?.code || !/^[0-9]{2}$/.test(liveTerminal.pumpCode || ''))
+      throw Error('La identidad del surtidor cambió. Consulta la terminal antes de imprimir.');
+    const receipt = thermalReceipt(backendResult.transaction, liveTerminal.pumpCode);
     const printJob = await printReceipt(receipt);
     receiptPrinting=false;
     if(await finalizar()) {
@@ -2458,7 +2494,7 @@ async function elegirMetodoPago(metodo) {
   if(state.onlineOrderId){
     if(state.metodoPago===metodo)return;
     state.changingMethod=true;
-    try{const authorization=ordenAuthorization(metodo);await apiClient('/online-orders/'+state.onlineOrderId+'/reselect',{method:'POST',body:{operationId:authorization.operationId,method:metodo,authorization}});}
+    try{const authorization=ordenAuthorization(metodo);await apiClient('/online-orders/'+state.onlineOrderId+'/reselect',{method:'POST',body:{operationId:authorization.operationId,method:metodo,authorization}});transactionsService.checkpoint({...state,metodoPago:metodo,despachoTimer:null});}
     catch(error){mostrarModal('Orden conservada',error.message,'⚠️');return;}
     finally{state.changingMethod=false;}
   }
@@ -2827,11 +2863,16 @@ async function crearOrdenQR(method) {
  $('qr-code').replaceChildren();$('btn-qr-pagado').disabled=true;$('btn-qr-pagado').textContent='Simular confirmación del pago';
  try {
   await ensureTerminalOperation();
-  const authorization=ordenAuthorization(method);
-
-  let order=await apiClient('/online-orders',{method:'POST',body:{operationId:authorization.operationId,method,authorization}});
+  let order;
+  if(state.onlineOrderId) order=await apiClient('/online-orders/'+state.onlineOrderId);
+  else {
+    const authorization=ordenAuthorization(method);
+    order=await apiClient('/online-orders',{method:'POST',body:{operationId:authorization.operationId,method,authorization}});
+  }
   if(order.status==='CREATING')order=await apiClient('/online-orders/'+order.id);
+  if(order.operationId!==transactionsService.current()?.operationId)throw Error('La orden no coincide con esta operación. Solicita asistencia.');
   state.onlineOrderId=order.id;state.onlineOrderAmount=order.amount;
+  transactionsService.checkpoint({...state,despachoTimer:null});
   if(!order.providerId?.startsWith('demo:'))throw Error('Esta interfaz requiere billetera DEMO local.');
   const img=document.createElement('img');img.src='../assets/img/qr-demo.svg';img.alt='QR de demostración ficticio';img.style.width='100%';$('qr-code').append(img);$('btn-qr-pagado').disabled=false;
   $('qr-msg').textContent='QR de demostración · Pago simulado · S/ '+Number(order.amount).toFixed(2);

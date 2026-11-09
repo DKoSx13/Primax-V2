@@ -13,8 +13,9 @@ function text(value,label,max,optional=false) {
   if(typeof value!=='string'||!value.trim()||value.length>max||/[\x00-\x1f\x7f]/.test(value)||/^(undefined|null|NaN)$/i.test(value))throw Error('Dato inválido del comprobante: '+label);
   return value.trim();
 }
-export function thermalReceipt(t) {
+export function thermalReceipt(t, confirmedPumpCode) {
   if(!t||!['BOLETA','FACTURA'].includes(t.receiptType))throw Error('Tipo de comprobante no confirmado.');
+  if(typeof confirmedPumpCode!=='string'||!/^\d{2}$/.test(confirmedPumpCode))throw Error('Surtidor no confirmado por Backend.');
   if(!['PREPAGO','POSTPAGO'].includes(t.mode))throw Error('Modalidad de comprobante no confirmada.');
   const date=new Date(t.receipt?.issuedAt || t.createdAt);
   if(!t.createdAt||!Number.isFinite(date.getTime()))throw Error('Fecha inválida del comprobante.');
@@ -24,7 +25,7 @@ export function thermalReceipt(t) {
   return {
     schemaVersion:2,id,documentType:t.receiptType,demo:true,issuedAt:date.toISOString(),
     ...(t.receipt ? {number:text(t.receipt.number,'número',30),transactionId:text(t.id,'operación',100)} : {}),
-    station:text(t.station?.name,'estación',160),pump:'03',
+    station:text(t.station?.name,'estación',160),pump:confirmedPumpCode,
     plate:text(t.plate||t.vehicle?.plate,'placa',20),
     dni:invoice?'':text(t.receiptDni,'DNI',8,true),
     ruc:invoice?text(t.receiptRuc,'RUC',11,true):'',
