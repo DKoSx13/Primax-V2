@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { administrativeAccountForm, fuelSummaryMarkup } from '../js/control-presentation.js';
+import { administrativeAccountForm, ecoDigitalMetricMarkup, fuelSummaryMarkup } from '../js/control-presentation.js';
 import { renderDateInputs } from '../js/date-input.js';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[char]);
@@ -27,6 +27,14 @@ test('dashboard fuel summary uses responsive cards with all inventory facts and 
   assert.match(html, /Reservado<\/dt><dd>0 L/);
   assert.match(html, /En revisión/);
   assert.doesNotMatch(html, /<table/);
+});
+
+test('EcoDigital dashboard card shows only a sourced count with an explicit demo and print caveat', () => {
+  assert.equal(ecoDigitalMetricMarkup(null), '');
+  assert.equal(ecoDigitalMetricMarkup(undefined), '');
+  assert.match(ecoDigitalMetricMarkup(0), /Comprobantes disponibles digitalmente/);
+  assert.match(ecoDigitalMetricMarkup(3), /<strong>3<\/strong>/);
+  assert.match(ecoDigitalMetricMarkup(3), /No indica si se imprimieron/);
 });
 
 test('date fields keep the visible format inside inputs without redundant help text', () => {

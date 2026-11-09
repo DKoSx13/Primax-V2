@@ -24,6 +24,12 @@ import { Actor } from '../auth/access';
 const ALL_PERMISSIONS = Object.values(AdminControlPermission);
 type ControlActor = Extract<Actor, { kind: 'control' }>;
 
+// The fair's reporting day is the calendar day in Lima (UTC-05:00).
+function startOfLimaDay(now = new Date()) {
+  const local = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+  return new Date(Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate(), 5));
+}
+
 @Injectable()
 export class ControlService {
   constructor(
@@ -524,6 +530,7 @@ export class ControlService {
     const where = ids ? { stationId: { in: ids } } : {};
     const since = new Date();
     since.setHours(0, 0, 0, 0);
+    const receiptSince = startOfLimaDay();
     const [
       stations,
       operationsToday,
@@ -534,6 +541,7 @@ export class ControlService {
       activeCustomers,
       activeMemberships,
       capturedRevenue,
+      receiptsAvailableToday,
     ] = await Promise.all([
       this.db.station.findMany({
         where: { active: true, ...(ids ? { id: { in: ids } } : {}) },
@@ -607,6 +615,14 @@ export class ControlService {
             _sum: { amount: true },
           })
         : Promise.resolve(null),
+      actor.permissions.includes('ADMIN_RECEIPT_VIEW')
+        ? this.db.receipt.count({
+            where: {
+              issuedAt: { gte: receiptSince },
+              transaction: ids ? { stationId: { in: ids } } : {},
+            },
+          })
+        : Promise.resolve(null),
     ]);
     const inventoryRows = inventory.map((row) => ({
       ...row,
@@ -624,6 +640,7 @@ export class ControlService {
       activeCustomers,
       activeMemberships,
       capturedRevenueToday: capturedRevenue?._sum.amount?.toFixed(2) ?? null,
+      receiptsAvailableToday,
       inventory: inventoryRows,
       reviewPairs: inventoryRows.filter((row) => row.activation?.status === 'REVIEW').length,
     };

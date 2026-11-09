@@ -81,8 +81,8 @@ test('audit timer scenario: no Backend response means no dispatch',async()=>{
 });
 for(const status of ['PAYMENT_PENDING','PARTIAL','PAID','CAPTURED'])test(`ticket and local history reflect ${status}`,()=>{
   const elements=new Map();let record;
-  const context={paymentState,state:{tipoComprobante:'BOLETA',placa:'ABC-123',combustible:{nombre:'Regular',precio:20},galones:4,modalidad:'POSTPAGO',montoPostpago:80,idioma:'es'},backendResult:{transaction:{id:'tx',status,amount:'80'},pointsEarned:80},calcularTotales:()=>({subtotal:80,descuento:0,total:80}),$:id=>{if(!elements.has(id))elements.set(id,{classList:{toggle(){}}});return elements.get(id);},t:x=>x,LOCALE_IDIOMA:{es:'es-PE'},guardarTransaccion:r=>{record=r;},refrescarAdmin(){},mostrarPantalla(){},hablar(){},actualizarEstado(){}};
-  vm.runInNewContext(source.slice(source.indexOf('function pintarResumen()'),source.indexOf('let receiptPrinting=false;'))+'\npintarResumen();',context);
+  const context={paymentState,state:{tipoComprobante:'BOLETA',placa:'ABC-123',combustible:{nombre:'Regular',precio:20},galones:4,modalidad:'POSTPAGO',montoPostpago:80,idioma:'es'},backendResult:{transaction:{id:'tx',status,amount:'80'},pointsEarned:80},calcularTotales:()=>({subtotal:80,descuento:0,total:80}),$:id=>{if(!elements.has(id))elements.set(id,{dataset:{},classList:{toggle(){}}});return elements.get(id);},t:x=>x,LOCALE_IDIOMA:{es:'es-PE'},guardarTransaccion:r=>{record=r;},refrescarAdmin(){},mostrarPantalla(){},hablar(){},actualizarEstado(){}};
+  vm.runInNewContext(source.slice(source.indexOf('function actualizarMensajeEcoDigital('),source.indexOf('let receiptPrinting=false;'))+'\npintarResumen();',context);
   const label=paymentState({status}).label;
   assert.equal(record.estado,label);assert.ok(elements.get('t-estado').textContent.includes(label));assert.match(elements.get('t-estado').textContent,/DEMO.*SUNAT/);
 });

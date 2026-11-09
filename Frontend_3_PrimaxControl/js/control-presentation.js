@@ -14,3 +14,7 @@ export function administrativeAccountForm(session, esc, message = '') {
 export function fuelSummaryMarkup(data, { esc, fmt, statusLabel }) {
   return `<div class="fuel-summary-grid">${data.inventory.map((item) => `<article class="fuel-summary-card"><div class="fuel-summary-head"><strong>${esc(item.fuel.name)}</strong><span class="badge ${item.activation?.status === 'REVIEW' ? 'warning' : ''}">${esc(statusLabel(item.activation?.status))}</span></div><p>${esc(data.stations.find((station) => station.id === item.stationId)?.name || 'Estación')}</p><dl><dt>Disponible</dt><dd>${fmt(item.availableLiters, 3)} L</dd><dt>Reservado</dt><dd>${fmt(item.reservedLiters, 3)} L</dd></dl></article>`).join('') || '<p class="muted">Sin inventario en este alcance.</p>'}</div>`;
 }
+export function ecoDigitalMetricMarkup(count) {
+  if (!Number.isSafeInteger(count) || count < 0) return '';
+  return `<article class="metric"><span>Comprobantes disponibles digitalmente</span><strong>${count}</strong><small>Emitidos hoy (hora de Lima) en estaciones visibles · documentos académicos de demostración. No indica si se imprimieron.</small></article>`;
+}

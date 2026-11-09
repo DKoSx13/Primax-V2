@@ -445,7 +445,14 @@
         <p id="print-error" class="error hidden" role="alert"></p>
         <div class="ticket-actions">
           <button id="btn-comprobante" class="btn btn-secondary" data-i18n="btn_comprobante">Imprimir y finalizar</button>
-          <button id="btn-finalizar" class="btn btn-ghost" data-i18n="btn_finalizar">No imprimir y finalizar</button>
+          <button id="btn-finalizar" class="btn btn-ghost btn-eco" data-i18n="btn_finalizar">No imprimir y finalizar</button>
+        </div>
+        <div class="eco-digital-note" role="note" aria-labelledby="eco-title">
+          <svg class="eco-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4c-8 0-14 3-14 10a6 6 0 0 0 6 6c7 0 10-6 8-16Z"/><path d="M4 21c2-5 6-9 12-12"/></svg>
+          <div class="eco-copy">
+            <strong id="eco-title" data-i18n="eco_nonprime_title">¡Menos papel en cada parada!</strong>
+            <p id="eco-description" data-i18n="eco_nonprime_description">Si no necesitas una copia, elige no imprimir.</p>
+          </div>
         </div>
       </section>
 
@@ -509,14 +516,20 @@
   </div>
 
   <!-- ============ ASISTENTE VIRTUAL (4 imágenes animadas) ============ -->
-  <div id="mascota" class="mascota" aria-label="Asistente virtual Primax">
-    <div class="mascota-frame">
-      <img id="m-ac" class="mascota-img" src="../assets/img/ojos_abiertos_boca%20_cerrada.jpeg" alt="" decoding="async" />
-      <img id="m-aa" class="mascota-img" src="../assets/img/ojos_abiertos_boca%20_abierta.jpeg" alt="" decoding="async" />
-      <img id="m-cc" class="mascota-img" src="../assets/img/ojos_cerrrados_boca%20_cerrada.jpeg" alt="" decoding="async" />
-      <img id="m-ca" class="mascota-img" src="../assets/img/ojos_cerrrados_boca%20_abierta.jpeg" alt="" decoding="async" />
+  <div class="summary-controls">
+    <div id="mascota" class="mascota" aria-label="Asistente virtual Primax">
+      <div class="mascota-frame">
+        <img id="m-ac" class="mascota-img" src="../assets/img/ojos_abiertos_boca%20_cerrada.jpeg" alt="" decoding="async" />
+        <img id="m-aa" class="mascota-img" src="../assets/img/ojos_abiertos_boca%20_abierta.jpeg" alt="" decoding="async" />
+        <img id="m-cc" class="mascota-img" src="../assets/img/ojos_cerrrados_boca%20_cerrada.jpeg" alt="" decoding="async" />
+        <img id="m-ca" class="mascota-img" src="../assets/img/ojos_cerrrados_boca%20_abierta.jpeg" alt="" decoding="async" />
+      </div>
+      <div class="mascota-tag" data-i18n="mascota_tag">Asistente Primax</div>
     </div>
-    <div class="mascota-tag" data-i18n="mascota_tag">Asistente Primax</div>
+    <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Solicitar asistencia humana" aria-label="Solicitar asistencia humana">
+      <span class="help-btn-icon">🛎️</span>
+      <span class="help-btn-text" data-i18n="btn_ayuda">Solicitar asistencia</span>
+    </button>
   </div>
 
   <!-- Modal personalizado (sin alert nativo) -->
@@ -547,12 +560,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ============ ASISTENCIA HUMANA (fijo, acompaña todo el proceso) ============ -->
-  <button id="btn-ayuda" class="help-btn" type="button" data-i18n-title="btn_ayuda_title" data-i18n-aria="btn_ayuda_title" title="Solicitar asistencia humana" aria-label="Solicitar asistencia humana">
-    <span class="help-btn-icon">🛎️</span>
-    <span class="help-btn-text" data-i18n="btn_ayuda">Solicitar asistencia</span>
-  </button>
 
   <div id="help-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
     <div class="modal">

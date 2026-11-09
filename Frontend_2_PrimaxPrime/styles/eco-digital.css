@@ -1,0 +1,6 @@
+.eco-digital-badge { display: inline-block; padding: 3px 7px; border: 1px solid #99c9ad; border-radius: 6px; background: #edf8f0; color: #195737; font-size: 11px; font-weight: 700; line-height: 1.4; }
+.movement .receipt-reference { color: #195737; overflow-wrap: anywhere; }
+.digital-receipt { margin-top: 20px; padding: 16px; border: 1px solid #badbc5; border-radius: 14px; background: #f4faf6; overflow-wrap: anywhere; }
+.digital-receipt > p { margin: 10px 0 14px; color: #345545; font-size: 11px; }
+.digital-receipt dl { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 10px; }
+.digital-receipt dt, .digital-receipt dd { min-width: 0; }

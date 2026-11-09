@@ -327,6 +327,10 @@ const I18N = {
     ticket_foot: 'Gracias por preferir Primax · Que tenga un buen viaje 🛣️',
     btn_comprobante: 'Imprimir y finalizar',
     btn_finalizar: 'No imprimir y finalizar',
+    eco_prime_title: '¡Tu elección hace la diferencia!',
+    eco_prime_description: 'Elige no imprimir y consulta tu comprobante en Primax Prime.',
+    eco_nonprime_title: '¡Menos papel en cada parada!',
+    eco_nonprime_description: 'Si no necesitas una copia, elige no imprimir.',
 
     // Admin
     admin_step: '🔒 ACCESO RESTRINGIDO',
@@ -649,6 +653,10 @@ const I18N = {
     ticket_foot: 'Thank you for choosing Primax · Have a great trip 🛣️',
     btn_comprobante: 'Print and finish',
     btn_finalizar: 'Finish without printing',
+    eco_prime_title: 'Your choice makes a difference!',
+    eco_prime_description: 'Choose not to print and view your receipt in Primax Prime.',
+    eco_nonprime_title: 'Less paper at every stop!',
+    eco_nonprime_description: 'If you do not need a copy, choose not to print.',
 
     admin_step: '🔒 RESTRICTED ACCESS',
     admin_title: 'Security / Admin Panel',
@@ -965,6 +973,10 @@ const I18N = {
     ticket_foot: 'Primaxta akllasqaykiman gracias · Allin riykita munayku 🛣️',
     btn_comprobante: 'Imprimir y finalizar',
     btn_finalizar: 'No imprimir y finalizar',
+    eco_prime_title: '¡Akllasqaykiqa yanapan!',
+    eco_prime_description: 'Ama imprimiyta akllaychu, comprobanteykita Primax Prime nisqapi qhaway.',
+    eco_nonprime_title: '¡Sapa sayaypi aswan pisi raphi!',
+    eco_nonprime_description: 'Sichus copiata mana munanki chayqa, ama imprimiyta akllaychu.',
 
     admin_step: '🔒 YAYKUY HUKNIN',
     admin_title: 'Seguridad / Admin Panel',
@@ -1911,10 +1923,20 @@ async function manejarFalloConfirmacion(error) {
     ()=>{state.modalidad=null;document.querySelectorAll('#btn-prepago, #btn-postpago').forEach(b=>b.classList.remove('selected'));mostrarPantalla('pantalla-pago');});
 }
 
+function actualizarMensajeEcoDigital(transaction) {
+  const ecoPrime = Boolean(transaction?.membership?.id && transaction?.receipt?.number);
+  for (const [id, suffix] of [['eco-title', 'title'], ['eco-description', 'description']]) {
+    const element = $(id);
+    element.dataset.i18n = `eco_${ecoPrime ? 'prime' : 'nonprime'}_${suffix}`;
+    element.textContent = t(element.dataset.i18n);
+  }
+}
+
 /** Pinta el ticket con el resultado que ya existe en backendResult. */
 function pintarResumen(){
   if ($('receipt-number')) $('receipt-number').textContent = backendResult?.transaction?.receipt?.number ? 'N.º ' + backendResult.transaction.receipt.number : 'Sin comprobante emitido';
   const transaction=backendResult.transaction;
+  actualizarMensajeEcoDigital(transaction);
   state.total = Number(backendResult.transaction.amount);
   if(backendResult.transaction.gallons != null) state.galones = Number(backendResult.transaction.gallons);
   if(backendResult.transaction.unitPrice != null) state.combustible.precio = Number(backendResult.transaction.unitPrice);
