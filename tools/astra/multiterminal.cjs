@@ -10,12 +10,13 @@ const origin = (port) => `http://127.0.0.1:${port}`;
 const stationCode = 'PRIMAX-SUR';
 
 class Client {
-  constructor(port, terminal = false) { this.port = port; this.terminal = terminal; this.cookies = new Map(); this.csrf = ''; }
+  constructor(port, terminal = false) { this.port = port; this.terminal = terminal; this.cookies = new Map(); this.csrf = ''; this.owner = require('./owner.cjs'); }
   async call(path, body, expected = [200, 201], extra = {}) {
     const headers = { ...extra };
     if (this.cookies.size) headers.Cookie = [...this.cookies].map(([name, value]) => `${name}=${value}`).join('; ');
     if (this.terminal) {
       headers.Origin = origin(this.port);
+      headers['X-FuelFlow-Tab'] = extra['X-FuelFlow-Tab'] || this.owner;
       headers['X-FuelFlow-Request'] = '1';
       headers['X-CSRF-Token'] = path.startsWith('/api/v1/terminal/') && body !== undefined
         ? this.cookies.get(`primax-terminal-csrf-local-${this.port}`) || '' : this.csrf;
@@ -37,6 +38,13 @@ class Client {
     const response = await this.call('/api/kiosk/terminal-bootstrap', {});
     assert.equal(response.prepared, true);
     this.csrf = response.csrfToken;
+    const deadline=Date.now()+150000;
+    while(true){
+      const claim=await this.call('/api/v1/terminal/claim', {}, [200,201,409]);
+      if(claim.claimed)break;
+      assert(Date.now()<deadline, 'QA terminal owner did not expire; preserve active session');
+      await new Promise(resolve=>setTimeout(resolve,2000));
+    }
     return response;
   }
 }
@@ -44,11 +52,15 @@ class Client {
 async function main() {
   const t01 = new Client(ports.t01, true), t02 = new Client(ports.t02, true);
   const prime = new Client(ports.prime), control = new Client(ports.control);
+  await prime.call('/api/v1/memberships/me', undefined, [401]);
+  await control.call('/api/v1/control/operations', undefined, [401]);
   const [stations, fuels] = await Promise.all([prime.call('/api/v1/stations'), prime.call('/api/v1/fuels')]);
   const stationId = stations.find((item) => item.code === stationCode)?.id;
   const fuelId = fuels.find((item) => item.code === 'REGULAR')?.id;
   assert(stationId && fuelId, 'Station and fuel must exist');
 
+  const inventoryBefore = (await prime.call('/api/v1/fuels/inventory')).find(x=>x.stationId===stationId&&x.fuelId===fuelId);
+  assert(inventoryBefore);
   const first = await prime.call('/api/v1/auth/login', { email: 'demo@primaxprime.pe', password: process.env.DEMO_PASSWORD || 'PrimaxDemo123!' });
   const firstToken = first.accessToken;
   const account = { email: 'astra-t02@example.test', password: 'FeriaT02Demo123!' };
@@ -73,6 +85,7 @@ async function main() {
   ]);
   assert.equal(opened[0].operationId, operation01);
   assert.equal(opened[1].operationId, operation02);
+  await t01.call('/api/v1/terminal/claim', {}, [409], {'X-FuelFlow-Tab':randomUUID()});
   // An idempotent retry must keep the same persisted operation number.
   await t01.call('/api/v1/terminal/operations', { operationId: operation01 });
   const makeBody = (operationId, plate) => ({ operationId, plate, stationId, fuelId, amount: '21.30', mode: 'PREPAGO', paymentMethod: 'TARJETA', receiptType: 'BOLETA' });
@@ -83,6 +96,7 @@ async function main() {
   const sales = await Promise.all([t01.call('/api/v1/transactions', saleBodies[0]), t02.call('/api/v1/transactions', saleBodies[1])]);
   const replay = await t01.call('/api/v1/transactions', saleBodies[0]);
   assert.equal(replay.transaction.id, sales[0].transaction.id);
+  assert.equal(replay.transaction.receipt.number, sales[0].transaction.receipt.number);
   await Promise.all([t01.call(`/api/v1/terminal/operations/${operation01}/close`, {}), t02.call(`/api/v1/terminal/operations/${operation02}/close`, {})]);
   const controlSession = await control.call('/api/v1/control/login', { email: 'control-admin@primax.local', password: process.env.DEMO_CONTROL_ADMIN_PASSWORD || 'AdminDemoLocal123!' });
   assert(controlSession);
@@ -96,6 +110,9 @@ async function main() {
   const history02 = await prime.call('/api/v1/memberships/me/transactions', undefined, [200], { Authorization: `Bearer ${secondToken}` });
   assert(history01.some((item) => item.id === sales[0].transaction.id) && !history01.some((item) => item.id === sales[1].transaction.id));
   assert(history02.some((item) => item.id === sales[1].transaction.id) && !history02.some((item) => item.id === sales[0].transaction.id));
-  console.log(JSON.stringify({ result: 'PASS', operations: own.map((item) => ({ number: item.number, terminal: item.terminal.code, pump: item.pump.code, receipt: item.receipt.number })), checks: ['two concurrent sales', 'idempotent start and sale', 'central Control', 'isolated Prime histories'] }, null, 2));
+  const inventoryAfter = (await prime.call('/api/v1/fuels/inventory')).find(x=>x.stationId===stationId&&x.fuelId===fuelId);
+  assert.equal(Math.round((Number(inventoryBefore.liters)-Number(inventoryAfter.liters))*1000000), 7570824, 'Two independently rounded gallons deducted exactly once');
+  assert.equal(Number(inventoryBefore.reservedLiters),Number(inventoryAfter.reservedLiters));
+  console.log(JSON.stringify({ inventoryBefore, inventoryAfter, result: 'PASS', operations: own.map((item) => ({ number: item.number, terminal: item.terminal.code, pump: item.pump.code, receipt: item.receipt.number })), checks: ['two concurrent sales', 'idempotent start and sale', 'central Control', 'isolated Prime histories'] }, null, 2));
 }
 main().catch((error) => { console.error(error); process.exitCode = 1; });

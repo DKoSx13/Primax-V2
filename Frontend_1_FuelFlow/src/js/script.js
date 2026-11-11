@@ -2694,6 +2694,7 @@ function init() {
 
   // 1. Inicio
   $('btn-iniciar').addEventListener('click', iniciar);
+  $('btn-iniciar').disabled = false;
 
   // 2. Combustible
   document.querySelectorAll('.fuel-card').forEach((card) =>

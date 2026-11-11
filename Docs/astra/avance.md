@@ -49,3 +49,44 @@ for app in Frontend_1_FuelFlow Frontend_2_PrimaxPrime Frontend_3_PrimaxControl; 
   npm run build --prefix "$app" || exit 1
 done
 ```
+
+## Continuación: laboratorio y suite E2E
+
+Commit de infraestructura `6c9fbb1`: laboratorio `primax-astra-qa`, puertos loopback 28100/28181/28182/28183/28184 y volúmenes propios. El lanzador ignora archivos .env y variables heredadas de conexión, verifica recursos y comprueba puertos libres antes del arranque. Las pruebas verifican etiquetas Docker, puertos y volumen PostgreSQL antes de escribir datos. No se ejecutó el antiguo smoke restringido a feria.
+
+Revisión de Playwright existente: `integration.spec.cjs` usa Prisma directo, proxies antiguos e inyección de fallos; los tests de login Prime instalan `api-fixture.cjs` (mocks). `smoke-multiterminal.cjs` apunta explícitamente a feria. Se reutilizó su recorrido HTTP en una copia exclusiva QA con comprobaciones de aislamiento e inventario; no equivale a compra mediante clicks en navegador.
+
+Suite centralizada en `tools/astra`: Playwright y axe con versiones fijas y lockfile. Tres tamaños; HTML, JSON, screenshots y traces ante fallo. Auditoría de pageerror, consola, requestfailed y HTTP; los errores negativos permitidos se especifican por ruta y código. Ningún mock instalado en esta suite. Las capturas de acceso son evidencia, no baselines visuales aprobados.
+
+```bash
+npm ci --prefix tools/astra
+(cd tools/astra && npx playwright install --with-deps chromium)
+node tools/astra/lab.cjs config
+node tools/astra/lab.cjs up
+COMPOSE_PROJECT_NAME=primax-astra-qa node tools/astra/multiterminal.cjs
+npm test --prefix tools/astra
+node tools/astra/lab.cjs stop
+```
+
+`up` rechaza puertos ocupados; para repetir pruebas sobre el laboratorio ya levantado omitir ese paso. `stop` conserva volúmenes. El workflow `astra-e2e.yml` prepara estos pasos en un runner aislado y sube artefactos incluso con fallo. No hubo publicación: el workflow remoto anterior no puede reflejar commits locales; debe comprobarse tras un push autorizado, verificando SHA y ejecución de ambos workflows.
+
+Pendientes antes de arquitectura: recorrido UI de compra/impresión/recuperación en ambas terminales, roles y estaciones, postpago, wallet, EcoDigital, registro y sesión expirada, correlativos FT01, accesibilidad tras login, baselines revisados y Lighthouse. Los PR mantienen el estado consultado anteriormente; esta continuación no volvió a consultar GitHub ni cambió ramas remotas.
+
+### Hallazgos demostrados durante ejecución
+
+- T02 devolvía 409 al bootstrap en instalación limpia: Compose la publica pero `seed-local-operations.cjs` solo creaba T01. Se extendió el seed local para T02/surtidor 04, conservando T01/03 y sin reasignar terminales existentes. Aplicado solo al contenedor QA; consulta PostgreSQL confirma las dos terminales.
+- El smoke anterior no transmitía `X-FuelFlow-Tab` ni reclamaba `/terminal/claim`, por lo que era incompatible con el control de propietario vigente. La copia QA ahora respeta ese protocolo. No se borran locks: espera acotadamente su expiración y falla si persiste una sesión.
+- No ejecutar smoke y navegador simultáneamente: compiten correctamente por la terminal. El workflow los ejecuta secuencialmente.
+- El seed fue validado en el contenedor QA mediante copia temporal del script; un nuevo build incorporará el archivo corregido. No se modificaron imágenes o contenedores de otros proyectos.
+
+### Integración real aprobada
+
+`evidence/integration-real.json`: dos ventas concurrentes; T01/03 OP01-0001 EB01-0001 y T02/04 OP01-0003 EB01-0003. Los huecos de secuencia son compatibles con los reintentos transaccionales y no significan duplicados. Regular: 5000 → 4992.429176 litros; reservas 0 → 0. Reenvío conserva transacción y comprobante. Control devuelve ambas operaciones y Prime separa los historiales de los dos clientes. `evidence/qa-cardinality.txt` confirma una transacción por operación y un pago por transacción en esta base nueva. No demuestra todavía FT01, postpago ni todas las recuperaciones.
+
+Primera ejecución navegador: 19 aprobadas / 5 fallidas / 0 omitidas. Detalle en `evidence/browser-first-summary.json` y `browser-first.txt`. Fallos: T02 sin seed, colisiones de propietarios entre proyectos responsive y dos esperas de login agotadas en 5 segundos. La suite conserva una identidad QA estable entre ejecuciones secuenciales; la prueba negativa HTTP usa otra identidad y exige 409. Espera de aserciones aumentada a 20 segundos, sin alterar códigos HTTP ni reglas de negocio.
+
+Comprobaciones auxiliares: 5/5 tests de seguridad de base de datos aprobados; auditoría de secretos sin hallazgos.
+
+### PR divergentes: comprobación adicional local
+
+`git cherry HEAD <head>` marca #9/#10/#15 con `+`: no son patches idénticos en el historial. Sin embargo, inspección actual confirma logo corporativo Prime, variante V2 en Control y cuadrícula `.pay-grid-methods` de tres columnas con una en móvil. La divergencia de commits no implica que esas funcionalidades falten. Recomendación: conservar la implementación QA, comparar cambios residuales de assets/cache antes del PR consolidado; no cherry-pick de las ramas visuales completas ni cierre automático de PR. Los otros seis heads siguen incluidos por ascendencia.
