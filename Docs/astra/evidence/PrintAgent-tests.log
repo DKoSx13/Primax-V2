@@ -1,0 +1,356 @@
+
+> test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: valid full v2 contract uses canonical property order
+ok 1 - valid full v2 contract uses canonical property order
+  ---
+  duration_ms: 2.667332
+  type: 'test'
+  ...
+# Subtest: pump code in the receipt may reflect T02 without changing the document contract
+ok 2 - pump code in the receipt may reflect T02 without changing the document contract
+  ---
+  duration_ms: 0.799191
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"text":"arbitrary"}
+ok 3 - rejects arbitrary or incompatible print data {"text":"arbitrary"}
+  ---
+  duration_ms: 0.520163
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"printerName":"EPSON"}
+ok 4 - rejects arbitrary or incompatible print data {"printerName":"EPSON"}
+  ---
+  duration_ms: 0.107863
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"copies":2}
+ok 5 - rejects arbitrary or incompatible print data {"copies":2}
+  ---
+  duration_ms: 0.098597
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"demo":false}
+ok 6 - rejects arbitrary or incompatible print data {"demo":false}
+  ---
+  duration_ms: 0.099619
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"dni":"123"}
+ok 7 - rejects arbitrary or incompatible print data {"dni":"123"}
+  ---
+  duration_ms: 0.105099
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"ruc":"20123456789"}
+ok 8 - rejects arbitrary or incompatible print data {"ruc":"20123456789"}
+  ---
+  duration_ms: 0.25128
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"total":"NaN"}
+ok 9 - rejects arbitrary or incompatible print data {"total":"NaN"}
+  ---
+  duration_ms: 0.280431
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"pending":"1.00","state":"Pagado"}
+ok 10 - rejects arbitrary or incompatible print data {"pending":"1.00","state":"Pagado"}
+  ---
+  duration_ms: 0.336218
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"station":"x\\nPrint()"}
+ok 11 - rejects arbitrary or incompatible print data {"station":"x\\nPrint()"}
+  ---
+  duration_ms: 0.31234
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"documentType":"OTRO"}
+ok 12 - rejects arbitrary or incompatible print data {"documentType":"OTRO"}
+  ---
+  duration_ms: 1.119244
+  type: 'test'
+  ...
+# Subtest: rejects arbitrary or incompatible print data {"schemaVersion":1}
+ok 13 - rejects arbitrary or incompatible print data {"schemaVersion":1}
+  ---
+  duration_ms: 0.100295
+  type: 'test'
+  ...
+# Subtest: legacy text-only requests rejected without guessing boleta/factura
+ok 14 - legacy text-only requests rejected without guessing boleta/factura
+  ---
+  duration_ms: 0.121614
+  type: 'test'
+  ...
+# Subtest: status does not disclose receipt, hash or personal data
+ok 15 - status does not disclose receipt, hash or personal data
+  ---
+  duration_ms: 0.493831
+  type: 'test'
+  ...
+# Subtest: checks final 100 mm geometry rather than default 48.05 mm width
+ok 16 - checks final 100 mm geometry rather than default 48.05 mm width
+  ---
+  duration_ms: 0.491796
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"portName":"USB002"}
+ok 17 - configuration rejects unsafe change {"portName":"USB002"}
+  ---
+  duration_ms: 0.145906
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"driverName":"EPSON"}
+ok 18 - configuration rejects unsafe change {"driverName":"EPSON"}
+  ---
+  duration_ms: 0.198629
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"paperHeightHundredths":827}
+ok 19 - configuration rejects unsafe change {"paperHeightHundredths":827}
+  ---
+  duration_ms: 0.063529
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"formatConfirmed":false}
+ok 20 - configuration rejects unsafe change {"formatConfirmed":false}
+  ---
+  duration_ms: 0.044853
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"origins":["*"]}
+ok 21 - configuration rejects unsafe change {"origins":["*"]}
+  ---
+  duration_ms: 0.057095
+  type: 'test'
+  ...
+# Subtest: configuration rejects unsafe change {"printableLeftMm":20}
+ok 22 - configuration rejects unsafe change {"printableLeftMm":20}
+  ---
+  duration_ms: 0.053006
+  type: 'test'
+  ...
+# Subtest: restores only the automatically selected target, using mocked settings and no printing
+ok 23 - restores only the automatically selected target, using mocked settings and no printing # SKIP requires Windows PowerShell
+  ---
+  duration_ms: 0.550401
+  type: 'test'
+  ...
+# Subtest: health GET only requires the authorized Origin/Host; jobs keep the protocol marker and UTF-8 JSON
+ok 24 - health GET only requires the authorized Origin/Host; jobs keep the protocol marker and UTF-8 JSON
+  ---
+  duration_ms: 55.877494
+  type: 'test'
+  ...
+# Subtest: media type parser permits JSON UTF-8 without admitting other types or encodings
+ok 25 - media type parser permits JSON UTF-8 without admitting other types or encodings
+  ---
+  duration_ms: 0.257098
+  type: 'test'
+  ...
+# Subtest: real HTTP loopback: restrictive CORS, host, methods, headers, health and stable jobs
+ok 26 - real HTTP loopback: restrictive CORS, host, methods, headers, health and stable jobs
+  ---
+  duration_ms: 99.710825
+  type: 'test'
+  ...
+# Subtest: concurrent clicks, replay and process restart send only once
+ok 27 - concurrent clicks, replay and process restart send only once
+  ---
+  duration_ms: 20.446605
+  type: 'test'
+  ...
+# Subtest: unknown adapter result and crash are never automatically resent
+ok 28 - unknown adapter result and crash are never automatically resent
+  ---
+  duration_ms: 15.75638
+  type: 'test'
+  ...
+# Subtest: disconnected printer safe preflight failure permits retry with the same id
+ok 29 - disconnected printer safe preflight failure permits retry with the same id
+  ---
+  duration_ms: 26.579387
+  type: 'test'
+  ...
+# Subtest: API restricts origins, host, headers, paths and payload; reconciles same job
+ok 30 - API restricts origins, host, headers, paths and payload; reconciles same job
+  ---
+  duration_ms: 79.114776
+  type: 'test'
+  ...
+# Subtest: diagnostic server blocks all job access without creating a store
+ok 31 - diagnostic server blocks all job access without creating a store
+  ---
+  duration_ms: 5.330281
+  type: 'test'
+  ...
+# Subtest: attempt journal appends request/result without receipt personal data or duplicate replay
+ok 32 - attempt journal appends request/result without receipt personal data or duplicate replay
+  ---
+  duration_ms: 11.417208
+  type: 'test'
+  ...
+# Subtest: accepts measured nominal 57 × 100 mm geometry at 203 DPI
+ok 33 - accepts measured nominal 57 × 100 mm geometry at 203 DPI
+  ---
+  duration_ms: 1.527698
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"agentPort":24443}
+ok 34 - rejects previous release or unsafe configuration {"agentPort":24443}
+  ---
+  duration_ms: 0.319176
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"agentHost":"0.0.0.0"}
+ok 35 - rejects previous release or unsafe configuration {"agentHost":"0.0.0.0"}
+  ---
+  duration_ms: 0.089056
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"agentHost":"localhost"}
+ok 36 - rejects previous release or unsafe configuration {"agentHost":"localhost"}
+  ---
+  duration_ms: 0.234433
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"transport":"https"}
+ok 37 - rejects previous release or unsafe configuration {"transport":"https"}
+  ---
+  duration_ms: 0.088687
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {}
+ok 38 - rejects previous release or unsafe configuration {}
+  ---
+  duration_ms: 0.077924
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"printerName":"PeriPage A6(2)"}
+ok 39 - rejects previous release or unsafe configuration {"printerName":"PeriPage A6(2)"}
+  ---
+  duration_ms: 0.232748
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"origins":["*"]}
+ok 40 - rejects previous release or unsafe configuration {"origins":["*"]}
+  ---
+  duration_ms: 0.532906
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"origins":["http://192.168.1.2:26081"]}
+ok 41 - rejects previous release or unsafe configuration {"origins":["http://192.168.1.2:26081"]}
+  ---
+  duration_ms: 0.261593
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"origins":["https://fuel.example"]}
+ok 42 - rejects previous release or unsafe configuration {"origins":["https://fuel.example"]}
+  ---
+  duration_ms: 0.468826
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"origins":["http://localhost:26081/"]}
+ok 43 - rejects previous release or unsafe configuration {"origins":["http://localhost:26081/"]}
+  ---
+  duration_ms: 0.143623
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"origins":["http://user:pass@127.0.0.1:26081"]}
+ok 44 - rejects previous release or unsafe configuration {"origins":["http://user:pass@127.0.0.1:26081"]}
+  ---
+  duration_ms: 0.075413
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"dpi":304}
+ok 45 - rejects previous release or unsafe configuration {"dpi":304}
+  ---
+  duration_ms: 0.053348
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"dataDirectory":"../data-v11_4"}
+ok 46 - rejects previous release or unsafe configuration {"dataDirectory":"../data-v11_4"}
+  ---
+  duration_ms: 0.043817
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"dataDirectory":"data-v11_1_1"}
+ok 47 - rejects previous release or unsafe configuration {"dataDirectory":"data-v11_1_1"}
+  ---
+  duration_ms: 0.043204
+  type: 'test'
+  ...
+# Subtest: rejects previous release or unsafe configuration {"paperWidthHundredths":228}
+ok 48 - rejects previous release or unsafe configuration {"paperWidthHundredths":228}
+  ---
+  duration_ms: 0.091367
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {"dpiX":304}
+ok 49 - rejects unconfirmed printer {"dpiX":304}
+  ---
+  duration_ms: 0.284335
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {"dpiY":200}
+ok 50 - rejects unconfirmed printer {"dpiY":200}
+  ---
+  duration_ms: 0.116353
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {}
+ok 51 - rejects unconfirmed printer {}
+  ---
+  duration_ms: 0.047823
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {"paperWidthMm":57.912}
+ok 52 - rejects unconfirmed printer {"paperWidthMm":57.912}
+  ---
+  duration_ms: 0.042888
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {}
+ok 53 - rejects unconfirmed printer {}
+  ---
+  duration_ms: 0.058876
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {"paperHeightMm":null}
+ok 54 - rejects unconfirmed printer {"paperHeightMm":null}
+  ---
+  duration_ms: 0.041707
+  type: 'test'
+  ...
+# Subtest: rejects unconfirmed printer {"status":"Offline"}
+ok 55 - rejects unconfirmed printer {"status":"Offline"}
+  ---
+  duration_ms: 0.037991
+  type: 'test'
+  ...
+# Subtest: frontend and agent use the same isolated loopback HTTP port
+ok 56 - frontend and agent use the same isolated loopback HTTP port
+  ---
+  duration_ms: 0.505455
+  type: 'test'
+  ...
+# Subtest: PowerShell uses an absolute system executable, never PATH or cwd
+ok 57 - PowerShell uses an absolute system executable, never PATH or cwd
+  ---
+  duration_ms: 1.78325
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 1099.696731

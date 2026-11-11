@@ -1,0 +1,230 @@
+
+> primax-control@1.0.0 test
+> node --test tests/*.test.js
+
+TAP version 13
+# Subtest: only pending requests can be taken; only assigned staff member can finish
+ok 1 - only pending requests can be taken; only assigned staff member can finish
+  ---
+  duration_ms: 1.349713
+  type: 'test'
+  ...
+# Subtest: administrative history needs incident view grant
+ok 2 - administrative history needs incident view grant
+  ---
+  duration_ms: 1.931147
+  type: 'test'
+  ...
+# Subtest: notification baseline excludes history and suppresses repeats
+ok 3 - notification baseline excludes history and suppresses repeats
+  ---
+  duration_ms: 0.465639
+  type: 'test'
+  ...
+# Subtest: detail keeps scoped data readable, chronological and escaped
+ok 4 - detail keeps scoped data readable, chronological and escaped
+  ---
+  duration_ms: 27.837837
+  type: 'test'
+  ...
+# Subtest: real backend assistance events have readable labels and unknown codes remain diagnostic
+ok 5 - real backend assistance events have readable labels and unknown codes remain diagnostic
+  ---
+  duration_ms: 0.352723
+  type: 'test'
+  ...
+# Subtest: direct administrative account form is global only and keeps internal role and permission values
+ok 6 - direct administrative account form is global only and keeps internal role and permission values
+  ---
+  duration_ms: 2.066163
+  type: 'test'
+  ...
+# Subtest: dashboard fuel summary uses responsive cards with all inventory facts and no table
+ok 7 - dashboard fuel summary uses responsive cards with all inventory facts and no table
+  ---
+  duration_ms: 0.76335
+  type: 'test'
+  ...
+# Subtest: EcoDigital dashboard card shows only a sourced count with an explicit demo and print caveat
+ok 8 - EcoDigital dashboard card shows only a sourced count with an explicit demo and print caveat
+  ---
+  duration_ms: 0.142405
+  type: 'test'
+  ...
+# Subtest: date fields keep the visible format inside inputs without redundant help text
+ok 9 - date fields keep the visible format inside inputs without redundant help text
+  ---
+  duration_ms: 1.615391
+  type: 'test'
+  ...
+# Subtest: Control Function exports a handler and keeps API under the browser origin
+ok 10 - Control Function exports a handler and keeps API under the browser origin
+  ---
+  duration_ms: 4.518358
+  type: 'test'
+  ...
+# Subtest: Vercel routes nested Control account and terminal actions to the proxy
+ok 11 - Vercel routes nested Control account and terminal actions to the proxy
+  ---
+  duration_ms: 95.766305
+  type: 'test'
+  ...
+# Subtest: Control proxy forwards only its auth cookie and preserves Secure Set-Cookie
+ok 12 - Control proxy forwards only its auth cookie and preserves Secure Set-Cookie
+  ---
+  duration_ms: 34.23597
+  type: 'test'
+  ...
+# Subtest: Control proxy rejects other API namespaces, foreign origins and duplicate cookies
+ok 13 - Control proxy rejects other API namespaces, foreign origins and duplicate cookies
+  ---
+  duration_ms: 1.982928
+  type: 'test'
+  ...
+# Subtest: Control proxy rejects an insecure upstream auth cookie before exposing it to HTTPS browser
+ok 14 - Control proxy rejects an insecure upstream auth cookie before exposing it to HTTPS browser
+  ---
+  duration_ms: 1.13142
+  type: 'test'
+  ...
+# Subtest: Control proxy strips Vercel routing metadata and preserves functional filters across sections
+ok 15 - Control proxy strips Vercel routing metadata and preserves functional filters across sections
+  ---
+  duration_ms: 7.6548
+  type: 'test'
+  ...
+# Subtest: Vercel adapter removes catch-all metadata from req.url and req.query
+ok 16 - Vercel adapter removes catch-all metadata from req.url and req.query
+  ---
+  duration_ms: 7.253229
+  type: 'test'
+  ...
+# Subtest: global user and explicit station assignment define allowed scope
+ok 17 - global user and explicit station assignment define allowed scope
+  ---
+  duration_ms: 1.507414
+  type: 'test'
+  ...
+# Subtest: route guard maps unknown route to dashboard and permits known views
+ok 18 - route guard maps unknown route to dashboard and permits known views
+  ---
+  duration_ms: 0.417924
+  type: 'test'
+  ...
+# Subtest: API errors show safe, actionable messages
+ok 19 - API errors show safe, actionable messages
+  ---
+  duration_ms: 3.322708
+  type: 'test'
+  ...
+# Subtest: login, session and logout use the HttpOnly cookie session without storing a token
+ok 20 - login, session and logout use the HttpOnly cookie session without storing a token
+  ---
+  duration_ms: 1.525122
+  type: 'test'
+  ...
+# Subtest: request surfaces backend authorization and service errors with status
+ok 21 - request surfaces backend authorization and service errors with status
+  ---
+  duration_ms: 1.709664
+  type: 'test'
+  ...
+# Subtest: navigation exposes each administrative module only to its explicit permission
+ok 22 - navigation exposes each administrative module only to its explicit permission
+  ---
+  duration_ms: 3.113375
+  type: 'test'
+  ...
+# Subtest: Control navigation contains only authorized administrative modules
+ok 23 - Control navigation contains only authorized administrative modules
+  ---
+  duration_ms: 0.76076
+  type: 'test'
+  ...
+# Subtest: parses a valid display date into the API format
+ok 24 - parses a valid display date into the API format
+  ---
+  duration_ms: 1.836812
+  type: 'test'
+  ...
+# Subtest: rejects malformed and impossible calendar dates
+ok 25 - rejects malformed and impossible calendar dates
+  ---
+  duration_ms: 0.191907
+  type: 'test'
+  ...
+# Subtest: accepts leap day only in leap years
+ok 26 - accepts leap day only in leap years
+  ---
+  duration_ms: 0.116815
+  type: 'test'
+  ...
+# Subtest: formats API dates for the user and preserves optional empty filters
+ok 27 - formats API dates for the user and preserves optional empty filters
+  ---
+  duration_ms: 0.559602
+  type: 'test'
+  ...
+# Subtest: all persisted inventory movement kinds have Spanish labels
+ok 28 - all persisted inventory movement kinds have Spanish labels
+  ---
+  duration_ms: 5.217309
+  type: 'test'
+  ...
+# Subtest: exact decimal display keeps sign and fractional precision
+ok 29 - exact decimal display keeps sign and fractional precision
+  ---
+  duration_ms: 0.460598
+  type: 'test'
+  ...
+# Subtest: backend operational and authorization statuses are distinct from financial statuses
+ok 30 - backend operational and authorization statuses are distinct from financial statuses
+  ---
+  duration_ms: 2.330754
+  type: 'test'
+  ...
+# Subtest: operation detail labels distinguish orders, payments, authorization and inventory
+ok 31 - operation detail labels distinguish orders, payments, authorization and inventory
+  ---
+  duration_ms: 0.249367
+  type: 'test'
+  ...
+# Subtest: transaction statuses used by the operations filter have distinct labels
+ok 32 - transaction statuses used by the operations filter have distinct labels
+  ---
+  duration_ms: 0.486435
+  type: 'test'
+  ...
+# Subtest: PrintAgent only accepts an exact local Control origin
+ok 33 - PrintAgent only accepts an exact local Control origin
+  ---
+  duration_ms: 1.149027
+  type: 'test'
+  ...
+# Subtest: PrintAgent submits one stable job and safely reuses an accepted job
+ok 34 - PrintAgent submits one stable job and safely reuses an accepted job
+  ---
+  duration_ms: 1.491041
+  type: 'test'
+  ...
+# Subtest: PrintAgent failure is surfaced without retrying a possibly unknown job
+ok 35 - PrintAgent failure is surfaced without retrying a possibly unknown job
+  ---
+  duration_ms: 3.819426
+  type: 'test'
+  ...
+# Subtest: Control has no browser print action or browser fallback recommendation
+ok 36 - Control has no browser print action or browser fallback recommendation
+  ---
+  duration_ms: 2.74441
+  type: 'test'
+  ...
+1..36
+# tests 36
+# suites 0
+# pass 36
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1435.19844

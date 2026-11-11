@@ -13,10 +13,10 @@ function fixture(fail=false){
   const events=[];
   const elements=new Map([...html.matchAll(/id="([^"]+)"/g)].map(([,id])=>[id,{classList:{add(){},remove(){}},value:'',checked:true,textContent:''}]));
   const context={
-    receiptPrinting:false,receiptClosing:false,backendResult:{transaction:{id:'tx'}},state:{},
+    confirmedTerminal:{code:'T01'},receiptPrinting:false,receiptClosing:false,backendResult:{transaction:{id:'tx'}},state:{},
     $:id=>elements.get(id),document:{querySelectorAll:()=>[]},clearInterval(){},
     transactionsService:{current:()=>({operationId:'operation'}),assertCanFinish:id=>assert.equal(id,'tx'),finish:id=>events.push('finish:'+id)},
-    terminalService:{close:async id=>{events.push('close:'+id);if(fail)throw Error('Backend unavailable');}},
+    terminalService:{me:async()=>({code:'T01',pumpCode:'01'}),close:async id=>{events.push('close:'+id);if(fail)throw Error('Backend unavailable');}},
     detenerProgresoAyuda(){},limpiarAuto(){},limpiarPostpago(){},actualizarMontoDisplay(){},
     mostrarPantalla:id=>events.push('screen:'+id),hablar(){},t:key=>key,actualizarEstado(){},
   };
@@ -77,4 +77,33 @@ test('a failed close after printing never displays a success message',async()=>{
   assert.equal(f.context.backendResult.transaction.id,'tx');
   assert.equal(f.elements.get('print-error').textContent,'Close unavailable');
   assert.deepEqual(statuses,[]);
+});
+
+for (const terminal of [{code:'T02',pumpCode:'02'}, {code:'T01',pumpCode:''}]) {
+  test(`printing rejects changed or invalid terminal identity ${JSON.stringify(terminal)}`, async()=>{
+    const f=printingFixture();
+    f.context.terminalService.me=async()=>terminal;
+    await f.context.imprimirYFinalizar();
+    assert.deepEqual(f.events,[]);
+    assert.equal(f.context.backendResult.transaction.id,'tx');
+    assert.match(f.elements.get('print-error').textContent,/identidad del surtidor/);
+    assert.equal(f.context.receiptPrinting,false);
+    assert.equal(f.elements.get('btn-comprobante').disabled,false);
+  });
+}
+test('terminal identity outage preserves receipt without printing or closing',async()=>{
+  const f=printingFixture();
+  f.context.terminalService.me=async()=>{throw Error('Terminal no disponible');};
+  await f.context.imprimirYFinalizar();
+  assert.deepEqual(f.events,[]);
+  assert.equal(f.context.backendResult.transaction.id,'tx');
+  assert.match(f.elements.get('print-error').textContent,/Terminal no disponible/);
+});
+test('T02 prints using the pump confirmed by the backend',async()=>{
+  const f=printingFixture();
+  f.context.confirmedTerminal={code:'T02'};
+  f.context.terminalService.me=async()=>({code:'T02',pumpCode:'02'});
+  f.context.thermalReceipt=(tx,pump)=>{assert.equal(pump,'02');return tx.receipt;};
+  await f.context.imprimirYFinalizar();
+  assert.deepEqual(f.events,['print:EB01-0007','close:operation','finish:tx','screen:pantalla-inicio']);
 });

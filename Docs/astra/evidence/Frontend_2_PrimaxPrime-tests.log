@@ -1,0 +1,200 @@
+
+> primax-prime@1.0.0 test
+> node --test tests/*.test.js
+
+TAP version 13
+# Subtest: login HTTP persiste JWT y usuario sin contraseña
+ok 1 - login HTTP persiste JWT y usuario sin contraseña
+  ---
+  duration_ms: 89.4452
+  type: 'test'
+  ...
+# Subtest: login inválido muestra error y no crea sesión
+ok 2 - login inválido muestra error y no crea sesión
+  ---
+  duration_ms: 0.799613
+  type: 'test'
+  ...
+# Subtest: logout elimina token y autenticación antigua conservando preferencias
+ok 3 - logout elimina token y autenticación antigua conservando preferencias
+  ---
+  duration_ms: 12.397645
+  type: 'test'
+  ...
+# Subtest: sesión vencida y error de almacenamiento no permiten acceso
+ok 4 - sesión vencida y error de almacenamiento no permiten acceso
+  ---
+  duration_ms: 1.218982
+  type: 'test'
+  ...
+# Subtest: Prime reveals the stored academic receipt and keeps its number
+ok 5 - Prime reveals the stored academic receipt and keeps its number
+  ---
+  duration_ms: 32.092916
+  type: 'test'
+  ...
+# Subtest: Prime does not invent a receipt for an older consumption without one
+ok 6 - Prime does not invent a receipt for an older consumption without one
+  ---
+  duration_ms: 3.677112
+  type: 'test'
+  ...
+# Subtest: receipt metadata is escaped before entering the digital detail
+ok 7 - receipt metadata is escaped before entering the digital detail
+  ---
+  duration_ms: 0.571393
+  type: 'test'
+  ...
+# Subtest: Prime exige las cinco condiciones de contraseña
+ok 8 - Prime exige las cinco condiciones de contraseña
+  ---
+  duration_ms: 0.912882
+  type: 'test'
+  ...
+# Subtest: PAYMENT_PENDING is never paid
+ok 9 - PAYMENT_PENDING is never paid
+  ---
+  duration_ms: 3.588795
+  type: 'test'
+  ...
+# Subtest: PENDING is never paid
+ok 10 - PENDING is never paid
+  ---
+  duration_ms: 0.15038
+  type: 'test'
+  ...
+# Subtest: PARTIAL is never paid
+ok 11 - PARTIAL is never paid
+  ---
+  duration_ms: 0.07987
+  type: 'test'
+  ...
+# Subtest: REJECTED is never paid
+ok 12 - REJECTED is never paid
+  ---
+  duration_ms: 2.343639
+  type: 'test'
+  ...
+# Subtest: ERROR is never paid
+ok 13 - ERROR is never paid
+  ---
+  duration_ms: 0.120384
+  type: 'test'
+  ...
+# Subtest: UNKNOWN is never paid
+ok 14 - UNKNOWN is never paid
+  ---
+  duration_ms: 0.080054
+  type: 'test'
+  ...
+# Subtest: PAID is paid without outstanding debt
+ok 15 - PAID is paid without outstanding debt
+  ---
+  duration_ms: 0.749102
+  type: 'test'
+  ...
+# Subtest: CAPTURED is paid without outstanding debt
+ok 16 - CAPTURED is paid without outstanding debt
+  ---
+  duration_ms: 0.832777
+  type: 'test'
+  ...
+# Subtest: one backend debt summary with separate recharge access
+ok 17 - one backend debt summary with separate recharge access
+  ---
+  duration_ms: 16.22677
+  type: 'test'
+  ...
+# Subtest: registro comparte sesión JWT con login, sin persistir contraseña
+ok 18 - registro comparte sesión JWT con login, sin persistir contraseña
+  ---
+  duration_ms: 30.702604
+  type: 'test'
+  ...
+# Subtest: registro fallido no crea usuario ni sesión local
+ok 19 - registro fallido no crea usuario ni sesión local
+  ---
+  duration_ms: 1.611836
+  type: 'test'
+  ...
+# Subtest: URL Android rechaza localhost, credenciales y rutas incorrectas
+ok 20 - URL Android rechaza localhost, credenciales y rutas incorrectas
+  ---
+  duration_ms: 0.368242
+  type: 'test'
+  ...
+# Subtest: URL configurable acepta API compartida LAN y HTTPS sin secretos
+ok 21 - URL configurable acepta API compartida LAN y HTTPS sin secretos
+  ---
+  duration_ms: 0.147184
+  type: 'test'
+  ...
+# Subtest: web build does not copy SMTP/server secrets even when present in the build environment
+ok 22 - web build does not copy SMTP/server secrets even when present in the build environment
+  ---
+  duration_ms: 94.507867
+  type: 'test'
+  ...
+# Subtest: carga membresía, vehículos, historial, puntos y beneficios reales de API
+ok 23 - carga membresía, vehículos, historial, puntos y beneficios reales de API
+  ---
+  duration_ms: 41.679804
+  type: 'test'
+  ...
+# Subtest: el saldo proviene del backend y la recarga se persiste por API
+ok 24 - el saldo proviene del backend y la recarga se persiste por API
+  ---
+  duration_ms: 5.524413
+  type: 'test'
+  ...
+# Subtest: el saldo separa disponible, retenido en reserva y total
+ok 25 - el saldo separa disponible, retenido en reserva y total
+  ---
+  duration_ms: 0.965018
+  type: 'test'
+  ...
+# Subtest: si la recarga falla el saldo local no se altera
+ok 26 - si la recarga falla el saldo local no se altera
+  ---
+  duration_ms: 2.941252
+  type: 'test'
+  ...
+# Subtest: canje llama API con UUID; la UI no inventa puntos ni cupones
+ok 27 - canje llama API con UUID; la UI no inventa puntos ni cupones
+  ---
+  duration_ms: 4.288232
+  type: 'test'
+  ...
+# Subtest: vehículos, nombre local y preferencias conservan usuario real
+ok 28 - vehículos, nombre local y preferencias conservan usuario real
+  ---
+  duration_ms: 1.308007
+  type: 'test'
+  ...
+# Subtest: error 503 conserva últimos datos y 401 elimina sesión
+ok 29 - error 503 conserva últimos datos y 401 elimina sesión
+  ---
+  duration_ms: 5.07286
+  type: 'test'
+  ...
+# Subtest: historial pagina sin perder registros después de cien consumos
+ok 30 - historial pagina sin perder registros después de cien consumos
+  ---
+  duration_ms: 2.277904
+  type: 'test'
+  ...
+# Subtest: canje confirmado no se vuelve error si falla actualizar el saldo
+ok 31 - canje confirmado no se vuelve error si falla actualizar el saldo
+  ---
+  duration_ms: 4.418609
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1302.932826
