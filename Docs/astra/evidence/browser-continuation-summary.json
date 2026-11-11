@@ -1,0 +1,778 @@
+{
+  "stats": {
+    "startTime": "2026-11-11T22:42:07.034Z",
+    "duration": 276628.012,
+    "expected": 26,
+    "skipped": 4,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8366,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 14884,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 15605,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7709,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12515,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11326,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3785,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7125,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-accesibilidad-y-adaptación-de-acceso-real-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4740,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3222,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5557,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-accesibilidad-y-adaptación-de-acceso-real-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6024,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: login real y sesión persistente",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2746,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-login-real-y-sesión-persistente-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: login real y sesión persistente",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8452,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-login-real-y-sesión-persistente-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: login real y sesión persistente",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8085,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-login-real-y-sesión-persistente-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: login real y supervisión",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4906,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-login-real-y-supervisión-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: login real y supervisión",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7425,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-login-real-y-supervisión-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: login real y supervisión",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7884,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-login-real-y-supervisión-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: credenciales incorrectas no abren sesión",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2273,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: credenciales incorrectas no abren sesión",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6602,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: credenciales incorrectas no abren sesión",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5512,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: credenciales incorrectas no abren administración",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1075,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-credenciales-fb8fe-tas-no-abren-administración-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: credenciales incorrectas no abren administración",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2529,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-credenciales-fb8fe-tas-no-abren-administración-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: credenciales incorrectas no abren administración",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2412,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-credenciales-fb8fe-tas-no-abren-administración-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T01: compra prepago real y cierre #btn-finalizar",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 39528,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "financial-before",
+              "contentType": "application/json"
+            },
+            {
+              "name": "real-sale",
+              "contentType": "application/json"
+            },
+            {
+              "name": "financial-after",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T01: compra prepago real y cierre #btn-finalizar",
+      "project": "tablet",
+      "status": "skipped",
+      "results": [
+        {
+          "status": "skipped",
+          "duration": 651,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T01: compra prepago real y cierre #btn-finalizar",
+      "project": "mobile",
+      "status": "skipped",
+      "results": [
+        {
+          "status": "skipped",
+          "duration": 409,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T02: compra prepago real y cierre #btn-comprobante",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 38282,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "financial-before",
+              "contentType": "application/json"
+            },
+            {
+              "name": "real-sale",
+              "contentType": "application/json"
+            },
+            {
+              "name": "simulated-print",
+              "contentType": "application/json"
+            },
+            {
+              "name": "financial-after",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T02: compra prepago real y cierre #btn-comprobante",
+      "project": "tablet",
+      "status": "skipped",
+      "results": [
+        {
+          "status": "skipped",
+          "duration": 624,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T02: compra prepago real y cierre #btn-comprobante",
+      "project": "mobile",
+      "status": "skipped",
+      "results": [
+        {
+          "status": "skipped",
+          "duration": 528,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

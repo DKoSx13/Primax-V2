@@ -1,0 +1,26 @@
+{
+  "operations": [
+    {
+      "operationId": "91beddf5-96b2-4130-a999-2fb33797d255",
+      "number": "OP01-0001",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0001"
+    },
+    {
+      "operationId": "f8eec57b-4a9a-4f17-ba23-cf05737c1cc4",
+      "number": "OP01-0003",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "EB01-0003"
+    }
+  ],
+  "transactions": 2,
+  "payments": 2,
+  "pendingReservations": 0,
+  "duplicateTransactions": 0,
+  "duplicatePayments": 0,
+  "duplicateReservations": 0
+}

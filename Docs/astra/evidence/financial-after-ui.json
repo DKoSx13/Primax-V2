@@ -1,0 +1,42 @@
+{
+  "operations": [
+    {
+      "operationId": "91beddf5-96b2-4130-a999-2fb33797d255",
+      "number": "OP01-0001",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0001"
+    },
+    {
+      "operationId": "f8eec57b-4a9a-4f17-ba23-cf05737c1cc4",
+      "number": "OP01-0003",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "EB01-0003"
+    },
+    {
+      "operationId": "0e087354-0fb9-4398-b3e8-b18321968b41",
+      "number": "OP01-0004",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0004"
+    },
+    {
+      "operationId": "754ee2c3-bc5e-426f-899b-37cb9b3fab2d",
+      "number": "OP01-0005",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "FT01-0001"
+    }
+  ],
+  "transactions": 4,
+  "payments": 4,
+  "pendingReservations": 0,
+  "duplicateTransactions": 0,
+  "duplicatePayments": 0,
+  "duplicateReservations": 0
+}

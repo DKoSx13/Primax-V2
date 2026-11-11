@@ -1,0 +1,22 @@
+  number   | status |    terminal    | pump | amount |  receipt
+-----------+--------+----------------+------+--------+-----------
+ OP01-0001 | CLOSED | PRIMAX-SUR-T01 | 03   |  21.30 | EB01-0001
+ OP01-0003 | CLOSED | PRIMAX-SUR-T02 | 04   |  21.30 | EB01-0003
+(2 rows)
+
+             operationId              | count
+--------------------------------------+-------
+ f8eec57b-4a9a-4f17-ba23-cf05737c1cc4 |     1
+ 91beddf5-96b2-4130-a999-2fb33797d255 |     1
+(2 rows)
+
+            transactionId             | count
+--------------------------------------+-------
+ e7f3a0e8-e521-47c0-a172-2342407a6c94 |     1
+ 1f1c60e5-6a21-4418-83c2-8953e6f1fb21 |     1
+(2 rows)
+
+ status | count
+--------+-------
+ CLOSED |     2
+(1 row)

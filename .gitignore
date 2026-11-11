@@ -46,3 +46,4 @@ PrintAgent/data*/
 .neon
 # Full Astra Playwright JSON is retained locally / uploaded by CI; summaries are tracked.
 Docs/astra/evidence/browser*-results.json
+Docs/astra/previous-run/

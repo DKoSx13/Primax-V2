@@ -108,3 +108,11 @@ Nuevas unitarias: FuelFlow 172/172, Prime 31/31, Control 36/36 antes del cambio 
 Se detectó una dependencia del puerto fijo 27181 para habilitar recuperación de T02; fallaba con los puertos configurados del laboratorio. Control ahora recibe dos orígenes explícitos desde Compose/build, selecciona únicamente T01/T02 y rechaza terminales desconocidas, URLs con credenciales, rutas y HTTP remoto. No se emite ni consume ningún ticket en estas pruebas unitarias. Los imports transitivos del build también reciben versión por contenido: faltante residual del PR #10, necesario para actualizar config y módulos tras reconstrucción.
 
 Control: **38/38 tests**, build local aprobado con orígenes 28181/28184. La reconstrucción QA de este cambio está en curso; verificación visual extendida y pruebas PostgreSQL todavía pendientes. No se inició extracción arquitectónica ni se ejecutó CI remoto nuevo.
+
+### Herramientas de inspección y estado financiero
+
+`assert-lab.cjs` inspecciona por nombre y valida etiquetas de proyecto/servicio, estado, puertos y volumen de PostgreSQL; evita depender de `docker ps`, cuyo listado global se bloqueó al comenzar. `lab.cjs rebuild-frontends` reconstruye únicamente los cuatro frontends QA, sin reiniciar dominios ni bases. `verify-backend` construye el target de pruebas y usa las bases de fixtures separadas de `astra_qa_local`; la ejecución completa continúa pendiente.
+
+`financial-state.cjs` usa una transacción SQL de solo lectura y registra operaciones, pagos, transacciones, reservas pendientes y duplicados. La pasada verde dejó **seis ventas y seis pagos**, todas las operaciones cerradas, cero reservas pendientes y cero duplicados. Últimas compras: T01 OP01-0006 / EB01-0005 y T02 OP01-0007 / FT01-0002 (`evidence/financial-ui-green.json`).
+
+La auditoría extendida inicial encontró contraste insuficiente en Prime y errores de inyección del fixture en documentos auxiliares de navegador. Resultado preservado: 3 fallidas, 1 aprobada, 8 no ejecutadas; se interrumpió para reconstruir y comprobar las correcciones, no para omitir sus reglas. Control recorrió sus 14 secciones sin violaciones axe; el fallo registrado correspondió a la inyección del fixture. Informe: `browser-extended-first-summary.json`. Correcciones y nueva ejecución extendida aún pendientes de cierre.

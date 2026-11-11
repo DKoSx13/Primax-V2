@@ -1,0 +1,73 @@
+{
+  "inventoryBefore": {
+    "stationId": "d78365ab-f83b-4770-b150-6d213c2d7e77",
+    "fuelId": "144ff201-b286-4936-a56e-acb4d2ba9ea2",
+    "liters": "5000",
+    "reservedLiters": "0",
+    "updatedAt": "2026-11-11T04:41:43.852Z",
+    "fuel": {
+      "id": "144ff201-b286-4936-a56e-acb4d2ba9ea2",
+      "code": "REGULAR",
+      "name": "Regular",
+      "pricePerGallon": "21.3",
+      "active": true,
+      "createdAt": "2026-11-11T04:41:43.613Z",
+      "updatedAt": "2026-11-11T04:41:43.613Z"
+    },
+    "station": {
+      "id": "d78365ab-f83b-4770-b150-6d213c2d7e77",
+      "code": "PRIMAX-SUR",
+      "name": "Primax Sur",
+      "address": "Lima, Perú (estación demo)",
+      "active": true,
+      "createdAt": "2026-11-11T04:41:43.555Z",
+      "updatedAt": "2026-11-11T04:41:43.555Z"
+    }
+  },
+  "inventoryAfter": {
+    "stationId": "d78365ab-f83b-4770-b150-6d213c2d7e77",
+    "fuelId": "144ff201-b286-4936-a56e-acb4d2ba9ea2",
+    "liters": "4992.429176",
+    "reservedLiters": "0",
+    "updatedAt": "2026-11-11T04:49:52.143Z",
+    "fuel": {
+      "id": "144ff201-b286-4936-a56e-acb4d2ba9ea2",
+      "code": "REGULAR",
+      "name": "Regular",
+      "pricePerGallon": "21.3",
+      "active": true,
+      "createdAt": "2026-11-11T04:41:43.613Z",
+      "updatedAt": "2026-11-11T04:41:43.613Z"
+    },
+    "station": {
+      "id": "d78365ab-f83b-4770-b150-6d213c2d7e77",
+      "code": "PRIMAX-SUR",
+      "name": "Primax Sur",
+      "address": "Lima, Perú (estación demo)",
+      "active": true,
+      "createdAt": "2026-11-11T04:41:43.555Z",
+      "updatedAt": "2026-11-11T04:41:43.555Z"
+    }
+  },
+  "result": "PASS",
+  "operations": [
+    {
+      "number": "OP01-0001",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0001"
+    },
+    {
+      "number": "OP01-0003",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "EB01-0003"
+    }
+  ],
+  "checks": [
+    "two concurrent sales",
+    "idempotent start and sale",
+    "central Control",
+    "isolated Prime histories"
+  ]
+}

@@ -11,7 +11,7 @@ const env={PATH:process.env.PATH,HOME:process.env.HOME,COMPOSE_PROJECT_NAME:proj
 function compose(args,capture=false){const r=spawnSync('docker',['compose','--env-file','/dev/null','-p',project,'-f',path.join(root,'compose.yaml'),...args],{cwd:root,env,encoding:'utf8',stdio:capture?'pipe':'inherit'});if(r.status!==0)throw Error(r.stderr||'Compose failed');return r.stdout;}
 async function main(){
  const action=process.argv[2];
- if(!['up','stop','status','config'].includes(action))throw Error('Usage: node lab.cjs up|stop|status|config');
+ if(!['up','rebuild-frontends','verify-backend','stop','status','config'].includes(action))throw Error('Usage: node lab.cjs up|rebuild-frontends|verify-backend|stop|status|config');
  const config=JSON.parse(compose(['config','--format','json'],true));
  for(const resources of [config.volumes,config.networks])for(const resource of Object.values(resources||{}))if(resource.external||!resource.name.startsWith(project+'_'))throw Error('Shared resource rejected');
  for(const s of Object.values(config.services)){
@@ -23,6 +23,12 @@ async function main(){
   const net=require('node:net');
   for(const port of ports)await new Promise((resolve,reject)=>{const server=net.createServer();server.once('error',reject);server.listen(port,'127.0.0.1',()=>server.close(resolve));});
   compose(['up','-d','--build','--wait','--wait-timeout','240']);
+ }else if(action==='rebuild-frontends'){
+  require('./assert-lab.cjs')();
+  compose(['up','-d','--build','--no-deps','--wait','--wait-timeout','120','frontend1','fuelflow-t02','frontend2','frontend3']);
+ }else if(action==='verify-backend'){
+  require('./assert-lab.cjs')();
+  compose(['--profile','test','run','--build','--no-deps','--rm','backend-tests','sh','-c','npm test -- --silent && npm run lint && node --test gateway/routes.test.cjs && node scripts/test-compose.cjs']);
  }else if(action==='stop')compose(['stop']);
  else if(action==='status')compose(['ps','-a']);
  else console.log('Validated isolated project '+project+'; ports '+ports.join(','));

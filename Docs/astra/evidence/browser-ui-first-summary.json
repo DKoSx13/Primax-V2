@@ -1,0 +1,110 @@
+{
+  "stats": {
+    "startTime": "2026-11-11T22:40:10.488Z",
+    "duration": 93362.179,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "T01: compra prepago real y cierre #btn-finalizar",
+      "project": "desktop",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 55973,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 404 http://127.0.0.1:28181/api/v1/terminal/operations/0e087354-0fb9-4398-b3e8-b18321968b41\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 404 (Not Found)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  11 |  await use({allow:(path,status)=>allowed.push({path,status})});\n  12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 13 |  expect(failures).toEqual([]);\n     |                   ^\n  14 |  },{auto:true}]});\n  15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  16 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:13:19)"
+          ],
+          "attachments": [
+            {
+              "name": "financial-before",
+              "contentType": "application/json"
+            },
+            {
+              "name": "real-sale",
+              "contentType": "application/json"
+            },
+            {
+              "name": "financial-after",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-desktop/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-desktop/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T01-compra-prepago-real-y-cierre-btn-finalizar-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "T02: compra prepago real y cierre #btn-comprobante",
+      "project": "desktop",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 27782,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 404 http://127.0.0.1:28184/api/v1/terminal/operations/754ee2c3-bc5e-426f-899b-37cb9b3fab2d\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 404 (Not Found)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  11 |  await use({allow:(path,status)=>allowed.push({path,status})});\n  12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 13 |  expect(failures).toEqual([]);\n     |                   ^\n  14 |  },{auto:true}]});\n  15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  16 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:13:19)"
+          ],
+          "attachments": [
+            {
+              "name": "financial-before",
+              "contentType": "application/json"
+            },
+            {
+              "name": "real-sale",
+              "contentType": "application/json"
+            },
+            {
+              "name": "simulated-print",
+              "contentType": "application/json"
+            },
+            {
+              "name": "financial-after",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-desktop/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-desktop/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-T02-compra-prepago-real-y-cierre-btn-comprobante-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

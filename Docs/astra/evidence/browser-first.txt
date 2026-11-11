@@ -1,0 +1,238 @@
+
+> test
+> playwright test
+
+
+Running 24 tests using 1 worker
+
+(node:102667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › audit.spec.cjs:15:2 › FuelFlow T01: accesibilidad y adaptación de acceso real (25.1s)
+  ✘   2 [desktop] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real (23.3s)
+(node:106109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [desktop] › audit.spec.cjs:15:2 › Prime: accesibilidad y adaptación de acceso real (13.5s)
+  ✓   4 [desktop] › audit.spec.cjs:15:2 › Control: accesibilidad y adaptación de acceso real (10.0s)
+  ✓   5 [desktop] › audit.spec.cjs:27:1 › Prime: login real y sesión persistente (12.1s)
+  ✓   6 [desktop] › audit.spec.cjs:35:1 › Control: login real y supervisión (12.2s)
+  ✓   7 [desktop] › audit.spec.cjs:44:1 › Prime: credenciales incorrectas no abren sesión (8.1s)
+  ✓   8 [desktop] › audit.spec.cjs:53:1 › Control: credenciales incorrectas no abren administración (4.7s)
+(node:110067) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [tablet] › audit.spec.cjs:15:2 › FuelFlow T01: accesibilidad y adaptación de acceso real (22.1s)
+  ✓  10 [tablet] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real (18.9s)
+  ✓  11 [tablet] › audit.spec.cjs:15:2 › Prime: accesibilidad y adaptación de acceso real (10.2s)
+  ✓  12 [tablet] › audit.spec.cjs:15:2 › Control: accesibilidad y adaptación de acceso real (9.2s)
+  ✓  13 [tablet] › audit.spec.cjs:27:1 › Prime: login real y sesión persistente (12.0s)
+  ✓  14 [tablet] › audit.spec.cjs:35:1 › Control: login real y supervisión (11.3s)
+  ✓  15 [tablet] › audit.spec.cjs:44:1 › Prime: credenciales incorrectas no abren sesión (7.8s)
+  ✓  16 [tablet] › audit.spec.cjs:53:1 › Control: credenciales incorrectas no abren administración (4.7s)
+(node:116140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  17 [mobile] › audit.spec.cjs:15:2 › FuelFlow T01: accesibilidad y adaptación de acceso real (25.0s)
+(node:118197) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  18 [mobile] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real (22.9s)
+(node:120342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [mobile] › audit.spec.cjs:15:2 › Prime: accesibilidad y adaptación de acceso real (9.8s)
+  ✓  20 [mobile] › audit.spec.cjs:15:2 › Control: accesibilidad y adaptación de acceso real (8.1s)
+  ✓  21 [mobile] › audit.spec.cjs:27:1 › Prime: login real y sesión persistente (10.2s)
+  ✘  22 [mobile] › audit.spec.cjs:35:1 › Control: login real y supervisión (10.8s)
+(node:123045) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  23 [mobile] › audit.spec.cjs:44:1 › Prime: credenciales incorrectas no abren sesión (12.0s)
+(node:124151) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  24 [mobile] › audit.spec.cjs:53:1 › Control: credenciales incorrectas no abren administración (5.9s)
+
+
+  1) [desktop] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real ─────
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "HTTP 409 http://127.0.0.1:28184/api/kiosk/terminal-bootstrap",
+    +   "CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)",
+    + ]
+
+      10 |  await use({allow:(path,status)=>allowed.push({path,status})});
+      11 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});
+    > 12 |  expect(failures).toEqual([]);
+         |                   ^
+      13 |  },{auto:true}]});
+      14 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){
+      15 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{
+        at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:12:19)
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › audit.spec.cjs:15:2 › FuelFlow T01: accesibilidad y adaptación de acceso real ──────
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "HTTP 409 http://127.0.0.1:28181/api/v1/terminal/claim",
+    +   "CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)",
+    + ]
+
+      10 |  page.on('console',m=>{if(m.type()==='error'&&!(m.text().startsWith('Failed to load resource:')&&allowed.some(a=>m.location().url.includes(a.path)&&m.text().includes(String(a.status)))))failures.push('CONSOLE '+m.text())});
+      11 |  await use({allow:(path,status)=>allowed.push({path,status})});
+    > 12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});
+         |                   ^
+      13 |  expect(failures).toEqual([]);
+      14 |  },{auto:true}]});
+      15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){
+        at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:12:19)
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [mobile] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real ──────
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "HTTP 409 http://127.0.0.1:28184/api/v1/terminal/claim",
+    +   "CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)",
+    + ]
+
+      10 |  page.on('console',m=>{if(m.type()==='error'&&!(m.text().startsWith('Failed to load resource:')&&allowed.some(a=>m.location().url.includes(a.path)&&m.text().includes(String(a.status)))))failures.push('CONSOLE '+m.text())});
+      11 |  await use({allow:(path,status)=>allowed.push({path,status})});
+    > 12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});
+         |                   ^
+      13 |  expect(failures).toEqual([]);
+      14 |  },{auto:true}]});
+      15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){
+        at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:12:19)
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [mobile] › audit.spec.cjs:35:1 › Control: login real y supervisión ────────────────────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('#logout')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('#logout') with timeout 5000ms
+      - waiting for locator('#logout')
+
+
+      39 |  await page.getByLabel('Correo',{exact:true}).fill('control-admin@primax.local');
+      40 |  await page.getByLabel('Contraseña',{exact:true}).fill('AdminDemoLocal123!');
+    > 41 |  await page.getByRole('button',{name:'Entrar a Control'}).click();
+         |                                        ^
+      42 |  await expect(page.locator('#logout')).toBeVisible();
+      43 |  await page.reload();await expect(page.locator('#logout')).toBeVisible();
+      44 | });
+        at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:41:40
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-Control-login-real-y-supervisión-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../Docs/astra/test-results/audit-Control-login-real-y-supervisión-mobile/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-Control-login-real-y-supervisión-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../Docs/astra/test-results/audit-Control-login-real-y-supervisión-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [mobile] › audit.spec.cjs:44:1 › Prime: credenciales incorrectas no abren sesión ──────────────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('alert')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('alert') with timeout 5000ms
+      - waiting for getByRole('alert')
+
+
+      48 |  await page.getByLabel(/^Correo(?: o DNI)?$/,{exact:true}).fill('demo@primaxprime.pe');
+      49 |  await page.getByLabel('Contraseña',{exact:true}).fill('WrongQaPassword123!');
+    > 50 |  await page.getByRole('button',{name:'Iniciar sesión',exact:true}).click();
+         |                                        ^
+      51 |  await expect(page.getByRole('alert')).toBeVisible();
+      52 |  await expect(page.getByRole('navigation')).toBeHidden();
+      53 | });
+        at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:50:40
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-mobile/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../Docs/astra/test-results/audit-Prime-credenciales-incorrectas-no-abren-sesión-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [desktop] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real ──────
+    [mobile] › audit.spec.cjs:15:2 › FuelFlow T01: accesibilidad y adaptación de acceso real ───────
+    [mobile] › audit.spec.cjs:15:2 › FuelFlow T02: accesibilidad y adaptación de acceso real ───────
+    [mobile] › audit.spec.cjs:35:1 › Control: login real y supervisión ─────────────────────────────
+    [mobile] › audit.spec.cjs:44:1 › Prime: credenciales incorrectas no abren sesión ───────────────
+  19 passed (6.4m)

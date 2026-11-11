@@ -1,0 +1,165 @@
+{
+  "stats": {
+    "startTime": "2026-11-11T04:50:21.835Z",
+    "duration": 112936.31,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 14747,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 409 http://127.0.0.1:28184/api/v1/terminal/claim\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  11 |  await use({allow:(path,status)=>allowed.push({path,status})});\n  12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 13 |  expect(failures).toEqual([]);\n     |                   ^\n  14 |  },{auto:true}]});\n  15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  16 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:13:19)"
+          ],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 24005,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 409 http://127.0.0.1:28184/api/v1/terminal/claim\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  11 |  await use({allow:(path,status)=>allowed.push({path,status})});\n  12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 13 |  expect(failures).toEqual([]);\n     |                   ^\n  14 |  },{auto:true}]});\n  15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  16 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:13:19)"
+          ],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T02-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 24186,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 409 http://127.0.0.1:28181/api/v1/terminal/claim\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 409 (Conflict)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  11 |  await use({allow:(path,status)=>allowed.push({path,status})});\n  12 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 13 |  expect(failures).toEqual([]);\n     |                   ^\n  14 |  },{auto:true}]});\n  15 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  16 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:13:19)"
+          ],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-T01-accesibilidad-y-adaptación-de-acceso-real-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: login real y supervisión",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8968,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: credenciales incorrectas no abren sesión",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8775,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
