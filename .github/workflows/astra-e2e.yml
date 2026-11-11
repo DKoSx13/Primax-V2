@@ -1,0 +1,29 @@
+name: Astra isolated frontend QA
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tools/astra
+      - run: cd tools/astra && npx playwright install --with-deps chromium
+      - run: node tools/astra/lab.cjs up
+      - name: Real concurrent API integration
+        run: COMPOSE_PROJECT_NAME=primax-astra-qa node tools/astra/multiterminal.cjs
+      - name: Browser audit
+        if: success() || failure()
+        run: npm test --prefix tools/astra
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: astra-browser-evidence
+          path: |
+            Docs/astra/playwright-report
+            Docs/astra/test-results
+            Docs/astra/evidence/browser-results.json
+      - run: node tools/astra/lab.cjs stop
+        if: always()

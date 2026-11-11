@@ -1,0 +1,12 @@
+{
+  "name": "primax-astra-qa",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "lab": "node lab.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "@axe-core/playwright": "4.10.2"
+  }
+}
