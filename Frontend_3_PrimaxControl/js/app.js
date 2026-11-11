@@ -1,5 +1,6 @@
 import { bindPaymentRecovery, paymentRecoveryButton } from './payment-recovery.js';
-import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN } from './config.js';
+import { API_BASE_URL, FUELFLOW_PUBLIC_ORIGIN, FUELFLOW_T02_PUBLIC_ORIGIN } from './config.js';
+import { recoveryTerminalOrigin as configuredRecoveryOrigin } from './recovery-origin.js';
 import { canViewStation, initialView, incidentMessage, controlModules, visibleModules, defaultView } from './control-state.js';
 import { createControlApi } from './control-api.js';
 import { assistancePanel, bindAssistanceActions, stopAssistancePolling, startAssistanceNotifications, resetAssistanceNotifications } from './assistance.js';
@@ -27,14 +28,7 @@ const stamp = (value) => value ? new Date(value).toLocaleString('es-PE') : '—'
 const has = (permission) => Boolean(session?.permissions?.includes(permission));
 const actor = () => session?.user?.name || '—';
 function recoveryTerminalOrigin(code) {
-  try {
-    const url = new URL(FUELFLOW_PUBLIC_ORIGIN);
-    if (code?.endsWith('-T02')) {
-      if (!['127.0.0.1', 'localhost'].includes(url.hostname) || url.port !== '27181') return null;
-      url.port = '27184';
-    }
-    return url.origin;
-  } catch { return null; }
+  return configuredRecoveryOrigin(code, FUELFLOW_PUBLIC_ORIGIN, FUELFLOW_T02_PUBLIC_ORIGIN);
 }
 const queryString = (values) => {
   const query = new URLSearchParams();

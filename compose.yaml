@@ -320,6 +320,7 @@ services:
       context: ./Frontend_3_PrimaxControl
       args:
         FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-26081}
+        FUELFLOW_T02_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_T02_PORT:-26084}
     environment:
       BACKEND_UPSTREAM: http://backend:3000
     ports:

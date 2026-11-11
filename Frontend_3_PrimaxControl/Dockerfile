@@ -7,6 +7,7 @@ COPY styles ./styles
 COPY js ./js
 COPY assets ./assets
 ARG FUELFLOW_PUBLIC_ORIGIN
+ARG FUELFLOW_T02_PUBLIC_ORIGIN
 RUN npm run build
 
 FROM nginx:alpine AS runtime

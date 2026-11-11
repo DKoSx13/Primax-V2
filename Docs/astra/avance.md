@@ -90,3 +90,21 @@ Comprobaciones auxiliares: 5/5 tests de seguridad de base de datos aprobados; au
 ### PR divergentes: comprobación adicional local
 
 `git cherry HEAD <head>` marca #9/#10/#15 con `+`: no son patches idénticos en el historial. Sin embargo, inspección actual confirma logo corporativo Prime, variante V2 en Control y cuadrícula `.pay-grid-methods` de tres columnas con una en móvil. La divergencia de commits no implica que esas funcionalidades falten. Recomendación: conservar la implementación QA, comparar cambios residuales de assets/cache antes del PR consolidado; no cherry-pick de las ramas visuales completas ni cierre automático de PR. Los otros seis heads siguen incluidos por ascendencia.
+
+## Continuación del 11 de noviembre: compras UI y recuperación T02
+
+Se retomó `701ad77` sin modificar ramas compartidas. La lectura inicial de QA encontró solamente OP01-0001 y OP01-0003, ambas cerradas, dos pagos y dos reservas cerradas. Se preservaron las evidencias anteriores y los informes completos en `Docs/astra/previous-run/` (local, excluido de Git).
+
+Los cuatro frontends se reconstruyeron con Compose en `primax-astra-qa`, conservando sus volúmenes. El script FuelFlow servido coincide con el build de fuente al normalizar únicamente el identificador de versión. Kiosk auth e impresión demo están activados en ambas terminales. La corrección de INICIAR quedó comprobada mediante compras UI completas.
+
+La primera pasada UI realizó T01 OP01-0004 / EB01-0004 sin imprimir y T02 OP01-0005 / FT01-0001 con impresión simulada aceptada. Sus aserciones financieras aprobaron; el auditor las marcó fallidas por el GET 404 esperado antes de crear el UUID de operación. Se conserva ese resultado en `evidence/browser-ui-first-summary.json`; no se presenta como ejecución verde. Se corrigió la clasificación exclusivamente para el UUID nuevo, verificando luego que coincida con la venta.
+
+Después de consultar nuevamente el estado (cuatro ventas/pagos, cero pendientes/duplicados), la pasada siguiente aprobó **26 pruebas y omitió cuatro compras responsive intencionales**, evitando repetir compras por tamaño. Incluye T01/T02 por UI, acceso WCAG 2 A/AA, adaptación, login, sesión persistente y credenciales negativas en escritorio/tablet/móvil, todo con Backend QA real. Evidencia: `browser-continuation-summary.json`; capturas/trazas completas en `previous-run/ui-green/`. No equivale aún a auditoría completa de navegación autenticada o recuperación financiera.
+
+Nuevas unitarias: FuelFlow 172/172, Prime 31/31, Control 36/36 antes del cambio siguiente, PrintAgent 56 aprobadas y una omitida (Windows PowerShell). Contratos del gateway 23/23. Auditoría de secretos sin hallazgos. Logs locales en `evidence/*continuation*.log`.
+
+### Corrección del destino de recuperación en Control
+
+Se detectó una dependencia del puerto fijo 27181 para habilitar recuperación de T02; fallaba con los puertos configurados del laboratorio. Control ahora recibe dos orígenes explícitos desde Compose/build, selecciona únicamente T01/T02 y rechaza terminales desconocidas, URLs con credenciales, rutas y HTTP remoto. No se emite ni consume ningún ticket en estas pruebas unitarias. Los imports transitivos del build también reciben versión por contenido: faltante residual del PR #10, necesario para actualizar config y módulos tras reconstrucción.
+
+Control: **38/38 tests**, build local aprobado con orígenes 28181/28184. La reconstrucción QA de este cambio está en curso; verificación visual extendida y pruebas PostgreSQL todavía pendientes. No se inició extracción arquitectónica ni se ejecutó CI remoto nuevo.

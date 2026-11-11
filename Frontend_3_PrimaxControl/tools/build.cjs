@@ -18,18 +18,21 @@ if (api !== '/api/v1') {
   if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash || url.pathname.replace(/\/$/, '') !== '/api/v1') throw new Error('Primax Control API must be /api/v1 or an HTTPS /api/v1 URL');
 }
 const fuelFlowOrigin = process.env.FUELFLOW_PUBLIC_ORIGIN || '';
-if (fuelFlowOrigin) {
-  const url = new URL(fuelFlowOrigin);
-  if (!['https:', 'http:'].includes(url.protocol) || url.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(url.hostname) || url.origin !== fuelFlowOrigin || url.username || url.password) throw new Error('FuelFlow origin must be HTTPS or local HTTP');
+const fuelFlowT02Origin = process.env.FUELFLOW_T02_PUBLIC_ORIGIN || '';
+for (const origin of [fuelFlowOrigin, fuelFlowT02Origin].filter(Boolean)) {
+  const url = new URL(origin);
+  if (!['https:', 'http:'].includes(url.protocol) || url.protocol === 'http:' && !['localhost', '127.0.0.1'].includes(url.hostname) || url.origin !== origin || url.username || url.password) throw new Error('FuelFlow origin must be HTTPS or local HTTP');
 }
-fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\nexport const FUELFLOW_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowOrigin)};\n`);
+fs.writeFileSync(path.join(output, 'js/config.js'), `export const API_BASE_URL = ${JSON.stringify(api.replace(/\/$/, ''))};\nexport const FUELFLOW_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowOrigin)};\nexport const FUELFLOW_T02_PUBLIC_ORIGIN = ${JSON.stringify(fuelFlowT02Origin)};\n`);
 const hash = crypto.createHash('sha256');
 function scan(dir) { for (const item of fs.readdirSync(dir, { withFileTypes: true }).sort((a,b)=>a.name.localeCompare(b.name))) { const file=path.join(dir,item.name); if(item.isDirectory()) scan(file); else if(/\.(js|css|html|png|jpe?g|svg|webp)$/i.test(file)) hash.update(path.relative(output,file)).update(fs.readFileSync(file)); } }
 scan(output);
 const version = `CONTROL-${hash.digest('hex').slice(0,12)}`;
 for (const name of fs.readdirSync(path.join(output, 'js')).filter(name => name.endsWith('.js'))) {
   const file = path.join(output, 'js', name);
-  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(/(assets\/[^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?/gi, '$1?v=' + version));
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8')
+    .replace(/(assets\/[^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?/gi, '$1?v=' + version)
+    .replace(/((?:from\s*|import\s*\(\s*)['"])(\.{1,2}\/[^'"]+?\.js)(?:\?[^'"]*)?(['"])/g, (_, a, b, c) => a + b + '?v=' + version + c));
 }
 const htmlFile = path.join(output, 'index.html');
 fs.writeFileSync(htmlFile, fs.readFileSync(htmlFile, 'utf8')
