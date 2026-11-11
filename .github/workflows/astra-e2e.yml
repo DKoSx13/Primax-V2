@@ -13,10 +13,15 @@ jobs:
       - run: cd tools/astra && npx playwright install --with-deps chromium
       - run: node tools/astra/lab.cjs up
       - name: Real concurrent API integration
-        run: COMPOSE_PROJECT_NAME=primax-astra-qa node tools/astra/multiterminal.cjs
+        run: |
+          node tools/astra/financial-state.cjs > Docs/astra/evidence/financial-before-api.json
+          COMPOSE_PROJECT_NAME=primax-astra-qa node tools/astra/multiterminal.cjs | tee Docs/astra/evidence/integration-real.json
       - name: Browser audit
         if: success() || failure()
-        run: npm test --prefix tools/astra
+        run: npm test --prefix tools/astra -- --trace on
+      - name: Read-only financial state after tests
+        if: always()
+        run: node tools/astra/financial-state.cjs > Docs/astra/evidence/financial-after-browser.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -25,5 +30,7 @@ jobs:
             Docs/astra/playwright-report
             Docs/astra/test-results
             Docs/astra/evidence/browser-results.json
+            Docs/astra/evidence/financial-*.json
+            Docs/astra/evidence/integration-real.json
       - run: node tools/astra/lab.cjs stop
         if: always()

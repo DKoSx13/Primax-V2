@@ -50,6 +50,8 @@ class Client {
 }
 
 async function main() {
+  const financialState=require('./financial-state.cjs');
+  financialState.assertSettled(financialState());
   const t01 = new Client(ports.t01, true), t02 = new Client(ports.t02, true);
   const prime = new Client(ports.prime), control = new Client(ports.control);
   await prime.call('/api/v1/memberships/me', undefined, [401]);
