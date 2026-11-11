@@ -1,4 +1,4 @@
-// Creates one repeatable terminal and Encargado fixture for a local DEMO only.
+// Creates two repeatable terminals and Encargado fixture for a local DEMO only.
 const { PrismaClient } = require('@prisma/client');
 const { compare, hash } = require('bcryptjs');
 const { assertLocalDatabase } = require('./database-safety.cjs');
@@ -33,12 +33,14 @@ async function main() {
         await db.adminControlGrant.create({ data: { userId: user.id, permission, reason: 'Permiso local DEMO' } });
     }
 
-    const [pump, terminal] = await Promise.all([
-      db.pump.upsert({ where: { stationId_code: { stationId: station.id, code: '03' } }, update: {}, create: { stationId: station.id, code: '03', name: 'Surtidor DEMO 03' } }),
-      db.terminal.upsert({ where: { stationId_code: { stationId: station.id, code: 'PRIMAX-SUR-T01' } }, update: {}, create: { stationId: station.id, code: 'PRIMAX-SUR-T01', operationalStatus: 'DISPONIBLE' } }),
-    ]);
-    const assignment = await db.terminalPumpAssignment.findFirst({ where: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id, endedAt: null } });
-    if (!assignment) await db.terminalPumpAssignment.create({ data: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id } });
+    for (const [terminalCode, pumpCode] of [['PRIMAX-SUR-T01', '03'], ['PRIMAX-SUR-T02', '04']]) {
+      const [pump, terminal] = await Promise.all([
+        db.pump.upsert({ where: { stationId_code: { stationId: station.id, code: pumpCode } }, update: {}, create: { stationId: station.id, code: pumpCode, name: `Surtidor DEMO ${pumpCode}` } }),
+        db.terminal.upsert({ where: { stationId_code: { stationId: station.id, code: terminalCode } }, update: {}, create: { stationId: station.id, code: terminalCode, operationalStatus: 'DISPONIBLE' } }),
+      ]);
+      const assignment = await db.terminalPumpAssignment.findFirst({ where: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id, endedAt: null } });
+      if (!assignment) await db.terminalPumpAssignment.create({ data: { stationId: station.id, terminalId: terminal.id, pumpId: pump.id } });
+    }
     console.log('Local DEMO Encargado, station and terminal fixtures are ready.');
   } finally {
     await db.$disconnect();
