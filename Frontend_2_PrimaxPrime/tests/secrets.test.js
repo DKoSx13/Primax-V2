@@ -14,5 +14,9 @@ test('web build does not copy SMTP/server secrets even when present in the build
     for(const secret of Object.values(secrets)) assert.equal(content.includes(secret),false,'Server secret in '+file);
   }}
   scan(path.join(root,'www'));
+  // Use the same build to avoid concurrent tests rewriting the shared output.
+  const asset='assets/Logotipo corporativo PRIMAX PRIME.png';
+  assert.deepEqual(readFileSync(path.join(root,'www',asset)),readFileSync(path.join(root,asset)));
+  assert.match(readFileSync(path.join(root,'www/index.html'),'utf8'),/PRIMAX%20PRIME\.png\?v=V12-[a-f0-9]+/);
   assert.doesNotMatch(readFileSync(path.join(root,'www/js/config.js'),'utf8'),/Prime123|SMTP_PASSWORD|SMTP_USER/);
 });

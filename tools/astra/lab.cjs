@@ -25,7 +25,10 @@ async function main(){
   compose(['up','-d','--build','--wait','--wait-timeout','240']);
  }else if(action==='rebuild-frontends'){
   require('./assert-lab.cjs')();
-  compose(['up','-d','--build','--no-deps','--wait','--wait-timeout','120','frontend1','fuelflow-t02','frontend2','frontend3']);
+  const allowed=['frontend1','fuelflow-t02','frontend2','frontend3'];
+  const selected=process.argv.slice(3);
+  if(selected.some(service=>!allowed.includes(service)))throw Error('Unknown QA frontend');
+  compose(['up','-d','--build','--no-deps','--wait','--wait-timeout','120',...(selected.length?selected:allowed)]);
  }else if(action==='verify-backend'){
   require('./assert-lab.cjs')();
   compose(['--profile','test','run','--build','--no-deps','--rm','backend-tests','sh','-c','npm test -- --silent && npm run lint && node --test gateway/routes.test.cjs && node scripts/test-compose.cjs']);

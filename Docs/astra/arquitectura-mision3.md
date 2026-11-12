@@ -37,3 +37,17 @@ por proyecto/rol. No se ha medido ni certificado esa alternativa.
 Extraer repositorios con el contenido del proyecto y pipeline ajustado a raíz,
 conservando referencia al commit origen. No copiar secretos, node_modules ni
 evidencias HTTP. Publicar contratos versionados antes de cambiar consumidores.
+
+### Evaluación documental de Neon (12 de noviembre)
+
+La documentación oficial recomienda conexión directa para migraciones y tareas
+que dependan del estado de sesión, y pooling para cargas web con conexiones
+frecuentes. Prisma conserva `DATABASE_URL` y `DATABASE_URL_UNPOOLED` separados.
+Fuentes: [pooling](https://github.com/neondatabase/website/blob/main/content/docs/connect/connection-pooling.md)
+y [Prisma](https://github.com/neondatabase/website/blob/main/content/docs/guides/prisma.md).
+
+Inferencia para esta extracción: Catalog usa `options` de sesión y pool persistente;
+la primera validación gestionada debería usar conexión directa, rol SELECT y TLS,
+antes de certificar compatibilidad con el pooler. La transacción READ ONLY explícita
+se conserva. No se verificaron rendimiento, latencia, costes ni restauración; no
+se recomienda migrar el laboratorio financiero durante esta misión.

@@ -40,6 +40,10 @@ for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime'
   await page.goto(`http://127.0.0.1:${port}`);
   await page.locator('body').waitFor();
   await expect(page.locator('body')).not.toBeEmpty();
+  if(name==='Prime'){
+   await expect(page.locator('.login-brand img')).toBeVisible();
+   await expect.poll(()=>page.locator('.login-brand img').evaluate(img=>img.naturalWidth)).toBeGreaterThan(0);
+  }
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();
   await info.attach('axe',{body:JSON.stringify(result,null,2),contentType:'application/json'});

@@ -42,6 +42,8 @@ class Client {
     while(true){
       const claim=await this.call('/api/v1/terminal/claim', {}, [200,201,409]);
       if(claim.claimed)break;
+      assert.equal(claim.statusCode,409);
+      assert.equal(claim.message,'Terminal ocupada en otra pestaña. Conserva la sesión original.');
       assert(Date.now()<deadline, 'QA terminal owner did not expire; preserve active session');
       await new Promise(resolve=>setTimeout(resolve,2000));
     }

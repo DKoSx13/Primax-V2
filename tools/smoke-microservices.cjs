@@ -51,8 +51,17 @@ async function main() {
   await call(origin(3), '/api/v1/control/inventory', undefined, control);
   const bootstrap = await kiosk('/api/kiosk/terminal-bootstrap', {});
   sessionCsrf = bootstrap.csrfToken;
-  const claim = await kiosk('/api/v1/terminal/claim', {}, true);
-  assert.equal(claim.claimed, true);
+  // A previous serial browser run may leave its idle 120s owner lease.
+  // Only this precise rejection is retryable; preserve all other conflicts.
+  const claimDeadline = Date.now() + 150000;
+  for (;;) {
+    const claim = await kiosk('/api/v1/terminal/claim', {}, true, [200,201,409]);
+    if (claim.claimed === true) break;
+    assert.equal(claim.statusCode, 409);
+    assert.equal(claim.message, 'Terminal ocupada en otra pestaña. Conserva la sesión original.');
+    assert(Date.now() < claimDeadline, 'Terminal owner did not expire; preserve its session');
+    await new Promise(resolve => setTimeout(resolve, 2000));
+  }
   const operationId = randomUUID();
   await call(origin(1), '/api/v1/terminal/operations', { operationId }, {
     Origin: origin(1), 'X-FuelFlow-Request': '1', 'X-FuelFlow-Tab': owner,

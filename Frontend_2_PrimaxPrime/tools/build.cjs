@@ -19,7 +19,9 @@ function scan(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true}).sort(
 scan(output);
 const hash=crypto.createHash('sha256');for(const file of files)hash.update(path.relative(output,file).split(path.sep).join('/')).update(fs.readFileSync(file));
 const version='V12-'+hash.digest('hex').slice(0,12);
-for(const file of files){let s=fs.readFileSync(file,'utf8');
+for(const file of files){
+ if(!/\.(js|css|html)$/i.test(file))continue; // Hash image bytes, never decode/rewrite them as UTF-8.
+ let s=fs.readFileSync(file,'utf8');
  if(file.endsWith('.js'))s=s.replace(/((?:from\s*|import\s*\(\s*)['"])(\.{1,2}\/[^'"]+?\.js)(?:\?[^'"]*)?(['"])/g,(_,a,b,c)=>a+b+'?v='+version+c);
  s=s.replace(/((?:src|href)=["'])([^"']+?\.(?:png|jpe?g|svg|webp))(?:\?[^"']*)?(["'])/gi,(_,a,b,c)=>a+b+'?v='+version+c);
  if(file.endsWith('.html'))s=s.replace(/((?:src|href)=["'])([^"']+?\.(?:js|css))(?:\?[^"']*)?(["'])/g,(_,a,b,c)=>a+b+'?v='+version+c).replace('</head>','<meta name="app-version" content="'+version+'"></head>');
