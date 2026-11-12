@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "mode": "shadow; existing gateway unchanged",
+  "action": "verify",
+  "results": [
+    {
+      "route": "fuels",
+      "rows": 3,
+      "parity": true
+    },
+    {
+      "route": "stations",
+      "rows": 1,
+      "parity": true
+    },
+    {
+      "route": "benefits",
+      "rows": 3,
+      "parity": true
+    },
+    {
+      "route": "fuels/inventory",
+      "rows": 3,
+      "parity": true
+    }
+  ],
+  "otherServicesUnchanged": true
+}

@@ -1,0 +1,330 @@
+{
+  "stats": {
+    "startTime": "2026-11-12T18:05:07.954Z",
+    "duration": 151994.631,
+    "expected": 15,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5887,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3708,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T01: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5049,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4482,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3448,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow T02: accesibilidad y adaptación de acceso real",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4175,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8648,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12728,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3230,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 34360,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5604,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4867,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12314,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-pantalla-pago",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12374,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-pantalla-pago",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 20258,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-pantalla-pago",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

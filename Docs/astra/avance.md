@@ -138,3 +138,15 @@ npm test --prefix tools/astra -- --project mobile --grep 'Control: navegación a
 ```
 
 El smoke usa propietario propio: antes de volver al navegador esperar expiración normal del claim; no limpiar Redis. Pendientes: resto de casos fallidos, regresión global y extracción Catalog. PR #9–#17 consultados de nuevo: siguen abiertos/draft y mergeable con su propia base; no se integraron ni publicaron cambios.
+
+### Catalog independiente: primera extracción de lectura validada
+
+`services/catalog` contiene NestJS, package/lockfile, build, Dockerfile, configuración y tests propios. Dominio/casos de uso no importan Nest ni PostgreSQL; `CatalogReader` encapsula persistencia y adaptadores. No hay imports de Backend. Se conservó PostgreSQL físico compartido y todas las escrituras de Commerce.
+
+Ejecutado: `npm test --prefix services/catalog` **5/5** (puerto de persistencia simulado, HTTP Nest real), build Docker independiente, `node tools/astra/catalog.cjs verify` y `restart` con PostgreSQL QA real. Los cuatro endpoints devuelven JSON equivalente al catálogo existente: 3 combustibles, 1 estación, 3 beneficios, 3 inventarios. El acceso sin clave devuelve 401. IDs y horas de inicio de Identity, Catalog anterior, Commerce, Administration y gateway permanecen iguales tras levantar/reiniciar el nuevo servicio. Evidencia `catalog-verify.json` y `catalog-restart.json`.
+
+**Límite explícito:** servicio de lectura en paralelo en 127.0.0.1:28210; aún no recibe tráfico del gateway público. Falta adaptador autenticado en la fachada actual y retirar su persistencia anterior, así como rol PostgreSQL exclusivo SELECT. No es separación completa de Catalog ni de los cinco servicios. No se cambiaron bases ni transacciones financieras. Configuración privada QA excluida de Git; pipeline propio solo compila/prueba/construye, sin publicación.
+
+Comandos: `node tools/astra/catalog.cjs build`, `verify` (primera creación), `restart` (contenedor existente), `stop`. Diseño y dependencias: `arquitectura-mision3.md`; contrato/límites: `services/catalog/README.md`.
+
+Pruebas dirigidas adicionales: Control autenticado tablet **1/1**, FuelFlow en tres tamaños **15/15**, incluyendo 409 esperado por otro propietario. Regresión global 48 casos iniciada, todavía no certificada en este punto de control.

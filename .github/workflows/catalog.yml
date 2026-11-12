@@ -1,0 +1,22 @@
+name: Independent Catalog contracts
+on:
+  push:
+    paths: ['services/catalog/**', '.github/workflows/catalog.yml']
+  pull_request:
+    paths: ['services/catalog/**', '.github/workflows/catalog.yml']
+  workflow_dispatch:
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: services/catalog/package-lock.json
+      - run: npm ci --prefix services/catalog
+      - run: npm test --prefix services/catalog
+      - run: docker build -t catalog-contract-check services/catalog
+      # No registry publication or deployment is authorized here.

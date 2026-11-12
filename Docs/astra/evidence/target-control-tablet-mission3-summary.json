@@ -1,0 +1,86 @@
+{
+  "stats": {
+    "startTime": "2026-11-12T18:03:25.799Z",
+    "duration": 40138.917,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "Control: navegación autenticada, accesibilidad y salida",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 36637,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-dashboard",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-operations",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-transactions",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-customers",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-memberships",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-vehicles",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-terminals",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-inventory",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-movements",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-supply",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-assistance",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-incidents",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-accounts",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
