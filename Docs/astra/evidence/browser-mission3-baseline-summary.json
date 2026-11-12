@@ -1,0 +1,735 @@
+{
+  "stats": {
+    "startTime": "2026-11-11T22:55:42.309Z",
+    "duration": 897576.303,
+    "expected": 13,
+    "skipped": 0,
+    "unexpected": 5,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "Prime: navegación autenticada, accesibilidad y salida",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 55740,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-inicio",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-consumos",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-beneficios",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-membresia",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-ayuda",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-navegación-autenticada-accesibilidad-y-salida-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: navegación autenticada, accesibilidad y salida",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 31125,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-inicio",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-consumos",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-beneficios",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-membresia",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-ayuda",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-navegación-autenticada-accesibilidad-y-salida-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Prime: navegación autenticada, accesibilidad y salida",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 28558,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-inicio",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-consumos",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-beneficios",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-membresia",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-ayuda",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Prime-navegación-autenticada-accesibilidad-y-salida-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: navegación autenticada, accesibilidad y salida",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 82820,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-dashboard",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-operations",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-transactions",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-customers",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-memberships",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-vehicles",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-terminals",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-inventory",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-movements",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-supply",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-assistance",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-incidents",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-accounts",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: navegación autenticada, accesibilidad y salida",
+      "project": "tablet",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 73602,
+          "errors": [
+            "Error: #terminals\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 50\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure elements that have scrollable content are accessible by keyboard\",\u001b[39m\n\u001b[31m+     \"help\": \"Scrollable region must have keyboard access\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"scrollable-region-focusable\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-content\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should have focusable content\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-element\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should be focusable\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element should have focusable content\u001b[39m\n\u001b[31m+   Element should be focusable\",\u001b[39m\n\u001b[31m+         \"html\": \"<section class=\\\"panel table-wrap\\\">\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".panel.table-wrap:nth-child(2)\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.keyboard\",\u001b[39m\n\u001b[31m+       \"wcag2a\",\u001b[39m\n\u001b[31m+       \"wcag211\",\u001b[39m\n\u001b[31m+       \"wcag213\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT4.a\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.1\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.3\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  175 |    await info.attach('axe-'+route.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n  176 |    await page.screenshot({path:info.outputPath(route.slice(1)+'.png'),fullPage:true});\n> 177 |    expect.soft(result.violations,route).toEqual([]);\n      |                                         ^\n  178 |   }\n  179 |   if(!control)await page.locator('nav a[href=\"#membresia\"]').click();\n  180 |   await page.locator(control?'#logout':'[data-logout]').click();\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:177:41"
+          ],
+          "attachments": [
+            {
+              "name": "axe-dashboard",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-operations",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-transactions",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-customers",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-memberships",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-vehicles",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-terminals",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-inventory",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-movements",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-supply",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-assistance",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-incidents",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-accounts",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-tablet/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-tablet/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: navegación autenticada, accesibilidad y salida",
+      "project": "mobile",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 68215,
+          "errors": [
+            "Error: #vehicles\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 50\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure elements that have scrollable content are accessible by keyboard\",\u001b[39m\n\u001b[31m+     \"help\": \"Scrollable region must have keyboard access\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"scrollable-region-focusable\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-content\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should have focusable content\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-element\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should be focusable\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element should have focusable content\u001b[39m\n\u001b[31m+   Element should be focusable\",\u001b[39m\n\u001b[31m+         \"html\": \"<section class=\\\"panel table-wrap\\\">\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".panel\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.keyboard\",\u001b[39m\n\u001b[31m+       \"wcag2a\",\u001b[39m\n\u001b[31m+       \"wcag211\",\u001b[39m\n\u001b[31m+       \"wcag213\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT4.a\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.1\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.3\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  175 |    await info.attach('axe-'+route.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n  176 |    await page.screenshot({path:info.outputPath(route.slice(1)+'.png'),fullPage:true});\n> 177 |    expect.soft(result.violations,route).toEqual([]);\n      |                                         ^\n  178 |   }\n  179 |   if(!control)await page.locator('nav a[href=\"#membresia\"]').click();\n  180 |   await page.locator(control?'#logout':'[data-logout]').click();\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:177:41",
+            "Error: #terminals\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 50\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure elements that have scrollable content are accessible by keyboard\",\u001b[39m\n\u001b[31m+     \"help\": \"Scrollable region must have keyboard access\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"scrollable-region-focusable\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-content\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should have focusable content\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-element\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should be focusable\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element should have focusable content\u001b[39m\n\u001b[31m+   Element should be focusable\",\u001b[39m\n\u001b[31m+         \"html\": \"<section class=\\\"panel table-wrap\\\">\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".panel.table-wrap:nth-child(2)\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.keyboard\",\u001b[39m\n\u001b[31m+       \"wcag2a\",\u001b[39m\n\u001b[31m+       \"wcag211\",\u001b[39m\n\u001b[31m+       \"wcag213\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT4.a\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.1\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.3\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  175 |    await info.attach('axe-'+route.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n  176 |    await page.screenshot({path:info.outputPath(route.slice(1)+'.png'),fullPage:true});\n> 177 |    expect.soft(result.violations,route).toEqual([]);\n      |                                         ^\n  178 |   }\n  179 |   if(!control)await page.locator('nav a[href=\"#membresia\"]').click();\n  180 |   await page.locator(control?'#logout':'[data-logout]').click();\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:177:41",
+            "Error: #audit\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 50\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure elements that have scrollable content are accessible by keyboard\",\u001b[39m\n\u001b[31m+     \"help\": \"Scrollable region must have keyboard access\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"scrollable-region-focusable\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-content\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should have focusable content\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": null,\u001b[39m\n\u001b[31m+             \"id\": \"focusable-element\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element should be focusable\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element should have focusable content\u001b[39m\n\u001b[31m+   Element should be focusable\",\u001b[39m\n\u001b[31m+         \"html\": \"<section class=\\\"panel table-wrap\\\">\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".panel\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.keyboard\",\u001b[39m\n\u001b[31m+       \"wcag2a\",\u001b[39m\n\u001b[31m+       \"wcag211\",\u001b[39m\n\u001b[31m+       \"wcag213\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT4.a\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.1\",\u001b[39m\n\u001b[31m+       \"EN-9.2.1.3\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  175 |    await info.attach('axe-'+route.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n  176 |    await page.screenshot({path:info.outputPath(route.slice(1)+'.png'),fullPage:true});\n> 177 |    expect.soft(result.violations,route).toEqual([]);\n      |                                         ^\n  178 |   }\n  179 |   if(!control)await page.locator('nav a[href=\"#membresia\"]').click();\n  180 |   await page.locator(control?'#logout':'[data-logout]').click();\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:177:41",
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 4\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   \"HTTP 401 http://127.0.0.1:28183/api/v1/control/assistance\",\u001b[39m\n\u001b[31m+   \"CONSOLE Failed to load resource: the server responded with a status of 401 (Unauthorized)\",\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  17 |  await use({allow:(path,status)=>allowed.push({path,status}),watch:observe});\n  18 |  await testInfo.attach('browser-audit',{body:JSON.stringify(failures,null,2),contentType:'application/json'});\n> 19 |  expect(failures).toEqual([]);\n     |                   ^\n  20 |  },{auto:true}]});\n  21 | for(const [name,port] of [['FuelFlow T01',28181],['FuelFlow T02',28184],['Prime',28182],['Control',28183]]){\n  22 |  test(`${name}: accesibilidad y adaptación de acceso real`,async({page,audit},info)=>{\n    at Object.base.extend.audit.auto (/home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:19:19)"
+          ],
+          "attachments": [
+            {
+              "name": "axe-dashboard",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-operations",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-transactions",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-customers",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-memberships",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-vehicles",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-terminals",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-inventory",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-movements",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-supply",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-assistance",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-incidents",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-accounts",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-mobile/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-mobile/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-navegación-autenticada-accesibilidad-y-salida-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10607,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-bloqueo-de--18ac6-aña-y-liberación-sin-compra-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9525,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-bloqueo-de--18ac6-aña-y-liberación-sin-compra-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: bloqueo de segunda pestaña y liberación sin compra",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9809,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-bloqueo-de--18ac6-aña-y-liberación-sin-compra-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: encargado limitado a su estación y sin gestión de cuentas",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6328,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-encargado-li-e7801-ón-y-sin-gestión-de-cuentas-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: encargado limitado a su estación y sin gestión de cuentas",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5458,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-encargado-li-e7801-ón-y-sin-gestión-de-cuentas-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Control: encargado limitado a su estación y sin gestión de cuentas",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5242,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-Control-encargado-li-e7801-ón-y-sin-gestión-de-cuentas-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 16804,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-Backend-rechaza-otro-propietario-de-terminal-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "tablet",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11250,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-Backend-rechaza-otro-propietario-de-terminal-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: Backend rechaza otro propietario de terminal",
+      "project": "mobile",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11035,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-Backend-rechaza-otro-propietario-de-terminal-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "desktop",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 129588,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 56\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#ff8733\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 2.39,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#ffffff\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"8.3pt (11px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".tag-hot\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".tag-hot\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  262 |    const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();\n  263 |    await info.attach('axe-'+screen.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n> 264 |    expect.soft(result.violations).toEqual([]);\n      |                                   ^\n  265 |    await page.screenshot({path:info.outputPath(screen.slice(1)+'.png'),fullPage:true});\n  266 |    await advance();\n  267 |   }\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:264:35",
+            "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m",
+            "Error: page.evaluate: Target page, context or browser has been closed\n\n  275 |   expect(current.transactions).toBe(before.transactions);expect(current.payments).toBe(before.payments);\n  276 |   expect(current.pendingReservations).toBe(0);\n> 277 |   const result=await page.evaluate(async id=>{\n      |                           ^\n  278 |    const version=document.querySelector('meta[name=\"app-version\"]').content;\n  279 |    const {terminalService}=await import('/src/js/apiClient.js?v='+version);\n  280 |    return terminalService.close(id);\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:277:27"
+          ],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-desktop/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-desktop/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-desktop/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "tablet",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 131374,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 91\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#ff8733\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 2.39,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#ffffff\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"8.3pt (11px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".tag-hot\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".tag-hot\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#ffffff\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 3.29,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#16a34a\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"9.0pt (12px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 3.29 (foreground color: #16a34a, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<body>\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \"body\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 3.29 (foreground color: #16a34a, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span id=\\\"status-state\\\" data-i18n=\\\"status_listo\\\">● 📍 Seleccione su combustible</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \"#status-state\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  262 |    const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();\n  263 |    await info.attach('axe-'+screen.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n> 264 |    expect.soft(result.violations).toEqual([]);\n      |                                   ^\n  265 |    await page.screenshot({path:info.outputPath(screen.slice(1)+'.png'),fullPage:true});\n  266 |    await advance();\n  267 |   }\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:264:35",
+            "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m",
+            "Error: page.evaluate: Target page, context or browser has been closed\n\n  275 |   expect(current.transactions).toBe(before.transactions);expect(current.payments).toBe(before.payments);\n  276 |   expect(current.pendingReservations).toBe(0);\n> 277 |   const result=await page.evaluate(async id=>{\n      |                           ^\n  278 |    const version=document.querySelector('meta[name=\"app-version\"]').content;\n  279 |    const {terminalService}=await import('/src/js/apiClient.js?v='+version);\n  280 |    return terminalService.close(id);\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:277:27"
+          ],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-tablet/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-tablet/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-tablet/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "mobile",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 135153,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 91\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#ff8733\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 2.39,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#ffffff\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"8.3pt (11px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".tag-hot\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 2.39 (foreground color: #ffffff, background color: #ff8733, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"tag tag-hot\\\" data-i18n=\\\"tag_rec\\\">Recomendado</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".tag-hot\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#ffffff\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 3.29,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#16a34a\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"9.0pt (12px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 3.29 (foreground color: #16a34a, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<body>\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \"body\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 3.29 (foreground color: #16a34a, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span id=\\\"status-state\\\" data-i18n=\\\"status_listo\\\">● 📍 Seleccione su combustible</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \"#status-state\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  262 |    const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa']).analyze();\n  263 |    await info.attach('axe-'+screen.slice(1),{body:JSON.stringify(result),contentType:'application/json'});\n> 264 |    expect.soft(result.violations).toEqual([]);\n      |                                   ^\n  265 |    await page.screenshot({path:info.outputPath(screen.slice(1)+'.png'),fullPage:true});\n  266 |    await advance();\n  267 |   }\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:264:35",
+            "\u001b[31mTest timeout of 120000ms exceeded.\u001b[39m",
+            "Error: page.evaluate: Target page, context or browser has been closed\n\n  275 |   expect(current.transactions).toBe(before.transactions);expect(current.payments).toBe(before.payments);\n  276 |   expect(current.pendingReservations).toBe(0);\n> 277 |   const result=await page.evaluate(async id=>{\n      |                           ^\n  278 |    const version=document.querySelector('meta[name=\"app-version\"]').content;\n  279 |    const {terminalService}=await import('/src/js/apiClient.js?v='+version);\n  280 |    return terminalService.close(id);\n    at /home/primax/Proyectos/Primax-V2-astra/tools/astra/audit.spec.cjs:277:27"
+          ],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "screenshot",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-mobile/test-failed-1.png",
+              "contentType": "image/png"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            },
+            {
+              "name": "error-context",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-mobile/error-context.md",
+              "contentType": "text/markdown"
+            },
+            {
+              "name": "trace",
+              "path": "/home/primax/Proyectos/Primax-V2-astra/Docs/astra/test-results/audit-FuelFlow-navegación-prepago-sin-cobro-y-accesibilidad-mobile/trace.zip",
+              "contentType": "application/zip"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

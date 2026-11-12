@@ -1,0 +1,38 @@
+{
+  "stats": {
+    "startTime": "2026-11-12T17:47:23.325Z",
+    "duration": 40705.382000000005,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "FuelFlow: navegación prepago sin cobro y accesibilidad",
+      "project": "desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 28587,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "axe-pantalla-combustible",
+              "contentType": "application/json"
+            },
+            {
+              "name": "axe-pantalla-pago",
+              "contentType": "application/json"
+            },
+            {
+              "name": "browser-audit",
+              "contentType": "application/json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

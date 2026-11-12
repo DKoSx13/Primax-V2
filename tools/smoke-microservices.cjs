@@ -7,6 +7,7 @@ const { resolve } = require('node:path');
 const origin = n => `http://127.0.0.1:${process.env['FRONTEND' + n + '_PORT'] || (26080 + n)}`;
 const api = process.env.API_ORIGIN || 'http://127.0.0.1:26000';
 const cookies = new Map(); let sessionCsrf = '';
+const owner = randomUUID();
 function saveCookies(r) { for (const v of r.headers.getSetCookie()) { const [k, value] = v.split(';')[0].split('='); cookies.set(k, value); } }
 async function call(base, path, body, headers = {}, expected = [200,201]) {
   const r = await fetch(base + path, { method: body === undefined ? 'GET' : 'POST',
@@ -20,7 +21,8 @@ async function call(base, path, body, headers = {}, expected = [200,201]) {
 const cookieHeader = () => [...cookies].map(([k,v]) => `${k}=${v}`).join('; ');
 function kiosk(path, body, terminal = false, expected) {
   return call(origin(1), path, body, { Origin: origin(1), 'X-FuelFlow-Request': '1',
-    Cookie: cookieHeader(), 'X-CSRF-Token': terminal ? cookies.get('primax-terminal-csrf-local') : sessionCsrf }, expected);
+    Cookie: cookieHeader(), 'X-FuelFlow-Tab': owner,
+    'X-CSRF-Token': terminal ? cookies.get(`primax-terminal-csrf-local-${new URL(origin(1)).port}`) : sessionCsrf }, expected);
 }
 async function main() {
   for (const n of [1,2,3]) {
@@ -49,8 +51,19 @@ async function main() {
   await call(origin(3), '/api/v1/control/inventory', undefined, control);
   const bootstrap = await kiosk('/api/kiosk/terminal-bootstrap', {});
   sessionCsrf = bootstrap.csrfToken;
+  const claim = await kiosk('/api/v1/terminal/claim', {}, true);
+  assert.equal(claim.claimed, true);
   const operationId = randomUUID();
+  await call(origin(1), '/api/v1/terminal/operations', { operationId }, {
+    Origin: origin(1), 'X-FuelFlow-Request': '1', 'X-FuelFlow-Tab': owner,
+    Cookie: cookieHeader(), 'X-CSRF-Token': 'invalid-csrf',
+  }, [403]);
   await kiosk('/api/v1/terminal/operations', { operationId }, true);
+  if (process.env.SMOKE_AUTH_ONLY === '1') {
+    await kiosk(`/api/v1/terminal/operations/${operationId}/close`, {}, true);
+    console.log(JSON.stringify({result:'PASS', scope:'terminal authentication, CSRF rejection, claim, start and close; no sale'}));
+    return;
+  }
   await call(origin(1), '/api/kiosk/terminal-bootstrap', {}, { Origin: origin(1), 'X-FuelFlow-Request': '1' }, [409]);
   const image = readFileSync(resolve(__dirname, '../PlateRecognition/fixtures/ABC-123.png')).toString('base64');
   const ocr = await kiosk('/api/v1/plate-recognition', { image });

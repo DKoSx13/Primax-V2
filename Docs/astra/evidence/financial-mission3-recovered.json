@@ -1,0 +1,82 @@
+{
+  "operations": [
+    {
+      "operationId": "91beddf5-96b2-4130-a999-2fb33797d255",
+      "number": "OP01-0001",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0001"
+    },
+    {
+      "operationId": "f8eec57b-4a9a-4f17-ba23-cf05737c1cc4",
+      "number": "OP01-0003",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "EB01-0003"
+    },
+    {
+      "operationId": "0e087354-0fb9-4398-b3e8-b18321968b41",
+      "number": "OP01-0004",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0004"
+    },
+    {
+      "operationId": "754ee2c3-bc5e-426f-899b-37cb9b3fab2d",
+      "number": "OP01-0005",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "FT01-0001"
+    },
+    {
+      "operationId": "301ea5b6-94d9-4e50-9574-b4c9df97d0e0",
+      "number": "OP01-0006",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": "EB01-0005"
+    },
+    {
+      "operationId": "8ffe5d27-f5c6-4fd8-80c0-5374d42fbc4a",
+      "number": "OP01-0007",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T02",
+      "pump": "04",
+      "receipt": "FT01-0002"
+    },
+    {
+      "operationId": "e3f340a0-f52f-4da7-8eb3-1edb24d8ca7f",
+      "number": "OP01-0008",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": null
+    },
+    {
+      "operationId": "4a98ca17-fdfb-404e-8c83-b3582eafe91a",
+      "number": "OP01-0009",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": null
+    },
+    {
+      "operationId": "c3287ea7-5d55-49f9-8d70-745e00be1151",
+      "number": "OP01-0010",
+      "status": "CLOSED",
+      "terminal": "PRIMAX-SUR-T01",
+      "pump": "03",
+      "receipt": null
+    }
+  ],
+  "transactions": 6,
+  "payments": 6,
+  "pendingReservations": 0,
+  "duplicateTransactions": 0,
+  "duplicatePayments": 0,
+  "duplicateReservations": 0
+}

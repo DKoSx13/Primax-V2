@@ -1,0 +1,14 @@
+{
+  "result": "PASS",
+  "backend": "real Astra QA",
+  "checks": [
+    "invalid CSRF rejected with 403",
+    "scoped CSRF cookie accepted",
+    "terminal claim",
+    "operation opened and closed"
+  ],
+  "transactionsBefore": 6,
+  "transactionsAfter": 6,
+  "paymentsBefore": 6,
+  "paymentsAfter": 6
+}

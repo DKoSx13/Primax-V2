@@ -1,9 +1,25 @@
 const {test:base,expect}=require('@playwright/test');
 const AxeBuilder=require('@axe-core/playwright').default;
-const test=base.extend({audit:[async({page,context},use,testInfo)=>{
+const test=base.extend({emptyOperation:[async({context},use)=>{
+ let operationId;
+ await use(id=>{ operationId=id; });
+ if(!operationId)return;
+ const state=require('./financial-state.cjs')();
+ const operation=state.operations.find(o=>o.operationId===operationId);
+ expect(operation).toBeTruthy();
+ expect(operation.receipt).toBeNull();
+ expect(state.pendingReservations).toBe(0);
+ const cookies=await context.cookies();
+ const csrf=cookies.find(c=>c.name==='primax-terminal-csrf-local-28181')?.value;
+ const response=await context.request.post(`http://127.0.0.1:28181/api/v1/terminal/operations/${operationId}/close`, {
+  headers:{Origin:'http://127.0.0.1:28181','X-FuelFlow-Request':'1','X-FuelFlow-Tab':process.env.ASTRA_BROWSER_OWNER,'X-CSRF-Token':csrf},data:{},timeout:15000,
+ });
+ expect(response.ok()).toBe(true);
+ expect((await response.json()).status).toBe('CLOSED');
+},{timeout:60000}],audit:[async({page,context},use,testInfo)=>{
  await context.addInitScript(owner=>{
   if(window===window.top&&['http://127.0.0.1:28181','http://127.0.0.1:28184'].includes(location.origin))
-   sessionStorage.setItem('fuelflow:tab:v1',owner);
+   { sessionStorage.setItem('fuelflow:tab:v1',owner); localStorage.setItem('primax_idioma','es'); }
  },process.env.ASTRA_BROWSER_OWNER);
  const failures=[];const allowed=[];
  const expected=(url,status)=>allowed.some(a=>a.status===status&&new URL(url).pathname===a.path);
@@ -236,8 +252,9 @@ test('FuelFlow: Backend rechaza otro propietario de terminal',async({page,browse
  }finally{await outsider.close();}
 });
 
-test('FuelFlow: navegación prepago sin cobro y accesibilidad',async({page,audit},info)=>{
+test('FuelFlow: navegación prepago sin cobro y accesibilidad',async({page,audit,emptyOperation},info)=>{
  test.setTimeout(120000);
+ page.setDefaultTimeout(15000);
  const financialState=require('./financial-state.cjs');
  const before=financialState();financialState.assertSettled(before);
  await page.goto('http://127.0.0.1:28181');
@@ -251,7 +268,9 @@ test('FuelFlow: navegación prepago sin cobro y accesibilidad',async({page,audit
  });
  const started=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/api/v1/terminal/operations'));
  await page.locator('#btn-iniciar').click();
- const operation=await (await started).json();
+ const response=await started;expect(response.ok()).toBe(true);
+ const operation=await response.json();
+ emptyOperation(operation.operationId);
  try{
   expect([...probes]).toEqual([operation.operationId]);
   for(const [screen,advance] of [
@@ -274,11 +293,6 @@ test('FuelFlow: navegación prepago sin cobro y accesibilidad',async({page,audit
   const current=financialState();
   expect(current.transactions).toBe(before.transactions);expect(current.payments).toBe(before.payments);
   expect(current.pendingReservations).toBe(0);
-  const result=await page.evaluate(async id=>{
-   const version=document.querySelector('meta[name="app-version"]').content;
-   const {terminalService}=await import('/src/js/apiClient.js?v='+version);
-   return terminalService.close(id);
-  },operation.operationId);
-  expect(result.status).toBe('CLOSED');
+
  }
 });

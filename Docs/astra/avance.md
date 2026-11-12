@@ -116,3 +116,25 @@ Control: **38/38 tests**, build local aprobado con orígenes 28181/28184. La rec
 `financial-state.cjs` usa una transacción SQL de solo lectura y registra operaciones, pagos, transacciones, reservas pendientes y duplicados. La pasada verde dejó **seis ventas y seis pagos**, todas las operaciones cerradas, cero reservas pendientes y cero duplicados. Últimas compras: T01 OP01-0006 / EB01-0005 y T02 OP01-0007 / FT01-0002 (`evidence/financial-ui-green.json`).
 
 La auditoría extendida inicial encontró contraste insuficiente en Prime y errores de inyección del fixture en documentos auxiliares de navegador. Resultado preservado: 3 fallidas, 1 aprobada, 8 no ejecutadas; se interrumpió para reconstruir y comprobar las correcciones, no para omitir sus reglas. Control recorrió sus 14 secciones sin violaciones axe; el fallo registrado correspondió a la inyección del fixture. Informe: `browser-extended-first-summary.json`. Correcciones y nueva ejecución extendida aún pendientes de cierre.
+
+## Misión 3 — 12 de noviembre, punto de control de estabilización
+
+Se retomó `9245f82`, árbol inicialmente limpio. Se consultaron los jobs 130859959974 y 130859960474 de los runs indicados y los metadatos del artefacto 13901616568. No se lanzó CI remoto ni se hizo push.
+
+- Causa del 403: `smoke-microservices.cjs` buscaba una cookie CSRF sin el sufijo del puerto y omitía propietario/claim. Corregido el cliente, sin modificar autenticación ni CSRF. Nueva comprobación real `SMOKE_AUTH_ONLY=1`: CSRF falso → 403; claim, apertura y cierre válidos → PASS. Seis ventas y seis pagos antes/después. Este modo no valida el recorrido financiero completo del smoke.
+- Causa del timeout de navegación sin cobro: diálogo inicial de idioma superpuesto (confirmado en error-context local). El fixture fija español; el cierre pasa a un fixture con timeout propio y APIRequestContext, independiente de la página. Los 409 posteriores son protección de una operación abierta, no errores a ignorar.
+- QA contenía OP01-0010 activa sin comprobante. Se inspeccionó el estado y se cerró exclusivamente esa atención con `/control/terminal-operations/:id/cancel-unpaid` (201), cuyos controles rechazan ventas, autorizaciones y pagos activos. No se borró Redis ni se alteraron pagos. Evidencia antes/después conservada.
+- Control: tablas desplazables ahora enfocables por teclado. FuelFlow: verde con contraste suficiente. Reconstrucción de los cuatro frontends QA terminada; sin reconstruir bases/dominios.
+- Verificación actual: FuelFlow unitarias 172/172; Control 38/38. Playwright individual con Backend real: navegación FuelFlow sin cobro escritorio 1/1 y Control autenticado móvil 1/1, sin omitidas. No equivale a regresión completa.
+- El workflow E2E publicará solo resumen por lista permitida; trazas, HTML y JSON completos pueden incluir cookies/login y permanecen locales. Evidencias previas preservadas en `previous-run/mission3-start`, pruebas dirigidas en `previous-run/mission3-target-*`.
+
+Reproducción del smoke sin venta, **tras inspeccionar QA y sin navegador FuelFlow concurrente**:
+
+```bash
+node tools/astra/financial-state.cjs
+FRONTEND1_PORT=28181 FRONTEND2_PORT=28182 FRONTEND3_PORT=28183 API_ORIGIN=http://127.0.0.1:28100 SMOKE_AUTH_ONLY=1 node tools/smoke-microservices.cjs
+npm test --prefix tools/astra -- --project desktop --grep 'navegación prepago sin cobro'
+npm test --prefix tools/astra -- --project mobile --grep 'Control: navegación autenticada'
+```
+
+El smoke usa propietario propio: antes de volver al navegador esperar expiración normal del claim; no limpiar Redis. Pendientes: resto de casos fallidos, regresión global y extracción Catalog. PR #9–#17 consultados de nuevo: siguen abiertos/draft y mergeable con su propia base; no se integraron ni publicaron cambios.
