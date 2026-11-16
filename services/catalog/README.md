@@ -49,3 +49,24 @@ local excluido de Git, con modo 0600. Su evidencia pública solo contiene conteo
 Las pruebas de aplicación/HTTP usan un puerto de persistencia simulado; `verify`
 usa PostgreSQL real. El pipeline propio compila, prueba y construye la imagen;
 no publica ni despliega.
+
+Preparación de alcance (misión 4): `GET /api/v1/stations?stationId=<id>` y
+`GET /api/v1/fuels/inventory?stationId=<id>` filtran por estación; sin parámetro
+conservan el listado completo. Vacíos, valores repetidos o inválidos devuelven 400.
+El parámetro debe derivarse del actor en una fachada confiable, nunca copiarse
+sin autorización desde una solicitud pública. Esto no habilita el cambio de tráfico.
+
+Fachada preparada en Backend: `CATALOG_READ_ADAPTER=http` selecciona el cliente
+interno con `CATALOG_INTERNAL_URL` y `CATALOG_API_KEY`; por defecto sigue Prisma.
+El Gateway conserva CATALOG_URL a esa fachada. `CATALOG_INTERNAL_HEALTH_URL`
+opcional añade readiness de la dependencia. Ninguna variable se ha activado en
+los despliegues existentes. Prueba aislada desde raíz, tras compilar ambos proyectos
+y generar Prisma Client: `node tools/astra/catalog-isolated.cjs`.
+
+Separación de contratos: el proceso de fachada Catalog de Backend añade
+`GET /api/v1/control/catalog/inventory` y `/control/catalog/stations` para Control,
+con ADMIN_INVENTORY_VIEW y alcance por estación. Los cuatro GET públicos anteriores
+se conservan; el inventario público aún requiere una decisión de negocio.
+Véase `Docs/astra/catalog-auth-contracts.md` desde la raíz del repositorio.
+Aceptación con red interna de Compose y Print/OCR reales:
+`node tools/astra/catalog-full-stack.cjs --compose` (base sintética nueva).

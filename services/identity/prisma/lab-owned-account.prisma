@@ -1,0 +1,29 @@
+// Mission 5.11 PRIVATE slice only. Never migrate/db push onto an existing database.
+// Not imported by the 14-model or full compatibility clients/runtimes.
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated/owned-account-lab"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("IDENTITY_OWNED_LAB_DATABASE_URL")
+}
+model Account {
+  id String @id @default(uuid()) @db.Uuid
+  email String @unique @db.VarChar(254)
+  name String @db.VarChar(80)
+  passwordHash String @db.VarChar(100)
+  active Boolean @default(true)
+  authVersion Int @default(0)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  profile IdentityProfile?
+}
+model IdentityProfile {
+  accountId String @id @db.Uuid
+  account Account @relation(fields:[accountId],references:[id],onDelete:Restrict)
+  dni String? @unique @db.VarChar(8)
+  passport String? @unique @db.VarChar(20)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+}

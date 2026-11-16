@@ -50,5 +50,5 @@ export async function bootstrapDomain(name: string, domains: Type<unknown>[]) {
   });
   setupApp(app);
   app.enableShutdownHooks();
-  await app.listen(config.getOrThrow<number>('PORT'), '0.0.0.0');
+  await app.listen(config.getOrThrow<number>('PORT'), config.get<string>('BIND_HOST', '0.0.0.0'));
 }

@@ -1,3 +1,4 @@
+import { scopeCatalog } from '../catalog-reader/catalog-reader';
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { StationResponseDto } from '../common/response.dto';
@@ -11,8 +12,6 @@ export class StationsController {
     @CurrentActor() actor?: Actor,
   ) {
     const rows = await this.service.list();
-    return actor?.kind === 'kiosk' && actor.stationId
-      ? rows.filter((row) => row.id === actor.stationId)
-      : rows;
+    return scopeCatalog(rows, actor, row => row.id);
   }
 }

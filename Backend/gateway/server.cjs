@@ -5,6 +5,8 @@ const { serviceFor } = require('./routes.cjs');
 
 const origins = Object.fromEntries(['identity','catalog','commerce','administration','print'].map(name =>
   [name, process.env[name.toUpperCase() + '_URL'] || `http://${name}-service:3000`]));
+const healthOrigins = { ...origins };
+if (process.env.CATALOG_INTERNAL_HEALTH_URL) healthOrigins.catalogRead = process.env.CATALOG_INTERNAL_HEALTH_URL;
 origins.ocr = process.env.OCR_URL || 'http://plate-recognition:8000';
 const cors = (process.env.CORS_ORIGINS || '').split(',');
 const timeout = 15000;
@@ -27,9 +29,9 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
   const path = req.url.split('?')[0];
   if (path === '/api/v1/health' || path === '/healthz') {
-    const results = await Promise.all(Object.entries(origins).map(async ([name, origin]) => {
+    const results = await Promise.all(Object.entries({ ...healthOrigins, ocr: origins.ocr }).map(async ([name, origin]) => {
       try {
-        const r = await fetch(origin + (name === 'ocr' ? '/health' : '/api/v1/health'), { signal: AbortSignal.timeout(3000) });
+        const r = await fetch(origin + (name === 'catalogRead' ? '/health/ready' : name === 'ocr' ? '/health' : '/api/v1/health'), { signal: AbortSignal.timeout(3000) });
         return [name, r.ok ? 'up' : 'down'];
       } catch { return [name, 'down']; }
     }));
@@ -67,5 +69,5 @@ const server = http.createServer(async (req, res) => {
 });
 server.requestTimeout = 20000;
 server.headersTimeout = 10000;
-server.listen(Number(process.env.PORT || 3000), '0.0.0.0');
+server.listen(Number(process.env.PORT || 3000), process.env.BIND_HOST || '0.0.0.0');
 for (const signal of ['SIGINT','SIGTERM']) process.on(signal, () => server.close());

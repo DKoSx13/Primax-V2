@@ -1,5 +1,6 @@
 // Ordered compatibility contract. Specific membership/control routes precede prefixes.
 const routes = [
+  [/^\/api\/v1\/control\/catalog\/(?:inventory|stations)(?:\/|$)/, 'catalog'],
   [/^\/api\/v1\/demo-print\/jobs\/receipt-[a-zA-Z0-9-]{1,100}$/, 'print'],
   [/^\/api\/v1\/memberships\/me\/(?:wallet|recharges)(?:\/|$)/, 'commerce'],
   [/^\/api\/v1\/control\/(?:payments|terminal-operations|assistance)(?:\/|$)/, 'commerce'],

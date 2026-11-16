@@ -320,7 +320,9 @@ describe('operator security across independent function instances', () => {
         { username: 'fixture-operator', password },
       ),
     ).rejects.toThrow('Demasiados intentos');
-  }, 15000);
+    // Five real cost-12 bcrypt checks need headroom on a loaded laboratory host.
+    // Keep every security assertion and the production rate limits unchanged.
+  }, 60000);
   it('checks station and referenced authorization before any purchase can execute', async () => {
     const { a, login, db } = fixture();
     const session = await login();

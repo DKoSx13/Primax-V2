@@ -1,0 +1,222 @@
+{
+  "identityProjectionModels": [
+    "User",
+    "MembershipNumberCounter",
+    "Membership",
+    "MembershipCodeAlias",
+    "Vehicle",
+    "PasswordReset",
+    "UserPermissionGrant",
+    "AdminControlAccount",
+    "AdminControlGrant",
+    "AdminStationAssignment",
+    "AdminEmailVerification",
+    "Station",
+    "Terminal",
+    "TerminalCredential"
+  ],
+  "externalRelationsOmittedFromClientOnly": [
+    {
+      "model": "User",
+      "field": "assistanceRequests",
+      "externalModel": "AssistanceRequest"
+    },
+    {
+      "model": "User",
+      "field": "supervisorAssignments",
+      "externalModel": "SupervisorStationAssignment"
+    },
+    {
+      "model": "User",
+      "field": "grantedSupervisorAssignments",
+      "externalModel": "SupervisorStationAssignment"
+    },
+    {
+      "model": "User",
+      "field": "supervisorShifts",
+      "externalModel": "SupervisorShift"
+    },
+    {
+      "model": "User",
+      "field": "pumpAssignments",
+      "externalModel": "TerminalPumpAssignment"
+    },
+    {
+      "model": "User",
+      "field": "terminalEnablements",
+      "externalModel": "TerminalEnablement"
+    },
+    {
+      "model": "User",
+      "field": "operationalAuditEvents",
+      "externalModel": "OperationalAuditEvent"
+    },
+    {
+      "model": "User",
+      "field": "resolvedOperationalIncidents",
+      "externalModel": "OperationalIncident"
+    },
+    {
+      "model": "Membership",
+      "field": "alerts",
+      "externalModel": "BusinessAlert"
+    },
+    {
+      "model": "Membership",
+      "field": "debts",
+      "externalModel": "MembershipDebt"
+    },
+    {
+      "model": "Membership",
+      "field": "transactions",
+      "externalModel": "Transaction"
+    },
+    {
+      "model": "Membership",
+      "field": "movements",
+      "externalModel": "RewardMovement"
+    },
+    {
+      "model": "Membership",
+      "field": "redemptions",
+      "externalModel": "Redemption"
+    },
+    {
+      "model": "Membership",
+      "field": "authorizations",
+      "externalModel": "FuelAuthorization"
+    },
+    {
+      "model": "Membership",
+      "field": "walletMovements",
+      "externalModel": "WalletMovement"
+    },
+    {
+      "model": "Vehicle",
+      "field": "transactions",
+      "externalModel": "Transaction"
+    },
+    {
+      "model": "Vehicle",
+      "field": "authorizations",
+      "externalModel": "FuelAuthorization"
+    },
+    {
+      "model": "Station",
+      "field": "assistanceRequests",
+      "externalModel": "AssistanceRequest"
+    },
+    {
+      "model": "Station",
+      "field": "inventory",
+      "externalModel": "FuelInventory"
+    },
+    {
+      "model": "Station",
+      "field": "transactions",
+      "externalModel": "Transaction"
+    },
+    {
+      "model": "Station",
+      "field": "authorizations",
+      "externalModel": "FuelAuthorization"
+    },
+    {
+      "model": "Station",
+      "field": "pumps",
+      "externalModel": "Pump"
+    },
+    {
+      "model": "Station",
+      "field": "supervisorAssignments",
+      "externalModel": "SupervisorStationAssignment"
+    },
+    {
+      "model": "Station",
+      "field": "supervisorShifts",
+      "externalModel": "SupervisorShift"
+    },
+    {
+      "model": "Station",
+      "field": "terminalPumpAssignments",
+      "externalModel": "TerminalPumpAssignment"
+    },
+    {
+      "model": "Station",
+      "field": "terminalEnablements",
+      "externalModel": "TerminalEnablement"
+    },
+    {
+      "model": "Station",
+      "field": "terminalOperations",
+      "externalModel": "TerminalOperation"
+    },
+    {
+      "model": "Station",
+      "field": "operationalAuditEvents",
+      "externalModel": "OperationalAuditEvent"
+    },
+    {
+      "model": "Station",
+      "field": "operationalIncidents",
+      "externalModel": "OperationalIncident"
+    },
+    {
+      "model": "Terminal",
+      "field": "assistanceRequests",
+      "externalModel": "AssistanceRequest"
+    },
+    {
+      "model": "Terminal",
+      "field": "assignments",
+      "externalModel": "TerminalPumpAssignment"
+    },
+    {
+      "model": "Terminal",
+      "field": "enablements",
+      "externalModel": "TerminalEnablement"
+    },
+    {
+      "model": "Terminal",
+      "field": "operations",
+      "externalModel": "TerminalOperation"
+    },
+    {
+      "model": "Terminal",
+      "field": "operationalIncidents",
+      "externalModel": "OperationalIncident"
+    },
+    {
+      "model": "Terminal",
+      "field": "auditEvents",
+      "externalModel": "OperationalAuditEvent"
+    },
+    {
+      "model": "Terminal",
+      "field": "authorizations",
+      "externalModel": "FuelAuthorization"
+    },
+    {
+      "model": "Terminal",
+      "field": "transactions",
+      "externalModel": "Transaction"
+    }
+  ],
+  "sharedColumns": {
+    "Membership": [
+      "balance",
+      "welcomeAvailable",
+      "welcomeReservedOperationId",
+      "welcomeTransactionId"
+    ],
+    "Station": [
+      "* reference only"
+    ],
+    "Terminal": [
+      "operationalStatus",
+      "statusVersion",
+      "suspensionReason"
+    ]
+  },
+  "warning": "No DDL generated/applied. Database foreign keys remain unchanged. Compatibility schema retained for legacy kiosk operational transactions only."
+}

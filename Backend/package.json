@@ -13,6 +13,8 @@
     "format": "prettier --write src prisma test scripts *.json *.cjs *.md",
     "format:check": "prettier --check src prisma test scripts *.json *.cjs *.md",
     "test": "jest --runInBand --config jest.config.cjs",
+    "test:identity-core": "tsc -p tsconfig.identity-core.json && node --test test/identity-core/*.test.cjs",
+    "test:identity-lab": "npm run build && node ../tools/astra/identity-isolated.cjs",
     "test:e2e": "node scripts/local-db-command.cjs jest --runInBand --config test/jest-e2e.config.cjs",
     "demo": "node scripts/demo.cjs",
     "prisma:generate": "prisma generate",

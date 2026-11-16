@@ -20,3 +20,9 @@ test('unknown namespaces and prefix collisions fail closed', () => {
   for (const path of ['/auth/login','/api/v1/fuels-private','/api/v1/controlx','/api/v2/auth'])
     assert.equal(serviceFor(path), undefined);
 });
+
+test('private Catalog inventory routes preserve the authentication facade owner', () => {
+  assert.equal(serviceFor('/api/v1/control/catalog/inventory'), 'catalog');
+  assert.equal(serviceFor('/api/v1/control/catalog/stations'), 'catalog');
+  assert.equal(serviceFor('/api/v1/control/inventory'), 'administration');
+});

@@ -38,8 +38,8 @@ test('real Nest HTTP contract: key required, health public, writes rejected', as
   require('reflect-metadata');
   const {Module} = require('@nestjs/common'); const {NestFactory} = require('@nestjs/core');
   const {CatalogController, HealthController, ServiceGuard, API_KEY} = require('../dist/adapters/http');
-  const reader = {fuels:async()=>[{id:'fuel',pricePerGallon:'21.3'}], stations:async()=>[],
-    benefits:async()=>[], inventory:async()=>[], ready:async()=>{}};
+  const reader = {fuels:async()=>[{id:'fuel',pricePerGallon:'21.3'}], stations:async()=>[{id:"a"},{id:"b"}],
+    benefits:async()=>[], inventory:async()=>[{stationId:"a"},{stationId:"b"}], ready:async()=>{}};
   class TestModule {}
   Module({controllers:[CatalogController,HealthController], providers:[ServiceGuard,
     {provide:Catalog,useValue:new Catalog(reader)}, {provide:API_KEY,useValue:'test-only-key'}]})(TestModule);
@@ -51,6 +51,15 @@ test('real Nest HTTP contract: key required, health public, writes rejected', as
     assert.equal((await fetch(url+'/api/v1/fuels',{headers:{'x-catalog-key':'wrong'}})).status,401);
     const response=await fetch(url+'/api/v1/fuels',{headers:{'x-catalog-key':'test-only-key'}});
     assert.equal(response.status,200); assert.deepEqual(await response.json(),await reader.fuels());
+    const headers = {'x-catalog-key':'test-only-key'};
+    for (const [path, expected] of [['stations', [{id:'a'}]], ['fuels/inventory', [{stationId:'a'}]]]) {
+      assert.deepEqual(await (await fetch(url+'/api/v1/'+path+'?stationId=a',{headers})).json(), expected);
+      assert.deepEqual(await (await fetch(url+'/api/v1/'+path+'?stationId=unknown',{headers})).json(), []);
+      for (const query of ['stationId=', 'stationId=a&stationId=b']) {
+        assert.equal((await fetch(url+'/api/v1/'+path+'?'+query,{headers})).status,400);
+      }
+      assert.equal((await fetch(url+'/api/v1/'+path+'?stationId=a')).status,401);
+    }
     assert.equal((await fetch(url+'/api/v1/fuels',{method:'POST',headers:{'x-catalog-key':'test-only-key'}})).status,404);
   } finally {await app.close();}
 });

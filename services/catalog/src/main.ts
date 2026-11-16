@@ -22,6 +22,6 @@ async function main() {
   class CatalogModule {}
   const app = await NestFactory.create(CatalogModule, { logger: ['error', 'warn'] });
   app.enableShutdownHooks();
-  await app.listen(config.port, '0.0.0.0');
+  await app.listen(config.port, process.env.CATALOG_BIND_HOST || '0.0.0.0');
 }
 void main().catch(() => { console.error('Catalog startup failed; check local configuration'); process.exitCode = 1; });

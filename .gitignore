@@ -17,6 +17,7 @@
 
 # Dependencias y resultados generados
 **/node_modules/
+services/identity/generated/
 **/.venv/
 **/dist/
 **/build/

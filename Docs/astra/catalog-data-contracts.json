@@ -1,0 +1,16 @@
+{
+  "decision": "Public general catalog; private exact inventory, reservations, movements and administration",
+  "public": {
+    "fuels": ["id", "code", "name", "pricePerGallon", "active", "createdAt", "updatedAt"],
+    "stations": ["id", "code", "name", "address", "active", "createdAt", "updatedAt"],
+    "benefits": ["id", "code", "title", "description", "category", "pointsCost", "active", "createdAt", "updatedAt"]
+  },
+  "inventory": {
+    "fields": ["stationId", "fuelId", "liters", "reservedLiters", "updatedAt", "fuel", "station"],
+    "private": ["liters", "reservedLiters"],
+    "context": ["stationId", "fuelId", "updatedAt"],
+    "nestedPublicTypes": {"fuel": "fuels", "station": "stations"},
+    "legacyExposure": "GET /api/v1/fuels/inventory remains publicly accessible during the authorized compatibility transition",
+    "retirement": "Requires successful consumer migration and explicit authorization"
+  }
+}

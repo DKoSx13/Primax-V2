@@ -3,25 +3,8 @@ import {
   ExecutionContext,
   SetMetadata,
 } from '@nestjs/common';
-export type Actor =
-  | { kind: 'member'; userId: string }
-  | { kind: 'admin'; adminUser: string }
-  | {
-      kind: 'control';
-      userId: string;
-      role: string;
-      permissions: string[];
-      stationIds: string[];
-      global: boolean;
-    }
-  | {
-      kind: 'terminal';
-      terminalId: string;
-      stationId: string;
-      credentialId: string;
-      recoveredOperationId?: string;
-    }
-  | { kind: 'kiosk'; stationId?: string };
+export type { Actor } from '../identity-core/domain';
+import type { Actor } from '../identity-core/domain';
 export const Public = () => SetMetadata('access', 'public');
 export const KioskOnly = () => SetMetadata('access', 'kiosk');
 export const MemberOrKiosk = () => SetMetadata('access', 'either');

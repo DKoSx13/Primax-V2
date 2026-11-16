@@ -3,6 +3,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginationDto } from '../common/pagination.dto';
 import { MembershipsRepository } from './memberships.repository';
 import { transactionResponse } from '../transactions/transaction.model';
+import { LegacyMembershipCommerce } from '../identity-adapters/membership-commerce';
+import type { CommerceMemberships } from '../identity-core/ports';
 @Injectable()
 export class MembershipsService {
   constructor(private readonly repo: MembershipsRepository) {}
@@ -18,19 +20,13 @@ export class MembershipsService {
   }
   async me(userId: string) {
     const membership = await this.forUser(userId);
-    const balance = await this.repo.balance(membership.id);
-    // El saldo viene de PostgreSQL, no del dispositivo: es la fuente de verdad
-    // que usa el postpago en el terminal.
-    const reserved = await this.repo.reserved(membership.id);
+    const commerce: CommerceMemberships = new LegacyMembershipCommerce(
+      this.repo,
+      membership.balance,
+    );
     return {
       ...membership,
-      pendingBalance: (await this.repo.pending(membership.id)).toFixed(2),
-      balance: membership.balance.toFixed(2),
-      reserved: reserved.toFixed(2),
-      // La reserva ya se descontó de balance: es el dinero libre.
-      available: membership.balance.toFixed(2),
-      total: membership.balance.plus(reserved).toFixed(2),
-      points: balance._sum.points ?? 0,
+      ...(await commerce.summary(membership.id)),
     };
   }
   async transactions(userId: string, query: PaginationDto) {

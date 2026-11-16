@@ -1,0 +1,280 @@
+// Projection only. Never migrate/db push this schema onto an existing DB.
+generator client {
+ provider = "prisma-client-js"
+ output = "../generated/identity"
+}
+datasource db {
+ provider = "postgresql"
+ url = env("IDENTITY_DATABASE_URL")
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+}
+
+enum GlobalPermission {
+  SYSTEM_ADMIN
+}
+
+enum AdminControlRole {
+  SUPER_ADMIN
+  ADMIN
+  ENCARGADO
+}
+
+enum AdminControlStatus {
+  PENDING_EMAIL
+  PENDING_APPROVAL
+  APPROVED
+  REJECTED
+  DISABLED
+}
+
+enum AdminControlPermission {
+  ADMIN_CONTROL_ACCESS
+  ADMIN_DASHBOARD_VIEW
+  ADMIN_INCIDENT_VIEW
+  ADMIN_INCIDENT_MANAGE
+  ADMIN_INVENTORY_VIEW
+  ADMIN_OPERATION_VIEW
+  ADMIN_USER_MANAGE
+  ADMIN_STATION_MANAGE
+  ADMIN_AUDIT_VIEW
+  ADMIN_TERMINAL_VIEW
+  ADMIN_TERMINAL_MANAGE
+  ADMIN_INVENTORY_RECEIVE
+  ADMIN_INVENTORY_MOVEMENT_VIEW
+  ADMIN_INVENTORY_RECONCILE
+  ADMIN_CUSTOMER_VIEW
+  ADMIN_MEMBERSHIP_VIEW
+  ADMIN_VEHICLE_VIEW
+  ADMIN_TRANSACTION_VIEW
+  ADMIN_RECEIPT_VIEW
+}
+
+enum TerminalLifecycle {
+  REGISTRADA
+  REVOCADA
+}
+
+enum TerminalOperationalStatus {
+  BLOQUEADA
+  DISPONIBLE
+  EN_USO
+  ASISTENCIA
+  FUERA_DE_SERVICIO
+}
+
+model User {
+  id           String      @id @default(uuid()) @db.Uuid
+  email        String      @unique @db.VarChar(254)
+  name         String      @db.VarChar(80)
+  passwordHash String      @db.VarChar(100)
+  active       Boolean     @default(true)
+  authVersion  Int         @default(0)
+  passwordReset PasswordReset?
+  membership   Membership?
+  permissionGrants UserPermissionGrant[] @relation("PermissionOwner")
+  grantedPermissions UserPermissionGrant[] @relation("PermissionGrantor")
+  adminControlAccount AdminControlAccount?
+  adminControlGrants AdminControlGrant[] @relation("AdminGrantOwner")
+  grantedAdminControlGrants AdminControlGrant[] @relation("AdminGrantor")
+  adminStationAssignments AdminStationAssignment[] @relation("AdminStationOwner")
+  grantedAdminStationAssignments AdminStationAssignment[] @relation("AdminStationGrantor")
+  approvedAdminAccounts AdminControlAccount[] @relation("AdminAccountApprover")
+  emailVerification AdminEmailVerification?
+  terminalStatusChanges Terminal[]
+  createdAt    DateTime    @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime    @updatedAt @db.Timestamptz(3)
+
+}
+
+model MembershipNumberCounter {
+  id    Int    @id
+  value BigInt @default(0)
+
+}
+
+model Membership {
+  codeAliases MembershipCodeAlias[]
+  welcomeReservedOperationId String? @unique @db.Uuid
+  welcomeAvailable Boolean @default(false)
+  welcomeTransactionId String? @unique @db.Uuid
+  id           String           @id @default(uuid()) @db.Uuid
+  number       String           @unique @db.VarChar(30)
+  userId       String           @unique @db.Uuid
+  user         User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  status       MembershipStatus @default(ACTIVE)
+  // Saldo disponible en soles. Es la ÃƒÂºnica fuente de verdad del postpago.
+  balance      Decimal          @default(0) @db.Decimal(12, 2)
+  passport String? @unique @db.VarChar(20)
+  dni String? @unique @db.VarChar(8)
+  ruc String? @unique @db.VarChar(11)
+  businessName String? @db.VarChar(160)
+  vehicles     Vehicle[]
+  createdAt    DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime         @updatedAt @db.Timestamptz(3)
+
+}
+
+model MembershipCodeAlias {
+  code String @id @db.VarChar(30)
+  membershipId String @db.Uuid
+  membership Membership @relation(fields: [membershipId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  @@index([membershipId])
+
+}
+
+model Vehicle {
+  id           String        @id @default(uuid()) @db.Uuid
+  plate        String        @unique @db.VarChar(7)
+  label        String        @db.VarChar(80)
+  membershipId String?       @db.Uuid
+  membership   Membership?   @relation(fields: [membershipId], references: [id], onDelete: Restrict)
+  createdAt    DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime      @updatedAt @db.Timestamptz(3)
+
+  @@index([membershipId])
+
+}
+
+model Station {
+  id           String        @id @default(uuid()) @db.Uuid
+  code         String        @unique @db.VarChar(30)
+  name         String        @db.VarChar(100)
+  address      String        @db.VarChar(200)
+  active       Boolean       @default(true)
+  terminals Terminal[]
+  adminAssignments AdminStationAssignment[]
+  createdAt    DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime      @updatedAt @db.Timestamptz(3)
+
+}
+
+model UserPermissionGrant {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation("PermissionOwner", fields: [userId], references: [id], onDelete: Restrict)
+  permission GlobalPermission
+  grantedByUserId String? @db.Uuid
+  grantedBy User? @relation("PermissionGrantor", fields: [grantedByUserId], references: [id], onDelete: Restrict)
+  reason String @db.VarChar(200)
+  grantedAt DateTime @default(now()) @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  @@index([userId, permission, revokedAt])
+
+}
+
+model AdminControlAccount {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  role AdminControlRole
+  status AdminControlStatus @default(PENDING_EMAIL)
+  emailVerifiedAt DateTime? @db.Timestamptz(3)
+  approvedAt DateTime? @db.Timestamptz(3)
+  approvedByUserId String? @db.Uuid
+  approvedBy User? @relation("AdminAccountApprover", fields: [approvedByUserId], references: [id], onDelete: Restrict)
+  rejectionReason String? @db.VarChar(300)
+  stations AdminStationAssignment[]
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  @@index([status, createdAt])
+
+}
+
+model AdminControlGrant {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation("AdminGrantOwner", fields: [userId], references: [id], onDelete: Restrict)
+  permission AdminControlPermission
+  grantedByUserId String? @db.Uuid
+  grantedBy User? @relation("AdminGrantor", fields: [grantedByUserId], references: [id], onDelete: Restrict)
+  reason String @db.VarChar(200)
+  grantedAt DateTime @default(now()) @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  @@unique([userId, permission, revokedAt])
+  @@index([userId, revokedAt])
+
+}
+
+model AdminStationAssignment {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation("AdminStationOwner", fields: [userId], references: [id], onDelete: Restrict)
+  accountId String @db.Uuid
+  account AdminControlAccount @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  stationId String @db.Uuid
+  station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
+  grantedByUserId String? @db.Uuid
+  grantedBy User? @relation("AdminStationGrantor", fields: [grantedByUserId], references: [id], onDelete: Restrict)
+  reason String @db.VarChar(200)
+  assignedAt DateTime @default(now()) @db.Timestamptz(3)
+  endedAt DateTime? @db.Timestamptz(3)
+  @@index([userId, stationId, endedAt])
+  @@index([stationId, endedAt])
+
+}
+
+model AdminEmailVerification {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String @unique @db.Char(64)
+  expiresAt DateTime @db.Timestamptz(3)
+  verifiedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+}
+
+model Terminal {
+  id String @id @default(uuid()) @db.Uuid
+  stationId String @db.Uuid
+  station Station @relation(fields: [stationId], references: [id], onDelete: Restrict)
+  code String @db.VarChar(30)
+  lifecycle TerminalLifecycle @default(REGISTRADA)
+  operationalStatus TerminalOperationalStatus @default(DISPONIBLE)
+  suspensionReason String? @db.VarChar(500)
+  statusChangedByUserId String? @db.Uuid
+  statusChangedBy User? @relation(fields: [statusChangedByUserId], references: [id], onDelete: Restrict)
+  statusChangedAt DateTime? @db.Timestamptz(3)
+  statusVersion Int @default(0)
+  registeredAt DateTime @default(now()) @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  credentials TerminalCredential[]
+  @@unique([stationId, code])
+  @@unique([id, stationId])
+  @@index([stationId, lifecycle, operationalStatus])
+
+}
+
+model TerminalCredential {
+  id String @id @default(uuid()) @db.Uuid
+  terminalId String @db.Uuid
+  terminal Terminal @relation(fields: [terminalId], references: [id], onDelete: Restrict)
+  tokenHash String @unique @db.Char(64)
+  issuedAt DateTime @default(now()) @db.Timestamptz(3)
+  expiresAt DateTime @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  lastUsedAt DateTime? @db.Timestamptz(3)
+  rotatedFromId String? @db.Uuid
+  @@index([terminalId, revokedAt, expiresAt])
+
+}
+
+model PasswordReset {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeHash String @db.Char(64)
+  tokenHash String? @unique @db.Char(64)
+  attempts Int @default(0)
+  expiresAt DateTime @db.Timestamptz(3)
+  verifiedAt DateTime? @db.Timestamptz(3)
+  usedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+}
