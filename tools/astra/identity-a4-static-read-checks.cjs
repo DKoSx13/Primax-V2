@@ -26,14 +26,27 @@ module.exports = async function staticChecks({ ts, root, core }) {
   const actor = { kind: "control", global: false, userId: "synthetic-control", stationIds: ["synthetic-station-a"],
     permissions: ["ADMIN_CUSTOMER_VIEW", "ADMIN_MEMBERSHIP_VIEW", "ADMIN_VEHICLE_VIEW"] };
   const activityOr = (v) => Array.isArray(v?.OR) && v.OR.some((x) => x.transactions || x.authorizations);
+  // Construction probe for these inputs, not proof of every Prisma/SQL predicate.
+  // Semantic Control regression and private HTTP/PostgreSQL tests complement it.
+  const scopedMembershipQuery = () => {
+    const query = JSON.parse(JSON.stringify(where)); // Normalize the VM realm.
+    assert.ok(Array.isArray(query.AND), "Station scope must remain a conjunction");
+    assert.deepEqual(query.AND[0], { OR: [
+      { transactions: { some: { stationId: { in: actor.stationIds } } } },
+      { authorizations: { some: { stationId: { in: actor.stationIds } } } },
+    ] }, "Search must not replace the authorized station predicate");
+    return query;
+  };
   const results = [];
   for (const operation of ["customers", "memberships"]) {
-    await probe[operation](actor, {}); assert.equal(activityOr(where), true);
-    await probe[operation](actor, { q: "   " }); assert.equal(activityOr(where), true);
+    await probe[operation](actor, {}); scopedMembershipQuery();
+    await probe[operation](actor, { q: "   " }); scopedMembershipQuery();
     await probe[operation](actor, { q: "synthetic-search", stationId: "synthetic-station-a" });
-    assert.equal(activityOr(where), false);
-    assert.equal(where.OR[0].number.contains, "synthetic-search");
-    results.push({ operation, withoutSearchHasActivityOr: true, searchOverwritesTopLevelActivityOr: true });
+    const query = scopedMembershipQuery();
+    assert.equal(query.AND.length, 2);
+    assert.equal(query.AND[1].OR[0].number.contains, "synthetic-search");
+    results.push({ operation, withoutSearchHasActivityOr: true,
+      searchOverwritesTopLevelActivityOr: false, searchPreservesAndScope: true });
   }
   await probe.vehicles(actor, { q: "synthetic-search" });
   assert.equal(Array.isArray(where.AND), true);
