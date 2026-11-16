@@ -1,0 +1,17 @@
+{
+  "runId": "a4-68d0e1754a2c887fc61f02c1",
+  "success": false,
+  "checks": [],
+  "baseCommit": "4b41af38219b510dc053e07cf9115c859e7f9bca",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "failure": {
+    "stage": "3B worker",
+    "code": 1,
+    "detail": "PASS TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit\nPASS New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs\nPASS Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads\nPASS Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure\nPASS Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct\nPASS Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers\nPASS Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables\n{\"stage\":\"phase 3B private integration\",\"message\":\"\\nInvalid `legacyAdmin.station.create()` invocation in\\n/workspace/tools/astra/identity-a4-compatible-read-scenarios.cjs:63:81\\n\\n  60 }\\n  61 try {\\n  62   const stations = [];\\n→ 63   for (const code of [\\\"A\\\", \\\"B\\\", \\\"C\\\"]) stations.push(await legacyAdmin.station.create(\\nUnable to require(`/tmp/a4-3b-dBDz3i/client/libquery_engine-debian-openssl-3.0.x.so.node`).\\nThe Prisma engines do not seem to be compatible with your system. Please refer to the documentation about Prisma's system requirements: https://pris.ly/d/system-requirements\\n\\nDetails: /tmp/a4-3b-dBDz3i/client/libquery_engine-debian-openssl-3.0.x.so.node: failed to map segment from shared object\"}\n"
+  },
+  "preservedFiles": 1049,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}

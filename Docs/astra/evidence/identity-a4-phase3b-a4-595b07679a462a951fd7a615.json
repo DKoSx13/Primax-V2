@@ -1,0 +1,51 @@
+{
+  "runId": "a4-595b07679a462a951fd7a615",
+  "success": true,
+  "checks": [
+    "TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit",
+    "New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs",
+    "Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads",
+    "Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure",
+    "Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct",
+    "Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers",
+    "Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables",
+    "3B actual Backend repositories/services and PostgreSQL match complete me bodies, UUID/code selectors and ordered Vehicle pages",
+    "3B legacy financial read composition retains nonzero balance, pending, reserved, total and points without new calculations",
+    "3B real legacy SELECT failure is explicit UNAVAILABLE; a subsequent independent read recovers",
+    "3B actual legacy Nest GET me/vehicles JSON equals private candidate body under explicit fixture authentication",
+    "Control actual controller/service + PostgreSQL: q stays in station scope, multi/global/grants/filters/details/top100/error recovery checked via HTTP",
+    "3B all legacy business tables and five A4 tables unchanged; SELECT-only legacy role rejects write and cross-database access"
+  ],
+  "baseCommit": "4b41af38219b510dc053e07cf9115c859e7f9bca",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "readTransactions": 91,
+  "domainStatements": 159,
+  "snapshotHash": "185e438f7f1a324189a195ae1239545ecfaca54fad0384f03ca06261fdfc8b3d",
+  "phase3b": {
+    "parityCases": 22,
+    "httpChecks": 42,
+    "legacyTablesCompared": 40,
+    "legacySnapshotHash": "ece8e5ca2d5c6baaf6144409bb9e40bc7f289c536d7b5456f6207dd2f33d3c2a",
+    "readStatements": 289,
+    "authentication": "synthetic fixture boundary; not AccessGuard/JWT/AuthCore",
+    "identityHTTPTransport": false,
+    "frontendTested": false,
+    "historicalProbeExecuted": false,
+    "legacyDatabaseSeparate": true,
+    "prismaClientGeneratedOnlyInTmpfs": true
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "isolation": {
+    "newInternalNetwork": true,
+    "publishedPorts": 0,
+    "existingVolumes": 0,
+    "readonlySources": true,
+    "separateReadRole": true
+  },
+  "preservedFiles": 1050,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}

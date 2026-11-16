@@ -1,0 +1,16 @@
+{
+  "runId": "a4-67a04465a9391bda0ae6109c",
+  "success": false,
+  "checks": [],
+  "baseCommit": "4b41af38219b510dc053e07cf9115c859e7f9bca",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "failure": {
+    "stage": "fresh resources",
+    "code": 1,
+    "detail": "Error response from daemon: all predefined address pools have been fully subnetted\n"
+  },
+  "preservedFiles": 1053
+}

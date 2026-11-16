@@ -1,0 +1,17 @@
+{
+  "runId": "a4-073c4fe45f7056a6ea293612",
+  "success": false,
+  "checks": [],
+  "baseCommit": "4b41af38219b510dc053e07cf9115c859e7f9bca",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "failure": {
+    "stage": "new synthetic legacy schema",
+    "code": 3,
+    "detail": "NOTICE:  schema \"public\" already exists, skipping\nERROR:  function next_operation_number() does not exist\nLINE 4:     \"number\" VARCHAR(30) NOT NULL DEFAULT next_operation_num...\n                                                  ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n"
+  },
+  "preservedFiles": 1047,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}

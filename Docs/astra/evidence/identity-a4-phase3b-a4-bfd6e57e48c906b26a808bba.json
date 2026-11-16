@@ -1,0 +1,17 @@
+{
+  "runId": "a4-bfd6e57e48c906b26a808bba",
+  "success": false,
+  "checks": [],
+  "baseCommit": "4b41af38219b510dc053e07cf9115c859e7f9bca",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "failure": {
+    "stage": "3B worker",
+    "code": 1,
+    "detail": "PASS TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit\nPASS New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs\nPASS Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads\nPASS Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure\nPASS Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct\nPASS Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers\nPASS Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables\n{\"stage\":\"phase 3B private integration\",\"message\":\"Command failed: /usr/local/bin/node /app/node_modules/prisma/build/index.js generate --schema /tmp/a4-3b-mrCl9g/legacy.prisma\\nwarn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).\\nFor more information, see: https://pris.ly/prisma-config\\n\\nError: Could not resolve @prisma/client.\\nPlease try to install it with npm i @prisma/client and rerun npx \\\"prisma generate\\\" 🙏.\\n\"}\n"
+  },
+  "preservedFiles": 1048,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}
