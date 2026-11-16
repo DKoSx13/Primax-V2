@@ -1,0 +1,31 @@
+{
+  "runId": "a4-75bee7ca1373a72d1a11cdce",
+  "baseCommit": "b4594ef80bd923a449fc923b01159e2d4aeb3deb",
+  "checks": [
+    "TypeScript 5.9.3: core checked with actual project options (noEmit)",
+    "PostgreSQL numbering matches legacy numeric/alphabetic boundaries",
+    "Unified namespace skips aliases and rejects alias/canonical cross-member collisions; UUID preserved",
+    "Occupied-candidate budget exhaustion rolls back aliases, identity and counter",
+    "Concurrent real PostgreSQL clients: distinct registrations, same request, contested alias and same account",
+    "Injected faults after member/alias/counter/canonical/receipt rollback the entire SQL transaction",
+    "Idempotent retry and discarded post-commit response recover same number/UUID/receipt; altered request rejected",
+    "Real FK/check/deferred constraints reject unknown account, orphan alias, malformed/duplicate canonical and incomplete member",
+    "Restricted writer cannot read sentinel, delete data or create tables; per-code identity projections remain separate",
+    "Signed BIGINT exhaustion fails without wraparound or partial provision",
+    "Corrupt/incomplete recovery points and low-counter restores are rejected with no partial rows",
+    "Fresh-database logical restore preserves all five tables/counter, UUIDs and idempotent receipt replay",
+    "Counter behind receipts is rejected; restore state remains unchanged",
+    "Fresh restore continues allocation from restored counter without reusing acknowledged codes"
+  ],
+  "success": true,
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "snapshotChecksum": "cf2c349c69ad2fdf6aad7d5c34e8039ef26db103a30a1779674301f7a7f1a64c",
+  "preservedFiles": 1022,
+  "resourceState": "own PostgreSQL stopped; tmpfs is ephemeral; network retained",
+  "internalNetworkCreated": true
+}

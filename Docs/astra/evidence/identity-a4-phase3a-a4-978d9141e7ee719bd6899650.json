@@ -1,0 +1,107 @@
+{
+  "runId": "a4-978d9141e7ee719bd6899650",
+  "success": true,
+  "checks": [
+    "TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit",
+    "New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs",
+    "Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads",
+    "Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure",
+    "Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct",
+    "Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers",
+    "Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables",
+    "Control query construction from actual source confirms q overwrite; no Control code/database modified",
+    "Actual Nest OCR filter compared with A4 syntax; Python formats statically inspected only"
+  ],
+  "baseCommit": "b4594ef80bd923a449fc923b01159e2d4aeb3deb",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "readTransactions": 64,
+  "domainStatements": 119,
+  "snapshotHash": "8e5bfea522a577c5a100d943a9de1daa30837c2a1a2c73b16e9efd81393ef614",
+  "staticChecks": {
+    "control": {
+      "verification": "actual source method query construction with empty fake repositories; no HTTP/DB exploitation",
+      "results": [
+        {
+          "operation": "customers",
+          "withoutSearchHasActivityOr": true,
+          "searchOverwritesTopLevelActivityOr": true
+        },
+        {
+          "operation": "memberships",
+          "withoutSearchHasActivityOr": true,
+          "searchOverwritesTopLevelActivityOr": true
+        }
+      ],
+      "vehiclesRetainsAndScope": true,
+      "noAssignmentsAndForeignStationStillRejected": true
+    },
+    "ocr": {
+      "nestFilter": "/^PRIM(?:[0-9]+[A-Z]?|E-[0-9]+)$/",
+      "cases": [
+        {
+          "code": "PRIME-001",
+          "a4CanonicalSyntax": true,
+          "nestMembershipFilter": true,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIME-A001",
+          "a4CanonicalSyntax": true,
+          "nestMembershipFilter": false,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIME-AA001",
+          "a4CanonicalSyntax": true,
+          "nestMembershipFilter": false,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIM001A",
+          "a4CanonicalSyntax": false,
+          "nestMembershipFilter": true,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIM-001A",
+          "a4CanonicalSyntax": false,
+          "nestMembershipFilter": false,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIM001AA",
+          "a4CanonicalSyntax": false,
+          "nestMembershipFilter": false,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIME-0001",
+          "a4CanonicalSyntax": false,
+          "nestMembershipFilter": true,
+          "a4TransportShape": true
+        },
+        {
+          "code": "PRIME-000",
+          "a4CanonicalSyntax": false,
+          "nestMembershipFilter": true,
+          "a4TransportShape": true
+        }
+      ],
+      "python": "source inspected only; no OCR/photo execution"
+    }
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "isolation": {
+    "newInternalNetwork": true,
+    "publishedPorts": 0,
+    "existingVolumes": 0,
+    "readonlySources": true,
+    "separateReadRole": true
+  },
+  "preservedFiles": 1027,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}
