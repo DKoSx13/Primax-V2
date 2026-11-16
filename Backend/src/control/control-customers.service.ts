@@ -48,6 +48,9 @@ export class ControlCustomersService {
 
   private async scope(actor: ControlActor, stationId: string | undefined, permission: AdminControlPermission) {
     if (!actor.permissions.includes(permission)) throw new ForbiddenException('Permiso administrativo insuficiente');
+    if (typeof actor.global !== 'boolean' || !Array.isArray(actor.stationIds) ||
+        actor.stationIds.some((id) => typeof id !== 'string' || !id.trim()))
+      throw new ForbiddenException('Alcance de estaciones no disponible');
     if (stationId && !actor.global && !actor.stationIds.includes(stationId)) throw new ForbiddenException('Estación fuera del alcance autorizado');
     const ids = stationId ? [stationId] : actor.global ? undefined : actor.stationIds;
     if (!actor.global && ids?.length === 0) throw new ForbiddenException('No hay estaciones asignadas');
@@ -88,13 +91,12 @@ export class ControlCustomersService {
     const q = filters.q?.trim();
     const members = await this.db.membership.findMany({
       where: {
-        ...this.membershipStationFilter(ids),
-        ...(q ? { OR: [
-          { number: { contains: q, mode: 'insensitive' } },
-          { user: { name: { contains: q, mode: 'insensitive' } } },
-          { user: { email: { contains: q, mode: 'insensitive' } } },
-          { vehicles: { some: { plate: { contains: q, mode: 'insensitive' }, ...this.vehicleStationFilter(ids) } } },
-        ] } : {}),
+        AND: [this.membershipStationFilter(ids), ...(q ? [{ OR: [
+          { number: { contains: q, mode: 'insensitive' as const } },
+          { user: { name: { contains: q, mode: 'insensitive' as const } } },
+          { user: { email: { contains: q, mode: 'insensitive' as const } } },
+          { vehicles: { some: { plate: { contains: q, mode: 'insensitive' as const }, ...this.vehicleStationFilter(ids) } } },
+        ] }] : [])],
       },
       include: {
         user: { select: { id: true, name: true, email: true, active: true, createdAt: true } },
@@ -180,9 +182,8 @@ export class ControlCustomersService {
     const q = filters.q?.trim();
     const rows = await this.db.membership.findMany({
       where: {
-        ...this.membershipStationFilter(ids),
+        AND: [this.membershipStationFilter(ids), ...(q ? [{ OR: [{ number: { contains: q, mode: 'insensitive' as const } }, { user: { name: { contains: q, mode: 'insensitive' as const } } }, { user: { email: { contains: q, mode: 'insensitive' as const } } }] }] : [])],
         ...(filters.status ? { status: filters.status as 'ACTIVE' | 'SUSPENDED' } : {}),
-        ...(q ? { OR: [{ number: { contains: q, mode: 'insensitive' } }, { user: { name: { contains: q, mode: 'insensitive' } } }, { user: { email: { contains: q, mode: 'insensitive' } } }] } : {}),
       },
       include: { user: { select: { id: true, name: true, email: true, active: true } }, transactions: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } }, authorizations: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } } },
       orderBy: { createdAt: 'desc' }, take: 100,

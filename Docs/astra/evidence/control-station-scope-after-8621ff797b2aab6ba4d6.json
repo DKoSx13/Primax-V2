@@ -1,0 +1,27 @@
+{
+  "success": false,
+  "status": 1,
+  "mode": "after",
+  "node": "v22.21.1",
+  "typescript": "5.9.3",
+  "tests": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0,
+    "pending": 0,
+    "suites": 5
+  },
+  "generatedClientInTmpfs": true,
+  "failures": [],
+  "suiteErrors": [
+    "  ● Test suite failed to run\n\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m94\u001b[0m:\u001b[93m50\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2322: \u001b[0mType '{ OR: ({ number: { contains: string; mode: string; }; } | { user: { name: { contains: string; mode: string; }; }; } | { user: { email: { contains: string; mode: string; }; }; } | { vehicles: { some: { AND?: Prisma.VehicleWhereInput | Prisma.VehicleWhereInput[]; ... 10 more ...; authorizations?: Prisma.FuelAuthorizat...' is not assignable to type 'MembershipWhereInput'.\n      Types of property 'OR' are incompatible.\n        Type '({ number: { contains: string; mode: string; }; } | { user: { name: { contains: string; mode: string; }; }; } | { user: { email: { contains: string; mode: string; }; }; } | { vehicles: { some: { AND?: VehicleWhereInput | VehicleWhereInput[] | undefined; ... 10 more ...; authorizations?: FuelAuthorizationListRelation...' is not assignable to type 'MembershipWhereInput[]'.\n          Type '{ number: { contains: string; mode: string; }; } | { user: { name: { contains: string; mode: string; }; }; } | { user: { email: { contains: string; mode: string; }; }; } | { vehicles: { some: { AND?: VehicleWhereInput | VehicleWhereInput[] | undefined; ... 10 more ...; authorizations?: FuelAuthorizationListRelationF...' is not assignable to type 'MembershipWhereInput'.\n            Types of property 'number' are incompatible.\n              Type '{ contains: string; mode: string; }' is not assignable to type 'string | StringFilter<\"Membership\"> | undefined'.\n                Types of property 'mode' are incompatible.\n                  Type 'string' is not assignable to type 'QueryMode | undefined'.\n\n    \u001b[7m 94\u001b[0m         AND: [this.membershipStationFilter(ids), ...(q ? [{ OR: [\n    \u001b[7m   \u001b[0m \u001b[91m                                                 ~~~~~~~~~~~~~~~~\u001b[0m\n    \u001b[7m 95\u001b[0m           { number: { contains: q, mode: 'insensitive' } },\n    \u001b[7m   \u001b[0m \u001b[91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n    \u001b[7m...\u001b[0m \n    \u001b[7m 98\u001b[0m           { vehicles: { some: { plate: { contains: q, mode: 'insensitive' }, ...this.vehicleStationFilter(ids) } } },\n    \u001b[7m   \u001b[0m \u001b[91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\u001b[0m\n    \u001b[7m 99\u001b[0m         ] }] : [])],\n    \u001b[7m   \u001b[0m \u001b[91m~~~~~~~~~~~~~~~~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m111\u001b[0m:\u001b[93m54\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2339: \u001b[0mProperty 'user' does not exist on type '{ number: string; id: string; userId: string; status: MembershipStatus; balance: Decimal; createdAt: Date; updatedAt: Date; welcomeReservedOperationId: string | null; ... 5 more ...; businessName: string | null; }'.\n\n    \u001b[7m111\u001b[0m     return members.filter((membership) => membership.user.active).map((membership) => ({\n    \u001b[7m   \u001b[0m \u001b[91m                                                     ~~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b["
+  ],
+  "serviceSha256": "9f716721c43b2e45b9394f07b3bc0ae3bfdd625e20c19592b9bc81a8ed839922",
+  "isolation": {
+    "network": "none",
+    "readOnlySources": true,
+    "newTmpfs": true,
+    "databaseUsed": false,
+    "dependencyInstall": false
+  }
+}

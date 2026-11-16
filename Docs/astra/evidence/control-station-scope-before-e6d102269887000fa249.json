@@ -1,0 +1,110 @@
+{
+  "success": false,
+  "status": 1,
+  "mode": "before",
+  "node": "v22.21.1",
+  "typescript": "5.9.3",
+  "tests": {
+    "total": 23,
+    "passed": 9,
+    "failed": 14,
+    "pending": 0,
+    "suites": 1
+  },
+  "generatedClientInTmpfs": true,
+  "failures": [
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not disclose station B through q=COMMON-B",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  -  1\n+ Received  + 16\n\n- Array []\n+ Array [\n+   Object {\n+     \"active\": true,\n+     \"email\": \"c•••@•••\",\n+     \"id\": \"user-B\",\n+     \"lastActivityAt\": null,\n+     \"membership\": Object {\n+       \"id\": \"member-B\",\n+       \"number\": \"COMMON-B\",\n+       \"status\": \"SUSPENDED\",\n+     },\n+     \"name\": \"Common Client B\",\n+     \"registeredAt\": 2026-01-01T00:00:02.000Z,\n+     \"vehicles\": Array [],\n+   },\n+ ]\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:111:52"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not disclose station B through q=Client B",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  -  1\n+ Received  + 16\n\n- Array []\n+ Array [\n+   Object {\n+     \"active\": true,\n+     \"email\": \"c•••@•••\",\n+     \"id\": \"user-B\",\n+     \"lastActivityAt\": null,\n+     \"membership\": Object {\n+       \"id\": \"member-B\",\n+       \"number\": \"COMMON-B\",\n+       \"status\": \"SUSPENDED\",\n+     },\n+     \"name\": \"Common Client B\",\n+     \"registeredAt\": 2026-01-01T00:00:02.000Z,\n+     \"vehicles\": Array [],\n+   },\n+ ]\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:111:52"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not disclose station B through q=CLIENT-B@SYNTHETIC.INVALID",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  -  1\n+ Received  + 16\n\n- Array []\n+ Array [\n+   Object {\n+     \"active\": true,\n+     \"email\": \"c•••@•••\",\n+     \"id\": \"user-B\",\n+     \"lastActivityAt\": null,\n+     \"membership\": Object {\n+       \"id\": \"member-B\",\n+       \"number\": \"COMMON-B\",\n+       \"status\": \"SUSPENDED\",\n+     },\n+     \"name\": \"Common Client B\",\n+     \"registeredAt\": 2026-01-01T00:00:02.000Z,\n+     \"vehicles\": Array [],\n+   },\n+ ]\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:111:52"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) searches within one or several assigned stations, including authorization-only activity",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 0\n+ Received  + 3\n\n  Array [\n    \"member-A\",\n    \"member-AB\",\n+   \"member-B\",\n+   \"member-C\",\n+   \"member-NONE\",\n  ]\n    at Object.<anonymous> (/tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:116:90)"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) combines explicit station, status and q without dropping any predicate",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  -  1\n+ Received  + 14\n\n- Array []\n+ Array [\n+   Object {\n+     \"createdAt\": 2026-01-01T00:00:02.000Z,\n+     \"customer\": Object {\n+       \"email\": \"c•••@•••\",\n+       \"id\": \"user-B\",\n+       \"name\": \"Common Client B\",\n+     },\n+     \"id\": \"member-B\",\n+     \"lastActivityAt\": null,\n+     \"number\": \"COMMON-B\",\n+     \"status\": \"SUSPENDED\",\n+   },\n+ ]\n    at Object.<anonymous> (/tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:124:101)"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) preserves permitted global reads and applies an explicit station filter to global searches",
+      "messages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 0\n+ Received  + 3\n\n  Array [\n    \"member-A\",\n    \"member-AB\",\n+   \"member-B\",\n+   \"member-C\",\n+   \"member-NONE\",\n  ]\n    at Object.<anonymous> (/tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:133:104)"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) fails closed for missing/malformed assignments undefined",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-NONE\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-NONE\", \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client NONE\", \"registeredAt\": 2026-01-01T00:00:05.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-C\", \"lastActivityAt\": 2026-01-01T00:00:04.000Z, \"membership\": {\"id\": \"member-C\", \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client C\", \"registeredAt\": 2026-01-01T00:00:04.000Z, \"vehicles\": [{\"id\": \"vehicle-C-0\", \"label\": \"Synthetic\", \"plate\": \"CXX-001\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-AB\", \"lastActivityAt\": 2026-01-01T00:00:03.000Z, \"membership\": {\"id\": \"member-AB\", \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client AB\", \"registeredAt\": 2026-01-01T00:00:03.000Z, \"vehicles\": [{\"id\": \"vehicle-AB-0\", \"label\": \"Synthetic\", \"plate\": \"ABX-001\"}, {\"id\": \"vehicle-AB-1\", \"label\": \"Synthetic\", \"plate\": \"ABX-002\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-B\", \"lastActivityAt\": 2026-01-01T00:00:02.000Z, \"membership\": {\"id\": \"member-B\", \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, \"name\": \"Common Client B\", \"registeredAt\": 2026-01-01T00:00:02.000Z, \"vehicles\": [{\"id\": \"vehicle-B-0\", \"label\": \"Synthetic\", \"plate\": \"BXX-001\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-A\", \"lastActivityAt\": 2026-01-01T00:00:01.000Z, \"membership\": {\"id\": \"member-A\", \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client A\", \"registeredAt\": 2026-01-01T00:00:01.000Z, \"vehicles\": [{\"id\": \"vehicle-A-0\", \"label\": \"Synthetic\", \"plate\": \"AXX-001\"}]}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n   "
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) fails closed for missing/malformed assignments null",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-NONE\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-NONE\", \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client NONE\", \"registeredAt\": 2026-01-01T00:00:05.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-C\", \"lastActivityAt\": 2026-01-01T00:00:04.000Z, \"membership\": {\"id\": \"member-C\", \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client C\", \"registeredAt\": 2026-01-01T00:00:04.000Z, \"vehicles\": [{\"id\": \"vehicle-C-0\", \"label\": \"Synthetic\", \"plate\": \"CXX-001\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-AB\", \"lastActivityAt\": 2026-01-01T00:00:03.000Z, \"membership\": {\"id\": \"member-AB\", \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client AB\", \"registeredAt\": 2026-01-01T00:00:03.000Z, \"vehicles\": [{\"id\": \"vehicle-AB-0\", \"label\": \"Synthetic\", \"plate\": \"ABX-001\"}, {\"id\": \"vehicle-AB-1\", \"label\": \"Synthetic\", \"plate\": \"ABX-002\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-B\", \"lastActivityAt\": 2026-01-01T00:00:02.000Z, \"membership\": {\"id\": \"member-B\", \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, \"name\": \"Common Client B\", \"registeredAt\": 2026-01-01T00:00:02.000Z, \"vehicles\": [{\"id\": \"vehicle-B-0\", \"label\": \"Synthetic\", \"plate\": \"BXX-001\"}]}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-A\", \"lastActivityAt\": 2026-01-01T00:00:01.000Z, \"membership\": {\"id\": \"member-A\", \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client A\", \"registeredAt\": 2026-01-01T00:00:01.000Z, \"vehicles\": [{\"id\": \"vehicle-A-0\", \"label\": \"Synthetic\", \"plate\": \"AXX-001\"}]}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n   "
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) fails closed for missing/malformed assignments [\"\"]",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-NONE\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-NONE\", \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client NONE\", \"registeredAt\": 2026-01-01T00:00:05.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-C\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-C\", \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client C\", \"registeredAt\": 2026-01-01T00:00:04.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-AB\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-AB\", \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client AB\", \"registeredAt\": 2026-01-01T00:00:03.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-B\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-B\", \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, \"name\": \"Common Client B\", \"registeredAt\": 2026-01-01T00:00:02.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-A\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-A\", \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client A\", \"registeredAt\": 2026-01-01T00:00:01.000Z, \"vehicles\": []}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:161:11\n    at Object.<anonymous> (/app/node_modules/jest-each/build/bind.js:81:13)\n    at Promise.then.completed (/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/app/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/app/node_modules/jest"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) fails closed for missing/malformed assignments [null]",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-NONE\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-NONE\", \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client NONE\", \"registeredAt\": 2026-01-01T00:00:05.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-C\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-C\", \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client C\", \"registeredAt\": 2026-01-01T00:00:04.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-AB\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-AB\", \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client AB\", \"registeredAt\": 2026-01-01T00:00:03.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-B\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-B\", \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, \"name\": \"Common Client B\", \"registeredAt\": 2026-01-01T00:00:02.000Z, \"vehicles\": []}, {\"active\": true, \"email\": \"c•••@•••\", \"id\": \"user-A\", \"lastActivityAt\": null, \"membership\": {\"id\": \"member-A\", \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}, \"name\": \"Common Client A\", \"registeredAt\": 2026-01-01T00:00:01.000Z, \"vehicles\": []}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:161:11\n    at Object.<anonymous> (/app/node_modules/jest-each/build/bind.js:81:13)\n    at Promise.then.completed (/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/app/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/app/node_modules/jest"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not treat malformed global=undefined as global authority",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"createdAt\": 2026-01-01T00:00:05.000Z, \"customer\": {\"email\": \"c•••@•••\", \"id\": \"user-NONE\", \"name\": \"Common Client NONE\"}, \"id\": \"member-NONE\", \"lastActivityAt\": null, \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, {\"createdAt\": 2026-01-01T00:00:04.000Z, \"customer\": {\"email\": \"c•••@•••\", \"id\": \"user-C\", \"name\": \"Common Client C\"}, \"id\": \"member-C\", \"lastActivityAt\": null, \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, {\"createdAt\": 2026-01-01T00:00:03.000Z, \"customer\": {\"email\": \"c•••@•••\", \"id\": \"user-AB\", \"name\": \"Common Client AB\"}, \"id\": \"member-AB\", \"lastActivityAt\": 2026-01-01T00:00:03.000Z, \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, {\"createdAt\": 2026-01-01T00:00:02.000Z, \"customer\": {\"email\": \"c•••@•••\", \"id\": \"user-B\", \"name\": \"Common Client B\"}, \"id\": \"member-B\", \"lastActivityAt\": null, \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, {\"createdAt\": 2026-01-01T00:00:01.000Z, \"customer\": {\"email\": \"c•••@•••\", \"id\": \"user-A\", \"name\": \"Common Client A\"}, \"id\": \"member-A\", \"lastActivityAt\": 2026-01-01T00:00:01.000Z, \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:168:11\n    at Object.<anonymous> (/app/node_modules/jest-each/build/bind.js:81:13)\n    at Promise.then.completed (/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/app/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/app/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/app/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/app/node_modul"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not treat malformed global=true as global authority",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:05.000Z, \"customer\": {\"email\": \"client-none@synthetic.invalid\", \"id\": \"user-NONE\", \"name\": \"Common Client NONE\"}, \"id\": \"member-NONE\", \"lastActivityAt\": null, \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:04.000Z, \"customer\": {\"email\": \"client-c@synthetic.invalid\", \"id\": \"user-C\", \"name\": \"Common Client C\"}, \"id\": \"member-C\", \"lastActivityAt\": 2026-01-01T00:00:04.000Z, \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:03.000Z, \"customer\": {\"email\": \"client-ab@synthetic.invalid\", \"id\": \"user-AB\", \"name\": \"Common Client AB\"}, \"id\": \"member-AB\", \"lastActivityAt\": 2026-01-01T00:00:03.000Z, \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:02.000Z, \"customer\": {\"email\": \"client-b@synthetic.invalid\", \"id\": \"user-B\", \"name\": \"Common Client B\"}, \"id\": \"member-B\", \"lastActivityAt\": 2026-01-01T00:00:02.000Z, \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:01.000Z, \"customer\": {\"email\": \"client-a@synthetic.invalid\", \"id\": \"user-A\", \"name\": \"Common Client A\"}, \"id\": \"member-A\", \"lastActivityAt\": 2026-01-01T00:00:01.000Z, \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:168:11\n    at Object.<anonymous> (/app/node_modules/jest-each/build/bind.js:81:13)\n    at Promise.then.completed (/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/app/node_"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) does not treat malformed global=1 as global authority",
+      "messages": [
+        "Error: expect(received).rejects.toBeInstanceOf()\n\nReceived promise resolved instead of rejected\nResolved to value: [{\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:05.000Z, \"customer\": {\"email\": \"client-none@synthetic.invalid\", \"id\": \"user-NONE\", \"name\": \"Common Client NONE\"}, \"id\": \"member-NONE\", \"lastActivityAt\": null, \"number\": \"COMMON-NONE\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:04.000Z, \"customer\": {\"email\": \"client-c@synthetic.invalid\", \"id\": \"user-C\", \"name\": \"Common Client C\"}, \"id\": \"member-C\", \"lastActivityAt\": 2026-01-01T00:00:04.000Z, \"number\": \"COMMON-C\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:03.000Z, \"customer\": {\"email\": \"client-ab@synthetic.invalid\", \"id\": \"user-AB\", \"name\": \"Common Client AB\"}, \"id\": \"member-AB\", \"lastActivityAt\": 2026-01-01T00:00:03.000Z, \"number\": \"COMMON-AB\", \"status\": \"ACTIVE\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:02.000Z, \"customer\": {\"email\": \"client-b@synthetic.invalid\", \"id\": \"user-B\", \"name\": \"Common Client B\"}, \"id\": \"member-B\", \"lastActivityAt\": 2026-01-01T00:00:02.000Z, \"number\": \"COMMON-B\", \"status\": \"SUSPENDED\"}, {\"balance\": \"12.00\", \"createdAt\": 2026-01-01T00:00:01.000Z, \"customer\": {\"email\": \"client-a@synthetic.invalid\", \"id\": \"user-A\", \"name\": \"Common Client A\"}, \"id\": \"member-A\", \"lastActivityAt\": 2026-01-01T00:00:01.000Z, \"number\": \"COMMON-A\", \"status\": \"ACTIVE\"}]\n    at expect (/app/node_modules/expect/build/index.js:113:15)\n    at /tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:168:11\n    at Object.<anonymous> (/app/node_modules/jest-each/build/bind.js:81:13)\n    at Promise.then.completed (/app/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/app/node_"
+      ]
+    },
+    {
+      "name": "Control station scope survives search predicates (synthetic semantic mocks) applies scope before take=100 and returned lengths reveal no foreign matches",
+      "messages": [
+        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n    at Object.<anonymous> (/tmp/control-scope-7ud6V9/src/control/control-customers-scope.spec.ts:195:63)"
+      ]
+    }
+  ],
+  "suiteErrors": [],
+  "serviceSha256": "23c42c5185477557ecafe8546a463432cc9b9a94b12b5f6043512b5b3313868f",
+  "isolation": {
+    "network": "none",
+    "readOnlySources": true,
+    "newTmpfs": true,
+    "databaseUsed": false,
+    "dependencyInstall": false
+  }
+}

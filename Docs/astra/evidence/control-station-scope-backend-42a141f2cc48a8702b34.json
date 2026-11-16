@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "status": 0,
+  "mode": "backend",
+  "node": "v22.21.1",
+  "typescript": "5.9.3",
+  "tests": {
+    "total": 300,
+    "passed": 300,
+    "failed": 0,
+    "pending": 0,
+    "suites": 36
+  },
+  "generatedClientInTmpfs": true,
+  "failures": [],
+  "suiteErrors": [],
+  "serviceSha256": "34b2210d87e233fdedc724f175f8b47d46e5238215c6bfc5c324260f08e688cd",
+  "isolation": {
+    "network": "none",
+    "readOnlySources": true,
+    "newTmpfs": true,
+    "databaseUsed": false,
+    "dependencyInstall": false
+  }
+}

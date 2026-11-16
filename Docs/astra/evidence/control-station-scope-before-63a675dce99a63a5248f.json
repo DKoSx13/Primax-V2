@@ -1,0 +1,26 @@
+{
+  "success": false,
+  "status": 1,
+  "mode": "before",
+  "node": "v22.21.1",
+  "typescript": "5.9.3",
+  "tests": {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "pending": 0,
+    "suites": 1
+  },
+  "failures": [],
+  "suiteErrors": [
+    "  ● Test suite failed to run\n\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m22\u001b[0m:\u001b[93m3\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2305: \u001b[0mModule '\"@prisma/client\"' has no exported member 'Receipt'.\n\n    \u001b[7m22\u001b[0m   Receipt,\n    \u001b[7m  \u001b[0m \u001b[91m  ~~~~~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m143\u001b[0m:\u001b[93m70\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2353: \u001b[0mObject literal may only specify known properties, and 'number' does not exist in type 'TerminalOperationSelect<DefaultArgs>'.\n\n    \u001b[7m143\u001b[0m             include: { receipt: true, terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },\n    \u001b[7m   \u001b[0m \u001b[91m                                                                     ~~~~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m150\u001b[0m:\u001b[93m55\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2353: \u001b[0mObject literal may only specify known properties, and 'number' does not exist in type 'TerminalOperationSelect<DefaultArgs>'.\n\n    \u001b[7m150\u001b[0m             include: { terminalOperation: { select: { number: true, status: true } }, station: { select: { id: true, code: true, name: true } }, fuel: { select: { name: true } }, vehicle: { select: { plate: true, label: true } }, payment: { select: { status: true, method: true, amount: true, refundedAmount: true } }, operationalIncidents: { select: { code: true, status: true } } },\n    \u001b[7m   \u001b[0m \u001b[91m                                                      ~~~~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m156\u001b[0m:\u001b[93m63\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2345: \u001b[0mArgument of type '{ mode: PurchaseMode; id: string; status: TransactionStatus; createdAt: Date; updatedAt: Date; plate: string; membershipId: string | null; ... 23 more ...; terminalPumpAssignmentId: string | null; }' is not assignable to parameter of type 'TransactionProjectionRow'.\n      Type '{ mode: PurchaseMode; id: string; status: TransactionStatus; createdAt: Date; updatedAt: Date; plate: string; membershipId: string | null; ... 23 more ...; terminalPumpAssignmentId: string | null; }' is missing the following properties from type 'OperationRelations': station, fuel, vehicle, payment, operationalIncidents\n\n    \u001b[7m156\u001b[0m       ...transactions.map((row) => this.transactionProjection(row, actor)),\n    \u001b[7m   \u001b[0m \u001b[91m                                                              ~~~\u001b[0m\n    \u001b[96msrc/control/control-customers.service.ts\u001b[0m:\u001b[93m157\u001b[0m:\u001b[93m67\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2345: \u001b[0mArgument of type '{ mode: PurchaseMode; id: string; status: AuthorizationStatus; createdAt: Date; updatedAt: Date; plate: string; membershipId: string | null; ... 20 more ...; outcome: AuthorizationOutcome | null; }' is not a"
+  ],
+  "serviceSha256": "23c42c5185477557ecafe8546a463432cc9b9a94b12b5f6043512b5b3313868f",
+  "isolation": {
+    "network": "none",
+    "readOnlySources": true,
+    "newTmpfs": true,
+    "databaseUsed": false,
+    "dependencyInstall": false
+  }
+}
