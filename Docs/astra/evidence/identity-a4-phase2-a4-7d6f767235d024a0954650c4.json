@@ -1,0 +1,30 @@
+{
+  "runId": "a4-7d6f767235d024a0954650c4",
+  "baseCommit": "b4594ef80bd923a449fc923b01159e2d4aeb3deb",
+  "checks": [
+    "TypeScript 5.9.3: core checked with actual project options (noEmit)",
+    "PostgreSQL numbering matches legacy numeric/alphabetic boundaries",
+    "Unified namespace skips aliases and rejects alias/canonical cross-member collisions; UUID preserved",
+    "Concurrent real PostgreSQL clients: distinct registrations, same request, contested alias and same account",
+    "Injected faults after member/alias/counter/canonical/receipt rollback the entire SQL transaction",
+    "Idempotent retry and discarded post-commit response recover same number/UUID/receipt; altered request rejected",
+    "Real FK/check/deferred constraints reject unknown account, orphan alias, malformed/duplicate canonical and incomplete member",
+    "Restricted writer cannot read sentinel, delete data or create tables; only authorized code-to-member projections returned",
+    "Signed BIGINT exhaustion fails without wraparound or partial provision"
+  ],
+  "success": false,
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "failure": {
+    "stage": "fresh restore database",
+    "code": 1,
+    "detail": "{\"stage\":\"start\",\"code\":\"ERR_INVALID_ARG_TYPE\",\"message\":\"The \\\"data\\\" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined\"}\n"
+  },
+  "preservedFiles": 1013,
+  "resourceState": "own PostgreSQL stopped; tmpfs is ephemeral; network retained",
+  "internalNetworkCreated": true
+}

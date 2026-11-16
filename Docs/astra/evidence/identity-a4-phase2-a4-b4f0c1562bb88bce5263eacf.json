@@ -1,0 +1,18 @@
+{
+  "runId": "a4-b4f0c1562bb88bce5263eacf",
+  "baseCommit": "b4594ef80bd923a449fc923b01159e2d4aeb3deb",
+  "checks": [],
+  "success": false,
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "failure": {
+    "stage": "fresh resources",
+    "code": 2,
+    "detail": "psql: error: connection to server on socket \"/var/run/postgresql/.s.PGSQL.5432\" failed: FATAL:  database \"a4_primary\" does not exist\n"
+  },
+  "preservedFiles": 1012,
+  "resourceState": "own PostgreSQL stopped; tmpfs is ephemeral; network retained",
+  "internalNetworkCreated": true
+}

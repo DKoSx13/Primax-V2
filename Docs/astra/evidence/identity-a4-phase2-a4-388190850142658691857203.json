@@ -1,0 +1,29 @@
+{
+  "runId": "a4-388190850142658691857203",
+  "baseCommit": "b4594ef80bd923a449fc923b01159e2d4aeb3deb",
+  "checks": [
+    "TypeScript 5.9.3: core checked with actual project options (noEmit)",
+    "PostgreSQL numbering matches legacy numeric/alphabetic boundaries",
+    "Unified namespace skips aliases and rejects alias/canonical cross-member collisions; UUID preserved",
+    "Concurrent real PostgreSQL clients: distinct registrations, same request, contested alias and same account",
+    "Injected faults after member/alias/counter/canonical/receipt rollback the entire SQL transaction",
+    "Idempotent retry and discarded post-commit response recover same number/UUID/receipt; altered request rejected",
+    "Real FK/check/deferred constraints reject unknown account, orphan alias, malformed/duplicate canonical and incomplete member",
+    "Restricted writer cannot read sentinel, delete data or create tables; per-code identity projections remain separate",
+    "Signed BIGINT exhaustion fails without wraparound or partial provision",
+    "Fresh-database logical restore preserves all five tables/counter, UUIDs and idempotent receipt replay",
+    "Counter behind receipts is rejected; restore state remains unchanged",
+    "Fresh restore continues allocation from restored counter without reusing acknowledged codes"
+  ],
+  "success": true,
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "snapshotChecksum": "8489bf68074e40c9628eda67ecc4f065d3ef39fae517bfc78ba65b89b67feacf",
+  "preservedFiles": 1014,
+  "resourceState": "own PostgreSQL stopped; tmpfs is ephemeral; network retained",
+  "internalNetworkCreated": true
+}
