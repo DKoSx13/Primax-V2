@@ -1,0 +1,62 @@
+{
+  "runId": "a4-6e7becbc51d8c31c4f541aed",
+  "success": true,
+  "checks": [
+    "TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit",
+    "New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs",
+    "Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads",
+    "Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure",
+    "Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct",
+    "Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers",
+    "Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables",
+    "4A actual legacy link preserves owned UUID/label, links unowned UUID and rejects another owner using actual normalizers",
+    "4A deterministic overlap: two owners racing a new or unowned plate yield one owner, one conflict, no duplicate UUID",
+    "4A eight concurrent explicit repeats converge to one legacy Vehicle; later label does not change it; no durable receipt claimed",
+    "4A legacy authority rejects suspended/inactive fixtures; missing or crossed membership is rejected before a write",
+    "4A actual VehiclesService owner authorization hides foreign and nonexistent vehicles identically",
+    "4A pre-dispatch failure differs from lost post-commit reply; observation/explicit retry converge but cannot recover a durable receipt",
+    "4A injected transaction abort leaves no Vehicle; conservative unknown response does not trigger automatic replay",
+    "4A all 39 non-Vehicle legacy tables and five A4 tables unchanged, including historical guest references, finance and welcome; identity has no Vehicle SQL access"
+  ],
+  "baseCommit": "a4dc5f59505b4088de1c50c2b8cbed8a95f9b27a",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "privateSubnet": "10.203.4.0/28",
+  "readTransactions": 98,
+  "domainStatements": 156,
+  "snapshotHash": "6cc398cfa823e5a6f69313ae1045003bdfa088e4a16ecf5e1eeee604d2731c97",
+  "phase4a": {
+    "authority": "Backend/src/vehicles/vehicles.repository.ts#link",
+    "atomic": "Backend/src/prisma/prisma.service.ts#atomic",
+    "repositorySha256": "de6fa991ae02381a2e6c1f65c4fc6118304bc99566f59a636d4f6ae30eb4c51f",
+    "atomicSha256": "04d8563747e90503f96e7df438cbfc98e3ce1d3bebd735f0dd228121c403d0eb",
+    "repositoryCalls": 24,
+    "transactionAttempts": 27,
+    "nonVehicleTablesCompared": 39,
+    "identityTablesCompared": 5,
+    "explicitConcurrentRepeats": 8,
+    "responseLossForwards": 1,
+    "durableReceipts": false,
+    "outbox": false,
+    "publicHTTP": false,
+    "authentication": "opaque random synthetic credentials and explicit owner permissions, not AuthCore/JWT",
+    "financialSnapshotHash": "77c7c2f16bb184fa90a7261e792971455ee854ed0191ab412cfa67daf432f702",
+    "normalizers": [
+      "Backend/src/vehicles/plate.dto.ts#normalizePlate",
+      "Backend/src/memberships/profile.dto.ts#cleanText"
+    ]
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "isolation": {
+    "newInternalNetwork": true,
+    "publishedPorts": 0,
+    "existingVolumes": 0,
+    "readonlySources": true,
+    "separateReadRole": true
+  },
+  "preservedFiles": 1073,
+  "resources": "Own PostgreSQL stopped; own network/stopped PG retained; tmpfs ephemeral"
+}

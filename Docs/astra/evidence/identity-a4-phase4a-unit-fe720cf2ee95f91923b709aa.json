@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "status": 0,
+  "total": 82,
+  "passed": 82,
+  "failed": 0,
+  "files": [
+    "services/identity/test/membership-codes.test.cjs",
+    "services/identity/lab/owned-membership-a4-store.test.cjs",
+    "services/identity/lab/membership-a4-read.test.cjs",
+    "services/identity/lab/membership-a4-compatible-read.test.cjs",
+    "services/identity/lab/vehicle-link-contract.test.cjs"
+  ],
+  "baseCommit": "a4dc5f59505b4088de1c50c2b8cbed8a95f9b27a",
+  "isolation": {
+    "network": "none",
+    "sourcesReadOnly": true,
+    "databaseUsed": false,
+    "dependencyInstall": false
+  }
+}
