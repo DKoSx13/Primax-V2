@@ -1,0 +1,1435 @@
+{
+  "schemaVersion": 1,
+  "kind": "ASTRA_STAGE_2_PACKAGING_NOT_INTEGRATED_FUNCTIONAL_CERTIFICATION",
+  "date": "2026-11-18",
+  "branch": "feat/dezkz-identity-a4-core",
+  "initialHead": "bcd0ea8f946793b414429b4a9c8965315ffac286",
+  "stage1BackupCommit": "05ad4d35c0f4a4f49743d09095e55a2b25f1cb59",
+  "implementationFiles": [
+    "Backend/package.json",
+    "Backend/scripts/build-domain.cjs",
+    "Backend/scripts/build-domain.test.cjs",
+    "Backend/services/identity/tsconfig.build.json",
+    "Backend/services/identity/Dockerfile",
+    "Backend/services/catalog/tsconfig.build.json",
+    "Backend/services/catalog/Dockerfile",
+    "Backend/services/administration/tsconfig.build.json",
+    "Backend/services/administration/Dockerfile",
+    "Backend/services/commerce/tsconfig.build.json",
+    "Backend/services/commerce/Dockerfile"
+  ],
+  "scope": {
+    "composeUnchanged": true,
+    "businessSourcesUnchanged": true,
+    "frontendsUnchanged": true,
+    "prismaSchemaAndMigrationsUnchanged": true,
+    "operationalDatabaseAccess": false,
+    "migrationsExecuted": false,
+    "seedsExecuted": false,
+    "composeStarted": false,
+    "realServiceBootstrapsStarted": false,
+    "testsWithMockNestHttpApp": true,
+    "pushOrMerge": false
+  },
+  "environment": {
+    "host": "Windows",
+    "hostNode": "v24.22.1",
+    "buildAndMainTestNode": "v22.21.1",
+    "buildNpm": "10.9.4",
+    "dockerServer": "29.9.2",
+    "imagePlatform": "linux/amd64"
+  },
+  "tests": {
+    "baseline": {
+      "legacyDockerBuild": "passed",
+      "jest": {
+        "suites": 36,
+        "tests": 300,
+        "failed": 0
+      },
+      "gatewayAndDatabaseSafety": {
+        "tests": 29,
+        "failed": 0
+      },
+      "selectedFrontend": {
+        "tests": 67,
+        "failed": 0
+      }
+    },
+    "after": {
+      "legacyDockerBuild": "passed",
+      "legacyExecutableComparison": {
+        "files": 135,
+        "differences": []
+      },
+      "jest": {
+        "suites": 36,
+        "tests": 300,
+        "failed": 0
+      },
+      "gatewayAndDatabaseSafety": {
+        "tests": 29,
+        "failed": 0
+      },
+      "selectedFrontend": {
+        "tests": 67,
+        "failed": 0
+      },
+      "packagingWindowsNode24": {
+        "tests": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "packagingDockerNode22": {
+        "tests": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "eslintNewScripts": "passed"
+    }
+  },
+  "resolvedFailures": [
+    {
+      "stage": "baseline harness",
+      "failure": "One database-safety test could not resolve a relative dependency in the initial Docker bind mount layout.",
+      "resolution": "Added the missing read-only file mount to the test invocation; 29/29 passed. No source change."
+    },
+    {
+      "stage": "new implementation first Identity build",
+      "failure": "New output filter wrongly rejected src/prisma runtime adapter as seed code.",
+      "resolution": "Restricted root seed/test directory matching, added legitimate src/prisma artifact to fixture; all final builds/tests passed."
+    }
+  ],
+  "images": [
+    {
+      "service": "identity",
+      "tag": "primax-astra-identity:stage2",
+      "id": "sha256:c27c040c9b461a7839c455ff3a9b93e9fdb2038c31357a5928f392b5457ea737",
+      "os": "linux",
+      "architecture": "amd64",
+      "size": 815665375,
+      "cmd": [
+        "node",
+        "services/identity/dist/src/apps/identity/main.js"
+      ],
+      "user": "node",
+      "serviceLabel": "identity",
+      "envKeys": [
+        "PATH",
+        "NODE_VERSION",
+        "YARN_VERSION",
+        "NODE_ENV"
+      ]
+    },
+    {
+      "service": "catalog",
+      "tag": "primax-astra-catalog:stage2",
+      "id": "sha256:d608f5f28c52625e62bc13d6e3e6500fe2f09989647fb8f90ced70cb456c843a",
+      "os": "linux",
+      "architecture": "amd64",
+      "size": 815629727,
+      "cmd": [
+        "node",
+        "services/catalog/dist/src/apps/catalog/main.js"
+      ],
+      "user": "node",
+      "serviceLabel": "catalog",
+      "envKeys": [
+        "PATH",
+        "NODE_VERSION",
+        "YARN_VERSION",
+        "NODE_ENV"
+      ]
+    },
+    {
+      "service": "administration",
+      "tag": "primax-astra-administration:stage2",
+      "id": "sha256:34d90bd1b8f6f0389e650ed7bc929ae75b934ee6b408b6587437bbd9f3bbd56e",
+      "os": "linux",
+      "architecture": "amd64",
+      "size": 815803061,
+      "cmd": [
+        "node",
+        "services/administration/dist/src/apps/administration/main.js"
+      ],
+      "user": "node",
+      "serviceLabel": "administration",
+      "envKeys": [
+        "PATH",
+        "NODE_VERSION",
+        "YARN_VERSION",
+        "NODE_ENV"
+      ]
+    },
+    {
+      "service": "commerce",
+      "tag": "primax-astra-commerce:stage2",
+      "id": "sha256:a6c8c15086a18fd01cf1fc67f6e0f96a96c226dba40c4560059e4551fd0b01bd",
+      "os": "linux",
+      "architecture": "amd64",
+      "size": 816344716,
+      "cmd": [
+        "node",
+        "services/commerce/dist/src/apps/commerce/main.js"
+      ],
+      "user": "node",
+      "serviceLabel": "commerce",
+      "envKeys": [
+        "PATH",
+        "NODE_VERSION",
+        "YARN_VERSION",
+        "NODE_ENV"
+      ]
+    }
+  ],
+  "imageChecks": {
+    "identity": {
+      "service": "identity",
+      "node": "v22.21.1",
+      "manifest": {
+        "service": "identity",
+        "entrypoint": "src/apps/identity/main.js",
+        "files": {
+          "scripts/database-safety.cjs": "1a777e2b3266418b0bc428a506c9047221b31be32096af457d71589d7d8b9f47",
+          "src/alerts/alerts.module.js": "b811352e7d0020a2c1204ff3d42138f4fc1816307916e13f7b400719b514e656",
+          "src/alerts/alerts.module.js.map": "233480b3176b16f3b27a627c3f8789ad3423d8617a1227dbb064998e4c754c93",
+          "src/alerts/alerts.service.js": "bbf13c20c4dcc45fb11d62ad8246007115dafae8c366660dfe3102c2cf658c14",
+          "src/alerts/alerts.service.js.map": "277912e170a25e4b006df8e8c25644fa6cc36d22a4441d938cb24b21aacc7e1e",
+          "src/apps/bootstrap.js": "5317ebb905f3474fc513813058287f1ee6180825a674b1b6ad292c4f1c696843",
+          "src/apps/bootstrap.js.map": "a356b75d0a5b9a39b6bfbbc68221a8e5ee2b784bf6750892cd655e82cce3efff",
+          "src/apps/identity/main.js": "dd62cab0ea8da8205feed9bf7da3aae9bf91b5f6535fadd9e37dead05b50ff6c",
+          "src/apps/identity/main.js.map": "fc66291c9886e9b861c74afb6a7237dce999c52ad61422b5b7b53f5134b08321",
+          "src/auth/access.guard.js": "9591e67214bd4894aae54733a57d4afa51f47c2194a188c5e595d7b429dd6380",
+          "src/auth/access.guard.js.map": "7e7c260ca350d0fbff70ae31daf25ce7a8da434d7fe2f89ca0c619e07be296a1",
+          "src/auth/access.js": "4e4f6eb99ba5bf6d17bcde2dc852fbceb46923d7341891b119c5d6131b8845b1",
+          "src/auth/access.js.map": "053de4d05bc71d0d827c876e0572ba22ef76345e029a1d571a565e7a9ce4250c",
+          "src/auth/admin.controller.js": "2c1ec14c288a47c8a92316897cc62d2fa80a812122aeb98eba99982c5e720c79",
+          "src/auth/admin.controller.js.map": "bf4e923245e270389b944a4af98939ffb1cebd2b5c63e4e73adbeb2f6a527cb8",
+          "src/auth/auth.controller.js": "2841c0168ed644780588f65097c2140cd136d7d182e1c335bd3d2070fd0ed10d",
+          "src/auth/auth.controller.js.map": "f93482842d2ef3e00b68dbc7c6310d0cddc1a05292dae1f813b724f30b6adffd",
+          "src/auth/auth.module.js": "f0806896461ee36bc511b897c7a3fb65bd1b0416abfc52460984c74c79f65e1a",
+          "src/auth/auth.module.js.map": "6df957ccf1ff717f8013afba358840e6a65d1c34cb4c1ffc66af68a6c0b6fd55",
+          "src/auth/auth.service.js": "6ea7dcc4a4177aa4c53c4d8f3b3ac2be71bac8afd0ace571a8fdcab5cbf78a2e",
+          "src/auth/auth.service.js.map": "0820b8b6e029727bc085f743662205c41601381882e212d530101979e524dccd",
+          "src/auth/login.dto.js": "09c657d759995b744f07306d00d0cd00ae349ffb5af4eb174ac886db9636c566",
+          "src/auth/login.dto.js.map": "d7d95efff8c3de2181a610a35d9d9750eba922f67938f1aa09a8d901a330aa10",
+          "src/auth/password-reset.dto.js": "d8994861876f7a27e31343255b40493bb69b8a8db1701013259e84a4bd9e75a1",
+          "src/auth/password-reset.dto.js.map": "9378cb9ac12c6dd43eec5440775963e6c58c5e32c05768b3af7bfca206c36dd3",
+          "src/auth/password-reset.service.js": "316e17e8fc2a8e5e0746cab4458e9b0323d967ce86b31e16b9874eea92eb3fab",
+          "src/auth/password-reset.service.js.map": "e2ef4fd14135176ad2b2db9670c8aea9d05250dedafae252e44edb99518bcae2",
+          "src/auth/recovery-delivery.js": "0b154b63f43f502c8379518d23ebe3b44e7769f305a4c7fbf4b6fd056fd5e0db",
+          "src/auth/recovery-delivery.js.map": "33624084e93eabe65937e57531343aff5283f705d161b495167f0f2c5c65c850",
+          "src/auth/register.dto.js": "9404f636fe9923e526ce16d52d7e71e6a580fd24f31e817244631486cf89f58a",
+          "src/auth/register.dto.js.map": "d5e6e5aee0c07f376399ade81547a3387646950b84626fce1360d1d7187bb308",
+          "src/common/document-conflict.js": "63b70d554f8987f06f9dfbc426cbff002748b88259c9c4ed549556053c9be7aa",
+          "src/common/document-conflict.js.map": "dcb5e337638b71b0a8baaf6958eb33a697d2fb16f478c80776451e3aa77e813d",
+          "src/common/http-error.filter.js": "e25f91e4e7b0e7461552d2edceb75366b01a96a17958b05b974e0fa14360ce16",
+          "src/common/http-error.filter.js.map": "d7ed0133243ef6c5ab0fbaaf768565cfc6b205ac63b6e45732f8b6bd9e1e4959",
+          "src/common/pagination.dto.js": "26aae879b9b61cacf356e7d743967d9dd4f4cc8d7f6c0e58e360b95707bbe279",
+          "src/common/pagination.dto.js.map": "aa85ae54d32add077de520727c5418b07e29942fffeb1e66e4c374c4be5f08fd",
+          "src/common/response.dto.js": "ff91c0a85c3fa37b5670f13d9575b49a6be59d86b48558769e2a43424cc1ec50",
+          "src/common/response.dto.js.map": "9c3f7070d8baebf713477ded87379684f0747c72856d974d1dd7ff34edff6b41",
+          "src/config/environment.js": "174204179a5b8f8db813902ebb57807a3c272c6aaf8cbd0654b148bbf4942963",
+          "src/config/environment.js.map": "c8d6a2103ea7d5b50ee190e4aa5d495f4e6a7d85c71faf5bdba0f19c55b5d3ec",
+          "src/health/health.controller.js": "4c2ce02a37f0e44044bed7a180e59b15293761a93f0a8a9601ce178cafa4d70e",
+          "src/health/health.controller.js.map": "3a8b589fe3457929765d0ea8002af19ef24b931b98381bce2cd77b28ab660d4c",
+          "src/health/health.module.js": "b0516c10c50b05b260b148c7a592c8ac304bcb992972c848e89f9c126864042e",
+          "src/health/health.module.js.map": "d9bc1bf8de3194916a0d9c9f4e87c8e6cb6ff4427579b4d30840f96446260a92",
+          "src/health/health.service.js": "1fece1a15dd5610e7e63da379f04fcf4ada2cb70713b604723341013c016dacc",
+          "src/health/health.service.js.map": "55b901623f54a56a81e6919aea15b61a6cc73121e29f7ad19874fc0451beb6b1",
+          "src/identity-adapters/membership-commerce.js": "f9cf7796234f8b103f0caa98118c10b43246e06487a1f4cfbda876a2ccab260f",
+          "src/identity-adapters/membership-commerce.js.map": "2c98a3b865b116e277938f9eeaeeb787f982a7f7716543c20006234673e056fa",
+          "src/identity-core/domain.js": "583117371e6fdd3536369dc3c8af2b33223725ad601c94a5c097af6f8bce2256",
+          "src/identity-core/domain.js.map": "2c2387133c09259053f512b475bf1d6a8ce978c425928cc8845325deea22845d",
+          "src/identity-core/ports.js": "7be110d0d31308f6c9541323832f9dea08e7feecddecc341431b457477f3566e",
+          "src/identity-core/ports.js.map": "feee6b8c96fe5eb622f872b36ea29e5e8789196e2c2b29ffb9a1fe8ab44ed5a5",
+          "src/kiosk/kiosk.controller.js": "abf5add65728da4a2a7639a78ef501b4cf555532043b2d5074686638bf673450",
+          "src/kiosk/kiosk.controller.js.map": "c2cc0032f40842a317944028f059b8279d6f47226d23c555f350cefcee7be68b",
+          "src/kiosk/kiosk.service.js": "335f2549ef745f4e65571bc603b5b74b604faab2b297932634b4b13f41dcff51",
+          "src/kiosk/kiosk.service.js.map": "ed57d09fab56263855406af041715baa85c55075fb15bbc466200ce5a9a221d5",
+          "src/kiosk/policy.js": "c35ace47b0676f1dd9075bb01ea073fb069cbd2f865b2745f40f41b76d360473",
+          "src/kiosk/policy.js.map": "33eea454d3a9b9a1496ee496a868135365915aff4e24f546bd0655163795276b",
+          "src/kiosk/redis-store.js": "f9337c9210df72a36a03b3bc577f6c8d9602edb694c0579bd1ff248c1466f9ac",
+          "src/kiosk/redis-store.js.map": "5ac6ebb7ac75c7f213fe6ecd8e0c751c9238a778d234c730fe0b1f738a5b2f41",
+          "src/memberships/memberships.controller.js": "3aee2b93f5065839d5c5c9c3d2215b465ffe655aa746fb40d5f758768586348b",
+          "src/memberships/memberships.controller.js.map": "44c239afccc5589934ba2f05b0975ef52b14a83f6acae0367bb85f981fa50d7e",
+          "src/memberships/memberships.module.js": "ccc56deae2b4efdd17f3af93a64ea07a8babe33496f29aa203304f33b04091d4",
+          "src/memberships/memberships.module.js.map": "8ba375ed9527ce635a5849744e7dbcdd048253e75ad443827f3a097b0de09605",
+          "src/memberships/memberships.repository.js": "77f6b0ee7280ee1954b7aec0e2e9937cd4fed6d2f41b0a20726a0b05915be709",
+          "src/memberships/memberships.repository.js.map": "e4535888b4a3241982a547541380ebefc75adcdec5fd551056b4ad49b20a1da4",
+          "src/memberships/memberships.service.js": "e948de386afddeb4a85e98325ad559721d1bcb6e195ffe80d543aae7d3a667c0",
+          "src/memberships/memberships.service.js.map": "cd80af79bf204fb79d4fe6c5b39a5e60ea9cd233f5e9ea59ee85f6cd315fbe1f",
+          "src/memberships/profile.dto.js": "b05017437c756975c713396a673dd5f24a63ceb110308a19f0b0d5fe36090b2a",
+          "src/memberships/profile.dto.js.map": "a78e97904096267c9dac8db7b0a019320b6e0b9b85007c022f4777c61d190bb8",
+          "src/operations/empty-attention.js": "e4aca937646efe2a602c8ee38678bd7ad3b6b7a4ed939268d4ad2c5fed1ea8ab",
+          "src/operations/empty-attention.js.map": "d19172fdd1de30d984d2db9d6193ffdd0ad40051535c44d9955ec4f5e8aa74f6",
+          "src/operations/terminal-availability.js": "bb1b7a2238795c371c245a6b9a88475af98195259a9cbbecd01cb7c943fe93b6",
+          "src/operations/terminal-availability.js.map": "075e4937dc45e958358262ec6f09cafbf782532705c2b607e817689595be6e74",
+          "src/prisma/prisma.module.js": "7fa9be96c04477280b2fd381398e727c3044aa38efa7e159c2990ae403a54ca9",
+          "src/prisma/prisma.module.js.map": "8346280b5de91f6dd7580150de15b646a2c30ec67799b3dd467b5fd92b686523",
+          "src/prisma/prisma.service.js": "7ad3df8da9a69ee153e970a9102fb27db63403c538ee76267f256d00400d8dfe",
+          "src/prisma/prisma.service.js.map": "2aff16cdff92de772d9680c189d5ef3784aface2c64b8aea90904e50e720183c",
+          "src/receipts/receipt.service.js": "0e5bec9db09ff5a08d575e4b6887c61d9134a0b1c9cb024664b2493813087f10",
+          "src/receipts/receipt.service.js.map": "3e7744cc3413db709cd6bb0f9482f5a2391efb151f8bc9d35ba2122e7e45ad9d",
+          "src/setup-app.js": "4b113b79fbfed85c751d547aa1633a75cd93c0afbed2be02d7f53f5da5857a5a",
+          "src/setup-app.js.map": "d4e6d918a814bfd8160069bb33857d6fe199e35b042a2af64240916e8cf7f2ba",
+          "src/transactions/transaction.model.js": "42327cf4d90a3e74c9b279fb057cc6a50e9c5251b288b965b99cf090f4c15d3e",
+          "src/transactions/transaction.model.js.map": "960e8cb4c4ff68212d19623906a5a2b48042e8c900ce73781b664426a4d7e597",
+          "src/users/membership-number.js": "2e3269595e212c49c33c728defe47a96fc4d8e4f4c65846330170b38fef45531",
+          "src/users/membership-number.js.map": "42496a05c76b51e18098c7dfb515bdb25c23fc99003a6aa0076188420edd4958",
+          "src/users/users.module.js": "335c91c942d1d4e251c38e490d52ff11d380e75978b84eaef3f4d4a4b326cc40",
+          "src/users/users.module.js.map": "12131a4fd47e83ef147f818b054080f01530164ff960bd9f8a2c32e87771c47c",
+          "src/users/users.repository.js": "afa0609cfa44179982c23b423d54704a86fe9496c05c5d5befced9fea292645c",
+          "src/users/users.repository.js.map": "05e3f21071026f8325b11b28a9f3764c4b87de68a41573b2e23694e8676ff507",
+          "src/users/users.service.js": "2005d62b52e3200d5f061bd845b477a466982386b7bd10aac2c9b6a6429c77aa",
+          "src/users/users.service.js.map": "2ea54ecab874164bb88094b5aed51a007cb85ab659d62532fea19110f2d8326d",
+          "src/vehicles/create-vehicle.dto.js": "8f5203ac063d1512910d5659d2f61a23e07340b1f769f42dedca7ed7862c287a",
+          "src/vehicles/create-vehicle.dto.js.map": "7ed768bdc849e77877e042b89735bba569333d5283b965973feeb0f82616d403",
+          "src/vehicles/plate.dto.js": "78e449edbcd9bfcaf283240c56e251018b27fab3e28ea9708f5c303f13b83892",
+          "src/vehicles/plate.dto.js.map": "f47fcb7053ffb302a0b36b8df1bd423a84ef71650de34fc5533f791b692acebb",
+          "src/vehicles/recognition.controller.js": "2f89b83551bffd12dc872a32fbd481760c74f3032869f4410faa079ca609d263",
+          "src/vehicles/recognition.controller.js.map": "1d560806515f4e868a83738670a2d0e8a2f66c9cc3d31d6ea8d3308c55243a7d",
+          "src/vehicles/recognition.service.js": "c09e1d027e0aabf69ceb4d17c3f524557d4a67bb72a90ea99a70f6e843c83073",
+          "src/vehicles/recognition.service.js.map": "8288ff133abf68f6f598f2c1ef0f6affd91d7ff0d7a611fd581a2f387eea2812",
+          "src/vehicles/vehicles.controller.js": "5f05cc7867f64c2a88702b17e244aecf08251b24021afebd004b2927eb23882c",
+          "src/vehicles/vehicles.controller.js.map": "27a189c1ac58dc0e19306d128127d4b5a11099aae73e2f38d3a4a24a850084f5",
+          "src/vehicles/vehicles.module.js": "feeb62cbb50f0f0da5b77796000811a8f7bda6bcb2fb877f696fc1d97ba6dcfe",
+          "src/vehicles/vehicles.module.js.map": "eb0abcef9b6dfca0a81c01a8a83e7699bb4d53a459668ac81c447b1baed66fe0",
+          "src/vehicles/vehicles.repository.js": "b2f46cd6f78690874beb54b62eb69df07168e821a4537da5e9c565f300b03a93",
+          "src/vehicles/vehicles.repository.js.map": "94d8ce29bfb092d086f1d498c1397aff563ca99790ba61eca1c7b739a4f9faee",
+          "src/vehicles/vehicles.service.js": "833ebe9106ebfa684099770b1caa21a5f10c5bd46790f0682dc066b2c75d2909",
+          "src/vehicles/vehicles.service.js.map": "6d4e508bdb1b4af40165bf7943fb25999b1953e5712dfe69a89f3fbe0a531599",
+          "src/wallet/debt.js": "111a84af232e047b55ef190b41fa116922f744b378669c380129ef18236defbe",
+          "src/wallet/debt.js.map": "9d6a4c7aa92d1af202cbcb9f916db0bcdc092cd464da1fbea5303e57722bd08d"
+        }
+      },
+      "checks": {
+        "parsedExecutables": 56,
+        "resolvedRequires": 212,
+        "prismaClient": "/app/node_modules/@prisma/client/default.js",
+        "noRootSources": true,
+        "noEnvFile": true,
+        "noRuntimeSeedDirectory": true
+      },
+      "baselineExecutableDifferences": [],
+      "compiledMetadata": {
+        "service": "identity",
+        "bootstrapName": "identity-service",
+        "rootModules": [
+          "AuthModule",
+          "MembershipsModule",
+          "VehiclesModule"
+        ],
+        "routes": [
+          {
+            "method": "GET",
+            "path": "/api/v1/admin/alerts"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/admin/alerts/:id/resolve"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/admin/check-plate"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/admin/dashboard"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/admin/demo-credentials"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/admin/login"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/auth/forgot-password"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/auth/login"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/auth/register"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/auth/reset-password"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/auth/verify-reset-code"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/health"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/kiosk/session"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/kiosk/session/authorize"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/kiosk/session/login"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/kiosk/session/logout"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/kiosk/session/terminal-bootstrap"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/kiosk/session/terminal-recovery"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/memberships/me"
+          },
+          {
+            "method": "PATCH",
+            "path": "/api/v1/memberships/me/profile"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/memberships/me/redemptions"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/memberships/me/rewards"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/memberships/me/transactions"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/plate-recognition"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/vehicles"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/vehicles"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/vehicles/:plate"
+          }
+        ],
+        "sourceMaps": 55
+      },
+      "contractRouteMatch": true
+    },
+    "catalog": {
+      "service": "catalog",
+      "node": "v22.21.1",
+      "manifest": {
+        "service": "catalog",
+        "entrypoint": "src/apps/catalog/main.js",
+        "files": {
+          "scripts/database-safety.cjs": "1a777e2b3266418b0bc428a506c9047221b31be32096af457d71589d7d8b9f47",
+          "src/alerts/alerts.module.js": "b811352e7d0020a2c1204ff3d42138f4fc1816307916e13f7b400719b514e656",
+          "src/alerts/alerts.module.js.map": "233480b3176b16f3b27a627c3f8789ad3423d8617a1227dbb064998e4c754c93",
+          "src/alerts/alerts.service.js": "bbf13c20c4dcc45fb11d62ad8246007115dafae8c366660dfe3102c2cf658c14",
+          "src/alerts/alerts.service.js.map": "277912e170a25e4b006df8e8c25644fa6cc36d22a4441d938cb24b21aacc7e1e",
+          "src/apps/bootstrap.js": "5317ebb905f3474fc513813058287f1ee6180825a674b1b6ad292c4f1c696843",
+          "src/apps/bootstrap.js.map": "a356b75d0a5b9a39b6bfbbc68221a8e5ee2b784bf6750892cd655e82cce3efff",
+          "src/apps/catalog/main.js": "5a0b2e0b02f732292f1ae2faf9a9a091a267f037de548faba59e1eb4e0f4f872",
+          "src/apps/catalog/main.js.map": "65f51962af4019e805acc6fbd86a7e4aaa3c254ea65d42fd01e313346bb86ae0",
+          "src/auth/access.guard.js": "9591e67214bd4894aae54733a57d4afa51f47c2194a188c5e595d7b429dd6380",
+          "src/auth/access.guard.js.map": "7e7c260ca350d0fbff70ae31daf25ce7a8da434d7fe2f89ca0c619e07be296a1",
+          "src/auth/access.js": "4e4f6eb99ba5bf6d17bcde2dc852fbceb46923d7341891b119c5d6131b8845b1",
+          "src/auth/access.js.map": "053de4d05bc71d0d827c876e0572ba22ef76345e029a1d571a565e7a9ce4250c",
+          "src/auth/admin.controller.js": "2c1ec14c288a47c8a92316897cc62d2fa80a812122aeb98eba99982c5e720c79",
+          "src/auth/admin.controller.js.map": "bf4e923245e270389b944a4af98939ffb1cebd2b5c63e4e73adbeb2f6a527cb8",
+          "src/auth/auth.controller.js": "2841c0168ed644780588f65097c2140cd136d7d182e1c335bd3d2070fd0ed10d",
+          "src/auth/auth.controller.js.map": "f93482842d2ef3e00b68dbc7c6310d0cddc1a05292dae1f813b724f30b6adffd",
+          "src/auth/auth.module.js": "f0806896461ee36bc511b897c7a3fb65bd1b0416abfc52460984c74c79f65e1a",
+          "src/auth/auth.module.js.map": "6df957ccf1ff717f8013afba358840e6a65d1c34cb4c1ffc66af68a6c0b6fd55",
+          "src/auth/auth.service.js": "6ea7dcc4a4177aa4c53c4d8f3b3ac2be71bac8afd0ace571a8fdcab5cbf78a2e",
+          "src/auth/auth.service.js.map": "0820b8b6e029727bc085f743662205c41601381882e212d530101979e524dccd",
+          "src/auth/login.dto.js": "09c657d759995b744f07306d00d0cd00ae349ffb5af4eb174ac886db9636c566",
+          "src/auth/login.dto.js.map": "d7d95efff8c3de2181a610a35d9d9750eba922f67938f1aa09a8d901a330aa10",
+          "src/auth/password-reset.dto.js": "d8994861876f7a27e31343255b40493bb69b8a8db1701013259e84a4bd9e75a1",
+          "src/auth/password-reset.dto.js.map": "9378cb9ac12c6dd43eec5440775963e6c58c5e32c05768b3af7bfca206c36dd3",
+          "src/auth/password-reset.service.js": "316e17e8fc2a8e5e0746cab4458e9b0323d967ce86b31e16b9874eea92eb3fab",
+          "src/auth/password-reset.service.js.map": "e2ef4fd14135176ad2b2db9670c8aea9d05250dedafae252e44edb99518bcae2",
+          "src/auth/recovery-delivery.js": "0b154b63f43f502c8379518d23ebe3b44e7769f305a4c7fbf4b6fd056fd5e0db",
+          "src/auth/recovery-delivery.js.map": "33624084e93eabe65937e57531343aff5283f705d161b495167f0f2c5c65c850",
+          "src/auth/register.dto.js": "9404f636fe9923e526ce16d52d7e71e6a580fd24f31e817244631486cf89f58a",
+          "src/auth/register.dto.js.map": "d5e6e5aee0c07f376399ade81547a3387646950b84626fce1360d1d7187bb308",
+          "src/benefits/benefits.controller.js": "63b34f7412ea500d075add832f38a84af64492fd5f0b2c8b057fcb701d6a5928",
+          "src/benefits/benefits.controller.js.map": "53d679f76faa2a3a97218bbfdc57702e628b3e796a9218e58bb3af6ae99b0b86",
+          "src/benefits/benefits.module.js": "a4959e286172ee707303b633ab1f67877689bf1c0d2a3622048cafc1b5a308f0",
+          "src/benefits/benefits.module.js.map": "c900def1cd402e976a0c676b07ddb343dad8f29005f9e714c4c40d4d03f033dc",
+          "src/benefits/benefits.repository.js": "a65978441ac92301254cf9d0506e919389c52bb515766785de706dde5148b9d4",
+          "src/benefits/benefits.repository.js.map": "10bfda0a42620c4505efa2400df9976c9ce546d49433f728e1af0436af3af8a0",
+          "src/benefits/benefits.service.js": "fa4fdf9bd86536e08968fde81c57e425e94bbc936ff55460e359047b1d6938f5",
+          "src/benefits/benefits.service.js.map": "da0f8e2a18468386b8cb5aefe6fa057e782b7fbcfe15c93989b180b00bbd1b3d",
+          "src/catalog-reader/catalog-reader.js": "38565829f9931393796c08ecc0ee9f244be4fd0442bba6d6f4945b1baf7681ff",
+          "src/catalog-reader/catalog-reader.js.map": "a4d61bb90332400abe4af578f864215697d83e471e726667cd1a9c09504a28c4",
+          "src/catalog-reader/private-catalog.controller.js": "ac4896e049f309bf67ef911240f42b0cdfc9628327d875106cd32e76da01b0c7",
+          "src/catalog-reader/private-catalog.controller.js.map": "437b2dfb0ea9fe133bb681dbcd93a9528810ef75883c3771b09dc282ae063d6e",
+          "src/common/document-conflict.js": "63b70d554f8987f06f9dfbc426cbff002748b88259c9c4ed549556053c9be7aa",
+          "src/common/document-conflict.js.map": "dcb5e337638b71b0a8baaf6958eb33a697d2fb16f478c80776451e3aa77e813d",
+          "src/common/http-error.filter.js": "e25f91e4e7b0e7461552d2edceb75366b01a96a17958b05b974e0fa14360ce16",
+          "src/common/http-error.filter.js.map": "d7ed0133243ef6c5ab0fbaaf768565cfc6b205ac63b6e45732f8b6bd9e1e4959",
+          "src/common/response.dto.js": "ff91c0a85c3fa37b5670f13d9575b49a6be59d86b48558769e2a43424cc1ec50",
+          "src/common/response.dto.js.map": "9c3f7070d8baebf713477ded87379684f0747c72856d974d1dd7ff34edff6b41",
+          "src/config/environment.js": "174204179a5b8f8db813902ebb57807a3c272c6aaf8cbd0654b148bbf4942963",
+          "src/config/environment.js.map": "c8d6a2103ea7d5b50ee190e4aa5d495f4e6a7d85c71faf5bdba0f19c55b5d3ec",
+          "src/fuels/fuels.controller.js": "3f766cd6957914a860f996cdcdcfb0cc546ea87b003e740460d04daac5d69841",
+          "src/fuels/fuels.controller.js.map": "5548c7fd2606381395076a86568bbd004f95a3dc27809534947e6e60abb792f3",
+          "src/fuels/fuels.module.js": "bc7e9b82caddb9bcdb11c8d3b7924afa7c9e0c397ba3623d67c74a0d06c8877f",
+          "src/fuels/fuels.module.js.map": "7a61f237b8ce668d650d07dfdb882b02f93cfc05bb6f69c036f4f5b37ffbbf46",
+          "src/fuels/fuels.repository.js": "e44b8a7f5c7b58171e6de264b988a855bc27ea7c584cf5455cf980ee41575887",
+          "src/fuels/fuels.repository.js.map": "08a68b7a48256e3b6920b8a7be1c1b32bfe306452d38bcfb9bae45667915d44b",
+          "src/fuels/fuels.service.js": "6e7359b99ac61ea5545a90984c9e3618383eceeb12c66b50fac7cf8502fef0d7",
+          "src/fuels/fuels.service.js.map": "bd047ca2c33156620e28a9282c142225bda20c440370a3ac677e6c0a2a135697",
+          "src/health/health.controller.js": "4c2ce02a37f0e44044bed7a180e59b15293761a93f0a8a9601ce178cafa4d70e",
+          "src/health/health.controller.js.map": "3a8b589fe3457929765d0ea8002af19ef24b931b98381bce2cd77b28ab660d4c",
+          "src/health/health.module.js": "b0516c10c50b05b260b148c7a592c8ac304bcb992972c848e89f9c126864042e",
+          "src/health/health.module.js.map": "d9bc1bf8de3194916a0d9c9f4e87c8e6cb6ff4427579b4d30840f96446260a92",
+          "src/health/health.service.js": "1fece1a15dd5610e7e63da379f04fcf4ada2cb70713b604723341013c016dacc",
+          "src/health/health.service.js.map": "55b901623f54a56a81e6919aea15b61a6cc73121e29f7ad19874fc0451beb6b1",
+          "src/identity-core/domain.js": "583117371e6fdd3536369dc3c8af2b33223725ad601c94a5c097af6f8bce2256",
+          "src/identity-core/domain.js.map": "2c2387133c09259053f512b475bf1d6a8ce978c425928cc8845325deea22845d",
+          "src/kiosk/kiosk.controller.js": "abf5add65728da4a2a7639a78ef501b4cf555532043b2d5074686638bf673450",
+          "src/kiosk/kiosk.controller.js.map": "c2cc0032f40842a317944028f059b8279d6f47226d23c555f350cefcee7be68b",
+          "src/kiosk/kiosk.service.js": "335f2549ef745f4e65571bc603b5b74b604faab2b297932634b4b13f41dcff51",
+          "src/kiosk/kiosk.service.js.map": "ed57d09fab56263855406af041715baa85c55075fb15bbc466200ce5a9a221d5",
+          "src/kiosk/policy.js": "c35ace47b0676f1dd9075bb01ea073fb069cbd2f865b2745f40f41b76d360473",
+          "src/kiosk/policy.js.map": "33eea454d3a9b9a1496ee496a868135365915aff4e24f546bd0655163795276b",
+          "src/kiosk/redis-store.js": "f9337c9210df72a36a03b3bc577f6c8d9602edb694c0579bd1ff248c1466f9ac",
+          "src/kiosk/redis-store.js.map": "5ac6ebb7ac75c7f213fe6ecd8e0c751c9238a778d234c730fe0b1f738a5b2f41",
+          "src/memberships/profile.dto.js": "b05017437c756975c713396a673dd5f24a63ceb110308a19f0b0d5fe36090b2a",
+          "src/memberships/profile.dto.js.map": "a78e97904096267c9dac8db7b0a019320b6e0b9b85007c022f4777c61d190bb8",
+          "src/operations/empty-attention.js": "e4aca937646efe2a602c8ee38678bd7ad3b6b7a4ed939268d4ad2c5fed1ea8ab",
+          "src/operations/empty-attention.js.map": "d19172fdd1de30d984d2db9d6193ffdd0ad40051535c44d9955ec4f5e8aa74f6",
+          "src/operations/terminal-availability.js": "bb1b7a2238795c371c245a6b9a88475af98195259a9cbbecd01cb7c943fe93b6",
+          "src/operations/terminal-availability.js.map": "075e4937dc45e958358262ec6f09cafbf782532705c2b607e817689595be6e74",
+          "src/prisma/prisma.module.js": "7fa9be96c04477280b2fd381398e727c3044aa38efa7e159c2990ae403a54ca9",
+          "src/prisma/prisma.module.js.map": "8346280b5de91f6dd7580150de15b646a2c30ec67799b3dd467b5fd92b686523",
+          "src/prisma/prisma.service.js": "7ad3df8da9a69ee153e970a9102fb27db63403c538ee76267f256d00400d8dfe",
+          "src/prisma/prisma.service.js.map": "2aff16cdff92de772d9680c189d5ef3784aface2c64b8aea90904e50e720183c",
+          "src/setup-app.js": "4b113b79fbfed85c751d547aa1633a75cd93c0afbed2be02d7f53f5da5857a5a",
+          "src/setup-app.js.map": "d4e6d918a814bfd8160069bb33857d6fe199e35b042a2af64240916e8cf7f2ba",
+          "src/stations/stations.controller.js": "afc9eac5b95891c34962e031fb1045a553792357ab2f8bba1c02f1f56bbfbafe",
+          "src/stations/stations.controller.js.map": "014904db0df335e3e6f6a3b847b1cf2bd53fe3b203d87dc7a24e81d70b6b242a",
+          "src/stations/stations.module.js": "73b576d30b86f801226ece4cf9b74ba2e07d2e39b65787deedd44b8de306029b",
+          "src/stations/stations.module.js.map": "e494c5091b3e88da0daeefd6ed5ff40c3de72367126ff24c0e1184b9a36afbb8",
+          "src/stations/stations.repository.js": "7685e12b0edda58cbf63617edf088078d0350e90c1dee4344e27646965513810",
+          "src/stations/stations.repository.js.map": "0c2e528312fa647d93e862cb3b422ba5404a1307b164014484bb011e5466ac9f",
+          "src/stations/stations.service.js": "5f7245fcc307454e62a41c643d1642c38ff353d3a985359d97e1bdb5dbe7f05a",
+          "src/stations/stations.service.js.map": "a43cc96dc29013459728242a775d6703d4ce98a281d83f3e762329cd27421310",
+          "src/users/membership-number.js": "2e3269595e212c49c33c728defe47a96fc4d8e4f4c65846330170b38fef45531",
+          "src/users/membership-number.js.map": "42496a05c76b51e18098c7dfb515bdb25c23fc99003a6aa0076188420edd4958",
+          "src/users/users.module.js": "335c91c942d1d4e251c38e490d52ff11d380e75978b84eaef3f4d4a4b326cc40",
+          "src/users/users.module.js.map": "12131a4fd47e83ef147f818b054080f01530164ff960bd9f8a2c32e87771c47c",
+          "src/users/users.repository.js": "afa0609cfa44179982c23b423d54704a86fe9496c05c5d5befced9fea292645c",
+          "src/users/users.repository.js.map": "05e3f21071026f8325b11b28a9f3764c4b87de68a41573b2e23694e8676ff507",
+          "src/users/users.service.js": "2005d62b52e3200d5f061bd845b477a466982386b7bd10aac2c9b6a6429c77aa",
+          "src/users/users.service.js.map": "2ea54ecab874164bb88094b5aed51a007cb85ab659d62532fea19110f2d8326d",
+          "src/vehicles/plate.dto.js": "78e449edbcd9bfcaf283240c56e251018b27fab3e28ea9708f5c303f13b83892",
+          "src/vehicles/plate.dto.js.map": "f47fcb7053ffb302a0b36b8df1bd423a84ef71650de34fc5533f791b692acebb"
+        }
+      },
+      "checks": {
+        "parsedExecutables": 53,
+        "resolvedRequires": 208,
+        "prismaClient": "/app/node_modules/@prisma/client/default.js",
+        "noRootSources": true,
+        "noEnvFile": true,
+        "noRuntimeSeedDirectory": true
+      },
+      "baselineExecutableDifferences": [],
+      "compiledMetadata": {
+        "service": "catalog",
+        "bootstrapName": "catalog-service",
+        "rootModules": [
+          "FuelsModule",
+          "StationsModule",
+          "BenefitsModule",
+          "PrivateCatalogModule"
+        ],
+        "routes": [
+          {
+            "method": "GET",
+            "path": "/api/v1/benefits"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/catalog/inventory"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/catalog/stations"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/fuels"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/fuels/inventory"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/health"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/stations"
+          }
+        ],
+        "sourceMaps": 52
+      },
+      "contractRouteMatch": true
+    },
+    "administration": {
+      "service": "administration",
+      "node": "v22.21.1",
+      "manifest": {
+        "service": "administration",
+        "entrypoint": "src/apps/administration/main.js",
+        "files": {
+          "scripts/database-safety.cjs": "1a777e2b3266418b0bc428a506c9047221b31be32096af457d71589d7d8b9f47",
+          "src/alerts/alerts.module.js": "b811352e7d0020a2c1204ff3d42138f4fc1816307916e13f7b400719b514e656",
+          "src/alerts/alerts.module.js.map": "233480b3176b16f3b27a627c3f8789ad3423d8617a1227dbb064998e4c754c93",
+          "src/alerts/alerts.service.js": "bbf13c20c4dcc45fb11d62ad8246007115dafae8c366660dfe3102c2cf658c14",
+          "src/alerts/alerts.service.js.map": "277912e170a25e4b006df8e8c25644fa6cc36d22a4441d938cb24b21aacc7e1e",
+          "src/apps/administration/main.js": "0ccbb5fc8ff9ec5757de9f2357eb8f3ef739375582906c4994b2127d9d4b29fc",
+          "src/apps/administration/main.js.map": "a52863ed056d4a09709b139faeacd61fab9fe745a113230de3516fe00b49d6a9",
+          "src/apps/bootstrap.js": "5317ebb905f3474fc513813058287f1ee6180825a674b1b6ad292c4f1c696843",
+          "src/apps/bootstrap.js.map": "a356b75d0a5b9a39b6bfbbc68221a8e5ee2b784bf6750892cd655e82cce3efff",
+          "src/auth/access.guard.js": "9591e67214bd4894aae54733a57d4afa51f47c2194a188c5e595d7b429dd6380",
+          "src/auth/access.guard.js.map": "7e7c260ca350d0fbff70ae31daf25ce7a8da434d7fe2f89ca0c619e07be296a1",
+          "src/auth/access.js": "4e4f6eb99ba5bf6d17bcde2dc852fbceb46923d7341891b119c5d6131b8845b1",
+          "src/auth/access.js.map": "053de4d05bc71d0d827c876e0572ba22ef76345e029a1d571a565e7a9ce4250c",
+          "src/auth/admin.controller.js": "2c1ec14c288a47c8a92316897cc62d2fa80a812122aeb98eba99982c5e720c79",
+          "src/auth/admin.controller.js.map": "bf4e923245e270389b944a4af98939ffb1cebd2b5c63e4e73adbeb2f6a527cb8",
+          "src/auth/auth.controller.js": "2841c0168ed644780588f65097c2140cd136d7d182e1c335bd3d2070fd0ed10d",
+          "src/auth/auth.controller.js.map": "f93482842d2ef3e00b68dbc7c6310d0cddc1a05292dae1f813b724f30b6adffd",
+          "src/auth/auth.module.js": "f0806896461ee36bc511b897c7a3fb65bd1b0416abfc52460984c74c79f65e1a",
+          "src/auth/auth.module.js.map": "6df957ccf1ff717f8013afba358840e6a65d1c34cb4c1ffc66af68a6c0b6fd55",
+          "src/auth/auth.service.js": "6ea7dcc4a4177aa4c53c4d8f3b3ac2be71bac8afd0ace571a8fdcab5cbf78a2e",
+          "src/auth/auth.service.js.map": "0820b8b6e029727bc085f743662205c41601381882e212d530101979e524dccd",
+          "src/auth/login.dto.js": "09c657d759995b744f07306d00d0cd00ae349ffb5af4eb174ac886db9636c566",
+          "src/auth/login.dto.js.map": "d7d95efff8c3de2181a610a35d9d9750eba922f67938f1aa09a8d901a330aa10",
+          "src/auth/password-reset.dto.js": "d8994861876f7a27e31343255b40493bb69b8a8db1701013259e84a4bd9e75a1",
+          "src/auth/password-reset.dto.js.map": "9378cb9ac12c6dd43eec5440775963e6c58c5e32c05768b3af7bfca206c36dd3",
+          "src/auth/password-reset.service.js": "316e17e8fc2a8e5e0746cab4458e9b0323d967ce86b31e16b9874eea92eb3fab",
+          "src/auth/password-reset.service.js.map": "e2ef4fd14135176ad2b2db9670c8aea9d05250dedafae252e44edb99518bcae2",
+          "src/auth/recovery-delivery.js": "0b154b63f43f502c8379518d23ebe3b44e7769f305a4c7fbf4b6fd056fd5e0db",
+          "src/auth/recovery-delivery.js.map": "33624084e93eabe65937e57531343aff5283f705d161b495167f0f2c5c65c850",
+          "src/auth/register.dto.js": "9404f636fe9923e526ce16d52d7e71e6a580fd24f31e817244631486cf89f58a",
+          "src/auth/register.dto.js.map": "d5e6e5aee0c07f376399ade81547a3387646950b84626fce1360d1d7187bb308",
+          "src/common/document-conflict.js": "63b70d554f8987f06f9dfbc426cbff002748b88259c9c4ed549556053c9be7aa",
+          "src/common/document-conflict.js.map": "dcb5e337638b71b0a8baaf6958eb33a697d2fb16f478c80776451e3aa77e813d",
+          "src/common/http-error.filter.js": "e25f91e4e7b0e7461552d2edceb75366b01a96a17958b05b974e0fa14360ce16",
+          "src/common/http-error.filter.js.map": "d7ed0133243ef6c5ab0fbaaf768565cfc6b205ac63b6e45732f8b6bd9e1e4959",
+          "src/config/environment.js": "174204179a5b8f8db813902ebb57807a3c272c6aaf8cbd0654b148bbf4942963",
+          "src/config/environment.js.map": "c8d6a2103ea7d5b50ee190e4aa5d495f4e6a7d85c71faf5bdba0f19c55b5d3ec",
+          "src/control/control-customers.controller.js": "1eb1df4e87c910aeac8f151650a7a3709c37590d47fd4591af31d8f094bade1a",
+          "src/control/control-customers.controller.js.map": "80837a327eacee194bad1b62fae6d2568b465def49437ec3a913e2a1a375a2eb",
+          "src/control/control-customers.service.js": "f50f9fd1e10f6058e09ea9671d1e9e12cc0a2c2caeae8043fac2a96a14e7e70f",
+          "src/control/control-customers.service.js.map": "22d2246d824fbde998c6bbf6b1de2c8271f4f273d533352eb27bc2b2493bb114",
+          "src/control/control-operations.controller.js": "0b7f5651ca3353c1c92332081ab4306d91a195d163ad76708ab3ded984f5243e",
+          "src/control/control-operations.controller.js.map": "265b9a35564b15ce69d68250fb30b90d5fd8d268e930a8984e9bfc8d0477568a",
+          "src/control/control-operations.service.js": "95789db73fd2f0d9aa26b1ab697b058598d02eec419ba827a45b41a33b9c88c6",
+          "src/control/control-operations.service.js.map": "3f16fb932b27d19ddf0ee15da197f3e68b9e5989aee6fc055eccfb45c0db3c5f",
+          "src/control/control.controller.js": "35cb9f0f3843eca9acfa47a4ddeb845f41d92e760e8063d3d0ea0cb1dd2cc88c",
+          "src/control/control.controller.js.map": "802076703ba9c9559f77e22786b244ba155db77ff5fb067e75a4440ab72180d5",
+          "src/control/control.module.js": "c1c63273c84c665d768ba4603aeaebfb512ad8a839361421dd5082cf88e4fb75",
+          "src/control/control.module.js.map": "4eb71afab75db6d55aa43975abf945388bebbd8862025214b3383a41f28207fd",
+          "src/control/control.service.js": "852da2fcef3580b18b395e3f9e0f37ce24f011fbbc1a0be0ae768bd6ee7fa151",
+          "src/control/control.service.js.map": "c36c6c28db9ca088da4374afe6a811362215824e7704a4fe7c077284f832d97b",
+          "src/health/health.controller.js": "4c2ce02a37f0e44044bed7a180e59b15293761a93f0a8a9601ce178cafa4d70e",
+          "src/health/health.controller.js.map": "3a8b589fe3457929765d0ea8002af19ef24b931b98381bce2cd77b28ab660d4c",
+          "src/health/health.module.js": "b0516c10c50b05b260b148c7a592c8ac304bcb992972c848e89f9c126864042e",
+          "src/health/health.module.js.map": "d9bc1bf8de3194916a0d9c9f4e87c8e6cb6ff4427579b4d30840f96446260a92",
+          "src/health/health.service.js": "1fece1a15dd5610e7e63da379f04fcf4ada2cb70713b604723341013c016dacc",
+          "src/health/health.service.js.map": "55b901623f54a56a81e6919aea15b61a6cc73121e29f7ad19874fc0451beb6b1",
+          "src/identity-core/domain.js": "583117371e6fdd3536369dc3c8af2b33223725ad601c94a5c097af6f8bce2256",
+          "src/identity-core/domain.js.map": "2c2387133c09259053f512b475bf1d6a8ce978c425928cc8845325deea22845d",
+          "src/inventory/inventory-reconciliation.js": "d4ee3ccf83c06829c140bc8b8a876bd5b4df522ba3cc5ca74f1bb14d0c2d2168",
+          "src/inventory/inventory-reconciliation.js.map": "955f60ec5227c7226b1a8ef39dc852b99371b04bbde4b4dd287a0a2dc63d85ea",
+          "src/inventory/inventory.module.js": "d5c4eede6aa6283b02d5bfccac935385a3d084c41944e91e7d0b9fa4b7429031",
+          "src/inventory/inventory.module.js.map": "2fc736e9311c95a44f8a2e632956cbe13dea4387d77b55bcb8f353bd6dd94636",
+          "src/kiosk/kiosk.controller.js": "abf5add65728da4a2a7639a78ef501b4cf555532043b2d5074686638bf673450",
+          "src/kiosk/kiosk.controller.js.map": "c2cc0032f40842a317944028f059b8279d6f47226d23c555f350cefcee7be68b",
+          "src/kiosk/kiosk.service.js": "335f2549ef745f4e65571bc603b5b74b604faab2b297932634b4b13f41dcff51",
+          "src/kiosk/kiosk.service.js.map": "ed57d09fab56263855406af041715baa85c55075fb15bbc466200ce5a9a221d5",
+          "src/kiosk/policy.js": "c35ace47b0676f1dd9075bb01ea073fb069cbd2f865b2745f40f41b76d360473",
+          "src/kiosk/policy.js.map": "33eea454d3a9b9a1496ee496a868135365915aff4e24f546bd0655163795276b",
+          "src/kiosk/redis-store.js": "f9337c9210df72a36a03b3bc577f6c8d9602edb694c0579bd1ff248c1466f9ac",
+          "src/kiosk/redis-store.js.map": "5ac6ebb7ac75c7f213fe6ecd8e0c751c9238a778d234c730fe0b1f738a5b2f41",
+          "src/memberships/profile.dto.js": "b05017437c756975c713396a673dd5f24a63ceb110308a19f0b0d5fe36090b2a",
+          "src/memberships/profile.dto.js.map": "a78e97904096267c9dac8db7b0a019320b6e0b9b85007c022f4777c61d190bb8",
+          "src/operations/empty-attention.js": "e4aca937646efe2a602c8ee38678bd7ad3b6b7a4ed939268d4ad2c5fed1ea8ab",
+          "src/operations/empty-attention.js.map": "d19172fdd1de30d984d2db9d6193ffdd0ad40051535c44d9955ec4f5e8aa74f6",
+          "src/operations/terminal-availability.js": "bb1b7a2238795c371c245a6b9a88475af98195259a9cbbecd01cb7c943fe93b6",
+          "src/operations/terminal-availability.js.map": "075e4937dc45e958358262ec6f09cafbf782532705c2b607e817689595be6e74",
+          "src/prisma/prisma.module.js": "7fa9be96c04477280b2fd381398e727c3044aa38efa7e159c2990ae403a54ca9",
+          "src/prisma/prisma.module.js.map": "8346280b5de91f6dd7580150de15b646a2c30ec67799b3dd467b5fd92b686523",
+          "src/prisma/prisma.service.js": "7ad3df8da9a69ee153e970a9102fb27db63403c538ee76267f256d00400d8dfe",
+          "src/prisma/prisma.service.js.map": "2aff16cdff92de772d9680c189d5ef3784aface2c64b8aea90904e50e720183c",
+          "src/receipts/receipt.service.js": "0e5bec9db09ff5a08d575e4b6887c61d9134a0b1c9cb024664b2493813087f10",
+          "src/receipts/receipt.service.js.map": "3e7744cc3413db709cd6bb0f9482f5a2391efb151f8bc9d35ba2122e7e45ad9d",
+          "src/setup-app.js": "4b113b79fbfed85c751d547aa1633a75cd93c0afbed2be02d7f53f5da5857a5a",
+          "src/setup-app.js.map": "d4e6d918a814bfd8160069bb33857d6fe199e35b042a2af64240916e8cf7f2ba",
+          "src/users/membership-number.js": "2e3269595e212c49c33c728defe47a96fc4d8e4f4c65846330170b38fef45531",
+          "src/users/membership-number.js.map": "42496a05c76b51e18098c7dfb515bdb25c23fc99003a6aa0076188420edd4958",
+          "src/users/users.module.js": "335c91c942d1d4e251c38e490d52ff11d380e75978b84eaef3f4d4a4b326cc40",
+          "src/users/users.module.js.map": "12131a4fd47e83ef147f818b054080f01530164ff960bd9f8a2c32e87771c47c",
+          "src/users/users.repository.js": "afa0609cfa44179982c23b423d54704a86fe9496c05c5d5befced9fea292645c",
+          "src/users/users.repository.js.map": "05e3f21071026f8325b11b28a9f3764c4b87de68a41573b2e23694e8676ff507",
+          "src/users/users.service.js": "2005d62b52e3200d5f061bd845b477a466982386b7bd10aac2c9b6a6429c77aa",
+          "src/users/users.service.js.map": "2ea54ecab874164bb88094b5aed51a007cb85ab659d62532fea19110f2d8326d",
+          "src/vehicles/plate.dto.js": "78e449edbcd9bfcaf283240c56e251018b27fab3e28ea9708f5c303f13b83892",
+          "src/vehicles/plate.dto.js.map": "f47fcb7053ffb302a0b36b8df1bd423a84ef71650de34fc5533f791b692acebb"
+        }
+      },
+      "checks": {
+        "parsedExecutables": 48,
+        "resolvedRequires": 199,
+        "prismaClient": "/app/node_modules/@prisma/client/default.js",
+        "noRootSources": true,
+        "noEnvFile": true,
+        "noRuntimeSeedDirectory": true
+      },
+      "baselineExecutableDifferences": [],
+      "compiledMetadata": {
+        "service": "administration",
+        "bootstrapName": "administration-service",
+        "rootModules": [
+          "ControlModule"
+        ],
+        "routes": [
+          {
+            "method": "POST",
+            "path": "/api/v1/control/access-requests"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/accounts"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/accounts"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/accounts/:userId/access"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/accounts/:userId/approve"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/accounts/:userId/disable"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/accounts/:userId/reject"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/audit"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/customers"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/customers/:userId"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/dashboard"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/incidents"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/incidents/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/incidents/:id/status"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/inventory"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/inventory/:stationId/:fuelId/reconcile"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/inventory/:stationId/:fuelId/reconciliation"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/inventory/movements"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/inventory/receipts"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/login"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/logout"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/memberships"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/memberships/:membershipId"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/operations"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/operations/:operationId"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/receipts/:transactionId"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/resend-verification"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/session"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/terminals"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/terminals/:id/status"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/transactions"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/transactions/:transactionId"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/vehicles"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/verify-email"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/health"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/inventory/:stationId/:fuelId/activate"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/inventory/:stationId/:fuelId/reconcile"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/inventory/:stationId/:fuelId/reconciliation"
+          }
+        ],
+        "sourceMaps": 47
+      },
+      "contractRouteMatch": true
+    },
+    "commerce": {
+      "service": "commerce",
+      "node": "v22.21.1",
+      "manifest": {
+        "service": "commerce",
+        "entrypoint": "src/apps/commerce/main.js",
+        "files": {
+          "scripts/database-safety.cjs": "1a777e2b3266418b0bc428a506c9047221b31be32096af457d71589d7d8b9f47",
+          "src/alerts/alerts.module.js": "b811352e7d0020a2c1204ff3d42138f4fc1816307916e13f7b400719b514e656",
+          "src/alerts/alerts.module.js.map": "233480b3176b16f3b27a627c3f8789ad3423d8617a1227dbb064998e4c754c93",
+          "src/alerts/alerts.service.js": "bbf13c20c4dcc45fb11d62ad8246007115dafae8c366660dfe3102c2cf658c14",
+          "src/alerts/alerts.service.js.map": "277912e170a25e4b006df8e8c25644fa6cc36d22a4441d938cb24b21aacc7e1e",
+          "src/apps/bootstrap.js": "5317ebb905f3474fc513813058287f1ee6180825a674b1b6ad292c4f1c696843",
+          "src/apps/bootstrap.js.map": "a356b75d0a5b9a39b6bfbbc68221a8e5ee2b784bf6750892cd655e82cce3efff",
+          "src/apps/commerce/main.js": "8e9750c07909f30cc6033309920e4d2d98aab4d3c87a1a9485c97260894f7c3b",
+          "src/apps/commerce/main.js.map": "82a00165a58eada155ef5c3d0ca68027a14e8c4ae49284448dd1e0614af7cf3b",
+          "src/assistance/assistance.controller.js": "37f28aad693b54e76349e9348bdf1ba88c7bcf61656c225973b7db8d80471dad",
+          "src/assistance/assistance.controller.js.map": "a93b66f0c1ed8a275eec9a7957d5260b04201994184461611d5c8f1c626e075f",
+          "src/assistance/assistance.module.js": "8ebc79f11ee1588d7f9820ae10afd84354ea02c5a1dba42237a7385c57725d42",
+          "src/assistance/assistance.module.js.map": "4497206e93de8d6a8d4431480c4a02a37fed69aa6087c5c65ddf827341eb0877",
+          "src/assistance/assistance.service.js": "9554bad21028abcf6c038161d7d1ded3b931c338f9c08a8eeec85cd5ed662958",
+          "src/assistance/assistance.service.js.map": "0766933d252847abb09c230a1de79c40c26ff0320cf8f3efdbdf07c889589d18",
+          "src/auth/access.guard.js": "9591e67214bd4894aae54733a57d4afa51f47c2194a188c5e595d7b429dd6380",
+          "src/auth/access.guard.js.map": "7e7c260ca350d0fbff70ae31daf25ce7a8da434d7fe2f89ca0c619e07be296a1",
+          "src/auth/access.js": "4e4f6eb99ba5bf6d17bcde2dc852fbceb46923d7341891b119c5d6131b8845b1",
+          "src/auth/access.js.map": "053de4d05bc71d0d827c876e0572ba22ef76345e029a1d571a565e7a9ce4250c",
+          "src/auth/admin.controller.js": "2c1ec14c288a47c8a92316897cc62d2fa80a812122aeb98eba99982c5e720c79",
+          "src/auth/admin.controller.js.map": "bf4e923245e270389b944a4af98939ffb1cebd2b5c63e4e73adbeb2f6a527cb8",
+          "src/auth/auth.controller.js": "2841c0168ed644780588f65097c2140cd136d7d182e1c335bd3d2070fd0ed10d",
+          "src/auth/auth.controller.js.map": "f93482842d2ef3e00b68dbc7c6310d0cddc1a05292dae1f813b724f30b6adffd",
+          "src/auth/auth.module.js": "f0806896461ee36bc511b897c7a3fb65bd1b0416abfc52460984c74c79f65e1a",
+          "src/auth/auth.module.js.map": "6df957ccf1ff717f8013afba358840e6a65d1c34cb4c1ffc66af68a6c0b6fd55",
+          "src/auth/auth.service.js": "6ea7dcc4a4177aa4c53c4d8f3b3ac2be71bac8afd0ace571a8fdcab5cbf78a2e",
+          "src/auth/auth.service.js.map": "0820b8b6e029727bc085f743662205c41601381882e212d530101979e524dccd",
+          "src/auth/login.dto.js": "09c657d759995b744f07306d00d0cd00ae349ffb5af4eb174ac886db9636c566",
+          "src/auth/login.dto.js.map": "d7d95efff8c3de2181a610a35d9d9750eba922f67938f1aa09a8d901a330aa10",
+          "src/auth/password-reset.dto.js": "d8994861876f7a27e31343255b40493bb69b8a8db1701013259e84a4bd9e75a1",
+          "src/auth/password-reset.dto.js.map": "9378cb9ac12c6dd43eec5440775963e6c58c5e32c05768b3af7bfca206c36dd3",
+          "src/auth/password-reset.service.js": "316e17e8fc2a8e5e0746cab4458e9b0323d967ce86b31e16b9874eea92eb3fab",
+          "src/auth/password-reset.service.js.map": "e2ef4fd14135176ad2b2db9670c8aea9d05250dedafae252e44edb99518bcae2",
+          "src/auth/recovery-delivery.js": "0b154b63f43f502c8379518d23ebe3b44e7769f305a4c7fbf4b6fd056fd5e0db",
+          "src/auth/recovery-delivery.js.map": "33624084e93eabe65937e57531343aff5283f705d161b495167f0f2c5c65c850",
+          "src/auth/register.dto.js": "9404f636fe9923e526ce16d52d7e71e6a580fd24f31e817244631486cf89f58a",
+          "src/auth/register.dto.js.map": "d5e6e5aee0c07f376399ade81547a3387646950b84626fce1360d1d7187bb308",
+          "src/common/document-conflict.js": "63b70d554f8987f06f9dfbc426cbff002748b88259c9c4ed549556053c9be7aa",
+          "src/common/document-conflict.js.map": "dcb5e337638b71b0a8baaf6958eb33a697d2fb16f478c80776451e3aa77e813d",
+          "src/common/http-error.filter.js": "e25f91e4e7b0e7461552d2edceb75366b01a96a17958b05b974e0fa14360ce16",
+          "src/common/http-error.filter.js.map": "d7ed0133243ef6c5ab0fbaaf768565cfc6b205ac63b6e45732f8b6bd9e1e4959",
+          "src/common/response.dto.js": "ff91c0a85c3fa37b5670f13d9575b49a6be59d86b48558769e2a43424cc1ec50",
+          "src/common/response.dto.js.map": "9c3f7070d8baebf713477ded87379684f0747c72856d974d1dd7ff34edff6b41",
+          "src/config/environment.js": "174204179a5b8f8db813902ebb57807a3c272c6aaf8cbd0654b148bbf4942963",
+          "src/config/environment.js.map": "c8d6a2103ea7d5b50ee190e4aa5d495f4e6a7d85c71faf5bdba0f19c55b5d3ec",
+          "src/health/health.controller.js": "4c2ce02a37f0e44044bed7a180e59b15293761a93f0a8a9601ce178cafa4d70e",
+          "src/health/health.controller.js.map": "3a8b589fe3457929765d0ea8002af19ef24b931b98381bce2cd77b28ab660d4c",
+          "src/health/health.module.js": "b0516c10c50b05b260b148c7a592c8ac304bcb992972c848e89f9c126864042e",
+          "src/health/health.module.js.map": "d9bc1bf8de3194916a0d9c9f4e87c8e6cb6ff4427579b4d30840f96446260a92",
+          "src/health/health.service.js": "1fece1a15dd5610e7e63da379f04fcf4ada2cb70713b604723341013c016dacc",
+          "src/health/health.service.js.map": "55b901623f54a56a81e6919aea15b61a6cc73121e29f7ad19874fc0451beb6b1",
+          "src/identity-core/domain.js": "583117371e6fdd3536369dc3c8af2b33223725ad601c94a5c097af6f8bce2256",
+          "src/identity-core/domain.js.map": "2c2387133c09259053f512b475bf1d6a8ce978c425928cc8845325deea22845d",
+          "src/incidents/incidents.module.js": "f523f48705229dee4e176b1c6a64d1b3f6e4ddcdcb8fdfa03056e8d76e95adae",
+          "src/incidents/incidents.module.js.map": "22f8dfd34c7c9ea12f3f2f338071c37bbd5b6a31a71e6a741be50b09da9d260b",
+          "src/incidents/incidents.service.js": "78103d4d07191c282144f4262da7b40b66c6050409d0b1fa4c4b048dffc3f1b7",
+          "src/incidents/incidents.service.js.map": "f99d9a9fe370147dd32f686171bf44e4eaf0c763f71b515b4b52da4171fcf388",
+          "src/inventory/inventory-reservations.js": "7b5988a603dedb0aa56a38372d72779697a9abbd44d771ba25feadc479de401f",
+          "src/inventory/inventory-reservations.js.map": "900b1a478848a9a06c5f9f12b850bd358b8221a5f1b5e47dcca02473bd9bf0cf",
+          "src/kiosk/kiosk.controller.js": "abf5add65728da4a2a7639a78ef501b4cf555532043b2d5074686638bf673450",
+          "src/kiosk/kiosk.controller.js.map": "c2cc0032f40842a317944028f059b8279d6f47226d23c555f350cefcee7be68b",
+          "src/kiosk/kiosk.service.js": "335f2549ef745f4e65571bc603b5b74b604faab2b297932634b4b13f41dcff51",
+          "src/kiosk/kiosk.service.js.map": "ed57d09fab56263855406af041715baa85c55075fb15bbc466200ce5a9a221d5",
+          "src/kiosk/policy.js": "c35ace47b0676f1dd9075bb01ea073fb069cbd2f865b2745f40f41b76d360473",
+          "src/kiosk/policy.js.map": "33eea454d3a9b9a1496ee496a868135365915aff4e24f546bd0655163795276b",
+          "src/kiosk/redis-store.js": "f9337c9210df72a36a03b3bc577f6c8d9602edb694c0579bd1ff248c1466f9ac",
+          "src/kiosk/redis-store.js.map": "5ac6ebb7ac75c7f213fe6ecd8e0c751c9238a778d234c730fe0b1f738a5b2f41",
+          "src/memberships/profile.dto.js": "b05017437c756975c713396a673dd5f24a63ceb110308a19f0b0d5fe36090b2a",
+          "src/memberships/profile.dto.js.map": "a78e97904096267c9dac8db7b0a019320b6e0b9b85007c022f4777c61d190bb8",
+          "src/operations/control-payments.js": "648580a180486f1b8ebe3e9e51cb11aa0649775deb9867fb79d854e9266b15d2",
+          "src/operations/control-payments.js.map": "b4db0b43806d173f601d01e06e1b5bcb28a4bbd440ce4fbf560e5cf670eddf03",
+          "src/operations/empty-attention.js": "e4aca937646efe2a602c8ee38678bd7ad3b6b7a4ed939268d4ad2c5fed1ea8ab",
+          "src/operations/empty-attention.js.map": "d19172fdd1de30d984d2db9d6193ffdd0ad40051535c44d9955ec4f5e8aa74f6",
+          "src/operations/operations.controller.js": "d17c5c85bc87b0d2bc843766408dda451cbe1eec2a0c8e26e9bf2fdef09a8550",
+          "src/operations/operations.controller.js.map": "2af1b48c887fea0382cc4aaf8e916c8b1715f962145e3d963b7d3279218619ac",
+          "src/operations/operations.module.js": "73f8f549cfefce69266557349690fb0630c2c7671176f342a5969f8166b1e08e",
+          "src/operations/operations.module.js.map": "2f0ee51f74f09ab338226575d8075b55cc27de1b015e540a163984287b0ccf2b",
+          "src/operations/operations.service.js": "8eb086d76b129f7c8dccb6bd2db20baa501ae0f84cef38b6f3004ac563c12e7c",
+          "src/operations/operations.service.js.map": "c3432462f59ee2392b87dbc8a4204cf0dfb9beddc07d00785b2433b8582870a8",
+          "src/operations/terminal-availability.js": "bb1b7a2238795c371c245a6b9a88475af98195259a9cbbecd01cb7c943fe93b6",
+          "src/operations/terminal-availability.js.map": "075e4937dc45e958358262ec6f09cafbf782532705c2b607e817689595be6e74",
+          "src/payments/demo-provider.js": "1cbd6c8529b97de73c9f5b41aee927e4f9e5fbe9e317988c77ef4e0d4b50e048",
+          "src/payments/demo-provider.js.map": "a2a507b5de5f6d2e1b55aef9dd93751fcb86000c1dbce839eb51201860a30504",
+          "src/payments/online-orders.js": "ee549a81799e869243c6a38dbc9f0f3456f93608e9219f139bb785993f0a1e5f",
+          "src/payments/online-orders.js.map": "fe4dbf3b088bc0b2b4d3f0f5e68380b55b47af21efbb6c983d4951bdf4e1eba1",
+          "src/payments/partial-refund.js": "cb1c00c8231f3aa3215a4a0f596df15024ba6a43a49ff8b5b83349fa862ecf64",
+          "src/payments/partial-refund.js.map": "7169ca47e22ed6b452bd921be00563ded17c9fa05482abfe29926180040881e8",
+          "src/payments/payment-incidents.js": "71e6c920b9fe5e9f06766863fa72bbc05a63b54848ef261a2b392d7bd7420104",
+          "src/payments/payment-incidents.js.map": "28ddb27b923bcde81471621f443df77cfcca401a0c0ca14dd45ef55857f54a33",
+          "src/payments/payment-lifecycle.js": "cd98feaf420e6ffb4f88aa1c3b79ee6b04066d5d5e3c916b735995339a68839f",
+          "src/payments/payment-lifecycle.js.map": "25578a74ec363a0a97aca2abb4d2057856dd3eab974edc9ad0c9259a049b1859",
+          "src/payments/payment-provider.js": "328438fce4670aae2b23d1539a9a2923c31aff7906bdd2f88e1f3ce1ff870e51",
+          "src/payments/payment-provider.js.map": "ea7e40247a2e674e2dd69fd9de2e2d1b13457b7ed8636f27b02462f2d80036f9",
+          "src/payments/payments.module.js": "c651eea230efc35edc079e5d6f9cfcd272631391ec57b8d0672c3dedcd32215a",
+          "src/payments/payments.module.js.map": "ea9c1aa3cb1bd694b0b1f0e18bdaa2afd6369f949634dd3b106c0922896937ab",
+          "src/payments/payments.service.js": "ebc7e9280a31c0e743363a17664d1a9e09212eb48eab977c2d11ba36fefb8327",
+          "src/payments/payments.service.js.map": "73313dcd5301abafd8a83b73107a92d5af954d2c638a01b94baa161e39b5356f",
+          "src/payments/webhook.js": "fe877ac421ec547acd2ea05b128752cc79deeafccaf4b70f84631090131354f9",
+          "src/payments/webhook.js.map": "2df4ee70483a6d4225cb3927ec8c2d5877145db1895b2f73b4ed5983e5d20467",
+          "src/payments/welcome.js": "be1aba5bbd5db7e3097315a516473235d0ed589230387ad3b46df9c5c9db8425",
+          "src/payments/welcome.js.map": "2064cecfecaf744483a9fd596929db7a068b387bf4feebbb2ce9a6d07a18ff6e",
+          "src/prisma/prisma.module.js": "7fa9be96c04477280b2fd381398e727c3044aa38efa7e159c2990ae403a54ca9",
+          "src/prisma/prisma.module.js.map": "8346280b5de91f6dd7580150de15b646a2c30ec67799b3dd467b5fd92b686523",
+          "src/prisma/prisma.service.js": "7ad3df8da9a69ee153e970a9102fb27db63403c538ee76267f256d00400d8dfe",
+          "src/prisma/prisma.service.js.map": "2aff16cdff92de772d9680c189d5ef3784aface2c64b8aea90904e50e720183c",
+          "src/receipts/receipt.service.js": "0e5bec9db09ff5a08d575e4b6887c61d9134a0b1c9cb024664b2493813087f10",
+          "src/receipts/receipt.service.js.map": "3e7744cc3413db709cd6bb0f9482f5a2391efb151f8bc9d35ba2122e7e45ad9d",
+          "src/rewards/points-policy.service.js": "3635d422d7c437c3cf0cf88916176dd77873234683a2694bab09676bb2235e43",
+          "src/rewards/points-policy.service.js.map": "cdff02b4f63bd700a7934fc9c7b7acb031c2f323796e5737b6cec85e70fc69d7",
+          "src/rewards/redeem.dto.js": "052e73ff8776e3f806d58d0758d7492ada78147234aaea645430148dae08ce4a",
+          "src/rewards/redeem.dto.js.map": "b17e389939fe582b64cbf74ee9584cad3a8c81f8f87b21043f0c4eb44460f792",
+          "src/rewards/rewards.controller.js": "0b2855d04262abfcbcfaf04cfe5224fe151a67aa823e70982a27aca3a0475dd9",
+          "src/rewards/rewards.controller.js.map": "8664ad7f5e3612b72b624297ba7b978f242a4cdcefda1b362e5527fa212f10e5",
+          "src/rewards/rewards.module.js": "c5d58db17f5f23dc5b558f376b008e4441ba04216d4783173c99d8638c952d95",
+          "src/rewards/rewards.module.js.map": "11270ee54d1f218f8c442bb61b16dd34b350ee47ea322ff2c85d531bf04160e5",
+          "src/rewards/rewards.repository.js": "437260e06f1c0b69eddbba064a12c7ea52033347954e3c1c236146bca71b8867",
+          "src/rewards/rewards.repository.js.map": "60a77173056a57132fce043b3df7a24f6ac02a532a69803061e1781b631affce",
+          "src/rewards/rewards.service.js": "dc5f634a993688963f8ec56bf301aa05e9bebb7bccd22d148ebc6fa8317eebce",
+          "src/rewards/rewards.service.js.map": "c5cd3fa9a6c4e94b656a4a2e9ebfacc91cfe4fa24b67bf3cf65928b3fa725479",
+          "src/setup-app.js": "4b113b79fbfed85c751d547aa1633a75cd93c0afbed2be02d7f53f5da5857a5a",
+          "src/setup-app.js.map": "d4e6d918a814bfd8160069bb33857d6fe199e35b042a2af64240916e8cf7f2ba",
+          "src/transactions/authorizations.controller.js": "b25bd801718f62cf639e30e8fdfac0c13f4b8e1b43571b0fc44b1d234f709823",
+          "src/transactions/authorizations.controller.js.map": "5fc56fd65e315b54c726ea904c0cd6a694378c0f4d9286f73ec9ac9e218afc78",
+          "src/transactions/authorizations.repository.js": "2765f561aa67f9f7fa8f9b1661618704dfcf95f44901681940debc636aaff5a1",
+          "src/transactions/authorizations.repository.js.map": "b4eff380180130cc31544252043b7a176243f54156b3b54b0119523a91c0181c",
+          "src/transactions/authorizations.service.js": "1a54888c137dd53d6c156dc6bf80826ba10b31fdd87ac31184f4f9b1bebe7c13",
+          "src/transactions/authorizations.service.js.map": "c7c49134807f1810e1e99e3b1784214fcb0993f9c717ef06a37761e6cba06825",
+          "src/transactions/create-authorization.dto.js": "2dbfe9a67f288b82caf4d21df627c96ba0f4bec9084d0e4005ef50f90d44b310",
+          "src/transactions/create-authorization.dto.js.map": "e6865a64663675ef742c7a67c2da6d034082b61a8b886b7e51133e3e9f43988a",
+          "src/transactions/create-transaction.dto.js": "63487396acd7e9ab2b26af5f4280a10104013d0643bcbce40c699e0b044d12ce",
+          "src/transactions/create-transaction.dto.js.map": "6baee96a0f5a05c4e3d1189e071b22966bc5787827e1776a301a6c23db75d63c",
+          "src/transactions/dispense-progress.dto.js": "8e0c656ccdd5a3faf72bbac7476bb314d8d611e57ac902f74be0e2e7ebf721dc",
+          "src/transactions/dispense-progress.dto.js.map": "3a4043957a048f85e42e70cf8e2235c36c3c5cd3d57800829b2cedf1816ab467",
+          "src/transactions/operational-context.js": "9ca83a1331b11528b05a99f774132bcece029b0202adf67100fb8a37020b6079",
+          "src/transactions/operational-context.js.map": "bc5ab0eb4bd09ff58513b9c7c0dd9a559a2ee808c4cc8805b0f21f4131673392",
+          "src/transactions/transaction-response.dto.js": "27695e5832f6e53f909b25c0d5f2c4a2f8738a7e69e3245a17d65a42c255aeb1",
+          "src/transactions/transaction-response.dto.js.map": "4685a1ea9d254f50f7b2863ea5c6fd983ceb7cd4cb1f3fbd7012cfddfc8059ce",
+          "src/transactions/transaction.model.js": "42327cf4d90a3e74c9b279fb057cc6a50e9c5251b288b965b99cf090f4c15d3e",
+          "src/transactions/transaction.model.js.map": "960e8cb4c4ff68212d19623906a5a2b48042e8c900ce73781b664426a4d7e597",
+          "src/transactions/transactions.controller.js": "9bab511b342f9a0220fc5525cf830622eaaeba0bda2efb0c1aa75a95cba3c18e",
+          "src/transactions/transactions.controller.js.map": "e1cbfbae1189d1bf5bb4dbbd7d3f0bfb39e6cb52f5a06c9e9b7b8ed483e2bd22",
+          "src/transactions/transactions.module.js": "4fdd49aacfde7429f794d5a434e7d07ac4ee74786d8d9bb0ec39f21a8d9b6046",
+          "src/transactions/transactions.module.js.map": "86d4c0205ede408f9d909bde9b3d337c8bd13760734d8fcb02ddeeb5b388f63a",
+          "src/transactions/transactions.repository.js": "ccf0b7603cac6df32760c217312e7024186f970fd3f6f4f535353654d65e8aa9",
+          "src/transactions/transactions.repository.js.map": "1650fc1d49e3584b3a752016e64a5fbb1e3d2a78fc5a9ed38d6087ba9cad6c6f",
+          "src/transactions/transactions.service.js": "2c9e4569d01305d35cea082734abe73d58b0ab5c7afbe71c27114bd9cc958173",
+          "src/transactions/transactions.service.js.map": "8be4702a5881697a65b25188627b5293b955f78b0ebd6444e5ecdf938d1d71fb",
+          "src/users/membership-code.js": "d9ae33127cba5162a154dd839e3f324b08339495cd651bc42d01bba703fd754e",
+          "src/users/membership-code.js.map": "4df774bebfc1f5f7e52b10cf53faba918fb20c7b4189548288b8ac9845270167",
+          "src/users/membership-number.js": "2e3269595e212c49c33c728defe47a96fc4d8e4f4c65846330170b38fef45531",
+          "src/users/membership-number.js.map": "42496a05c76b51e18098c7dfb515bdb25c23fc99003a6aa0076188420edd4958",
+          "src/users/users.module.js": "335c91c942d1d4e251c38e490d52ff11d380e75978b84eaef3f4d4a4b326cc40",
+          "src/users/users.module.js.map": "12131a4fd47e83ef147f818b054080f01530164ff960bd9f8a2c32e87771c47c",
+          "src/users/users.repository.js": "afa0609cfa44179982c23b423d54704a86fe9496c05c5d5befced9fea292645c",
+          "src/users/users.repository.js.map": "05e3f21071026f8325b11b28a9f3764c4b87de68a41573b2e23694e8676ff507",
+          "src/users/users.service.js": "2005d62b52e3200d5f061bd845b477a466982386b7bd10aac2c9b6a6429c77aa",
+          "src/users/users.service.js.map": "2ea54ecab874164bb88094b5aed51a007cb85ab659d62532fea19110f2d8326d",
+          "src/vehicles/plate.dto.js": "78e449edbcd9bfcaf283240c56e251018b27fab3e28ea9708f5c303f13b83892",
+          "src/vehicles/plate.dto.js.map": "f47fcb7053ffb302a0b36b8df1bd423a84ef71650de34fc5533f791b692acebb",
+          "src/wallet/debt.js": "111a84af232e047b55ef190b41fa116922f744b378669c380129ef18236defbe",
+          "src/wallet/debt.js.map": "9d6a4c7aa92d1af202cbcb9f916db0bcdc092cd464da1fbea5303e57722bd08d",
+          "src/wallet/recharge.dto.js": "0e18c75cce76aade4968d54e2b2b2a537d78afce06c4f9070c7d3e2e3dddeef6",
+          "src/wallet/recharge.dto.js.map": "14357750d5ea1629d8dbe5f472077d8fc624b67cdf9edd4e6c11ac3fd52d3861",
+          "src/wallet/wallet.controller.js": "3c677eaff60a35378f7eb968c146f21c4bbfbd5ec4d85b9aa7b0ccb81f5634ee",
+          "src/wallet/wallet.controller.js.map": "eb9f010a59cd46295eb89385afd85ef9a2912e380ce80c9c8a9a59a39e62f327",
+          "src/wallet/wallet.module.js": "63fa64680862170b4472a3763d31a3728fab8bc182f9caad9f772756ce8789b2",
+          "src/wallet/wallet.module.js.map": "f4e049ae6711412a3228639bc91fbfcb2559d2b95c821c0b22ab660f509c1421",
+          "src/wallet/wallet.repository.js": "748d98f77171abded4240dde99bc3da6167edf6d0b079770f0a1f5b354d0a840",
+          "src/wallet/wallet.repository.js.map": "827d23e134844b10f65688d09012aa6d37834b17770c68942cad2702661c7fdb",
+          "src/wallet/wallet.service.js": "5ad07411e64e65215544aa6a5d45dce9b44b8c2a9f27fe0ea0c17f478950c346",
+          "src/wallet/wallet.service.js.map": "7fe99a1087a2f021bd9c59a711c20b13f8d6791db06c41226697e8fe33f48b11"
+        }
+      },
+      "checks": {
+        "parsedExecutables": 86,
+        "resolvedRequires": 361,
+        "prismaClient": "/app/node_modules/@prisma/client/default.js",
+        "noRootSources": true,
+        "noEnvFile": true,
+        "noRuntimeSeedDirectory": true
+      },
+      "baselineExecutableDifferences": [],
+      "compiledMetadata": {
+        "service": "commerce",
+        "bootstrapName": "commerce-service",
+        "rootModules": [
+          "TransactionsModule",
+          "OperationsModule",
+          "AssistanceModule"
+        ],
+        "routes": [
+          {
+            "method": "GET",
+            "path": "/api/v1/authorizations"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/authorizations"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/authorizations/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/authorizations/:id/intervention"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/authorizations/:id/progress"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/authorizations/:id/release"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/assistance"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/assistance/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/assistance/:id/actions"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/control/payments/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/payments/:id/actions"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/terminal-operations/:id/cancel-unpaid"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/terminal-operations/:id/recovery-ticket"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/control/terminal-operations/:id/resolve"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/health"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/memberships/me/recharges"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/memberships/me/wallet"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/online-orders/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders/:id/cancel"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders/:id/demo-confirm"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders/:id/notify"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders/:id/refund"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/online-orders/:id/reselect"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/permissions/admin"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/permissions/admin/:id/revoke"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/pumps"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/terminal-pump-assignments/:id/end"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/terminals"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/terminals/:id/assign-pump"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/operational-admin/terminals/:id/revoke"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/payments/:id/partial-refund"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/payments/:id/partial-refund"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/payments/:id/refund"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/payments/webhook"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/rewards/redeem"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/terminal/assistance"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/terminal/assistance/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/terminal/assistance/:id/cancel"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/terminal/claim"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/terminal/me"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/terminal/operations"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/terminal/operations/:id"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/terminal/operations/:id/close"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/terminal/operations/:id/recovery-state"
+          },
+          {
+            "method": "POST",
+            "path": "/api/v1/transactions"
+          },
+          {
+            "method": "GET",
+            "path": "/api/v1/transactions/:id"
+          }
+        ],
+        "sourceMaps": 85
+      },
+      "contractRouteMatch": true
+    }
+  },
+  "baselineExecutableHashes": {
+    "prisma/seed.js": "74344090c69e0b36044e4435fc643322a8225d80199fbcf40148b6e51a5650e4",
+    "scripts/database-safety.cjs": "1a777e2b3266418b0bc428a506c9047221b31be32096af457d71589d7d8b9f47",
+    "src/alerts/alerts.module.js": "b811352e7d0020a2c1204ff3d42138f4fc1816307916e13f7b400719b514e656",
+    "src/alerts/alerts.service.js": "bbf13c20c4dcc45fb11d62ad8246007115dafae8c366660dfe3102c2cf658c14",
+    "src/app.module.js": "c2af5ba3e98a4743226edc909806c0f002c334909f4022c26889f01a10f65f51",
+    "src/apps/administration/main.js": "0ccbb5fc8ff9ec5757de9f2357eb8f3ef739375582906c4994b2127d9d4b29fc",
+    "src/apps/bootstrap.js": "5317ebb905f3474fc513813058287f1ee6180825a674b1b6ad292c4f1c696843",
+    "src/apps/catalog/main.js": "5a0b2e0b02f732292f1ae2faf9a9a091a267f037de548faba59e1eb4e0f4f872",
+    "src/apps/commerce/main.js": "8e9750c07909f30cc6033309920e4d2d98aab4d3c87a1a9485c97260894f7c3b",
+    "src/apps/identity/main.js": "dd62cab0ea8da8205feed9bf7da3aae9bf91b5f6535fadd9e37dead05b50ff6c",
+    "src/assistance/assistance.controller.js": "37f28aad693b54e76349e9348bdf1ba88c7bcf61656c225973b7db8d80471dad",
+    "src/assistance/assistance.module.js": "8ebc79f11ee1588d7f9820ae10afd84354ea02c5a1dba42237a7385c57725d42",
+    "src/assistance/assistance.service.js": "9554bad21028abcf6c038161d7d1ded3b931c338f9c08a8eeec85cd5ed662958",
+    "src/auth/access.guard.js": "9591e67214bd4894aae54733a57d4afa51f47c2194a188c5e595d7b429dd6380",
+    "src/auth/access.js": "4e4f6eb99ba5bf6d17bcde2dc852fbceb46923d7341891b119c5d6131b8845b1",
+    "src/auth/admin.controller.js": "2c1ec14c288a47c8a92316897cc62d2fa80a812122aeb98eba99982c5e720c79",
+    "src/auth/auth.controller.js": "2841c0168ed644780588f65097c2140cd136d7d182e1c335bd3d2070fd0ed10d",
+    "src/auth/auth.module.js": "f0806896461ee36bc511b897c7a3fb65bd1b0416abfc52460984c74c79f65e1a",
+    "src/auth/auth.service.js": "6ea7dcc4a4177aa4c53c4d8f3b3ac2be71bac8afd0ace571a8fdcab5cbf78a2e",
+    "src/auth/login.dto.js": "09c657d759995b744f07306d00d0cd00ae349ffb5af4eb174ac886db9636c566",
+    "src/auth/password-reset.dto.js": "d8994861876f7a27e31343255b40493bb69b8a8db1701013259e84a4bd9e75a1",
+    "src/auth/password-reset.service.js": "316e17e8fc2a8e5e0746cab4458e9b0323d967ce86b31e16b9874eea92eb3fab",
+    "src/auth/recovery-delivery.js": "0b154b63f43f502c8379518d23ebe3b44e7769f305a4c7fbf4b6fd056fd5e0db",
+    "src/auth/register.dto.js": "9404f636fe9923e526ce16d52d7e71e6a580fd24f31e817244631486cf89f58a",
+    "src/benefits/benefits.controller.js": "63b34f7412ea500d075add832f38a84af64492fd5f0b2c8b057fcb701d6a5928",
+    "src/benefits/benefits.module.js": "a4959e286172ee707303b633ab1f67877689bf1c0d2a3622048cafc1b5a308f0",
+    "src/benefits/benefits.repository.js": "a65978441ac92301254cf9d0506e919389c52bb515766785de706dde5148b9d4",
+    "src/benefits/benefits.service.js": "fa4fdf9bd86536e08968fde81c57e425e94bbc936ff55460e359047b1d6938f5",
+    "src/catalog-reader/catalog-reader.js": "38565829f9931393796c08ecc0ee9f244be4fd0442bba6d6f4945b1baf7681ff",
+    "src/catalog-reader/private-catalog.controller.js": "ac4896e049f309bf67ef911240f42b0cdfc9628327d875106cd32e76da01b0c7",
+    "src/common/document-conflict.js": "63b70d554f8987f06f9dfbc426cbff002748b88259c9c4ed549556053c9be7aa",
+    "src/common/http-error.filter.js": "e25f91e4e7b0e7461552d2edceb75366b01a96a17958b05b974e0fa14360ce16",
+    "src/common/pagination.dto.js": "26aae879b9b61cacf356e7d743967d9dd4f4cc8d7f6c0e58e360b95707bbe279",
+    "src/common/response.dto.js": "ff91c0a85c3fa37b5670f13d9575b49a6be59d86b48558769e2a43424cc1ec50",
+    "src/config/environment.js": "174204179a5b8f8db813902ebb57807a3c272c6aaf8cbd0654b148bbf4942963",
+    "src/config/load-env.js": "e8ee8f97bad791a09a440e3d7418c372146b31cc477ab66c02bcb8772d89859f",
+    "src/control/control-customers.controller.js": "1eb1df4e87c910aeac8f151650a7a3709c37590d47fd4591af31d8f094bade1a",
+    "src/control/control-customers.service.js": "f50f9fd1e10f6058e09ea9671d1e9e12cc0a2c2caeae8043fac2a96a14e7e70f",
+    "src/control/control-operations.controller.js": "0b7f5651ca3353c1c92332081ab4306d91a195d163ad76708ab3ded984f5243e",
+    "src/control/control-operations.service.js": "95789db73fd2f0d9aa26b1ab697b058598d02eec419ba827a45b41a33b9c88c6",
+    "src/control/control.controller.js": "35cb9f0f3843eca9acfa47a4ddeb845f41d92e760e8063d3d0ea0cb1dd2cc88c",
+    "src/control/control.module.js": "c1c63273c84c665d768ba4603aeaebfb512ad8a839361421dd5082cf88e4fb75",
+    "src/control/control.service.js": "852da2fcef3580b18b395e3f9e0f37ce24f011fbbc1a0be0ae768bd6ee7fa151",
+    "src/fuels/fuels.controller.js": "3f766cd6957914a860f996cdcdcfb0cc546ea87b003e740460d04daac5d69841",
+    "src/fuels/fuels.module.js": "bc7e9b82caddb9bcdb11c8d3b7924afa7c9e0c397ba3623d67c74a0d06c8877f",
+    "src/fuels/fuels.repository.js": "e44b8a7f5c7b58171e6de264b988a855bc27ea7c584cf5455cf980ee41575887",
+    "src/fuels/fuels.service.js": "6e7359b99ac61ea5545a90984c9e3618383eceeb12c66b50fac7cf8502fef0d7",
+    "src/health/health.controller.js": "4c2ce02a37f0e44044bed7a180e59b15293761a93f0a8a9601ce178cafa4d70e",
+    "src/health/health.module.js": "b0516c10c50b05b260b148c7a592c8ac304bcb992972c848e89f9c126864042e",
+    "src/health/health.service.js": "1fece1a15dd5610e7e63da379f04fcf4ada2cb70713b604723341013c016dacc",
+    "src/identity-adapters/authcore.js": "dc89fb2f90dd1e07cacc59a63fa23e305d1ff8e81099e0e4caa91b5a997131bf",
+    "src/identity-adapters/identity-http.module.js": "087a927a36685b33ba96921865b571651db18864e7bd90ed18d5c8af94d3cb24",
+    "src/identity-adapters/membership-commerce.js": "f9cf7796234f8b103f0caa98118c10b43246e06487a1f4cfbda876a2ccab260f",
+    "src/identity-adapters/persistence.js": "d79bef4506d5e2c3650eb09a794602ab23c84c6b52908ba76725f14cd25360e7",
+    "src/identity-core/domain.js": "583117371e6fdd3536369dc3c8af2b33223725ad601c94a5c097af6f8bce2256",
+    "src/identity-core/identity.js": "3e0cf801ebff5704b5a4bb8d0b94e46b91118b1c10fbf31414b1cfbedca21c24",
+    "src/identity-core/memory.js": "3cfbd30033184df17602c2ee5a45ab0195960342e386b9304e6308bea4a714d4",
+    "src/identity-core/ports.js": "7be110d0d31308f6c9541323832f9dea08e7feecddecc341431b457477f3566e",
+    "src/incidents/incidents.module.js": "f523f48705229dee4e176b1c6a64d1b3f6e4ddcdcb8fdfa03056e8d76e95adae",
+    "src/incidents/incidents.service.js": "78103d4d07191c282144f4262da7b40b66c6050409d0b1fa4c4b048dffc3f1b7",
+    "src/inventory/inventory-reconciliation.js": "d4ee3ccf83c06829c140bc8b8a876bd5b4df522ba3cc5ca74f1bb14d0c2d2168",
+    "src/inventory/inventory-reservations.js": "7b5988a603dedb0aa56a38372d72779697a9abbd44d771ba25feadc479de401f",
+    "src/inventory/inventory.module.js": "d5c4eede6aa6283b02d5bfccac935385a3d084c41944e91e7d0b9fa4b7429031",
+    "src/kiosk/kiosk.controller.js": "abf5add65728da4a2a7639a78ef501b4cf555532043b2d5074686638bf673450",
+    "src/kiosk/kiosk.service.js": "335f2549ef745f4e65571bc603b5b74b604faab2b297932634b4b13f41dcff51",
+    "src/kiosk/policy.js": "c35ace47b0676f1dd9075bb01ea073fb069cbd2f865b2745f40f41b76d360473",
+    "src/kiosk/redis-store.js": "f9337c9210df72a36a03b3bc577f6c8d9602edb694c0579bd1ff248c1466f9ac",
+    "src/main.js": "06a88858c1fca47a532fd6cb608566ad82823cc866cf8bce8af3024e9e681fc7",
+    "src/memberships/memberships.controller.js": "3aee2b93f5065839d5c5c9c3d2215b465ffe655aa746fb40d5f758768586348b",
+    "src/memberships/memberships.module.js": "ccc56deae2b4efdd17f3af93a64ea07a8babe33496f29aa203304f33b04091d4",
+    "src/memberships/memberships.repository.js": "77f6b0ee7280ee1954b7aec0e2e9937cd4fed6d2f41b0a20726a0b05915be709",
+    "src/memberships/memberships.service.js": "e948de386afddeb4a85e98325ad559721d1bcb6e195ffe80d543aae7d3a667c0",
+    "src/memberships/profile.dto.js": "b05017437c756975c713396a673dd5f24a63ceb110308a19f0b0d5fe36090b2a",
+    "src/operations/control-payments.js": "648580a180486f1b8ebe3e9e51cb11aa0649775deb9867fb79d854e9266b15d2",
+    "src/operations/empty-attention.js": "e4aca937646efe2a602c8ee38678bd7ad3b6b7a4ed939268d4ad2c5fed1ea8ab",
+    "src/operations/operations.controller.js": "d17c5c85bc87b0d2bc843766408dda451cbe1eec2a0c8e26e9bf2fdef09a8550",
+    "src/operations/operations.module.js": "73f8f549cfefce69266557349690fb0630c2c7671176f342a5969f8166b1e08e",
+    "src/operations/operations.service.js": "8eb086d76b129f7c8dccb6bd2db20baa501ae0f84cef38b6f3004ac563c12e7c",
+    "src/operations/terminal-availability.js": "bb1b7a2238795c371c245a6b9a88475af98195259a9cbbecd01cb7c943fe93b6",
+    "src/payments/demo-provider.js": "1cbd6c8529b97de73c9f5b41aee927e4f9e5fbe9e317988c77ef4e0d4b50e048",
+    "src/payments/online-orders.js": "ee549a81799e869243c6a38dbc9f0f3456f93608e9219f139bb785993f0a1e5f",
+    "src/payments/partial-refund.js": "cb1c00c8231f3aa3215a4a0f596df15024ba6a43a49ff8b5b83349fa862ecf64",
+    "src/payments/payment-incidents.js": "71e6c920b9fe5e9f06766863fa72bbc05a63b54848ef261a2b392d7bd7420104",
+    "src/payments/payment-lifecycle.js": "cd98feaf420e6ffb4f88aa1c3b79ee6b04066d5d5e3c916b735995339a68839f",
+    "src/payments/payment-provider.js": "328438fce4670aae2b23d1539a9a2923c31aff7906bdd2f88e1f3ce1ff870e51",
+    "src/payments/payments.module.js": "c651eea230efc35edc079e5d6f9cfcd272631391ec57b8d0672c3dedcd32215a",
+    "src/payments/payments.service.js": "ebc7e9280a31c0e743363a17664d1a9e09212eb48eab977c2d11ba36fefb8327",
+    "src/payments/webhook.js": "fe877ac421ec547acd2ea05b128752cc79deeafccaf4b70f84631090131354f9",
+    "src/payments/welcome.js": "be1aba5bbd5db7e3097315a516473235d0ed589230387ad3b46df9c5c9db8425",
+    "src/prisma/prisma.module.js": "7fa9be96c04477280b2fd381398e727c3044aa38efa7e159c2990ae403a54ca9",
+    "src/prisma/prisma.service.js": "7ad3df8da9a69ee153e970a9102fb27db63403c538ee76267f256d00400d8dfe",
+    "src/receipts/receipt.service.js": "0e5bec9db09ff5a08d575e4b6887c61d9134a0b1c9cb024664b2493813087f10",
+    "src/rewards/points-policy.service.js": "3635d422d7c437c3cf0cf88916176dd77873234683a2694bab09676bb2235e43",
+    "src/rewards/redeem.dto.js": "052e73ff8776e3f806d58d0758d7492ada78147234aaea645430148dae08ce4a",
+    "src/rewards/rewards.controller.js": "0b2855d04262abfcbcfaf04cfe5224fe151a67aa823e70982a27aca3a0475dd9",
+    "src/rewards/rewards.module.js": "c5d58db17f5f23dc5b558f376b008e4441ba04216d4783173c99d8638c952d95",
+    "src/rewards/rewards.repository.js": "437260e06f1c0b69eddbba064a12c7ea52033347954e3c1c236146bca71b8867",
+    "src/rewards/rewards.service.js": "dc5f634a993688963f8ec56bf301aa05e9bebb7bccd22d148ebc6fa8317eebce",
+    "src/setup-app.js": "4b113b79fbfed85c751d547aa1633a75cd93c0afbed2be02d7f53f5da5857a5a",
+    "src/stations/stations.controller.js": "afc9eac5b95891c34962e031fb1045a553792357ab2f8bba1c02f1f56bbfbafe",
+    "src/stations/stations.module.js": "73b576d30b86f801226ece4cf9b74ba2e07d2e39b65787deedd44b8de306029b",
+    "src/stations/stations.repository.js": "7685e12b0edda58cbf63617edf088078d0350e90c1dee4344e27646965513810",
+    "src/stations/stations.service.js": "5f7245fcc307454e62a41c643d1642c38ff353d3a985359d97e1bdb5dbe7f05a",
+    "src/transactions/authorizations.controller.js": "b25bd801718f62cf639e30e8fdfac0c13f4b8e1b43571b0fc44b1d234f709823",
+    "src/transactions/authorizations.repository.js": "2765f561aa67f9f7fa8f9b1661618704dfcf95f44901681940debc636aaff5a1",
+    "src/transactions/authorizations.service.js": "1a54888c137dd53d6c156dc6bf80826ba10b31fdd87ac31184f4f9b1bebe7c13",
+    "src/transactions/create-authorization.dto.js": "2dbfe9a67f288b82caf4d21df627c96ba0f4bec9084d0e4005ef50f90d44b310",
+    "src/transactions/create-transaction.dto.js": "63487396acd7e9ab2b26af5f4280a10104013d0643bcbce40c699e0b044d12ce",
+    "src/transactions/dispense-progress.dto.js": "8e0c656ccdd5a3faf72bbac7476bb314d8d611e57ac902f74be0e2e7ebf721dc",
+    "src/transactions/operational-context.js": "9ca83a1331b11528b05a99f774132bcece029b0202adf67100fb8a37020b6079",
+    "src/transactions/transaction-response.dto.js": "27695e5832f6e53f909b25c0d5f2c4a2f8738a7e69e3245a17d65a42c255aeb1",
+    "src/transactions/transaction.model.js": "42327cf4d90a3e74c9b279fb057cc6a50e9c5251b288b965b99cf090f4c15d3e",
+    "src/transactions/transactions.controller.js": "9bab511b342f9a0220fc5525cf830622eaaeba0bda2efb0c1aa75a95cba3c18e",
+    "src/transactions/transactions.module.js": "4fdd49aacfde7429f794d5a434e7d07ac4ee74786d8d9bb0ec39f21a8d9b6046",
+    "src/transactions/transactions.repository.js": "ccf0b7603cac6df32760c217312e7024186f970fd3f6f4f535353654d65e8aa9",
+    "src/transactions/transactions.service.js": "2c9e4569d01305d35cea082734abe73d58b0ab5c7afbe71c27114bd9cc958173",
+    "src/users/membership-code.js": "d9ae33127cba5162a154dd839e3f324b08339495cd651bc42d01bba703fd754e",
+    "src/users/membership-number.js": "2e3269595e212c49c33c728defe47a96fc4d8e4f4c65846330170b38fef45531",
+    "src/users/users.module.js": "335c91c942d1d4e251c38e490d52ff11d380e75978b84eaef3f4d4a4b326cc40",
+    "src/users/users.repository.js": "afa0609cfa44179982c23b423d54704a86fe9496c05c5d5befced9fea292645c",
+    "src/users/users.service.js": "2005d62b52e3200d5f061bd845b477a466982386b7bd10aac2c9b6a6429c77aa",
+    "src/vehicles/create-vehicle.dto.js": "8f5203ac063d1512910d5659d2f61a23e07340b1f769f42dedca7ed7862c287a",
+    "src/vehicles/plate.dto.js": "78e449edbcd9bfcaf283240c56e251018b27fab3e28ea9708f5c303f13b83892",
+    "src/vehicles/recognition.controller.js": "2f89b83551bffd12dc872a32fbd481760c74f3032869f4410faa079ca609d263",
+    "src/vehicles/recognition.service.js": "c09e1d027e0aabf69ceb4d17c3f524557d4a67bb72a90ea99a70f6e843c83073",
+    "src/vehicles/vehicles.controller.js": "5f05cc7867f64c2a88702b17e244aecf08251b24021afebd004b2927eb23882c",
+    "src/vehicles/vehicles.module.js": "feeb62cbb50f0f0da5b77796000811a8f7bda6bcb2fb877f696fc1d97ba6dcfe",
+    "src/vehicles/vehicles.repository.js": "b2f46cd6f78690874beb54b62eb69df07168e821a4537da5e9c565f300b03a93",
+    "src/vehicles/vehicles.service.js": "833ebe9106ebfa684099770b1caa21a5f10c5bd46790f0682dc066b2c75d2909",
+    "src/wallet/debt.js": "111a84af232e047b55ef190b41fa116922f744b378669c380129ef18236defbe",
+    "src/wallet/recharge.dto.js": "0e18c75cce76aade4968d54e2b2b2a537d78afce06c4f9070c7d3e2e3dddeef6",
+    "src/wallet/wallet.controller.js": "3c677eaff60a35378f7eb968c146f21c4bbfbd5ec4d85b9aa7b0ccb81f5634ee",
+    "src/wallet/wallet.module.js": "63fa64680862170b4472a3763d31a3728fab8bc182f9caad9f772756ce8789b2",
+    "src/wallet/wallet.repository.js": "748d98f77171abded4240dde99bc3da6167edf6d0b079770f0a1f5b354d0a840",
+    "src/wallet/wallet.service.js": "5ad07411e64e65215544aa6a5d45dce9b44b8c2a9f27fe0ea0c17f478950c346"
+  },
+  "verificationPrograms": {
+    "runtimeArtifactInspectorPowershell": "@'\nconst fs=require('fs'),path=require('path'),crypto=require('crypto'),vm=require('vm'),Module=require('module');const service=fs.readdirSync('services')[0],root=path.resolve('services',service,'dist'),m=JSON.parse(fs.readFileSync(path.join(root,'build-manifest.json')));let parsed=0,resolved=0;for(const [relative,hash] of Object.entries(m.files)){const file=path.join(root,relative);if(crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')!==hash)throw Error('Artifact hash mismatch');if(relative.endsWith('.js')||relative.endsWith('.cjs')){const source=fs.readFileSync(file,'utf8');new vm.Script(source,{filename:relative});parsed++;for(const hit of source.matchAll(/require\\(['\"]([^'\"]+)['\"]\\)/g)){Module.createRequire(file).resolve(hit[1]);resolved++;}}}console.log(JSON.stringify({service,node:process.version,manifest:m,checks:{parsedExecutables:parsed,resolvedRequires:resolved,prismaClient:require.resolve('@prisma/client'),noRootSources:!fs.existsSync('src'),noEnvFile:!fs.existsSync('.env'),noRuntimeSeedDirectory:!fs.existsSync('prisma')}}));\n'@ | docker run --rm -i --network none primax-astra-identity:stage2 node",
+    "compiledModuleMetadataInspectorNode": "\nrequire('reflect-metadata');\nconst fs=require('fs'),path=require('path'),common=require('@nestjs/common');\nconst service=fs.readdirSync('services')[0],root=path.resolve('services',service,'dist');\nlet captured;\nconst bootstrap=path.join(root,'src/apps/bootstrap.js');\nrequire.cache[bootstrap]={id:bootstrap,filename:bootstrap,loaded:true,exports:{bootstrapDomain:(name,domains)=>{captured={name,domains};}}};\nrequire(path.join(root,'src/apps',service,'main.js'));\nif(!captured)throw Error('Main did not delegate to the existing bootstrap');\nconst modules=[...captured.domains,require(path.join(root,'src/auth/auth.module.js')).AuthCoreModule,require(path.join(root,'src/alerts/alerts.module.js')).AlertsModule,require(path.join(root,'src/health/health.module.js')).HealthModule];\nconst seen=new Set(),controllers=new Set();\nfunction visit(value){if(!value)return;if(value.forwardRef)return visit(value.forwardRef());const type=value.module||value;if(seen.has(type))return;seen.add(type);for(const c of Reflect.getMetadata('controllers',type)||[])controllers.add(c);for(const m of Reflect.getMetadata('imports',type)||[])visit(m);for(const m of value.imports||[])visit(m);}\nmodules.forEach(visit);const routes=[];\nfor(const c of controllers){const prefix=Reflect.getMetadata('path',c)||'';for(const key of Object.getOwnPropertyNames(c.prototype)){if(key==='constructor')continue;const handler=c.prototype[key],method=Reflect.getMetadata('method',handler);if(method===undefined)continue;const suffix=Reflect.getMetadata('path',handler)||'';routes.push({method:common.RequestMethod[method],path:('/api/v1/'+prefix+'/'+suffix).replace(/\\/+$/,'').replace(/\\/{2,}/g,'/')});}}\nroutes.sort((a,b)=>a.path.localeCompare(b.path)||a.method.localeCompare(b.method));\nconst m=JSON.parse(fs.readFileSync(path.join(root,'build-manifest.json')));let maps=0;\nfor(const p of Object.keys(m.files).filter(p=>p.endsWith('.js.map'))){const map=JSON.parse(fs.readFileSync(path.join(root,p)));for(const source of map.sources){const target=path.resolve(root,path.dirname(p),map.sourceRoot||'',source);if(!target.startsWith('/app/src/'))throw Error('Source map resolves outside original source tree: '+target);}maps++;}\nconsole.log(JSON.stringify({service,bootstrapName:captured.name,rootModules:captured.domains.map(m=>m.name),routes,sourceMaps:maps}));\n"
+  },
+  "limits": [
+    "No PostgreSQL/Redis/provider/SMTP/OCR service was used; test mocks and loopback mock HTTP only.",
+    "No real application bootstrap, readiness, frontend browser E2E or SQL transaction replay was validated.",
+    "Static compiled metadata and byte-identical executable artifacts do not establish complete functional equivalence.",
+    "Only linux/amd64 images built; no ARM or native macOS/Linux end-to-end portability claim.",
+    "Sources, lockfile, AuthCore, Prisma, global bootstrap, configuration and required helpers remain shared."
+  ],
+  "testIsolation": "All Docker verification containers used --network none; no ports published; bind mounts read-only; no env files or host credentials passed.",
+  "localBuildLogsIgnored": ".cache/astra-stage2/build-<service>.log",
+  "implementationInputHashes": {
+    "Backend/package.json": "2928350244d42219432d3cb07017cc0b7d3811a88914b7c88e525902ea4f282c",
+    "Backend/scripts/build-domain.cjs": "178bd576f702b62345ffa5bdfd862227ecd024e980869632fc3bcc1e51ba1e75",
+    "Backend/scripts/build-domain.test.cjs": "d8a493a36700d486b81d4ec61ee8b9b7836dba42a433cf0eaa15e3e6693efa52",
+    "Backend/services/identity/tsconfig.build.json": "9ad2bd46a6239e8577138a16d9a2a4891f9929216adc92c018fa3ff43bc3405c",
+    "Backend/services/identity/Dockerfile": "00fb1282b1e74eeb6064f4bb0555467d6e932f66893b5705fa5a849cce93da8e",
+    "Backend/services/catalog/tsconfig.build.json": "01666191301ce08858ef5c8d31b7c73b94cb4845b88bbe7e59d849ca380e846d",
+    "Backend/services/catalog/Dockerfile": "9e1b840c6eae938049df86952a227e20740732fcbcf2c0807e9c739b7b1ddae6",
+    "Backend/services/administration/tsconfig.build.json": "86cf103925eb198993413ab648c1b5abd3144633a16c0ac591f0ba0b4f3fbe5a",
+    "Backend/services/administration/Dockerfile": "7c8c2c7da70425cc0c0dd1c1db7ad7cd9d68439d31134c18aefaf7f86794c809",
+    "Backend/services/commerce/tsconfig.build.json": "a28a09939cb5f5d423aeea0752549d3bae4700a21a634545e8406964ad0339f1",
+    "Backend/services/commerce/Dockerfile": "4fa7916782bec70ca17371966f928920f183d933608a3d6c697fcff49bb57f82"
+  }
+}

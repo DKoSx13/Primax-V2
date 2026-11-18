@@ -22,7 +22,16 @@
     "prisma:migrate:dev": "node scripts/local-db-command.cjs prisma migrate dev",
     "prisma:seed": "node scripts/local-db-command.cjs seed prisma/seed.ts",
     "prisma:studio": "node scripts/local-db-command.cjs prisma studio",
-    "test:safety": "node --test scripts/database-safety.test.cjs"
+    "test:safety": "node --test scripts/database-safety.test.cjs",
+    "build:identity": "node scripts/build-domain.cjs identity",
+    "start:identity": "node services/identity/dist/src/apps/identity/main.js",
+    "build:catalog": "node scripts/build-domain.cjs catalog",
+    "start:catalog": "node services/catalog/dist/src/apps/catalog/main.js",
+    "build:administration": "node scripts/build-domain.cjs administration",
+    "start:administration": "node services/administration/dist/src/apps/administration/main.js",
+    "build:commerce": "node scripts/build-domain.cjs commerce",
+    "start:commerce": "node services/commerce/dist/src/apps/commerce/main.js",
+    "test:packaging": "node --test scripts/build-domain.test.cjs"
   },
   "dependencies": {
     "@nestjs/common": "11.2.7",

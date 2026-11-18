@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "outDir": "./dist",
+    "noEmitOnError": true
+  },
+  "files": [
+    "../../src/apps/commerce/main.ts"
+  ],
+  "include": [],
+  "exclude": [
+    "../../node_modules",
+    "../../dist",
+    "../../test",
+    "../../src/**/*.spec.ts"
+  ]
+}
