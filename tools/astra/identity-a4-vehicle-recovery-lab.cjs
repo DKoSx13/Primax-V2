@@ -1,0 +1,155 @@
+// 4B.2A: exclusively new synthetic PostgreSQL/network, cached tools, no public server.
+const { execFileSync } = require("node:child_process");
+const { randomBytes, createHash } = require("node:crypto");
+const fs = require("node:fs"), path = require("node:path"), assert = require("node:assert/strict");
+const root = path.resolve(__dirname, "../..");
+assert.equal(process.argv.length, 2, "No external URL, volume or resource argument accepted");
+const runId = "a4-" + randomBytes(12).toString("hex"), pg = runId + "-pg", network = runId + "-read-net";
+const secrets = { admin: randomBytes(32).toString("hex"), writer: randomBytes(32).toString("hex"), reader: randomBytes(32).toString("hex"), legacy: randomBytes(32).toString("hex"), link: randomBytes(32).toString("hex") };
+const toolImage = "primax-v2-backend-test:latest", pgImage = "postgres:17.6-bookworm";
+const evidence = path.join(root, "Docs/astra/evidence", "identity-a4-phase4b2a-" + runId + ".json");
+assert.equal(fs.existsSync(evidence), false);
+const files = execFileSync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], { cwd: root, encoding: "utf8" }).split("\0").filter(Boolean);
+const digest = (p) => createHash("sha256").update(fs.readFileSync(path.join(root, p))).digest("hex");
+const baseline = Object.fromEntries(files.map((p) => [p, digest(p)]));
+const docker = (args, options = {}) => execFileSync("docker", args, { cwd: root, encoding: "utf8", stdio: ["pipe", "pipe", "pipe"], timeout: 60000, ...options });
+const result = { runId, success: false, checks: [], baseCommit: execFileSync("git", ["rev-parse", "HEAD"], { cwd: root, encoding: "utf8" }).trim() };
+const volume = runId + "-new-data";
+let pgCreated = false, stage = "preflight";
+const pause = (ms) => new Promise((r) => setTimeout(r, ms));
+(async () => {
+  try {
+    assert.equal(docker(["info", "--format", "{{.OSType}}"] ).trim(), "linux");
+    result.images = { tools: docker(["image", "inspect", toolImage, "--format", "{{.Id}}"] ).trim(), postgres: docker(["image", "inspect", pgImage, "--format", "{{.Id}}"] ).trim() };
+    stage = "fresh resources";
+    const subnet = require("./identity-a4-private-network.cjs")(docker); result.privateSubnet = subnet;
+    docker(["network", "create", "--subnet", subnet, "--internal", "--label", "primax.a4.read=" + runId, network]);
+    assert.equal(docker(["volume", "ls", "--format", "{{.Name}}"]).trim().split(/\r?\n/).includes(volume), false);
+    docker(["volume", "create", "--label", "primax.a4.receipt=" + runId, volume]);
+    assert.equal(JSON.parse(docker(["volume", "inspect", volume]))[0].Labels["primax.a4.receipt"], runId);
+    docker(["run", "-d", "--pull", "never", "--name", pg, "--label", "primax.a4.read=" + runId, "--network", network,
+      "--mount", `type=volume,source=${volume},target=/var/lib/postgresql/data`, "--env", "POSTGRES_PASSWORD", "--env", "POSTGRES_DB=a4_read", pgImage],
+      { env: { ...process.env, POSTGRES_PASSWORD: secrets.admin } }); pgCreated = true;
+    const info = JSON.parse(docker(["inspect", pg]))[0];
+    assert.equal(info.Config.Labels["primax.a4.read"], runId);
+    assert.ok(info.Mounts.every((m) => m.Type === "volume" && m.Name === volume));
+    assert.equal(Object.keys(info.HostConfig.PortBindings || {}).length, 0);
+    const networkInfo = JSON.parse(docker(["network", "inspect", network]))[0]; assert.equal(networkInfo.Internal, true);
+    let ready = false;
+    for (let i = 0; i < 60; i++) {
+      try { docker(["exec", pg, "psql", "-X", "-U", "postgres", "-d", "a4_read", "-v", "ON_ERROR_STOP=1", "-c", "SELECT 1"]); ready = true; break; }
+      catch { await pause(300); }
+    }
+    assert.ok(ready, "Own fresh database not ready");
+    const ddl = fs.readFileSync(path.join(root, "services/identity/lab/owned-membership-a4.sql"), "utf8");
+    const setup = `\nCREATE ROLE a4_writer LOGIN PASSWORD '${secrets.writer}';
+CREATE ROLE a4_reader LOGIN PASSWORD '${secrets.reader}';
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA identity_a4_private FROM PUBLIC;
+GRANT USAGE ON SCHEMA identity_a4_private TO a4_writer,a4_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA identity_a4_private TO a4_writer;
+GRANT INSERT ON identity_a4_private."MembershipIdentity",identity_a4_private."MembershipCode",identity_a4_private."AllocationReceipt" TO a4_writer;
+GRANT UPDATE(value) ON identity_a4_private."MembershipNumberCounter" TO a4_writer;
+GRANT SELECT ON identity_a4_private."MembershipIdentity",identity_a4_private."MembershipCode" TO a4_reader;
+INSERT INTO identity_a4_private."MembershipNumberCounter" VALUES (1,0);
+CREATE SCHEMA a4_sentinel;
+CREATE TABLE a4_sentinel.secret(value text);
+INSERT INTO a4_sentinel.secret VALUES ('synthetic-unchanged');`;
+    docker(["exec", "-i", pg, "psql", "-X", "-U", "postgres", "-d", "a4_read", "-v", "ON_ERROR_STOP=1", "--single-transaction"], { input: ddl + setup });
+    stage = "new synthetic legacy schema";
+    docker(["exec", pg, "psql", "-X", "-U", "postgres", "-d", "postgres", "-v", "ON_ERROR_STOP=1", "-c", "CREATE DATABASE a4_legacy"]);
+    const ddlWorker = String.raw`const fs=require('fs'),cp=require('child_process');
+const schema='/tmp/legacy.prisma';fs.writeFileSync(schema,fs.readFileSync('/workspace/Backend/prisma/schema.prisma','utf8'));
+process.stdout.write(cp.execFileSync(process.execPath,['/app/node_modules/prisma/build/index.js','migrate','diff','--from-empty','--to-schema-datamodel',schema,'--script'],{encoding:'utf8',env:{...process.env,PRISMA_GENERATE_SKIP_AUTOINSTALL:'true',CHECKPOINT_DISABLE:'1'}}));`;
+    const legacyDDL = docker(["run", "--rm", "--pull", "never", "--network", "none", "--read-only", "--tmpfs", "/tmp:rw,nosuid,exec,size=512m",
+      "--mount", `type=bind,source=${root},target=/workspace,readonly`, "--entrypoint", "node", toolImage, "-e", ddlWorker]);
+    docker(["exec", "-i", pg, "psql", "-X", "-U", "postgres", "-d", "a4_legacy", "-v", "ON_ERROR_STOP=1", "--single-transaction"], { input: fs.readFileSync(path.join(root, "Backend/prisma/migrations/20261109000000_operation_number_op01/migration.sql"), "utf8").match(/CREATE SEQUENCE[\s\S]*?END \$\$;/)[0] + "\n" + legacyDDL +
+      `\nCREATE ROLE a4_legacy_reader LOGIN PASSWORD '${secrets.legacy}';
+REVOKE ALL ON SCHEMA public FROM PUBLIC; GRANT USAGE ON SCHEMA public TO a4_legacy_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO a4_legacy_reader;
+ALTER ROLE a4_legacy_reader SET default_transaction_read_only=on;
+CREATE ROLE a4_vehicle_writer LOGIN PASSWORD '${secrets.link}';
+GRANT USAGE ON SCHEMA public TO a4_vehicle_writer;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO a4_vehicle_writer;
+GRANT INSERT ON public."Vehicle" TO a4_vehicle_writer;
+GRANT UPDATE("membershipId",label,"updatedAt") ON public."Vehicle" TO a4_vehicle_writer;` });
+    docker(["exec", "-i", pg, "psql", "-X", "-U", "postgres", "-d", "a4_legacy", "-v", "ON_ERROR_STOP=1", "--single-transaction"],
+      { input: fs.readFileSync(path.join(root, "services/identity/lab/vehicle-link-success-receipt.sql"), "utf8") });
+    stage = "4B.1 worker";
+    const url = (user, password) => `postgresql://${user}:${password}@${pg}:5432/a4_read?schema=identity_a4_private&connection_limit=5`;
+    const env = { ...process.env, A4_READ_RUN: runId, A4_READ_SYNTHETIC: "true", A4_READ_ADMIN: url("postgres", secrets.admin),
+      A4_READ_WRITER: url("a4_writer", secrets.writer), A4_READ_READER: url("a4_reader", secrets.reader), A4_LEGACY_ADMIN: url("postgres", secrets.admin).replace("/a4_read?schema=identity_a4_private", "/a4_legacy?schema=public"),
+      A4_VEHICLE_WRITER: url("a4_vehicle_writer", secrets.link).replace("/a4_read?schema=identity_a4_private", "/a4_legacy?schema=public"),
+      A4_LEGACY_READER: url("a4_legacy_reader", secrets.legacy).replace("/a4_read?schema=identity_a4_private", "/a4_legacy?schema=public") };
+    const output = docker(["run", "--rm", "--pull", "never", "--name", runId + "-read-worker", "--label", "primax.a4.read=" + runId,
+      "--network", network, "--read-only", "--tmpfs", "/tmp:rw,nosuid,exec,size=512m", "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
+      "--mount", `type=bind,source=${root},target=/workspace,readonly`, "--env", "A4_READ_RUN", "--env", "A4_READ_SYNTHETIC",
+      "--env", "A4_READ_ADMIN", "--env", "A4_READ_WRITER", "--env", "A4_READ_READER", "--env", "A4_LEGACY_ADMIN", "--env", "A4_LEGACY_READER", "--env", "A4_VEHICLE_WRITER", "--entrypoint", "node", toolImage,
+      "/workspace/tools/astra/identity-a4-vehicle-receipt-worker.cjs"], { env, timeout: 120000 });
+    Object.assign(result, JSON.parse(output.trim()));
+    stage = "own PostgreSQL restart";
+    assert.equal(docker(["inspect", pg, "--format", '{{ index .Config.Labels "primax.a4.read" }}']).trim(), runId);
+    docker(["stop", pg]); docker(["start", pg]);
+    let restarted = false;
+    for (let i=0;i<60;i++) { try { docker(["exec",pg,"psql","-X","-U","postgres","-d","a4_legacy","-c","SELECT 1"]); restarted=true;break; } catch { await pause(300); } }
+    assert.ok(restarted,"Own PostgreSQL restart failed");
+    const manifest = result.phase4b1.manifest;
+    function verify(database) {
+      const verifyEnv={...env,A4_RECEIPT_DATABASE:database,A4_RECEIPT_MANIFEST:JSON.stringify(manifest)};
+      for (const key of ["A4_LEGACY_ADMIN","A4_LEGACY_READER","A4_VEHICLE_WRITER"]) verifyEnv[key]=env[key].replace("/a4_legacy?","/"+database+"?");
+      const output=docker(["run","--rm","--pull","never","--network",network,"--read-only","--tmpfs","/tmp:rw,nosuid,exec,size=256m",
+        "--cap-drop","ALL","--security-opt","no-new-privileges","--mount",`type=bind,source=${root},target=/workspace,readonly`,
+        ...["A4_READ_RUN","A4_READ_SYNTHETIC","A4_RECEIPT_DATABASE","A4_RECEIPT_MANIFEST","A4_LEGACY_ADMIN","A4_LEGACY_READER","A4_VEHICLE_WRITER"].flatMap(k=>["--env",k]),
+        "--entrypoint","node",toolImage,"/workspace/tools/astra/identity-a4-vehicle-receipt-verify.cjs"],{env:verifyEnv,timeout:60000});
+      const value=JSON.parse(output.trim());assert.equal(value.success,true);result.checks.push(...value.checks.map(c=>database+": "+c));return value;
+    }
+    result.afterPostgresRestart=verify("a4_legacy");
+    stage = "fresh logical restore";
+    const dump=docker(["exec",pg,"pg_dump","-U","postgres","-d","a4_legacy","--no-owner","--no-acl"]);
+    docker(["exec",pg,"psql","-X","-U","postgres","-d","postgres","-v","ON_ERROR_STOP=1","-c","CREATE DATABASE a4_legacy_restored"]);
+    docker(["exec","-i",pg,"psql","-X","-U","postgres","-d","a4_legacy_restored","-v","ON_ERROR_STOP=1","--single-transaction"],{input:dump+`\n
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA vehicle_link_private FROM PUBLIC;
+GRANT USAGE ON SCHEMA public,vehicle_link_private TO a4_legacy_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public,vehicle_link_private TO a4_legacy_reader;`});
+    result.logicalRestore=verify("a4_legacy_restored");
+    stage = "4B.2A recovery diagnostics";
+    const controlVolume=runId+"-new-recovery-control";
+    assert.equal(docker(["volume","ls","--format","{{.Name}}"]).trim().split(/\r?\n/).includes(controlVolume),false);
+    docker(["volume","create","--label","primax.a4.recovery="+runId,controlVolume]);
+    assert.equal(JSON.parse(docker(["volume","inspect",controlVolume]))[0].Labels["primax.a4.recovery"],runId);
+    const recoveryKeys=["A4_READ_RUN","A4_READ_SYNTHETIC","A4_LEGACY_ADMIN","A4_LEGACY_READER","A4_VEHICLE_WRITER"];
+    function recovery(mode) {
+      const output=docker(["run","--rm","--pull","never","--network",mode==="verify-quarantine"?"none":network,"--read-only",
+        "--tmpfs","/tmp:rw,nosuid,exec,size=512m","--cap-drop","ALL","--security-opt","no-new-privileges",
+        "--mount","type=bind,source="+root+",target=/workspace,readonly",
+        "--mount","type=volume,source="+controlVolume+",target=/control",
+        ...recoveryKeys.flatMap(k=>["--env",k]),"--entrypoint","node",toolImage,
+        "/workspace/tools/astra/identity-a4-vehicle-recovery-worker.cjs",mode],{env,timeout:120000});
+      const value=JSON.parse(output.trim());assert.equal(value.success,true);return value;
+    }
+    result.phase4b2a=recovery("scenarios");
+    result.checks.push(...result.phase4b2a.checks);
+    result.quarantineFreshProcess=recovery("verify-quarantine");
+    result.checks.push("4B.2A fresh network-none container: sticky quarantine survives process restart, zero submissions");
+    result.recoveryControl={newDedicatedVolume:controlVolume,priorVolumeAbsent:true,retained:true};
+    result.isolation = { newInternalNetwork: true, publishedPorts: 0, existingVolumes: 0, newDedicatedVolume: volume,
+      readonlySources: true, separateReadRole: true, postgresRestartTested: true, physicalStorageLossTested: false };
+  } catch (error) {
+    let detail = String(error.stderr || "");
+    for (const value of Object.values(secrets)) detail = detail.replaceAll(value, "[redacted]");
+    result.success = false; result.failure = { stage, code: error.code || error.status || "ERROR", detail: detail.slice(-4500) || "Failure without raw command logging" };
+    process.exitCode = 1;
+  } finally {
+    try { for (const [p, hash] of Object.entries(baseline)) assert.equal(digest(p), hash, "Preexisting file changed: " + p); result.preservedFiles = files.length; }
+    catch (error) { result.success = false; result.preservationFailure = error.message; process.exitCode = 1; }
+    try {
+      if (pgCreated) {
+        assert.equal(docker(["inspect", pg, "--format", '{{ index .Config.Labels "primax.a4.read" }}']).trim(), runId);
+        docker(["stop", pg]); result.resources = "Own PostgreSQL stopped; own NEW volume and network retained";
+      }
+    } catch { result.success = false; result.cleanupFailure = "Could not stop own labeled PG"; process.exitCode = 1; }
+    fs.writeFileSync(evidence, JSON.stringify(result, null, 2) + "\n", { flag: "wx" });
+    console.log(JSON.stringify({ success: result.success, groups: result.checks.length, evidence: path.relative(root, evidence), failure: result.failure }, null, 2));
+  }
+})();
