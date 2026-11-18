@@ -1,0 +1,197 @@
+{
+  "runId": "a4-c0a03dd9098d8151cb039a52",
+  "success": true,
+  "checks": [
+    "TypeScript 5.9.3 core and 3A contracts compile; negative type assertions checked, no emit",
+    "New synthetic fixtures reuse phase-2 provisioning with distinct explicit user/account/member UUIDs",
+    "Actual legacy helper/repository/profile methods over memory fixtures match PostgreSQL identity/code reads",
+    "Foreign/unknown IDs and aliases are masked; cross-user and unsupported actors denied without owner disclosure",
+    "Known no-membership, unknown UUID, missing provisioning and crossed account binding remain distinct",
+    "Real SQL permission failure is UNAVAILABLE with sanitized errors; next fresh snapshot recovers",
+    "Dedicated SELECT role, READ ONLY/REPEATABLE READ snapshots and before/after equality of all five tables",
+    "4B.1 receipt and Vehicle commit together; lookups and duplicate success bypass legacy link work and preserve UUID/result",
+    "4B.1 same-key concurrent requests recover one result; changed digests conflict and losing different-plate work rolls back",
+    "4B.1 distinct owners remain exclusive under original Backend link/Serializable/UNIQUE, without a second Vehicle writer",
+    "4B.1 failures before receipt insertion or after both writes roll back Vehicle and receipt atomically",
+    "4B.1 provider killed before commit leaves no effect; killed after commit before delivering result, two new processes recover identical receipt/UUID without linking",
+    "4B.1 NOT_OBSERVED during an uncommitted successful operation is not rollback; unavailable lookup never fabricates absence",
+    "4B.1 unauthorized/foreign lookup cannot reveal receipts; prior suspension/inactivity and capability revocation do not gain permission from success history",
+    "4B.1 success receipts are immutable; all 39 legacy non-Vehicle tables, historical guest references and five A4 tables unchanged",
+    "a4_legacy: Fresh process: all receipts and UUID/results recovered, complete public/private logical hashes equal, no link invoked",
+    "a4_legacy_restored: Fresh process: all receipts and UUID/results recovered, complete public/private logical hashes equal, no link invoked"
+  ],
+  "baseCommit": "0e563ef4f58f726da3b66a850740ecdfbc6337aa",
+  "images": {
+    "tools": "sha256:38ceee7d6e80b0ed7b3e7d4065312238874d9d10bdbba0dd1152b21ce16fe6e0",
+    "postgres": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3"
+  },
+  "privateSubnet": "10.203.6.0/28",
+  "readTransactions": 108,
+  "domainStatements": 166,
+  "snapshotHash": "0c5f3cce72f9e31a3c9796148bb75edeb57844b71065eff91fbcfb989f7b032e",
+  "phase4b1": {
+    "manifest": {
+      "publicHash": "c173e8ef2f97464c5ed9ecc8c74b3b69272bfd0efabe7e6b899f00c61247fdd5",
+      "receiptHash": "565206d8aae662b1f33b0a0d4f20641a9dea88f8271a9da3280459b5ab7f2130",
+      "receipts": [
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "2a5ab320-97fc-42ee-96b8-096c22eca7dc",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "f6cec622-d67b-4f49-b9b3-5a91581b28fd",
+          "requestDigest": "6fed782778bf363c1ee93b40ad82c3c5fc8099bde75e6f2183ba750a4980d925",
+          "plate": "LOS-001",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:21.574Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "330b196d-ba36-431c-896a-3b4112a3a016",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "59e3275f-df8f-47db-8ef7-d1a248ab53f4",
+          "requestDigest": "9a8fa9360763d7f91b0da0fd6fd94fbfd540a5fc6eafd9d043054282ca7a7dbe",
+          "plate": "FLY-001",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:24.516Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "5f3ff87c-babf-4695-86d8-694d212fa4de",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "b769ad70-94cc-4e6e-b52e-69d44cb250db",
+          "requestDigest": "21d322261fba3c22b325507624bf6bafc63056522d323885c6f77e65c6393fc3",
+          "plate": "NEW-001",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:18.248Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "6758e360-73be-4179-b3fe-f6361a6b496d",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "f3ce3faa-2bfa-4045-bef3-c85f509d1f49",
+          "requestDigest": "c54a0da097b3cc5584a109e8a7ff410c7c1cae668401ea8bc534c53cb1511b09",
+          "plate": "OWN-001",
+          "label": "Original owned label",
+          "recordedAt": "2026-11-17T01:11:18.365Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "be32e2cf-1ec8-43f8-8cda-586b79018b60",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "db35e261-3bfc-45b6-9897-4d4512fa3629",
+          "requestDigest": "6526e59c1579b50c535bb9bb987c22597635177fe7569adf593bf6dc9df00af1",
+          "plate": "DIF-001",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:18.508Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "d19af920-6b6c-489c-a4a4-9416b8f99e3c",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "ca4ed3c3-242b-448e-a191-32e82270f770",
+          "requestDigest": "6e93f3cf8fe9a9730d6428323bfa19181bb3761e206679dbb1e0cb611ff96c3c",
+          "plate": "OWN-002",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:18.585Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "e44fd03d-33cf-438d-b821-d871f7385b64",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "d4d49a0f-0b6f-4d0b-a20c-7e041086d338",
+          "requestDigest": "995b365281400937f0400783edbd5d2f23b53827360ca50948ec2068f2e7efca",
+          "plate": "GUE-001",
+          "label": "Guest link",
+          "recordedAt": "2026-11-17T01:11:18.347Z"
+        },
+        {
+          "contractVersion": 2,
+          "policyVersion": "SUCCESS_ONLY_V1",
+          "callerNamespace": "synthetic-identity",
+          "operationId": "e53131b7-b4b8-46d8-987f-3b33baba8d1a",
+          "userId": "2c1b27c9-9922-496b-8dbe-e7f98a676465",
+          "membershipId": "7e8f8861-33e6-47e8-a4db-ba0164b51110",
+          "vehicleId": "ca6fdb06-8edc-4306-aab0-dbad3bdbbf31",
+          "requestDigest": "33bbc7ebc01b6084a38cf22d57aeddfa61058041c16605cd2d660df4e8b840e3",
+          "plate": "DUP-001",
+          "label": "Synthetic requested",
+          "recordedAt": "2026-11-17T01:11:18.400Z"
+        }
+      ]
+    },
+    "checksSummary": {
+      "workCalls": 13,
+      "repositoryCalls": 20,
+      "successfulReceipts": 10,
+      "authorizedReceiptsForRecovery": 8,
+      "historicalIneligibleFixtures": 2,
+      "providerKilledAfterCommit": true,
+      "freshLookupProcesses": 2,
+      "negativeDigestRace": true,
+      "financialTablesUnchanged": 39,
+      "physicalStorageLossTested": false,
+      "concurrentSuspensionPriorityTested": false,
+      "publicHTTP": false,
+      "authentication": "synthetic opaque credentials, no AuthCore/JWT"
+    }
+  },
+  "typeScript": "5.9.3",
+  "node": "v22.21.1",
+  "afterPostgresRestart": {
+    "success": true,
+    "checks": [
+      "Fresh process: all receipts and UUID/results recovered, complete public/private logical hashes equal, no link invoked"
+    ],
+    "receiptCount": 8,
+    "counts": {
+      "workCalls": 0,
+      "repositoryCalls": 0
+    },
+    "database": "a4_legacy"
+  },
+  "logicalRestore": {
+    "success": true,
+    "checks": [
+      "Fresh process: all receipts and UUID/results recovered, complete public/private logical hashes equal, no link invoked"
+    ],
+    "receiptCount": 8,
+    "counts": {
+      "workCalls": 0,
+      "repositoryCalls": 0
+    },
+    "database": "a4_legacy_restored"
+  },
+  "isolation": {
+    "newInternalNetwork": true,
+    "publishedPorts": 0,
+    "existingVolumes": 0,
+    "newDedicatedVolume": "a4-c0a03dd9098d8151cb039a52-new-data",
+    "readonlySources": true,
+    "separateReadRole": true,
+    "postgresRestartTested": true,
+    "physicalStorageLossTested": false
+  },
+  "preservedFiles": 1090,
+  "resources": "Own PostgreSQL stopped; own NEW volume and network retained"
+}
