@@ -20,7 +20,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { Actor, CurrentActor, TerminalOnly } from '../auth/access';
-import { AssistanceService } from './assistance.service';
+import { AssistanceWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/assistance-workflow.adapter';
 
 export class CreateAssistanceDto {
   @IsUUID('4') requestId: string;
@@ -47,7 +47,7 @@ export class AssistanceActionDto {
 @TerminalOnly()
 @Controller('terminal/assistance')
 export class TerminalAssistanceController {
-  constructor(private readonly service: AssistanceService) {}
+  constructor(private readonly service: AssistanceWorkflowAdapter) {}
   @Post() create(
     @CurrentActor() actor: Extract<Actor, { kind: 'terminal' }>,
     @Body() dto: CreateAssistanceDto,
@@ -71,7 +71,7 @@ export class TerminalAssistanceController {
 @SetMetadata('access', 'control')
 @Controller('control/assistance')
 export class ControlAssistanceController {
-  constructor(private readonly service: AssistanceService) {}
+  constructor(private readonly service: AssistanceWorkflowAdapter) {}
   @Get() list(
     @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,
     @Query() query: ListAssistanceDto,

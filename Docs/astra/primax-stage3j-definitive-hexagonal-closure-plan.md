@@ -508,3 +508,52 @@ Commerce y Lote 1 completos aún no se declaran. Se mantienen los criterios
 finitos de cierre de §11, incluida regresión agrupada y aceptación de excepciones.
 Se termina exclusivamente 1E, con un único commit local tras las pruebas.
 **1F no iniciado; sin push ni merge, y sin comenzar los lotes 2–5.**
+
+## 13. Cierre académico de la frontera Commerce tras Lote 1F — 2026-11-19
+
+Referencia autorizada `5ba983d3242cf025ead1e1bd1d640d1e22fa4222`, rama
+`feat/dezkz-identity-a4-core`. Esta actualización conserva las secciones
+históricas y sus estados de referencia. Entrega:
+[informe 1F](primax-lot1f-operational-closure-results.md),
+[matriz final de 46 contratos](primax-commerce-final-46-contract-matrix.md) y
+[evidencia saneada](evidence/lot1f-operations/review-summary.json).
+
+| Familia 1F / filas 3I | Contratos | Resultado de frontera |
+|---|---:|---|
+| AssistanceWorkflow: 7–9,36–38 | 6 | Puertos/casos de uso y adaptadores al AssistanceService íntegro; validación HTTP/SQL/Redis, permisos, estados, auditoría, rollback y replay. |
+| OperationalAdministration: 24–30 | 7 | Autoridad original y motor OperationsService; grants/revoke, surtidores/terminales/asignaciones, atomic y auditoría sin trasladar escritores. |
+| TerminalWorkflow: 39–44 | 6 | OperationsService/KioskService locales; propiedad, actividad de credencial, apertura/cierre, replay, concurrencia y límites de recuperación originales. |
+| ControlOperationRecovery: 12–14 | 3 | Cancel/resolve/ticket con las reglas y efectos SQL/Redis originales; no equivale a resolver T01. |
+| ControlPaymentWorkflow: 10–11 | 2 | Detalle y acciones Control con VIEW/MANAGE/estación, proveedor demo y auditoría originales; sin nuevo intento comercial ni otra transacción distribuida. |
+
+Clasificación previa: A=9 elegibles Commerce, B=15 compartidas con compatibilidad
+local, C=0 bloqueadas para la frontera y D=0 excepciones técnicas sin puerto.
+Las cinco antiguas candidatas técnicas (13,24,25,39,40) también tienen frontera
+y evidencia; no se declaran terminadas mediante una excepción implícita.
+
+**46/46 contratos con frontera comprobada dentro de los casos documentados;
+24 nuevos en 1F y 22 anteriores conservados.** Todos conservan un motor/repositorio
+local de compatibilidad; H y legacy local no son estados mutuamente excluyentes.
+No queda un contrato sin familia ni se crea otro escritor. Los snapshots comparan
+tablas, relaciones, importes, estados, secuencias y efectos técnicos legítimos.
+La regresión final agrupada incluye las familias previas, lectura protegida,
+Gateway/empaquetado, cuatro builds más legacy e imágenes Docker.
+
+Se cumplen los criterios técnicos de cierre de Commerce de §11 dentro de la
+evidencia declarada, sin P0 técnico nuevo pendiente ni otra extracción requerida
+por defecto. La aceptación de la entrega 1F corresponde al responsable. No se
+declara concluido el proyecto 3J completo: los contratos Identity/Catalog y
+Administration, Compose integral, tres interfaces y portabilidad de los Lotes
+2–5 siguen fuera de esta autorización y no quedan acreditados por Commerce.
+
+Se conservan T01 pendiente de recuperación funcional, `x-kiosk-key` sin scope
+firmado de estación, TARJETA/`OnlineOrder_method_check` con 500/rollback y las
+limitaciones de proveedor/firma nativa. Permanecen AuthCore/JWT/PasswordReset/
+KioskService, Prisma y bootstrap compartidos. No se reabre Identity A.4, no se
+cambia esquema, políticas, motores, frontends, Gateway u otros microservicios.
+Las pruebas de ticket/claim conservan explícitamente efectos Redis que pueden
+sobrevivir un fallo SQL; no se promete atomicidad conjunta ni recuperación universal.
+
+Próximo alcance recomendado, sin iniciarlo: Lote 2 de §6, cierre Identity y
+aceptación Catalog, preservando A.4 y plataformas. No hay push ni merge.
+**Lote 1F terminado; Lotes 2–5 no iniciados.**

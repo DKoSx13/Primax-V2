@@ -1,3 +1,4 @@
+import { ControlPaymentWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/control-payment-workflow.adapter';
 ﻿import {
   Body,
   Controller,
@@ -165,7 +166,7 @@ export class ControlPaymentsService {
 @SetMetadata('access', 'control')
 @Controller('control/payments')
 export class ControlPaymentsController {
-  constructor(private readonly service: ControlPaymentsService) {}
+  constructor(private readonly service: ControlPaymentWorkflowAdapter) {}
   @Get(':id') detail(
     @CurrentActor() actor: ControlActor,
     @Param('id', ParseUUIDPipe) id: string,

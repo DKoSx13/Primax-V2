@@ -1,3 +1,6 @@
+import { ControlOperationRecoveryAdapter } from '../../services/commerce/src/adapters/inbound/control-operation-recovery.adapter';
+import { TerminalWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/terminal-workflow.adapter';
+import { OperationalAdministrationAdapter } from '../../services/commerce/src/adapters/inbound/operational-administration.adapter';
 import {
   Body,
   Controller,
@@ -24,7 +27,6 @@ import {
   CurrentActor,
   TerminalOnly,
 } from '../auth/access';
-import { OperationsService } from './operations.service';
 import { KioskService } from '../kiosk/kiosk.service';
 
 class OperationDto {
@@ -66,9 +68,9 @@ const adminId = (actor: Actor) =>
 @TerminalOnly()
 @Controller('terminal')
 export class TerminalController {
-  constructor(private readonly service: OperationsService, private readonly kiosk: KioskService) {}
+  constructor(private readonly service: TerminalWorkflowAdapter, private readonly kiosk: KioskService) {}
   @Post('claim') claim(@CurrentActor() actor: Actor, @Req() req: Request, @Body() dto: TerminalClaimDto) {
-    return this.kiosk.claimTerminal(req, terminalId(actor), dto.operationId);
+    return this.service.claimTerminal(req, terminalId(actor), dto.operationId);
   }
   @Get('me') async me(@CurrentActor() actor: Actor, @Req() req: Request) {
     await this.kiosk.touchTerminalOwner(terminalId(actor), req.header('x-terminal-owner') || '');
@@ -122,14 +124,14 @@ export class TerminalController {
 @SetMetadata('access', 'control')
 @Controller('control/terminal-operations')
 export class ControlTerminalRecoveryController {
-  constructor(private readonly service: OperationsService, private readonly kiosk: KioskService) {}
+  constructor(private readonly service: ControlOperationRecoveryAdapter, private readonly kiosk: KioskService) {}
 
   @Post(':id/recovery-ticket') @Header('Cache-Control', 'no-store') async recoveryTicket(
     @CurrentActor() actor: Extract<Actor, { kind: 'control' }>,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: RecoveryDto,
   ) {
-    try { return await this.kiosk.issueRecoveryTicket(actor, id, dto.reason.trim()); }
+    try { return await this.service.issueRecoveryTicket(actor, id, dto.reason.trim()); }
     catch (error) { await this.kiosk.auditRecoveryDenied(actor, id, dto.reason.trim(), error).catch(() => undefined); throw error; }
   }
 
@@ -152,7 +154,7 @@ export class ControlTerminalRecoveryController {
 @SetMetadata('access', 'admin')
 @Controller('operational-admin')
 export class OperationalAdminController {
-  constructor(private readonly service: OperationsService) {}
+  constructor(private readonly service: OperationalAdministrationAdapter) {}
   @Post('permissions/admin') grant(
     @CurrentActor() actor: Actor,
     @Body() dto: GrantDto,
