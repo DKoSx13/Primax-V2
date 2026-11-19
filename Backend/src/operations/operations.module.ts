@@ -12,7 +12,7 @@ import {
 } from './operations.controller';
 import { OperationsService } from './operations.service';
 import { IncidentsModule } from '../incidents/incidents.module';
-import { AuthCoreModule } from '../auth/auth.module';
+import { AuthCoreModule } from '../auth/auth-core.module';
 
 @Module({
   controllers: [ControlPaymentsController,

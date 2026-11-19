@@ -600,3 +600,37 @@ Commerce/Administration, frontends/Gateway, T01, x-kiosk-key e Identity A.4.
 No hay push ni merge. Se recomienda aceptar el incremento elegible y Catalog con
 observaciones, mantener abierto el cierre Lote 2 y resolver esa decisión antes de
 declararlo terminado. **Trabajo detenido dentro de Lote 2; Lotes 3–5 no iniciados.**
+
+
+## 15. Lote 2B ? P0 de composici?n Identity/AuthCore resuelto, 2026-11-19
+
+Referencia autorizada: `49025813890ad426d64c4a6af6277c852d0ccc66`.
+Se preserva ?ntegro el diagn?stico hist?rico de ?14; esta actualizaci?n lo sustituye
+respecto del bloqueo de composici?n y empaquetado. Informe:
+[Lote 2B](primax-lot2b-identity-authcore-composition-results.md),
+[evidencia](evidence/lot2b-composition/review-summary.json).
+
+AuthCoreModule pasa a un archivo sin controladores HTTP, preservando literalmente
+la composici?n global, providers, exports y configuraci?n JWT. AuthModule conserva
+los tres controladores y reexporta la misma clase. Bootstrap y OperationsModule
+consumen directamente el core separado. La dependencia indirecta del AccessGuard
+a AdminController se elimina extrayendo intacta demoAdminEnabled a un m?dulo hoja,
+con reexport compatible; no cambia la pol?tica del guard ni los m?todos HTTP.
+
+No cambian Dockerfiles, TypeScript, motores, bases, contratos ni permisos. Los probes
+reproducen TS2307 en los tres contextos baseline ajenos a Identity y compilan en
+los cinco contextos candidate sin copiar fuentes Identity a otros microservicios.
+206 pruebas en 20 suites, 24 contratos Gateway, nueve de empaquetado, cinco builds,
+cinco im?genes y 302 comprobaciones HTTP pareadas pasan. Arranque real de las cinco
+im?genes, health y separaci?n de rutas comprobados en otra PostgreSQL/Redis nuevos;
+datos y secuencias iguales antes/despu?s. No se introducen ciclos de composici?n.
+
+**P0 t?cnico resuelto; Identity sigue en 9/26 fronteras. Los quince contratos quedan
+desbloqueados por composici?n, sin migrarse; las dos D siguen sin aceptaci?n.**
+Catalog conserva seis lecturas aceptadas y sus observaciones. Dependencias AuthCore,
+Prisma/bootstrap, T01, x-kiosk-key, TARJETA, proveedores y A.4 quedan documentadas.
+
+Siguiente propuesta finita, sin ejecutarla: consolidar los quince contratos juntos
+por las tres familias internas auth/kiosco/admin Identity, y resolver expresamente
+las dos excepciones. Requiere nueva autorizaci?n. Sin push/merge; no se inicia
+Administration, Lotes 3?5 ni Docker Compose definitivo. **Lote 2B terminado.**

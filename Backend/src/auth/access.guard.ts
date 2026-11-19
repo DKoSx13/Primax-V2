@@ -10,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { Request } from 'express';
-import { demoAdminEnabled } from './admin.controller';
+import { demoAdminEnabled } from './demo-admin-enabled';
 import { KioskService } from '../kiosk/kiosk.service';
 import { Actor } from './access';
 import { UsersService } from '../users/users.service';

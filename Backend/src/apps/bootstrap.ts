@@ -7,7 +7,7 @@ import { validateEnvironment } from '../config/environment';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { AlertsModule } from '../alerts/alerts.module';
-import { AuthCoreModule } from '../auth/auth.module';
+import { AuthCoreModule } from '../auth/auth-core.module';
 import { HealthModule } from '../health/health.module';
 import { setupApp } from '../setup-app';
 import { randomUUID } from 'node:crypto';

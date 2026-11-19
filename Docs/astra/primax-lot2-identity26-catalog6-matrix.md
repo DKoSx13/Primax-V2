@@ -75,3 +75,18 @@ Pruebas, límites, decisión P0 y recomendación de cierre en el
 [review-summary.json](evidence/lot2-identity/review-summary.json).
 Compose integral, frontends, Administration y validación multiplataforma de los
 Lotes 3–5 no se inician ni se acreditan aquí.
+
+## Actualización Lote 2B — composición desbloqueada
+
+El [informe 2B](primax-lot2b-identity-authcore-composition-results.md) y su
+[evidencia](evidence/lot2b-composition/review-summary.json) sustituyen únicamente
+el diagnóstico P0 de distribución de la entrega anterior. AuthCore queda separado
+de la fachada HTTP y de su dependencia indirecta a AdminController, sin cambiar
+políticas ni copiar Identity a otros procesos. Los quince C quedan técnicamente
+desbloqueados por composición y pendientes de implementación/validación de sus
+fronteras: cinco auth, seis kiosco y cuatro workflows admin Identity.
+
+La matriz contractual conserva sus estados históricos: **9/26 implementados,
+15 pendientes de consolidación y dos D propuestas sin aceptar**. No hay contratos
+nuevos ni migraciones en 2B. Catalog permanece en seis lecturas aceptadas con sus
+observaciones; no se declara cerrado Identity ni el Lote 2.

@@ -1,0 +1,1410 @@
+{
+  "kind": "astra-lot2b-identity-authcore-composition-only",
+  "reference": "49025813890ad426d64c4a6af6277c852d0ccc66",
+  "branch": "feat/dezkz-identity-a4-core",
+  "initialTrackedChanges": 0,
+  "integrity": {
+    "reference": "49025813890ad426d64c4a6af6277c852d0ccc66",
+    "exactCoreMetadataAndJwtCompositionPreserved": true,
+    "exactHelperBodyPreserved": true,
+    "guardChanges": "import only",
+    "controllerMethodsAndDecoratorsUnchanged": true,
+    "newCompositionEdgesCycleFree": [
+      [
+        "src/apps/bootstrap.ts",
+        "src/auth/auth-core.module.ts"
+      ],
+      [
+        "src/operations/operations.module.ts",
+        "src/auth/auth-core.module.ts"
+      ],
+      [
+        "src/auth/auth.module.ts",
+        "src/auth/auth-core.module.ts"
+      ],
+      [
+        "src/auth/access.guard.ts",
+        "src/auth/demo-admin-enabled.ts"
+      ],
+      [
+        "src/auth/admin.controller.ts",
+        "src/auth/demo-admin-enabled.ts"
+      ]
+    ],
+    "protectedPriorHashesVerified": 150,
+    "initial": {
+      "head": "49025813890ad426d64c4a6af6277c852d0ccc66",
+      "branch": "feat/dezkz-identity-a4-core",
+      "ancestors": [
+        "f05027ff86f5a03aba12ffeb528f2d001209d747",
+        "8086aa98817b25d72ec7e4cf86ad94c39373bf3b",
+        "a6cf8c648d1bc484eeee16cf29b04ce9f1dcf4f6",
+        "6bfbe32a23d73f8e77f19e10d33083b61fc709ec",
+        "7e9746f4eb49f475e2bd23942e8b052b179c2b78",
+        "1dcb5836ad2bbbb089c486eba2c9950ad05a2d55",
+        "f28b96fb56c7d9acffa3810d1943037222d8a928",
+        "26d2d86234f28b6950d174745a0a03c145137120",
+        "5bd1369166238913eec86796bbcd0d93a9ed5e4f",
+        "4721cb2925d9ee5df72564f91a8a51c60ab30788",
+        "b0f9dcf6ce37e77aa2e9b8a892efce55460ef2d2",
+        "83b22937015b2ad39eff2815a21d9f7b7c49aa42",
+        "c9f010bf4d236d9518cae9c114026b74b1d7c69b",
+        "b2df4fda3c004a515c991b31aa6d3c56f79980d4",
+        "eb0d893cb0534e6cebcca903a884f74e1cd1d421",
+        "42f9fd051269f1963eccf6485b15fd88be2f49fd",
+        "5ba983d3242cf025ead1e1bd1d640d1e22fa4222",
+        "868a74f4dd5aad41e5c1e73774979233d881cb59"
+      ],
+      "evidence": [
+        {
+          "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+          "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7"
+        },
+        {
+          "file": "Docs/astra/evidence/stage2b/control.png",
+          "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287"
+        },
+        {
+          "file": "Docs/astra/evidence/stage2b/prime.png",
+          "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f"
+        },
+        {
+          "file": "Docs/astra/evidence/stage2b/results.json",
+          "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30"
+        },
+        {
+          "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+          "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561"
+        },
+        {
+          "file": "tools/astra/stage2b-browser.cjs",
+          "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269"
+        },
+        {
+          "file": "tools/astra/stage2b-checks.cjs",
+          "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f"
+        },
+        {
+          "file": "tools/astra/stage2b-lab.cjs",
+          "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6"
+        },
+        {
+          "file": "tools/stage2b-smoke.cjs",
+          "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7"
+        }
+      ]
+    },
+    "historicalEvidenceStillUntracked": true
+  },
+  "gitConnectivityCheck": {
+    "passed": true,
+    "onlyDanglingBlobsReported": true
+  },
+  "originalFailureReproducedBeforeEdit": {
+    "evidence": ".cache/astra-lot2-identity/core-packaging-6843b08e6f63/results.json",
+    "network": "none",
+    "databases": 0,
+    "repositoryEdits": 0,
+    "context": "Same source COPY scope as existing Commerce Dockerfile",
+    "originalContextBuildExit": 0,
+    "sharedControllerIdentityImportBuildExit": 1,
+    "expectedDiagnostic": "TS2307: Identity source is outside this independent image build context",
+    "authCoreOrOtherDockerfileChangeRequired": true
+  },
+  "diagnostic": {
+    "reference": "49025813890ad426d64c4a6af6277c852d0ccc66",
+    "network": "none",
+    "databaseCommands": 0,
+    "repositoryControllerEdits": 0,
+    "results": [
+      {
+        "arm": "baseline",
+        "domain": "identity",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 173,
+        "log": "baseline-identity-original.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "identity",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 173,
+        "log": "baseline-identity-probe.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "catalog",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 159,
+        "log": "baseline-catalog-original.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "catalog",
+        "probe": true,
+        "exit": 1,
+        "expectedFailure": true,
+        "log": "baseline-catalog-probe.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "administration",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 117,
+        "log": "baseline-administration-original.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "administration",
+        "probe": true,
+        "exit": 1,
+        "expectedFailure": true,
+        "log": "baseline-administration-probe.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "commerce",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 301,
+        "log": "baseline-commerce-original.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "commerce",
+        "probe": true,
+        "exit": 1,
+        "expectedFailure": true,
+        "log": "baseline-commerce-probe.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "legacy",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "log": "baseline-legacy-original.log"
+      },
+      {
+        "arm": "baseline",
+        "domain": "legacy",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "log": "baseline-legacy-probe.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "identity",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 177,
+        "log": "candidate-identity-original.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "identity",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 177,
+        "log": "candidate-identity-probe.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "catalog",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 155,
+        "log": "candidate-catalog-original.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "catalog",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 155,
+        "log": "candidate-catalog-probe.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "administration",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 113,
+        "log": "candidate-administration-original.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "administration",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 113,
+        "log": "candidate-administration-probe.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "commerce",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 297,
+        "log": "candidate-commerce-original.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "commerce",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "files": 297,
+        "log": "candidate-commerce-probe.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "legacy",
+        "probe": false,
+        "exit": 0,
+        "expectedFailure": false,
+        "log": "candidate-legacy-original.log"
+      },
+      {
+        "arm": "candidate",
+        "domain": "legacy",
+        "probe": true,
+        "exit": 0,
+        "expectedFailure": false,
+        "log": "candidate-legacy-probe.log"
+      }
+    ]
+  },
+  "offline": {
+    "evidence": ".cache/astra-lot2b-composition/run-f7fe7c1684f2",
+    "node": "v22.21.1",
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 20,
+      "passed": 206,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "identity-catalog-contracts",
+        "exitCode": 0,
+        "elapsedMs": 32081,
+        "log": "identity-catalog-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 112,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 199,
+        "log": "packaging-contracts.log"
+      },
+      {
+        "name": "build-catalog",
+        "exitCode": 0,
+        "elapsedMs": 7965,
+        "log": "build-catalog.log"
+      },
+      {
+        "name": "build-identity",
+        "exitCode": 0,
+        "elapsedMs": 5963,
+        "log": "build-identity.log"
+      },
+      {
+        "name": "build-administration",
+        "exitCode": 0,
+        "elapsedMs": 5505,
+        "log": "build-administration.log"
+      },
+      {
+        "name": "build-commerce",
+        "exitCode": 0,
+        "elapsedMs": 5781,
+        "log": "build-commerce.log"
+      },
+      {
+        "name": "build-legacy",
+        "exitCode": 0,
+        "elapsedMs": 6591,
+        "log": "build-legacy.log"
+      }
+    ]
+  },
+  "gatewayChecks": 24,
+  "packagingChecks": 9,
+  "packaging": [
+    {
+      "domain": "identity",
+      "entrypoint": "src/apps/identity/main.js",
+      "before": 173,
+      "after": 177,
+      "removed": [],
+      "added": [
+        "src/auth/auth-core.module.js",
+        "src/auth/auth-core.module.js.map",
+        "src/auth/demo-admin-enabled.js",
+        "src/auth/demo-admin-enabled.js.map"
+      ],
+      "changed": [
+        "src/apps/bootstrap.js",
+        "src/apps/bootstrap.js.map",
+        "src/auth/access.guard.js",
+        "src/auth/access.guard.js.map",
+        "src/auth/admin.controller.js",
+        "src/auth/admin.controller.js.map",
+        "src/auth/auth.module.js",
+        "src/auth/auth.module.js.map"
+      ],
+      "baselineManifestSha256": "aa3551eebf92221f7ef616b4d74c0ded7bd34ad0720d1e7ead77d6e12dc7d83c",
+      "candidateManifestSha256": "c041fca97edeb300b04b5651648582a6ffa8604c01da7b11cd0329fc59672e60"
+    },
+    {
+      "domain": "catalog",
+      "entrypoint": "src/apps/catalog/main.js",
+      "before": 159,
+      "after": 155,
+      "removed": [
+        "src/auth/admin.controller.js",
+        "src/auth/admin.controller.js.map",
+        "src/auth/auth.controller.js",
+        "src/auth/auth.controller.js.map",
+        "src/auth/auth.module.js",
+        "src/auth/auth.module.js.map",
+        "src/kiosk/kiosk.controller.js",
+        "src/kiosk/kiosk.controller.js.map"
+      ],
+      "added": [
+        "src/auth/auth-core.module.js",
+        "src/auth/auth-core.module.js.map",
+        "src/auth/demo-admin-enabled.js",
+        "src/auth/demo-admin-enabled.js.map"
+      ],
+      "changed": [
+        "src/apps/bootstrap.js",
+        "src/apps/bootstrap.js.map",
+        "src/auth/access.guard.js",
+        "src/auth/access.guard.js.map"
+      ],
+      "baselineManifestSha256": "d75d3e2e32279d60a1df22236b9708b7d86e66d69cd1ca5492ff82bcc697f2d3",
+      "candidateManifestSha256": "16b2cd0fa590da843975437071eb31036950f497e51dca3dd0a300ff20dd86ab"
+    },
+    {
+      "domain": "administration",
+      "entrypoint": "src/apps/administration/main.js",
+      "before": 117,
+      "after": 113,
+      "removed": [
+        "src/auth/admin.controller.js",
+        "src/auth/admin.controller.js.map",
+        "src/auth/auth.controller.js",
+        "src/auth/auth.controller.js.map",
+        "src/auth/auth.module.js",
+        "src/auth/auth.module.js.map",
+        "src/kiosk/kiosk.controller.js",
+        "src/kiosk/kiosk.controller.js.map"
+      ],
+      "added": [
+        "src/auth/auth-core.module.js",
+        "src/auth/auth-core.module.js.map",
+        "src/auth/demo-admin-enabled.js",
+        "src/auth/demo-admin-enabled.js.map"
+      ],
+      "changed": [
+        "src/apps/bootstrap.js",
+        "src/apps/bootstrap.js.map",
+        "src/auth/access.guard.js",
+        "src/auth/access.guard.js.map"
+      ],
+      "baselineManifestSha256": "73eaf27b1ff52d94b2b2544ca7caafce2e700c235358efb9ee2d9207df2285a2",
+      "candidateManifestSha256": "23561916df7df767c435df2095e578baca281fe58f82b4706c5161c045b9db1f"
+    },
+    {
+      "domain": "commerce",
+      "entrypoint": "src/apps/commerce/main.js",
+      "before": 301,
+      "after": 297,
+      "removed": [
+        "src/auth/admin.controller.js",
+        "src/auth/admin.controller.js.map",
+        "src/auth/auth.controller.js",
+        "src/auth/auth.controller.js.map",
+        "src/auth/auth.module.js",
+        "src/auth/auth.module.js.map",
+        "src/kiosk/kiosk.controller.js",
+        "src/kiosk/kiosk.controller.js.map"
+      ],
+      "added": [
+        "src/auth/auth-core.module.js",
+        "src/auth/auth-core.module.js.map",
+        "src/auth/demo-admin-enabled.js",
+        "src/auth/demo-admin-enabled.js.map"
+      ],
+      "changed": [
+        "src/apps/bootstrap.js",
+        "src/apps/bootstrap.js.map",
+        "src/auth/access.guard.js",
+        "src/auth/access.guard.js.map",
+        "src/operations/operations.module.js",
+        "src/operations/operations.module.js.map"
+      ],
+      "baselineManifestSha256": "c28e3f7ba71040dc03d34d482a54efadbd35dfb47c02609d2a9292c03beafcdf",
+      "candidateManifestSha256": "c7efefdecda1df24f66c6dacd61609e640bb511ac2dcef0654958ef63ca81d9e"
+    }
+  ],
+  "images": [
+    {
+      "domain": "identity",
+      "tag": "primax-astra-lot2b-identity:eda708fdc476",
+      "imageId": "sha256:7de0bd6583a773214b944c21d66b90eb7298a78b61ad5820b560469d82e5a625",
+      "user": "node",
+      "command": [
+        "node",
+        "services/identity/dist/src/apps/identity/main.js"
+      ],
+      "bootstrap": {
+        "domain": "identity",
+        "bootstrapReachedListen": true,
+        "realNestLifecycle": false,
+        "network": "none",
+        "databaseCommands": 0
+      }
+    },
+    {
+      "domain": "catalog",
+      "tag": "primax-astra-lot2b-catalog:eda708fdc476",
+      "imageId": "sha256:3f4f2c348f009ecf44752d1febc11ad4c4e11e045a476948d7c1e136c65ef834",
+      "user": "node",
+      "command": [
+        "node",
+        "services/catalog/dist/src/apps/catalog/main.js"
+      ],
+      "bootstrap": {
+        "domain": "catalog",
+        "bootstrapReachedListen": true,
+        "realNestLifecycle": false,
+        "network": "none",
+        "databaseCommands": 0
+      }
+    },
+    {
+      "domain": "administration",
+      "tag": "primax-astra-lot2b-administration:eda708fdc476",
+      "imageId": "sha256:69a054c6f05fa778941e9d437b164bdf469bdcf389b1bd9e7ec30f0444f4512c",
+      "user": "node",
+      "command": [
+        "node",
+        "services/administration/dist/src/apps/administration/main.js"
+      ],
+      "bootstrap": {
+        "domain": "administration",
+        "bootstrapReachedListen": true,
+        "realNestLifecycle": false,
+        "network": "none",
+        "databaseCommands": 0
+      }
+    },
+    {
+      "domain": "commerce",
+      "tag": "primax-astra-lot2b-commerce:eda708fdc476",
+      "imageId": "sha256:fc90f1c631f2a55b51631fbfab302538d3bc614ba6f39a8788c4b5f3064f8642",
+      "user": "node",
+      "command": [
+        "node",
+        "services/commerce/dist/src/apps/commerce/main.js"
+      ],
+      "bootstrap": {
+        "domain": "commerce",
+        "bootstrapReachedListen": true,
+        "realNestLifecycle": false,
+        "network": "none",
+        "databaseCommands": 0
+      }
+    },
+    {
+      "domain": "legacy",
+      "tag": "primax-astra-lot2b-legacy:eda708fdc476",
+      "imageId": "sha256:70e91f8e1b18950eba2f61769cc153d8fbabc70fa654d07b862c64589b289136",
+      "user": "node",
+      "command": [
+        "node",
+        "dist/src/main.js"
+      ],
+      "bootstrap": {
+        "domain": "legacy",
+        "bootstrapReachedListen": true,
+        "realNestLifecycle": false,
+        "network": "none",
+        "databaseCommands": 0
+      }
+    }
+  ],
+  "realBootstraps": {
+    "evidence": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-f1114939af00",
+    "bootstraps": [
+      {
+        "domain": "identity",
+        "health": {
+          "status": "ok",
+          "database": "up"
+        },
+        "loginStatus": 400,
+        "realNestLifecycle": true
+      },
+      {
+        "domain": "catalog",
+        "health": {
+          "status": "ok",
+          "database": "up"
+        },
+        "loginStatus": 404,
+        "realNestLifecycle": true
+      },
+      {
+        "domain": "administration",
+        "health": {
+          "status": "ok",
+          "database": "up"
+        },
+        "loginStatus": 404,
+        "realNestLifecycle": true
+      },
+      {
+        "domain": "commerce",
+        "health": {
+          "status": "ok",
+          "database": "up"
+        },
+        "loginStatus": 404,
+        "realNestLifecycle": true
+      },
+      {
+        "domain": "legacy",
+        "health": {
+          "status": "ok",
+          "database": "up"
+        },
+        "loginStatus": 400,
+        "realNestLifecycle": true
+      }
+    ],
+    "databaseDataAndSequencesUnchanged": true,
+    "databaseDumpSha256": "7ed9d65c7db2a8ad94b9040b8562b39b477d146589cdcdcbbe6a6cacb7b14011",
+    "supplementalSyntheticCatalogChecks": 29
+  },
+  "comparisons": [
+    {
+      "family": "profile",
+      "baseline": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-f00f311ce5df",
+      "candidate": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-004010957d06",
+      "checksPerArm": 42,
+      "exactCanonicalComparisonPassed": true
+    },
+    {
+      "family": "security",
+      "baseline": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-fe984652a0d6",
+      "candidate": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-ca50a85d1962",
+      "checksPerArm": 31,
+      "exactCanonicalComparisonPassed": true
+    },
+    {
+      "family": "kiosk",
+      "baseline": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-1a370d8b94e8",
+      "candidate": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-bbd3e0554038",
+      "checksPerArm": 19,
+      "exactCanonicalComparisonPassed": true
+    },
+    {
+      "family": "admin-ocr",
+      "baseline": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-a47befd9327f",
+      "candidate": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-6dee1ae108ec",
+      "checksPerArm": 30,
+      "exactCanonicalComparisonPassed": true
+    },
+    {
+      "family": "catalog",
+      "baseline": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-22f7efa9bc18",
+      "candidate": ".cache/astra-lot2b-composition/primax-astra-lot2b-composition-8f678c452233",
+      "checksPerArm": 29,
+      "exactCanonicalComparisonPassed": true
+    }
+  ],
+  "acceptedPairedHttpChecks": 302,
+  "ownedProjectsIncludingEarlierRuns": [
+    {
+      "project": "primax-astra-lot2b-composition-004010957d06",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-004010957d06",
+        "volume": "primax-astra-lot2b-composition-004010957d06-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-004010957d06-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.160/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-0b75b13afd86",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-0b75b13afd86",
+        "volume": "primax-astra-lot2b-composition-0b75b13afd86-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-0b75b13afd86-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.128/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-1a370d8b94e8",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-1a370d8b94e8",
+        "volume": "primax-astra-lot2b-composition-1a370d8b94e8-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-1a370d8b94e8-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.0/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-22f7efa9bc18",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-22f7efa9bc18",
+        "volume": "primax-astra-lot2b-composition-22f7efa9bc18-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-22f7efa9bc18-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.128/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-5859168da6ba",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-5859168da6ba",
+        "volume": "primax-astra-lot2b-composition-5859168da6ba-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-5859168da6ba-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.96/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-6dee1ae108ec",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-6dee1ae108ec",
+        "volume": "primax-astra-lot2b-composition-6dee1ae108ec-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-6dee1ae108ec-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.96/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-6df3046d4420",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-6df3046d4420",
+        "volume": "primax-astra-lot2b-composition-6df3046d4420-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-6df3046d4420-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.192/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-73cd6d5c82a7",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-73cd6d5c82a7",
+        "volume": "primax-astra-lot2b-composition-73cd6d5c82a7-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-73cd6d5c82a7-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.96/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-865930dc31bf",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-865930dc31bf",
+        "volume": "primax-astra-lot2b-composition-865930dc31bf-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-865930dc31bf-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.64/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-8f678c452233",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-8f678c452233",
+        "volume": "primax-astra-lot2b-composition-8f678c452233-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-8f678c452233-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.160/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-929d30d0a535",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-929d30d0a535",
+        "volume": "primax-astra-lot2b-composition-929d30d0a535-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-929d30d0a535-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.32/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-a47befd9327f",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-a47befd9327f",
+        "volume": "primax-astra-lot2b-composition-a47befd9327f-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-a47befd9327f-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.64/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-a628f4609857",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-a628f4609857",
+        "volume": "primax-astra-lot2b-composition-a628f4609857-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-a628f4609857-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.160/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-bbd3e0554038",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-bbd3e0554038",
+        "volume": "primax-astra-lot2b-composition-bbd3e0554038-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-bbd3e0554038-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.32/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-be86dd37e3d1",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-be86dd37e3d1",
+        "volume": "primax-astra-lot2b-composition-be86dd37e3d1-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-be86dd37e3d1-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.64/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-c97dbc27156f",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-c97dbc27156f",
+        "volume": "primax-astra-lot2b-composition-c97dbc27156f-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-c97dbc27156f-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.0/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-ca50a85d1962",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-ca50a85d1962",
+        "volume": "primax-astra-lot2b-composition-ca50a85d1962-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-ca50a85d1962-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.224/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-cfdda923da53",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-cfdda923da53",
+        "volume": "primax-astra-lot2b-composition-cfdda923da53-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-cfdda923da53-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.7.224/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-f00f311ce5df",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-f00f311ce5df",
+        "volume": "primax-astra-lot2b-composition-f00f311ce5df-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-f00f311ce5df-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.128/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-f1114939af00",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-f1114939af00",
+        "volume": "primax-astra-lot2b-composition-f1114939af00-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-f1114939af00-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.9.192/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "smoke-administration",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "smoke-catalog",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "smoke-commerce",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "smoke-identity",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "smoke-legacy",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "ea2bda92bf434ce18a86fe66ad722aa5b89b4309e7439a07f137f662a23f884d"
+    },
+    {
+      "project": "primax-astra-lot2b-composition-fe984652a0d6",
+      "isolation": {
+        "project": "primax-astra-lot2b-composition-fe984652a0d6",
+        "volume": "primax-astra-lot2b-composition-fe984652a0d6-pgdata",
+        "redisVolume": "primax-astra-lot2b-composition-fe984652a0d6-redisdata",
+        "newVolumesVerifiedEmpty": true,
+        "volumeOwned": true,
+        "expectedMountVerified": true,
+        "internalNetwork": true,
+        "subnet": "10.251.8.192/27",
+        "publishedPorts": 0,
+        "databases": 1,
+        "migrationsTargetVerifiedBeforeExecution": true
+      },
+      "states": [
+        {
+          "service": "postgres",
+          "exitCode": 0,
+          "running": false
+        },
+        {
+          "service": "redis",
+          "exitCode": 0,
+          "running": false
+        }
+      ],
+      "finalStateSha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    }
+  ],
+  "technicalResult": {
+    "compositionP0Resolved": true,
+    "remaining15TechnicallyUnblockedForThisCause": true,
+    "remaining15Migrated": 0,
+    "identityValidatedBoundaries": 9,
+    "identityTotal": 26,
+    "proposedExceptions": 2,
+    "exceptionsAccepted": 0,
+    "catalogAcceptedReadContracts": 6,
+    "identityAcademicClosure": false,
+    "productionAutonomy": false,
+    "otherLotsStarted": false
+  },
+  "unchangedScope": [
+    "AuthCore policies",
+    "PasswordReset",
+    "authVersion",
+    "JWT/cookies/sessions/revocations",
+    "guards logic",
+    "public HTTP routes and engines",
+    "Prisma/migrations",
+    "financial transactions",
+    "frontends/Gateway",
+    "A.4",
+    "T01",
+    "legacy x-kiosk-key policy"
+  ],
+  "limitations": [
+    "Probes validate compilation reachability, not fifteen implemented use cases",
+    "HTTP parity is limited to the approved synthetic cases and canonical normalization",
+    "SMTP/OCR external transport simulated; no real providers or payments",
+    "Shared AuthCore/Prisma/bootstrap remain",
+    "T01, legacy x-kiosk-key, TARJETA/OnlineOrder_method_check and inventory exposure remain",
+    "Source-level new-edge cycle checks do not assert absence of all preexisting cycles"
+  ],
+  "resolvedValidationAttempts": [
+    "Offline Docker dependency download unavailable; definitive build used dependency repositories",
+    "Initial module split still reached AdminController through AccessGuard; extracted identical helper",
+    "Intercepted bootstrap needed synthetic environment configuration; real bootstrap subsequently passed"
+  ],
+  "historical3JPrefixPreserved": true,
+  "sourceManifest": [
+    {
+      "file": "Backend/src/apps/bootstrap.ts",
+      "sha256": "89164dec3e47478bc7c9a2e79e42b8855c85e8641e2af1fad4a2c8491158084e"
+    },
+    {
+      "file": "Backend/src/auth/access.guard.ts",
+      "sha256": "27bb882a9e95ed3a308416f03c4249d88fc7596953ec2c1a5a0448423f341b07"
+    },
+    {
+      "file": "Backend/src/auth/admin.controller.ts",
+      "sha256": "c4f896e93c57ee537e83b6a746438b9d8c53efc5bbc150d61fa2be082eba3c04"
+    },
+    {
+      "file": "Backend/src/auth/auth.module.ts",
+      "sha256": "b95d40cdfa751015d238236224c7e3f6e4defaa81d11ee69cd416df6b2cf41f3"
+    },
+    {
+      "file": "Backend/src/operations/operations.module.ts",
+      "sha256": "aba9b847336951ff933bb53d090938c862368ad5e75e00c0536139ab09b95161"
+    },
+    {
+      "file": "Backend/src/auth/auth-composition.spec.ts",
+      "sha256": "a1623b49e7e0d3f8a364225fc5a45e463058b1da439fd10a3379a66efacecb05"
+    },
+    {
+      "file": "Backend/src/auth/auth-core.module.ts",
+      "sha256": "cde5626d1e554952fb3193b5f590e397d880375d5f66f04ddd3a9f48b6d66cdd"
+    },
+    {
+      "file": "Backend/src/auth/demo-admin-enabled.ts",
+      "sha256": "ad6fbb97d0a9a9c3de256980441b203b99278393e453c4d2a6beddf6ddb3a763"
+    },
+    {
+      "file": "tools/astra/lot2b-composition-diagnostic.cjs",
+      "sha256": "1902bac3961c44ab58051b7149eed2afbc9bff946a52e1c15a2466dd4642461d"
+    },
+    {
+      "file": "tools/astra/lot2b-composition-postgres-redis.cjs",
+      "sha256": "f42e1a0fc92768c1dde154d5c7824664a0a067470de73fda7f2f0df067956f97"
+    },
+    {
+      "file": "tools/astra/lot2b-composition-validation.cjs",
+      "sha256": "77f8c0fb9cf55e864b2ee45eeeba1d507f5119944089189dbd1785f32bba845c"
+    },
+    {
+      "file": "tools/astra/lot2b-image-bootstrap.cjs",
+      "sha256": "92dfe6482b7d561830816ab773f34ae389f318d6fa241a55752fc2348978697f"
+    },
+    {
+      "file": "tools/astra/lot2b-images.cjs",
+      "sha256": "afc35fcab16d688c1f40099ffe12442b92bb475b97db27e3d79c327ec509b929"
+    },
+    {
+      "file": "tools/astra/lot2b-source-integrity.cjs",
+      "sha256": "54f970823e10bf4f40830947b53aa71c95e0b7c0b96fe6e0254011f54f54937a"
+    },
+    {
+      "file": "Docs/astra/primax-lot2b-identity-authcore-composition-results.md",
+      "sha256": "4b3b811e3a534e964ae9dd3db269273db6b35bd77b4b27aa1410e79cf17a5f7c"
+    },
+    {
+      "file": "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md",
+      "sha256": "49acded58401297a283e7016dc8538044d3b02f3be37f9b14b7b7909b7bd8495"
+    },
+    {
+      "file": "Docs/astra/primax-lot2-identity26-catalog6-matrix.md",
+      "sha256": "e101b33fe24c1e4974061cb6ec521507dc14820ba945dff214b96737f5b8e4b6"
+    }
+  ],
+  "sourceManifestRule": "Working bytes, excludes this JSON itself; no credentials or raw database dumps included",
+  "commitPolicy": {
+    "singleLocalCommit": true,
+    "push": false,
+    "merge": false
+  },
+  "recommendation": "Request subsequent authorization for the three internal families of fifteen contracts together and explicit treatment of the two exceptions; stop 2B here"
+}

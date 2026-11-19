@@ -1,50 +1,11 @@
-import { KioskService } from '../kiosk/kiosk.service';
-import { KioskStore } from '../kiosk/redis-store';
-import { KioskController } from '../kiosk/kiosk.controller';
-import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
-import { UsersModule } from '../users/users.module';
-import { AccessGuard } from './access.guard';
-import { PasswordResetService } from './password-reset.service';
-import { RecoveryDelivery } from './recovery-delivery';
-import { AuthService } from './auth.service';
+import { Module } from '@nestjs/common';
+import { AuthCoreModule } from './auth-core.module';
 import { AuthController } from './auth.controller';
 import { AdminController } from './admin.controller';
-@Global()
-@Module({
-  imports: [
-    UsersModule,
-    JwtModule.registerAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.getOrThrow<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: '1h',
-          issuer: 'primax-v6',
-          audience: 'primax-prime',
-          algorithm: 'HS256',
-        },
-        verifyOptions: {
-          issuer: 'primax-v6',
-          audience: 'primax-prime',
-          algorithms: ['HS256'],
-        },
-      }),
-    }),
-  ],
-  providers: [
-    AuthService,
-    KioskService,
-    KioskStore,
-    PasswordResetService,
-    RecoveryDelivery,
-    { provide: APP_GUARD, useClass: AccessGuard },
-  ],
-  exports: [KioskService, KioskStore, AuthService, PasswordResetService, JwtModule],
-})
-export class AuthCoreModule {}
+import { KioskController } from '../kiosk/kiosk.controller';
+
+// Preserve source compatibility while core consumers use the controller-free module.
+export { AuthCoreModule } from './auth-core.module';
 
 @Module({
   imports: [AuthCoreModule],

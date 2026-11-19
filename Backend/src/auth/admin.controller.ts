@@ -1,3 +1,4 @@
+import { demoAdminEnabled } from './demo-admin-enabled';
 import {
   Body,
   Controller,
@@ -26,12 +27,7 @@ class CheckPlateDto extends PlateDto {
   @IsString() @Matches(/^[A-Z0-9-]{4,30}$/) membershipCode: string;
   @IsUUID('4') operationId: string;
 }
-export function demoAdminEnabled(config: ConfigService) {
-  return (
-    config.get('APP_MODE') === 'local' &&
-    config.get('SHOW_DEMO_ADMIN_CREDENTIALS') === 'true'
-  );
-}
+export { demoAdminEnabled } from './demo-admin-enabled';
 const equal = (a: string, b: string) =>
   timingSafeEqual(
     createHash('sha256').update(a).digest(),
