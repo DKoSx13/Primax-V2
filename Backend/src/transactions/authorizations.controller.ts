@@ -20,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { AlertsService } from '../alerts/alerts.service';
 import { KioskOnly } from '../auth/access';
-import { AuthorizationsService } from './authorizations.service';
+import { AuthorizationReadsAdapter } from '../../services/commerce/src/adapters/inbound/authorization-reads.adapter';
 import { CreateAuthorizationDto } from './create-authorization.dto';
 import { DispenseProgressDto } from './dispense-progress.dto';
 import { AuthorizationCommandsAdapter } from '../../services/commerce/src/adapters/inbound/authorization-commands.adapter';
@@ -28,7 +28,7 @@ import { AuthorizationCommandsAdapter } from '../../services/commerce/src/adapte
 @ApiTags('authorizations')
 @Controller('authorizations')
 export class AuthorizationsController {
-  constructor(private readonly service: AuthorizationsService, private readonly alerts: AlertsService,
+  constructor(private readonly service: AuthorizationReadsAdapter, private readonly alerts: AlertsService,
     private readonly commands: AuthorizationCommandsAdapter) {}
   @Post()
   @KioskOnly()

@@ -467,3 +467,44 @@ Cumplidos estos puntos se cierra Lote 1 académico sin exigir separar bases, eli
 todos los adapters legacy, corregir toda deuda productiva o abrir experimentos
 adicionales. El arranque Compose integral, tres frontends y Windows/Linux/macOS
 permanecen en lotes 4–5; terminar las fronteras Commerce no los acredita.
+
+## 12. Actualización Commerce tras Lote 1E — 2026-11-19
+
+Base autorizada `42f9fd051269f1963eccf6485b15fd88be2f49fd`, rama
+`feat/dezkz-identity-a4-core`. Esta sección añade el estado de 1E; conserva
+íntegras las secciones históricas y sus referencias. Informe y evidencia:
+[Lote 1E](primax-lot1e-finance-and-reads-results.md),
+[resumen](evidence/lot1e-finance/review-summary.json).
+
+| Familia / filas de matriz 3I | Contratos | Estado y dependencia restante |
+|---|---:|---|
+| Venta/autorizaciones: 2,4,5,6,45 | 5 | Frontera comprobada en 1/1B; regresión conservada en 1E. |
+| Lectura de transacción: 46 | 1 | 3I; motor/repo original vigente. |
+| Pagos/reembolso local y parcial: 31–33 | 3 | 1C; atomic, locks y estados sin cambiar; proveedor real no acreditado. |
+| Órdenes/reconciliación/callbacks: 17–23,34 | 8 | 1D y regresión 1E; persisten TARJETA y límites comerciales. |
+| Wallet/puntos/lecturas de autorización: 1,3,15,16,35 | 5 | 1E: las cinco rutas conectadas a tres familias/puertos sobre los motores originales. Ninguna excluida del paquete. |
+| Terminal/atención/asistencia/recuperación/seguridad operacional: 7–14,24–30,36–44 | 24 | Pendiente, fuera de autorización 1E. Candidatos de plataforma siguen sin aceptación explícita; no se cuentan como cerrados. |
+
+Las cinco entradas exactas de 1E son GET `/api/v1/authorizations`, GET
+`/api/v1/authorizations/:id`, POST `/api/v1/memberships/me/recharges`, GET
+`/api/v1/memberships/me/wallet` y POST `/api/v1/rewards/redeem`.
+Se componen mediante `AuthorizationReads`, `WalletOperations` y
+`RewardRedemption`, con adaptadores locales a AuthorizationsService,
+WalletService y RewardsService. El controlador conserva guards, DTO, pipes,
+decoradores y serialización; la frontera no copia algoritmos ni mueve escritores.
+
+**Total: 22/46 con frontera, 24 pendientes en el paquete operacional.**
+Las pruebas comparadas y su alcance están en el informe, sin certificar
+equivalencia universal, proveedor real ni recuperación ante caída física.
+Se mantienen una PostgreSQL, cuatro procesos NestJS, tres frontends, Gateway
+y Compose existentes. No hay cambios de esquema, reglas o seguridad.
+
+T01 sigue pendiente de recuperación funcional; `x-kiosk-key` no obtiene scope
+firmado de estación; TARJETA conserva 500/rollback por `OnlineOrder_method_check`;
+los límites de proveedores externos permanecen abiertos. No se corrigen en 1E,
+no se reabre A.4 y no se alteran otros servicios ni plataformas protegidas.
+
+Commerce y Lote 1 completos aún no se declaran. Se mantienen los criterios
+finitos de cierre de §11, incluida regresión agrupada y aceptación de excepciones.
+Se termina exclusivamente 1E, con un único commit local tras las pruebas.
+**1F no iniciado; sin push ni merge, y sin comenzar los lotes 2–5.**

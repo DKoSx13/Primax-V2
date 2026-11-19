@@ -3,12 +3,12 @@ import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CurrentActor } from '../auth/access';
 import { RedeemResponseDto } from '../common/response.dto';
 import { RedeemDto } from './redeem.dto';
-import { RewardsService } from './rewards.service';
+import { RewardRedemptionAdapter } from '../../services/commerce/src/adapters/inbound/reward-redemption.adapter';
 @ApiTags('rewards')
 @ApiBearerAuth()
 @Controller('rewards')
 export class RewardsController {
-  constructor(private readonly service: RewardsService) {}
+  constructor(private readonly service: RewardRedemptionAdapter) {}
   @Post('redeem')
   @ApiCreatedResponse({
     type: RedeemResponseDto,

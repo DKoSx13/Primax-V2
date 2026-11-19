@@ -1,3 +1,4 @@
+import { authorizationReadsProviders } from '../../services/commerce/src/bootstrap/authorization-reads.providers';
 import { Module } from '@nestjs/common';
 import { PaymentsModule } from '../payments/payments.module';
 import { IncidentsModule } from '../incidents/incidents.module';
@@ -19,6 +20,7 @@ import { authorizationCommandProviders } from '../../services/commerce/src/boots
   imports: [WalletModule, RewardsModule, PaymentsModule, IncidentsModule],
   controllers: [TransactionsController, AuthorizationsController],
   providers: [
+    ...authorizationReadsProviders,
     ...transactionReadProviders,
     ...transactionCreationProviders,
     ...authorizationCommandProviders,

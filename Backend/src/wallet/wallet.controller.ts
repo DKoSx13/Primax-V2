@@ -7,13 +7,13 @@ import {
 } from '@nestjs/swagger';
 import { Actor, CurrentActor } from '../auth/access';
 import { RechargeDto } from './recharge.dto';
-import { WalletService } from './wallet.service';
+import { WalletOperationsAdapter } from '../../services/commerce/src/adapters/inbound/wallet-operations.adapter';
 
 @ApiTags('wallet')
 @ApiBearerAuth()
 @Controller('memberships/me')
 export class WalletController {
-  constructor(private readonly service: WalletService) {}
+  constructor(private readonly service: WalletOperationsAdapter) {}
   @Post('recharges')
   @ApiCreatedResponse({
     description: 'Acreditación DEMO de saldo; no ejecuta ningún cobro real.',
