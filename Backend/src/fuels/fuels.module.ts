@@ -1,11 +1,11 @@
-import { CatalogReader } from '../catalog-reader/catalog-reader';
 import { Module } from '@nestjs/common';
 import { FuelsController } from './fuels.controller';
 import { FuelsService } from './fuels.service';
-import { FuelsRepository } from './fuels.repository';
+import { FuelsReadModule } from '../../services/catalog/src/bootstrap/fuels-read.module';
 @Module({
+  imports: [FuelsReadModule],
   exports: [FuelsService],
   controllers: [FuelsController],
-  providers: [CatalogReader, FuelsService, FuelsRepository],
+  providers: [FuelsService],
 })
 export class FuelsModule {}

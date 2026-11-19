@@ -9,6 +9,7 @@ COPY prisma ./prisma
 RUN npx prisma generate
 COPY tsconfig*.json ./
 COPY src ./src
+COPY services/catalog/src ./services/catalog/src
 COPY scripts ./scripts
 RUN npm run build
 

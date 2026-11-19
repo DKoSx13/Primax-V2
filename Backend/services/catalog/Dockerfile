@@ -12,6 +12,7 @@ COPY tsconfig*.json ./
 COPY src ./src
 COPY scripts ./scripts
 COPY services/catalog/tsconfig.build.json ./services/catalog/tsconfig.build.json
+COPY services/catalog/src ./services/catalog/src
 RUN npm run build:catalog
 
 FROM build AS prod-deps
