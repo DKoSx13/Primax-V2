@@ -1,0 +1,2367 @@
+{
+  "kind": "astra-lot2-identity-eligible-boundaries-and-catalog-read-acceptance",
+  "reference": "868a74f4dd5aad41e5c1e73774979233d881cb59",
+  "branch": "feat/dezkz-identity-a4-core",
+  "ancestorCommitsVerified": [
+    "f05027ff86f5a03aba12ffeb528f2d001209d747",
+    "8086aa98817b25d72ec7e4cf86ad94c39373bf3b",
+    "a6cf8c648d1bc484eeee16cf29b04ce9f1dcf4f6",
+    "6bfbe32a23d73f8e77f19e10d33083b61fc709ec",
+    "7e9746f4eb49f475e2bd23942e8b052b179c2b78",
+    "1dcb5836ad2bbbb089c486eba2c9950ad05a2d55",
+    "f28b96fb56c7d9acffa3810d1943037222d8a928",
+    "26d2d86234f28b6950d174745a0a03c145137120",
+    "5bd1369166238913eec86796bbcd0d93a9ed5e4f",
+    "4721cb2925d9ee5df72564f91a8a51c60ab30788",
+    "b0f9dcf6ce37e77aa2e9b8a892efce55460ef2d2",
+    "83b22937015b2ad39eff2815a21d9f7b7c49aa42",
+    "c9f010bf4d236d9518cae9c114026b74b1d7c69b",
+    "b2df4fda3c004a515c991b31aa6d3c56f79980d4",
+    "eb0d893cb0534e6cebcca903a884f74e1cd1d421",
+    "42f9fd051269f1963eccf6485b15fd88be2f49fd",
+    "5ba983d3242cf025ead1e1bd1d640d1e22fa4222",
+    "868a74f4dd5aad41e5c1e73774979233d881cb59"
+  ],
+  "gitConnectivityCheck": {
+    "passed": true,
+    "preexistingDanglingBlobsOnly": true
+  },
+  "initialTrackedChanges": 0,
+  "initialUntrackedHistoricalEvidenceCount": 9,
+  "finalClassificationPending20": {
+    "A": 1,
+    "B": 2,
+    "C": 15,
+    "D": 2
+  },
+  "eligibleNewBoundaries": 3,
+  "implementedFamilies": [
+    "profile-operations",
+    "vehicle-linking",
+    "plate-recognition"
+  ],
+  "identity26ContractMatrix": [
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/alerts",
+      "controller": "AdminController",
+      "handler": "list",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "AdminIdentityWorkflows (blocked)",
+      "engine": "AlertsService.list",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/alerts/:id/resolve",
+      "controller": "AdminController",
+      "handler": "resolve",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "AdminIdentityWorkflows (blocked)",
+      "engine": "AlertsService.resolve",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/check-plate",
+      "controller": "AdminController",
+      "handler": "check",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "AdminIdentityWorkflows (blocked)",
+      "engine": "AlertsService.checkPlate",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/dashboard",
+      "controller": "AdminController",
+      "handler": "dashboard",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "AdminIdentityWorkflows (blocked)",
+      "engine": "AlertsService.dashboard",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/demo-credentials",
+      "controller": "AdminController",
+      "handler": "demo",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "D",
+      "family": "Technical exception proposed",
+      "engine": "AdminController.demo (inline)",
+      "status": "D",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": true,
+      "blocked": false,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/login",
+      "controller": "AdminController",
+      "handler": "login",
+      "source": "Backend/src/auth/admin.controller.ts",
+      "service": "identity",
+      "classification": "D",
+      "family": "Technical exception proposed",
+      "engine": "AdminController.login (inline)",
+      "status": "D",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": true,
+      "blocked": false,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/forgot-password",
+      "controller": "AuthController",
+      "handler": "forgot",
+      "source": "Backend/src/auth/auth.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "IdentitySecurityOperations (blocked)",
+      "engine": "PasswordResetService.forgot",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "security"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "controller": "AuthController",
+      "handler": "login",
+      "source": "Backend/src/auth/auth.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "IdentitySecurityOperations (blocked)",
+      "engine": "AuthService.login",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "security"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/register",
+      "controller": "AuthController",
+      "handler": "register",
+      "source": "Backend/src/auth/auth.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "IdentitySecurityOperations (blocked)",
+      "engine": "AuthService.register",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "security"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/reset-password",
+      "controller": "AuthController",
+      "handler": "reset",
+      "source": "Backend/src/auth/auth.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "IdentitySecurityOperations (blocked)",
+      "engine": "PasswordResetService.reset",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "security"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/verify-reset-code",
+      "controller": "AuthController",
+      "handler": "verify",
+      "source": "Backend/src/auth/auth.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "IdentitySecurityOperations (blocked)",
+      "engine": "PasswordResetService.verify",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "security"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/kiosk/session",
+      "controller": "KioskController",
+      "handler": "status",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.status",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/kiosk/session/authorize",
+      "controller": "KioskController",
+      "handler": "authorize",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.authorize",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/kiosk/session/login",
+      "controller": "KioskController",
+      "handler": "login",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.login",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/kiosk/session/logout",
+      "controller": "KioskController",
+      "handler": "logout",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.logout",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/kiosk/session/terminal-bootstrap",
+      "controller": "KioskController",
+      "handler": "terminalBootstrap",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.bootstrapTerminal",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/kiosk/session/terminal-recovery",
+      "controller": "KioskController",
+      "handler": "terminalRecovery",
+      "source": "Backend/src/kiosk/kiosk.controller.ts",
+      "service": "identity",
+      "classification": "C",
+      "family": "KioskSessionOperations (blocked)",
+      "engine": "KioskService.exchangeRecoveryTicket",
+      "status": "C",
+      "frontierValidated": false,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": true,
+      "evidenceFamily": "kiosk"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/memberships/me",
+      "controller": "MembershipsController",
+      "handler": "me",
+      "source": "Backend/src/memberships/memberships.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "MembershipReads",
+      "engine": "LegacyMembershipReads / original repositories",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/memberships/me/profile",
+      "controller": "MembershipsController",
+      "handler": "profile",
+      "source": "Backend/src/memberships/memberships.controller.ts",
+      "service": "identity",
+      "classification": "B",
+      "family": "ProfileOperations",
+      "engine": "MembershipsService.updateProfile",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": true,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/memberships/me/redemptions",
+      "controller": "MembershipsController",
+      "handler": "redemptions",
+      "source": "Backend/src/memberships/memberships.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "MembershipReads",
+      "engine": "LegacyMembershipReads / original repositories",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/memberships/me/rewards",
+      "controller": "MembershipsController",
+      "handler": "rewards",
+      "source": "Backend/src/memberships/memberships.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "MembershipReads",
+      "engine": "LegacyMembershipReads / original repositories",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/memberships/me/transactions",
+      "controller": "MembershipsController",
+      "handler": "transactions",
+      "source": "Backend/src/memberships/memberships.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "MembershipReads",
+      "engine": "LegacyMembershipReads / original repositories",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/plate-recognition",
+      "controller": "RecognitionController",
+      "handler": "recognize",
+      "source": "Backend/src/vehicles/recognition.controller.ts",
+      "service": "identity",
+      "classification": "A",
+      "family": "PlateRecognition",
+      "engine": "RecognitionService.recognize",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": true,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "admin-ocr"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/vehicles",
+      "controller": "VehiclesController",
+      "handler": "list",
+      "source": "Backend/src/vehicles/vehicles.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "ListVehicles",
+      "engine": "Existing vehicle readers / VehiclesRepository",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/vehicles",
+      "controller": "VehiclesController",
+      "handler": "create",
+      "source": "Backend/src/vehicles/vehicles.controller.ts",
+      "service": "identity",
+      "classification": "B",
+      "family": "VehicleLinking",
+      "engine": "VehiclesService.create",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": true,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/vehicles/:plate",
+      "controller": "VehiclesController",
+      "handler": "find",
+      "source": "Backend/src/vehicles/vehicles.controller.ts",
+      "service": "identity",
+      "classification": "EXISTING",
+      "family": "LookupVehicle",
+      "engine": "Existing vehicle readers / VehiclesRepository",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "profile"
+    }
+  ],
+  "catalog6ContractMatrix": [
+    {
+      "method": "GET",
+      "path": "/api/v1/benefits",
+      "controller": "BenefitsController",
+      "handler": "list",
+      "source": "Backend/src/benefits/benefits.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ListBenefits",
+      "engine": "BenefitsRepository.list",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/control/catalog/inventory",
+      "controller": "PrivateCatalogController",
+      "handler": "inventory",
+      "source": "Backend/src/catalog-reader/private-catalog.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ReadInventory",
+      "engine": "FuelsRepository.inventory",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/control/catalog/stations",
+      "controller": "PrivateCatalogController",
+      "handler": "list",
+      "source": "Backend/src/catalog-reader/private-catalog.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ListStations",
+      "engine": "StationsRepository.list",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "controller": "FuelsController",
+      "handler": "list",
+      "source": "Backend/src/fuels/fuels.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ListFuels",
+      "engine": "FuelsRepository.list",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/fuels/inventory",
+      "controller": "FuelsController",
+      "handler": "inventory",
+      "source": "Backend/src/fuels/fuels.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ReadInventory",
+      "engine": "FuelsRepository.inventory",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "controller": "StationsController",
+      "handler": "list",
+      "source": "Backend/src/stations/stations.controller.ts",
+      "service": "catalog",
+      "classification": "EXISTING",
+      "family": "ListStations",
+      "engine": "StationsRepository.list",
+      "status": "H",
+      "frontierValidated": true,
+      "newBoundary": false,
+      "legacyEngineDeclared": true,
+      "technicalExceptionAccepted": false,
+      "technicalExceptionProposed": false,
+      "blocked": false,
+      "evidenceFamily": "catalog"
+    }
+  ],
+  "baseline": {
+    "run": ".cache/astra-lot2-identity/run-f638a1c7cf68",
+    "node": "v22.21.1",
+    "baseline": true,
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 17,
+      "passed": 191,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "commerce-contracts",
+        "exitCode": 0,
+        "elapsedMs": 33928,
+        "log": "commerce-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 110,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 166,
+        "log": "packaging-contracts.log"
+      }
+    ]
+  },
+  "offline": {
+    "run": ".cache/astra-lot2-identity/run-3a8ff6427b60",
+    "node": "v22.21.1",
+    "baseline": false,
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 18,
+      "passed": 197,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "commerce-contracts",
+        "exitCode": 0,
+        "elapsedMs": 26308,
+        "log": "commerce-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 65,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 121,
+        "log": "packaging-contracts.log"
+      },
+      {
+        "name": "build-catalog",
+        "exitCode": 0,
+        "elapsedMs": 5307,
+        "log": "build-catalog.log"
+      },
+      {
+        "name": "build-identity",
+        "exitCode": 0,
+        "elapsedMs": 5252,
+        "log": "build-identity.log"
+      },
+      {
+        "name": "build-administration",
+        "exitCode": 0,
+        "elapsedMs": 5502,
+        "log": "build-administration.log"
+      },
+      {
+        "name": "build-commerce",
+        "exitCode": 0,
+        "elapsedMs": 7040,
+        "log": "build-commerce.log"
+      },
+      {
+        "name": "build-legacy",
+        "exitCode": 0,
+        "elapsedMs": 12267,
+        "log": "build-legacy.log"
+      }
+    ]
+  },
+  "unitScope": "Identity and Catalog paths listed in Jest results; inherited log label commerce-contracts does not mean Commerce was changed",
+  "gatewayChecks": 24,
+  "packagingChecks": 9,
+  "comparisons": [
+    {
+      "family": "profile",
+      "baseline": ".cache/astra-lot2-identity/primax-astra-lot2-identity-cbebb0702fa8",
+      "candidate": ".cache/astra-lot2-identity/primax-astra-lot2-identity-f59c2ef436b0",
+      "checksPerArm": 42,
+      "exactCanonicalComparisonPassed": true,
+      "results": {
+        "baseline": {
+          "arm": "baseline",
+          "family": "profile",
+          "checks": 42,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 6,
+            "vehicle.create": 8,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "profileAndVehicle": true,
+            "rollback": true,
+            "replayAndConcurrentStableUuid": true,
+            "ownerIsolation": true,
+            "sixReadRegressions": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 4,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "88722bb93888c2c34cf69ea8320edec669a9f22d1b5af4e5f914cba1e475c2d3",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-cbebb0702fa8",
+            "volume": "primax-astra-lot2-identity-cbebb0702fa8-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-cbebb0702fa8-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.0/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        },
+        "candidate": {
+          "arm": "candidate",
+          "family": "profile",
+          "checks": 42,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 6,
+            "vehicle.create": 8,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "profileAndVehicle": true,
+            "rollback": true,
+            "replayAndConcurrentStableUuid": true,
+            "ownerIsolation": true,
+            "sixReadRegressions": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 4,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "88722bb93888c2c34cf69ea8320edec669a9f22d1b5af4e5f914cba1e475c2d3",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-f59c2ef436b0",
+            "volume": "primax-astra-lot2-identity-f59c2ef436b0-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-f59c2ef436b0-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.32/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "security",
+      "baseline": ".cache/astra-lot2-identity/primax-astra-lot2-identity-a71c207bd26b",
+      "candidate": ".cache/astra-lot2-identity/primax-astra-lot2-identity-3339db447d35",
+      "checksPerArm": 31,
+      "exactCanonicalComparisonPassed": true,
+      "results": {
+        "baseline": {
+          "arm": "baseline",
+          "family": "security",
+          "checks": 31,
+          "dispatch": {
+            "auth.register": 7,
+            "auth.login": 8,
+            "reset.forgot": 5,
+            "reset.verify": 4,
+            "reset.reset": 5,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "fiveContracts": true,
+            "originalRevocation": true,
+            "passwordPolicy": true,
+            "nestedRegistrationRollback": true,
+            "resetAtomicRollback": true,
+            "deliverySimulated": true,
+            "concurrentUniqueAccount": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 20,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "bb3b773a5b7b0052e29c9142a4214fa5a8143a2f486d10c6952fc9c755ff9bb7",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-a71c207bd26b",
+            "volume": "primax-astra-lot2-identity-a71c207bd26b-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-a71c207bd26b-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.64/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        },
+        "candidate": {
+          "arm": "candidate",
+          "family": "security",
+          "checks": 31,
+          "dispatch": {
+            "auth.register": 7,
+            "auth.login": 8,
+            "reset.forgot": 5,
+            "reset.verify": 4,
+            "reset.reset": 5,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "fiveContracts": true,
+            "originalRevocation": true,
+            "passwordPolicy": true,
+            "nestedRegistrationRollback": true,
+            "resetAtomicRollback": true,
+            "deliverySimulated": true,
+            "concurrentUniqueAccount": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 20,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "bb3b773a5b7b0052e29c9142a4214fa5a8143a2f486d10c6952fc9c755ff9bb7",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-3339db447d35",
+            "volume": "primax-astra-lot2-identity-3339db447d35-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-3339db447d35-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.96/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "kiosk",
+      "baseline": ".cache/astra-lot2-identity/primax-astra-lot2-identity-0b446db7f607",
+      "candidate": ".cache/astra-lot2-identity/primax-astra-lot2-identity-cb1e53e57791",
+      "checksPerArm": 19,
+      "exactCanonicalComparisonPassed": true,
+      "results": {
+        "baseline": {
+          "arm": "baseline",
+          "family": "kiosk",
+          "checks": 19,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 5,
+            "kiosk.login": 3,
+            "kiosk.bootstrapTerminal": 3,
+            "kiosk.exchangeRecoveryTicket": 1,
+            "kiosk.logout": 2,
+            "kiosk.authorize": 4
+          },
+          "flags": {
+            "originalKioskSixContracts": true,
+            "hmacCsrfSessionAndStation": true,
+            "originalCredentialReuse": true,
+            "noKioskBoundaryClaimed": true,
+            "validRecoveryExchangeCoveredOnlyByHistoricalUnitEvidence": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 17,
+          "redisKeys": 8,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "3aec3a85b782b3a055ceb652f67967ae3f3ca884e165ef2f17f637d20565f9d9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-0b446db7f607",
+            "volume": "primax-astra-lot2-identity-0b446db7f607-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-0b446db7f607-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.128/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        },
+        "candidate": {
+          "arm": "candidate",
+          "family": "kiosk",
+          "checks": 19,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 5,
+            "kiosk.login": 3,
+            "kiosk.bootstrapTerminal": 3,
+            "kiosk.exchangeRecoveryTicket": 1,
+            "kiosk.logout": 2,
+            "kiosk.authorize": 4
+          },
+          "flags": {
+            "originalKioskSixContracts": true,
+            "hmacCsrfSessionAndStation": true,
+            "originalCredentialReuse": true,
+            "noKioskBoundaryClaimed": true,
+            "validRecoveryExchangeCoveredOnlyByHistoricalUnitEvidence": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 17,
+          "redisKeys": 8,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "3aec3a85b782b3a055ceb652f67967ae3f3ca884e165ef2f17f637d20565f9d9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-cb1e53e57791",
+            "volume": "primax-astra-lot2-identity-cb1e53e57791-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-cb1e53e57791-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.160/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "admin-ocr",
+      "baseline": ".cache/astra-lot2-identity/primax-astra-lot2-identity-ccbf96f0a2d5",
+      "candidate": ".cache/astra-lot2-identity/primax-astra-lot2-identity-570c3c7079a0",
+      "checksPerArm": 30,
+      "exactCanonicalComparisonPassed": true,
+      "results": {
+        "baseline": {
+          "arm": "baseline",
+          "family": "admin-ocr",
+          "checks": 30,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 1,
+            "alerts.dashboard": 1,
+            "alerts.resolve": 2,
+            "alerts.checkPlate": 2,
+            "recognition.recognize": 10,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "recognitionContract": true,
+            "ocrTransportSimulated": true,
+            "originalAdminRegressionsOnly": true,
+            "demoLoginTechnicalExceptionsTested": true,
+            "noNewAdminBoundary": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 8,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 4,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "01f086588228622ec460e4c755f39219d8edd6f5739d2a68221b104133f53be9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-ccbf96f0a2d5",
+            "volume": "primax-astra-lot2-identity-ccbf96f0a2d5-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-ccbf96f0a2d5-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.192/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        },
+        "candidate": {
+          "arm": "candidate",
+          "family": "admin-ocr",
+          "checks": 30,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 1,
+            "alerts.dashboard": 1,
+            "alerts.resolve": 2,
+            "alerts.checkPlate": 2,
+            "recognition.recognize": 10,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "recognitionContract": true,
+            "ocrTransportSimulated": true,
+            "originalAdminRegressionsOnly": true,
+            "demoLoginTechnicalExceptionsTested": true,
+            "noNewAdminBoundary": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 8,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 4,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "01f086588228622ec460e4c755f39219d8edd6f5739d2a68221b104133f53be9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-570c3c7079a0",
+            "volume": "primax-astra-lot2-identity-570c3c7079a0-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-570c3c7079a0-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.6.224/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "family": "catalog",
+      "baseline": ".cache/astra-lot2-identity/primax-astra-lot2-identity-70e709b07506",
+      "candidate": ".cache/astra-lot2-identity/primax-astra-lot2-identity-e6b5db05e5ab",
+      "checksPerArm": 29,
+      "exactCanonicalComparisonPassed": true,
+      "results": {
+        "baseline": {
+          "arm": "baseline",
+          "family": "catalog",
+          "checks": 29,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "sixCatalogContracts": true,
+            "stationAndPermissionFilters": true,
+            "activeMasterFiltering": true,
+            "publicInventoryLimitationPreserved": true,
+            "noSqlWrites": true,
+            "noSequenceChanges": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 3,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "c02812f239959c23104076742e5df89aedd80d4d8503278a75aa3951867a07e9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-70e709b07506",
+            "volume": "primax-astra-lot2-identity-70e709b07506-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-70e709b07506-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.7.0/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        },
+        "candidate": {
+          "arm": "candidate",
+          "family": "catalog",
+          "checks": 29,
+          "dispatch": {
+            "auth.register": 0,
+            "auth.login": 0,
+            "reset.forgot": 0,
+            "reset.verify": 0,
+            "reset.reset": 0,
+            "profile.updateProfile": 0,
+            "vehicle.create": 0,
+            "alerts.list": 0,
+            "alerts.dashboard": 0,
+            "alerts.resolve": 0,
+            "alerts.checkPlate": 0,
+            "recognition.recognize": 0,
+            "kiosk.status": 0,
+            "kiosk.login": 0,
+            "kiosk.bootstrapTerminal": 0,
+            "kiosk.exchangeRecoveryTicket": 0,
+            "kiosk.logout": 0,
+            "kiosk.authorize": 0
+          },
+          "flags": {
+            "sixCatalogContracts": true,
+            "stationAndPermissionFilters": true,
+            "activeMasterFiltering": true,
+            "publicInventoryLimitationPreserved": true,
+            "noSqlWrites": true,
+            "noSequenceChanges": true
+          },
+          "externalHttpAttempts": 0,
+          "ocrCalls": 0,
+          "migrations": 36,
+          "financialRows": 0,
+          "receipts": 0,
+          "sequences": [
+            {
+              "sequencename": "receipt_boleta_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "receipt_factura_seq",
+              "last_value": null
+            },
+            {
+              "sequencename": "terminal_operation_op01_seq",
+              "last_value": null
+            }
+          ],
+          "uuidMappingEntries": 3,
+          "redisKeys": 0,
+          "realModules": true,
+          "comparisonRules": [
+            "Seeded IDs literal; generated IDs by table/natural key",
+            "Audit random keys by action/target/outcome/actor/ordinal",
+            "Lifecycle times excluded; state, financial fields, links and sequences retained",
+            "Redis TTL checked positive instead of equal elapsed seconds"
+          ],
+          "comparisonDataSha256": "c02812f239959c23104076742e5df89aedd80d4d8503278a75aa3951867a07e9",
+          "snapshotTableCount": 40,
+          "isolation": {
+            "project": "primax-astra-lot2-identity-e6b5db05e5ab",
+            "volume": "primax-astra-lot2-identity-e6b5db05e5ab-pgdata",
+            "redisVolume": "primax-astra-lot2-identity-e6b5db05e5ab-redisdata",
+            "newVolumesVerifiedEmpty": true,
+            "volumeOwned": true,
+            "expectedMountVerified": true,
+            "internalNetwork": true,
+            "subnet": "10.251.7.32/27",
+            "publishedPorts": 0,
+            "databases": 1,
+            "migrationsTargetVerifiedBeforeExecution": true
+          },
+          "finalStates": [
+            {
+              "service": "postgres",
+              "exitCode": 0,
+              "running": false
+            },
+            {
+              "service": "redis",
+              "exitCode": 0,
+              "running": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "acceptedHttpChecksPerArm": 151,
+  "acceptedHttpChecksTotal": 302,
+  "allOwnedIntegrationProjects": [
+    {
+      "project": "primax-astra-lot2-identity-0b446db7f607",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-0da59c5fa7d4",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-2df3cf7872de",
+      "stopped": true,
+      "individualScenarioPassed": false,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-3339db447d35",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-3977071eed20",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-432c22cf2c36",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-50f1e891a05b",
+      "stopped": true,
+      "individualScenarioPassed": false,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-535cd77e585e",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-570c3c7079a0",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-6f6e1ec8f124",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-70e709b07506",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-7a350c1a502c",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-a71c207bd26b",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-a7c59ab76d61",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-b421cb02aa3c",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-b8fcd38c8089",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-cb1e53e57791",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-cbebb0702fa8",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-ccbf96f0a2d5",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-cdb6345b5bde",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": false,
+      "accepted": false
+    },
+    {
+      "project": "primax-astra-lot2-identity-e6b5db05e5ab",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": true
+    },
+    {
+      "project": "primax-astra-lot2-identity-f59c2ef436b0",
+      "stopped": true,
+      "individualScenarioPassed": true,
+      "comparisonPassed": true,
+      "accepted": true
+    }
+  ],
+  "packaging": {
+    "images": [
+      {
+        "service": "identity",
+        "tag": "primax-astra-lot2-identity-identity:test",
+        "id": "sha256:7eea0f63c0c394674e3e5b4309cfef448d49ccc7246573689878ff4d015a1b3c",
+        "user": "node",
+        "entrypoint": [
+          "node",
+          "services/identity/dist/src/apps/identity/main.js"
+        ],
+        "modules": [
+          "auth/auth.module",
+          "memberships/memberships.module",
+          "vehicles/vehicles.module"
+        ],
+        "moduleLoadExit": 0,
+        "network": "none",
+        "operationalBootstrap": false,
+        "dataVolumes": 0
+      },
+      {
+        "service": "catalog",
+        "tag": "primax-astra-lot2-identity-catalog:test",
+        "id": "sha256:7267663462a8ce673605c386a4199586c4def3570be52e799f96dd9cc58679b1",
+        "user": "node",
+        "entrypoint": [
+          "node",
+          "services/catalog/dist/src/apps/catalog/main.js"
+        ],
+        "modules": [
+          "fuels/fuels.module",
+          "stations/stations.module",
+          "benefits/benefits.module"
+        ],
+        "moduleLoadExit": 0,
+        "network": "none",
+        "operationalBootstrap": false,
+        "dataVolumes": 0
+      },
+      {
+        "service": "administration",
+        "tag": "primax-astra-lot2-identity-administration:test",
+        "id": "sha256:f5752518857a9206da082e5c411ebd40c8b3a4500df07cff30ca97066318a32d",
+        "user": "node",
+        "entrypoint": [
+          "node",
+          "services/administration/dist/src/apps/administration/main.js"
+        ],
+        "modules": [
+          "control/control.module"
+        ],
+        "moduleLoadExit": 0,
+        "network": "none",
+        "operationalBootstrap": false,
+        "dataVolumes": 0
+      },
+      {
+        "service": "commerce",
+        "tag": "primax-astra-lot2-identity-commerce:test",
+        "id": "sha256:e964572382ab7f13009b2a46aef5da2189ef5b99c6250a569e8cdc5ecad5ff4d",
+        "user": "node",
+        "entrypoint": [
+          "node",
+          "services/commerce/dist/src/apps/commerce/main.js"
+        ],
+        "modules": [
+          "transactions/transactions.module",
+          "operations/operations.module"
+        ],
+        "moduleLoadExit": 0,
+        "network": "none",
+        "operationalBootstrap": false,
+        "dataVolumes": 0
+      },
+      {
+        "service": "legacy",
+        "tag": "primax-astra-lot2-identity-legacy:test",
+        "id": "sha256:39a9d4b83219da48eacb6e3efa0ecd0cb209edc692cb9eb45110c6c8902e8ed8",
+        "user": "node",
+        "entrypoint": [
+          "node",
+          "dist/src/main.js"
+        ],
+        "modules": [
+          "auth/auth.module",
+          "memberships/memberships.module",
+          "vehicles/vehicles.module"
+        ],
+        "moduleLoadExit": 0,
+        "network": "none",
+        "operationalBootstrap": false,
+        "dataVolumes": 0
+      }
+    ],
+    "historicalVolumes": [
+      {
+        "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+        "preserved": true,
+        "mountedByThisBatch": false
+      },
+      {
+        "name": "primax-astra-stage2b-272b482a5f_redis_data",
+        "preserved": true,
+        "mountedByThisBatch": false
+      },
+      {
+        "name": "primax-astra-stage2b-272b482a5f_print_data",
+        "preserved": true,
+        "mountedByThisBatch": false
+      }
+    ]
+  },
+  "sharedCorePackagingBlock": {
+    "network": "none",
+    "databases": 0,
+    "repositoryEdits": 0,
+    "context": "Same source COPY scope as existing Commerce Dockerfile",
+    "originalContextBuildExit": 0,
+    "sharedControllerIdentityImportBuildExit": 1,
+    "expectedDiagnostic": "TS2307: Identity source is outside this independent image build context",
+    "authCoreOrOtherDockerfileChangeRequired": true,
+    "run": ".cache/astra-lot2-identity/core-packaging-147cf8e444d7",
+    "productionCandidateBuildsPassed": true,
+    "sharedControllerSourceFilesUnchanged": true,
+    "blockedEndpoints": [
+      "GET /api/v1/admin/alerts",
+      "POST /api/v1/admin/alerts/:id/resolve",
+      "POST /api/v1/admin/check-plate",
+      "GET /api/v1/admin/dashboard",
+      "POST /api/v1/auth/forgot-password",
+      "POST /api/v1/auth/login",
+      "POST /api/v1/auth/register",
+      "POST /api/v1/auth/reset-password",
+      "POST /api/v1/auth/verify-reset-code",
+      "GET /api/v1/kiosk/session",
+      "POST /api/v1/kiosk/session/authorize",
+      "POST /api/v1/kiosk/session/login",
+      "POST /api/v1/kiosk/session/logout",
+      "POST /api/v1/kiosk/session/terminal-bootstrap",
+      "POST /api/v1/kiosk/session/terminal-recovery"
+    ],
+    "finiteDecision": [
+      "Authorize separating Identity controller composition from shared AuthCore file without policy/engine changes",
+      "Or authorize Identity dependency COPY in other three service Dockerfiles"
+    ],
+    "workaroundIntroduced": false
+  },
+  "technicalEvaluation": {
+    "identityFrontiersValidated": 9,
+    "identityBlocked": 15,
+    "identityTechnicalExceptionsProposed": 2,
+    "identityTechnicalExceptionsAccepted": 0,
+    "identityComplete": false,
+    "catalogReadScopeMet": true,
+    "lot2AcademicClosureComplete": false,
+    "p0": [
+      "Resolve shared AuthCore compilation/packaging and consolidate 15 pending boundaries",
+      "Explicitly accept or authorize treatment of the two inline technical exceptions"
+    ],
+    "global3JComplete": false,
+    "lots3To5Started": false
+  },
+  "protectedSourceHashes": {
+    "Backend/src/memberships/memberships.repository.ts": "bceda65aa6c2a91a2aee1926864d516921a1cea8ba978f97782a0bf258c5c3c6",
+    "Backend/src/memberships/profile.dto.ts": "5620e1d995d4dad1b68ad936561994b05f44d68027edd7052774a10ae950c13a",
+    "Backend/src/vehicles/vehicles.repository.ts": "de6fa991ae02381a2e6c1f65c4fc6118304bc99566f59a636d4f6ae30eb4c51f",
+    "Backend/src/identity-adapters/membership-commerce.ts": "00e95f500d0c96a28562674248794e930acfb43f4195a4ad79a2d525db8a507d",
+    "Backend/src/transactions/transaction.model.ts": "8993f186ef3fa9d5a5e848f744b3d74500281cd531f6a5bd2ef5f43226e21ae8",
+    "Backend/src/receipts/receipt.service.ts": "5bb01ef428dbd98e9ce536ef21d04cc7f92650e28959a3286fe0a264da6827ba",
+    "Backend/src/auth/access.guard.ts": "90ed8e6566aaae9788ef7126481f0d5172c7f777055cfaff6ad72f69d256f971",
+    "Backend/src/auth/auth.module.ts": "b0f3cf4af08f7a8faba49e7ab9728e1aad9d79b9e7e153310ffd8a2af773baaf",
+    "Backend/src/auth/auth.service.ts": "d8907b6b10cc9cbb6d5af97ee50f2ec07e284cd91c790c5912234ba0a94521a7",
+    "Backend/src/auth/password-reset.service.ts": "8cd25147c3a6bce6f13cfaca6afab1eb9efe8f66bf4dd21efbe4c894ae0613a0",
+    "Backend/src/kiosk/kiosk.service.ts": "3c4ea46bcbf3695378ad1c3978f8bd4b2d729f4f0ebef1c9f519611ca43cb8cc",
+    "Backend/src/kiosk/redis-store.ts": "f3fa25130fd0e74af7af4b980d19713ee1ba1a5bc1353feb530a7957c109dd86",
+    "Backend/src/common/pagination.dto.ts": "546c604fff2b0a9d7063f02903de514d753e834c48fd2a0da07d183571ab21b6",
+    "Backend/src/prisma/prisma.service.ts": "04d8563747e90503f96e7df438cbfc98e3ce1d3bebd735f0dd228121c403d0eb",
+    "Backend/src/wallet/wallet.repository.ts": "1bb24f5bb12ef4f45ffe6027d37bb8bac48b83c0fdeb03eaa54b89ba3c42296f",
+    "Backend/src/wallet/wallet.service.ts": "b95a4404d3803da77db08db4c87ffff1b6c53a37f7c6ed75633713976d3d9863",
+    "Backend/prisma/schema.prisma": "d3529db35e26554c5216c966a55349a870ce62989c01e9b3482d148e5f05648a",
+    "Backend/gateway/routes.cjs": "30b64cb9691a4b251b3e744b8cba38554bca7b4a039f14043dd7d43b7c1a87a8",
+    "Backend/services/identity/Dockerfile": "75151464e4ef1c4eb3b6fc7ba8b54ce7d995c08e77efbade83279e137b475d56",
+    "compose.yaml": "37b7021f7de770b94737dd448a91e9aef210325a8c8ed3f9585957f81a097d17",
+    "Docs/astra/identity-a4-academic-closure.md": "4e769c9ccf37b51c210deb12632b193d8850a34050179f5139217feca3a5bb25",
+    "Docs/astra/primax-stage3e-identity-commerce-boundaries-design.md": "f56f04b707221e89b6c60de7cf4b2ea39d465dcfa36e054e0384ea15bb252733",
+    "Backend/services/identity/src/adapters/inbound/membership-reads.adapter.ts": "0b3ba90083fcf73b0b00dc04049f8be0b912b17beb4e6852c2c90087434b7cff",
+    "Backend/services/identity/src/adapters/inbound/vehicle-lookup.adapter.ts": "c3478c85b786ff37ddf32c9021cd93734363d80260b8db805220147f491e646b",
+    "Backend/services/identity/src/adapters/outbound/legacy-membership-reads.ts": "41116b4157ede4d9126fe917aeaf3634ac5bbf888c4586cab99a3f56dc94fc3d",
+    "Backend/services/identity/src/adapters/outbound/legacy-vehicle-lookup.ts": "7148f12108722895b1ee3bd07b492e8344e4d312f89d8a04522ee597c1598325",
+    "Backend/services/identity/src/application/ports/membership-reads.ts": "537c1258768303461a094b176a5f350ff33ab2ff2b777b4017ba436e5e4d6312",
+    "Backend/services/identity/src/application/ports/vehicle-lookup.ts": "022dcfc4ef751132b494d5cdad9166499a6e9d3ebec1c1b7e1e844d662125c46",
+    "Backend/services/identity/src/application/use-cases/lookup-vehicle.ts": "7bd78d0d8a3225082fa8aca4e3b0448e7b71cedc99e31e89d9154737dbadb940",
+    "Backend/services/identity/src/application/use-cases/membership-reads.ts": "66a23fbbb5b562e44890f088874c00c89ad25dfcf42e72b2e25fa986a907e026",
+    "Backend/services/identity/src/bootstrap/membership-reads.module.ts": "9bbb072d83c5afa9ba4e6aa303631788b36d82c4e3e26279e83bd0731753ac30",
+    "Backend/services/identity/src/bootstrap/vehicle-list-read.module.ts": "70847f63d666fccf38108580e51654573986275bff94e25ad7d6aa18736f12bb",
+    "Backend/src/identity-adapters/membership-commerce.spec.ts": "4e37c06d74dde9ba0a642c170b613c1945811d5b265c43795dbcf23e13f3ad94",
+    "Backend/src/memberships/identity-reads.spec.ts": "cad119cb9b3d2c3cafcf5f5c289d1a489a4b2bfe5f8cd8c51f5762b99cb4352f",
+    "Backend/src/memberships/memberships.module.ts": "1651d3b9ac69dd79e09e8830ef1e2c192d3291fd6f542a67ec5d19de490baf50",
+    "Backend/src/memberships/memberships.service.ts": "f20ef0bd69efc4ffb3071dfe13a3cf087e15f85e9355951153f2f59fc673ddc6",
+    "Backend/src/vehicles/vehicles.service.spec.ts": "39ea219a57f9712fb2f535589be3a98da41dfb4c537262b9e72c123c279345fc",
+    "Backend/src/vehicles/vehicles.service.ts": "ecf7e3e2d7894f382ab9e01351eeca94da54ba1e8718348c29ec97f9c4717f3f",
+    "Backend/test/identity-lot-r.fixture.ts": "6a709b4fd432e78211e0a6a2420aad0d34ffb48eec0b3c8e35a7fbfb19265453",
+    "Backend/test/identity-lot-r.integration.cjs": "2667dd6fe49bd74c43e7959842d60ac16a6e12214df91045f39d5b039de29472",
+    "Docs/astra/primax-stage3f-identity-lot-r-results.md": "d4bc8ff523dfcc727bf6a8bc2cd4b3454a4981d8f8f92c25d35e118a24ca528d",
+    "tools/astra/stage3f-identity-validation.cjs": "d6fa86eca76d6dd2cf82a2b31d5d4c9ff312b0a7e885868c3e485c69f9112f00",
+    "tools/astra/stage3f-postgres-redis.cjs": "f80a406ed7663880c15eba5655ab1de3f45e1a561b24c7d7077efc5cef7f1a89",
+    "Backend/src/control/control-customers.controller.ts": "7b095621c14c1215f923de0fedeee0289c7a6b92a5252a72f96754fe67bbc7ce",
+    "Backend/src/control/control.service.ts": "04ad33248570006b643cfc85f5eed352f5621f4f9c22ee219df251c4eb617c87",
+    "Backend/src/control/control-operations.service.ts": "45b27f54b0366ea28ccab5a0c73a9ce000e95e3f2bb36bc8cff296d4e0b9eb32",
+    "Backend/src/control/control.controller.ts": "a3f3df39a8f1bcef92f452288e2143bd12623fa1d98d34d13786bcda562a562d",
+    "Backend/src/control/control-operations.controller.ts": "d60b96f12e62dd034cf12bf0433c0c68d0fbf7892e8b27853fd505b1591ce11c",
+    "Backend/src/inventory/inventory-reconciliation.ts": "2a794efe09612d67a583307e815e9e187210b443c9dd839f2b8310a1caaf68b6",
+    "Backend/src/users/users.service.ts": "9a167a9521cd913ab9303ddefe5bd2fb663d5768f64c9edf1578ac3478801bc5",
+    "Backend/src/users/users.repository.ts": "1cf2aea8fe31859f58170f0984f381dd187ec0bd94665afb2267ba1574c66510",
+    "Backend/src/setup-app.ts": "8ddba3bbc5490dd00c48d2fbdc40e05cba98604f37a91fb33051449c969ba146",
+    "Backend/services/administration/Dockerfile": "63c5700ece6b4fc516a6d1c89ea75f6ae2bda11931c08dfec953e858a3484ea2",
+    "Backend/services/administration/src/adapters/inbound/administrative-lists.adapter.ts": "64080d6424c71b8a3eea7788ccf901d93cb7300719c3f44a66892b3d70c61d9f",
+    "Backend/services/administration/src/adapters/outbound/legacy-administrative-lists.ts": "ab6c0c3bb3b02600526ee549d6241a1d4329bf19e0fbfb9429959893401006f4",
+    "Backend/services/administration/src/application/ports/administrative-lists.ts": "f7d578b82ff1adedc1f45886249d38480fade0a32cfa719e5fa4e00a3a16cdb3",
+    "Backend/services/administration/src/application/use-cases/administrative-lists.ts": "aa95a8c57aeb8a6c605a060772d2abe0b8a681b928ccb63539c80ecba72003b3",
+    "Backend/services/administration/src/bootstrap/administrative-lists.module.ts": "8b087ff4a1b5ac28ebe8ee347be4267d4e438dbae9cc7d01530dc64ad295822c",
+    "Backend/src/control/administration-lists.spec.ts": "59f9ef5d70f02789d22a8c3d6a99ecd3c459d8ae6b032b0c9ffe87023a5c76f7",
+    "Backend/test/administration-lists.integration.cjs": "a1fcd783a99ad0ed91023e8e7a461a10393454be16a7dc91b5c3c1e7c03c75d7",
+    "Docs/astra/primax-stage3g-administration-read-results.md": "1e130611234eb885535a45796f95b689cea225a20faca8ee50dec671a3aa7dd2",
+    "tools/astra/stage3g-administration-validation.cjs": "51b73856ab5ee0d1aaf029fa966fe400dad842637e56a88379f1dbbd52718013",
+    "tools/astra/stage3g-postgres-redis.cjs": "a3e160e71ea22d5dc0e3763b4265eee50b33f5f775be5eff91cfbc75e3226da6",
+    "Docs/astra/evidence/stage3g/review-summary.json": "4492c261b9c630fee89024cea70563932a7d8377657e6cd84861757fcce35d6e",
+    "Backend/services/administration/src/adapters/inbound/administrative-details.adapter.ts": "b201a9d39c037d52a39810bc9d3e445083051ea4d767825b1cbaaf46b698fabc",
+    "Backend/services/administration/src/adapters/outbound/legacy-administrative-details.ts": "a1f99f44160a9f4de210296cd1ccc3036bff31a3ab6285b16bd1753e16cef67d",
+    "Backend/services/administration/src/adapters/outbound/legacy-customer-context.ts": "bd0a04480b7d6d3985bc9254c178a606a1c9e4948965f87623d086cab8e042fa",
+    "Backend/services/administration/src/application/ports/administrative-details.ts": "e9b247112e0abb2fbb5a954782674df5133eb558041444b01d2694023b90514a",
+    "Backend/services/administration/src/application/use-cases/administrative-details.ts": "5435a7bf6534380496e21ecc39cc5a8bd9b7c081ecf65f71a30dd8d9d823781e",
+    "Backend/services/administration/src/bootstrap/administrative-details.module.ts": "c6ed4ce9380e99400fa56ec918f69119ae4561e2b1c4dd41652c6c37f78e733d",
+    "Backend/src/control/administration-details.spec.ts": "3cb76ca6b7b8873f668e80f6877bc6c2d81e08dcf3399faa312f6628c94d8630",
+    "Backend/src/control/control-customers-scope.spec.ts": "590e9d3031a53572be0bf60ee1ca7814a905d4f3f759885985ab80f9ad05b5b6",
+    "Backend/src/control/control-customers.service.ts": "8deb4d052ca0f2cb236b819cce04a69552c3648ee33e4963f64975a00109ae97",
+    "Backend/src/control/control.module.ts": "d2ca15b6e289b71fd64fcba108d65556f17ffd6a60d39c63a8b1fb1a8997749f",
+    "Backend/test/administration-details.integration.cjs": "096a283dd2daaa38b4e8ca6b723692be3a09074719a4746f24f427ade5ba2c8f",
+    "Backend/test/administration-lists.fixture.ts": "f39a96a7ae7813a2476e19d38d376b324ba8a54e1ea8b9aa121a3c62c575074e",
+    "Backend/test/control-customers.e2e-spec.ts": "bc98761cd3860406e723512655c76717124300c1c737859159c1137724194f47",
+    "Docs/astra/primax-stage3h-administration-details-and-closure.md": "f3850219d6adbd3f95e483327ba0f40b8a3f2ed6395ce7201e06739bf435ac46",
+    "tools/astra/stage3h-administration-validation.cjs": "0f24d387c4551dfc1547eced7e4a650e0fc7ab4964e0a4d4a154d97ac2730e4d",
+    "tools/astra/stage3h-postgres-redis.cjs": "9e65b51f6f453dfe032b0cb089e806acef4c33901212fc1dd98fdd66b0d5894d",
+    "Docs/astra/evidence/stage3h/review-summary.json": "85567b9149e99a088029de7734235af87def100a31c9f9f5bee1f6d369f37f42",
+    "Backend/src/transactions/transactions.repository.ts": "c018fa7815bf7eef8a69b17de86d2a52bf65d2b4d0a953e478a2ccd051afcd35",
+    "Backend/src/kiosk/policy.ts": "5c4d2484a927137aa7e04fcae0a1331a930428c7bb4d543e96e35e812fd29821",
+    "Backend/src/apps/commerce/main.ts": "ac591b2c3bb7ce4f2acdea478edff84b635cebef1e798d44c90f0a4e141f3253",
+    "Backend/services/catalog/Dockerfile": "803c9ec30c99c9818ab00d82437ca695e3648977f039dbc730abe98cacff039a",
+    "Backend/Dockerfile": "ef9ca79608734f87bd13d26038e7c1ab2e70b6165378b8ebd6cd62e58d96b73c",
+    "Backend/services/commerce/Dockerfile": "ed2039afee30b3fe1e16f9ea4a0006b7974f7aebdc4f401b3ae30eae3b32d171",
+    "Backend/services/commerce/src/adapters/inbound/transaction-read.adapter.ts": "4a03e00e4a4781f19f749bafed0cc947a94a04e178dd4b92931aa692524a81ae",
+    "Backend/services/commerce/src/adapters/outbound/legacy-transaction-read.ts": "0cdd4eb9c740aab4d4d53be0da795c9743942bb8fef0924511111bea0f9619ad",
+    "Backend/services/commerce/src/application/ports/transaction-read.ts": "1201a754e63ce8677bcec8ea2b092983d0bbfeb3b8ddf5b53e6aba322741cdea",
+    "Backend/services/commerce/src/application/use-cases/read-transaction.ts": "11528c3defbbb1d770964c315b5a76b6e8868c850b98eafe100f2c64aeb90a77",
+    "Backend/services/commerce/src/bootstrap/transaction-read.providers.ts": "63050ae0f5052d9f11817bba18e1938941ebdbfa2336375a07281d4ce961d408",
+    "Backend/src/transactions/critical-integrity.spec.ts": "d9461486951137c08644ede887c41c9fe3f06424fd54d1653ebd0d186844efeb",
+    "Backend/src/transactions/transaction-read.spec.ts": "ad1fc98e242ce4203cc597bd820ece499428b3497f2ce1df09d0bbdf3247618b",
+    "Backend/src/transactions/transactions.service.spec.ts": "3c4c2ee1ad022fbea869064cbb1fa5ee2693b271bfd0d8f32e552f835f18bc07",
+    "Backend/src/transactions/transactions.service.ts": "aab7dde8768d3213a01fb774028920cd100d6bcca83695362566b70094f3cee6",
+    "Backend/test/commerce-transaction-read.fixture.ts": "fd2d3dcd4bbe0168e3f7e58bade23846f2be81ea796436d24890266a3de51be2",
+    "Backend/test/commerce-transaction-read.integration.cjs": "c47dcde1348c122b7e66dca89faafab29472087cc536e2ed3bdf10d62a9a3675",
+    "Backend/test/v11-closure.e2e-spec.ts": "c325d9e8b52ea640975b81315d58ff8e40709b7fb982f6f59507edbd17e2dc33",
+    "Backend/test/v11_2-demo.e2e-spec.ts": "117adbf3d6c9dd9b706e08a82bd9b52055fea4d071d241f764d8b02835308c59",
+    "Docs/astra/primax-stage3i-commerce-transaction-read-results.md": "23bee58bc33650634c5333ec4fce885f8b5066fd0c493cf6d749521b1a701341",
+    "tools/astra/stage3i-commerce-validation.cjs": "1049397a5ad40d0410d97d32b31a6e7fbe3fe180e716c4094da27b4871051af3",
+    "tools/astra/stage3i-postgres-redis.cjs": "0c9532b168e998e19c963681ef23cf36693b0da8be99fd801ddb237eb43464d7",
+    "Docs/astra/evidence/stage3i/review-summary.json": "b55a6e5f2a787d312fdfc75abc5a9c7b9fe223911c86e04729b383aa433fe81e",
+    "Backend/src/transactions/authorizations.service.ts": "fe3693045c9dcdada0fa574a369dab34abc2382ce7428f3517f43c8b25df7080",
+    "Backend/src/transactions/authorizations.repository.ts": "87002e07c2af76efb79ceae08289c0aac038e5147f21c0709644c61f8e40c575",
+    "Backend/src/transactions/create-authorization.dto.ts": "4c13b592c9b32a04ced72e1808b4c6a0a50c106765fc3c967c63bf94df346349",
+    "Backend/src/transactions/dispense-progress.dto.ts": "6841ab3d3be7a82f28d6763bc930603eaf8da8838131e243a2cadb16d3876f50",
+    "Backend/src/transactions/transactions.controller.ts": "01ec143932e17983fb0d5bf49545ed58da8938fc05668032f17b4290586628bb",
+    "Backend/test/commerce-sale.fixture.ts": "5dfe2f8517e1c1afd4c3dfdbff21733e8cf22ec314d4183a1374b86478de9b4d",
+    "Backend/test/commerce-sale.integration.cjs": "9b714fc2a37e8c52d25b87941df94a55c12f1203860198fe582b64405b697332",
+    "Backend/services/commerce/src/adapters/inbound/authorization-commands.adapter.ts": "8e0395940bb3e2a3d1048c62f135e368f84f1c6e236ee08788cb6be5272b7f1a",
+    "Backend/services/commerce/src/adapters/inbound/transaction-creation.adapter.ts": "2f7817f8938a9871beed227a97e15d1668667317243af2a10d2646ba0037b8da",
+    "Backend/services/commerce/src/adapters/outbound/existing-authorization-commands.ts": "eb898f72a1a1f7407e05c96b8f159e904c82184cff8c7d7e4874fb88177d79b1",
+    "Backend/services/commerce/src/adapters/outbound/existing-transaction-creation.ts": "98102ee15d38f133904357fd28d57c61eadd13b873f87c359248d052fb41efa4",
+    "Backend/services/commerce/src/application/ports/authorization-commands.ts": "1fcfc134adac9e898a68cfdbb44d363e9a198fe899bea02d5346e2b3a4f5a252",
+    "Backend/services/commerce/src/application/ports/transaction-creation.ts": "65820bffba1dc305ad0a5665f13a850e6f1f6d6ffe86b0e4f2bdecd59f009a13",
+    "Backend/services/commerce/src/application/use-cases/authorization-commands.ts": "2247b981fed6003e94482cd02c6facc0b639126625c21b82bcca0f8ab4e12776",
+    "Backend/services/commerce/src/application/use-cases/create-transaction.ts": "c45438735aaf4ec3a8a5dfbcaea6349ff751c160d0ca2973a2bb3ba9e134ba4d",
+    "Backend/services/commerce/src/bootstrap/authorization-commands.providers.ts": "011b144016fdb7ff6ff4331292ae7adbd13c3bcb4b4a2f93d185929f610b8ad2",
+    "Backend/services/commerce/src/bootstrap/transaction-creation.providers.ts": "847d7bebe2513afd7fff5c9450b5479c0cb457ecb2d6202e303b6970ac815b28",
+    "Backend/src/payments/demo-provider.ts": "ee99ab9214d7bdef88c4684214be64aadfa5c9ac8faa5f30a4a2aed9df4b9907",
+    "Backend/src/payments/online-orders.reselect.spec.ts": "d02cd5216ab2866d011b3d74bd42bc7fcdbde9f2a45df1d819d89950189af1f6",
+    "Backend/src/payments/payment-incidents.ts": "98c6059a45df5c27da1336cec6ff2dcdb415c5bd9d25dd7ce5434d10a9d947ef",
+    "Backend/src/payments/payment-provider.ts": "4106b74a1e8a863b7c27ce66e48a7108c2e74e15a12b1eb3db3dc10d228fe560",
+    "Backend/src/payments/payments.service.spec.ts": "665811f76291638c4078494f1609e32c9d5c83f56c8aeaf4199bb13ee8730325",
+    "Backend/src/payments/payments.service.ts": "6b73ec33fbf6d96868937e7a9ced18a1be0e4ba8886553256bf972ac8dc53fa0",
+    "Backend/src/payments/welcome.ts": "fe175399cf176405888f5e6fcd35b17d80879d08921ee53197748a9e23338986",
+    "Backend/src/transactions/authorization-commands.spec.ts": "56c62aba3399461aa617307ac0138496a9d7a759145699685b86b4fbdebc84c9",
+    "Backend/src/transactions/authorizations.service.spec.ts": "8fc5f93b447b7abb483d445926a58abb71ce7893d294188d00a1453d160f1200",
+    "Backend/src/transactions/create-transaction.dto.ts": "f33d4428d4de7d654228fcd0aef511b6ae77a4744f995e35bd94037871982773",
+    "Backend/src/transactions/operational-context.ts": "2ce1bb9ce939c514bfbd346debc008d09fdb1dc5451dbb0630fce9eb85329b19",
+    "Backend/src/transactions/transaction-create.spec.ts": "9e3c80518095aaab6c6209debe8b46b6190146d161f1bf49b29a6d8a6109dcba",
+    "Backend/src/transactions/transaction-response.dto.ts": "abf2771406d525e89d09d3e38ecc094c1f128246aff04fbb246cf3339a6f6e3a",
+    "Backend/test/authorization-commands.integration.cjs": "61955ba97c5ca7717e197614571a6df50db034963cebd3bdbde6ddbeb87c781a",
+    "Backend/services/commerce/src/adapters/inbound/payment-workflow.adapter.ts": "bef4d48120b3780bf7b17f7a4cfeec88d88bdc741bf569534eb3287cdbc00e3d",
+    "Backend/services/commerce/src/adapters/outbound/existing-payment-workflow.ts": "e9867f632ec3c240214c45fe150ee1bf38dece242d5904c2059f3d94f567dfa6",
+    "Backend/services/commerce/src/application/ports/payment-workflow.ts": "3c213db5fe64c8a59843fe8f5bd1e64088784661005a64a6b7bc2d4c71a3ed4c",
+    "Backend/services/commerce/src/application/use-cases/payment-workflow.ts": "edcd5333ec8b34e08910480b1511fdaedda7c6b7ae35a1f0e8416e3a1a8b2669",
+    "Backend/services/commerce/src/bootstrap/payment-workflow.providers.ts": "ca8e908b9bf38fa0220b38f461b4b62a794d94ccf47c15c511fe3f123b010e8d",
+    "Backend/src/operations/empty-attention.ts": "17d0b9f76357d6475aeea567d285a3ffbfd106ce826edfaf276b5e24d4193aa2",
+    "Backend/src/operations/operations.service.ts": "24b62e3a25e6a352bf0708f8d7be90b2fc280354a2880261322b6cd735a876f1",
+    "Backend/src/operations/terminal-availability.ts": "fc770b818188ccf52283b6ad8a10f4c6b1100a71d768f0c5f07247e334243f87",
+    "Backend/src/operations/terminal-state.spec.ts": "69c05b5806c9650a0724293ce91dd25b95e22852839da501fb149ec0a1ce222c",
+    "Backend/src/payments/partial-refund.ts": "d4ded898e78211ba88cff811b4a38cb72d6001ee312453400dbecbcca8100c06",
+    "Backend/src/payments/payment-lifecycle.ts": "bef97eb6b1cf3f4d6b43df17a8043ac066a457e2f5c434825f8dc27835002cfa",
+    "Backend/src/payments/payment-workflow.spec.ts": "bfa7ed9c570a31d5ae042d48da0cde02f0406476ef65d512a70a256386ee1054",
+    "Backend/test/payment-workflow.integration.cjs": "17d5f527d5ec5bbe103e9fb44c5abd466aeed78aea6e97ea0340717fdaa6ced9",
+    "Backend/src/auth/auth.controller.ts": "3b69cbc0756f1b990ae9fed26bcae195dd5f833b22288cc4a928bec465b59bcd",
+    "Backend/src/auth/admin.controller.ts": "a043bf1bfc20ae9471b5125c70fbed389a89a9ab1585e9056e82c287e71433dd",
+    "Backend/src/auth/recovery-delivery.ts": "695c6f2ea758941f2e4709e2e2ea4967c9eb6284e4322766de4bc192c9d6597e",
+    "Backend/src/kiosk/kiosk.controller.ts": "54b2ca3ca3d4854ec5cd9cdb6924582ca01acdc0bcd5c94e389425a6bd30e720",
+    "Backend/src/vehicles/recognition.service.ts": "a0eee4141b6680732a9cf53a7616e5eb7044d27b0288cea0057bc5e7a40050e6"
+  },
+  "intentionallyChangedPriorControllerHashes": [
+    {
+      "file": "Backend/src/memberships/memberships.controller.ts",
+      "before": "018c655c7bc2dad66855914230043e94ec726092ae1ed10cfb7a8b2b45c5339f",
+      "after": "ea2a9f23890d55dc706d36e59ba9226ac5b2eb01563a25095480cfa9d6aaa901"
+    },
+    {
+      "file": "Backend/src/vehicles/vehicles.controller.ts",
+      "before": "6178b9f8840c9288665acbe59f28e1570816e13615da20758a84b5f4cab82ddf",
+      "after": "7bc353153ecb00da4beecca56a0460c32c3e267ce5a18456ba8206f217ef4243"
+    }
+  ],
+  "preservedOriginalEvidence": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    }
+  ],
+  "historical3JPrefixPreserved": true,
+  "limitations": [
+    "Compatibility regressions for blocked routes are not hexagonal boundaries",
+    "Synthetic SMTP delivery and OCR transport; no real providers",
+    "JWT claims/lifetime/signature, bcrypt password relation and reset code HMAC verified before random-value correlation",
+    "Lifecycle value normalized while retaining null/present; Redis TTL positive and original values/counters retained",
+    "No bootstrap IP-throttler, physical crash recovery, valid kiosk recovery exchange recertification, final Compose/frontends or macOS/Linux-host certification",
+    "Identity A.4 not activated; T01 and legacy kiosk policy unchanged"
+  ],
+  "sourceManifest": [
+    {
+      "file": "Backend/src/memberships/memberships.controller.ts",
+      "sha256": "ea2a9f23890d55dc706d36e59ba9226ac5b2eb01563a25095480cfa9d6aaa901"
+    },
+    {
+      "file": "Backend/src/vehicles/recognition.controller.ts",
+      "sha256": "c235849dfcb89220b3b35df67af15bb00a92650ca045861c07cf5c9eb76803c7"
+    },
+    {
+      "file": "Backend/src/vehicles/vehicles.controller.ts",
+      "sha256": "7bc353153ecb00da4beecca56a0460c32c3e267ce5a18456ba8206f217ef4243"
+    },
+    {
+      "file": "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md",
+      "sha256": "27ca3416fcdf96bf785389e5297983e7b261c69fda15abdee8472920c043b39b"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/inbound/plate-recognition.adapter.ts",
+      "sha256": "0f30fae9897bd40cc0ce6fb5f152ce0a2dd9dd9a2c71e8964ff48e33b2888181"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/inbound/profile-operations.adapter.ts",
+      "sha256": "28281a846a4c073e9d3120cdcc0b06a833be443f6f0c0e2fac162fea4a3b442f"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/inbound/vehicle-linking.adapter.ts",
+      "sha256": "4ced78b3b7241cbf3fae127349e50a266f42d5d65d5cff019e8c45b770ea44aa"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/outbound/existing-plate-recognition.ts",
+      "sha256": "fc0c735d1a439827e337d854341d8ea74ba1ea5f01575d7e25eb4b004916f3a4"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/outbound/existing-profile-operations.ts",
+      "sha256": "c45f207a88d290f55b9a214d4ba5a97dbc6af6af16d0e38325f8ec6c553fdfe8"
+    },
+    {
+      "file": "Backend/services/identity/src/adapters/outbound/existing-vehicle-linking.ts",
+      "sha256": "e121305d5a5bd9f6caaa43b5019fd1acbf8032576e9f836b711865b2d65ca886"
+    },
+    {
+      "file": "Backend/services/identity/src/application/ports/plate-recognition.ts",
+      "sha256": "c95926c9e58f186c1b9fd99aebb0c2ed3639b09e329b830e56546769dca21ca9"
+    },
+    {
+      "file": "Backend/services/identity/src/application/ports/profile-operations.ts",
+      "sha256": "ee3aa8ba9bbb0dce72f7bef2b5c2eb2d62e9e04ecc32e73bcbbcdf3d52f918fa"
+    },
+    {
+      "file": "Backend/services/identity/src/application/ports/vehicle-linking.ts",
+      "sha256": "b733690a824588c487ac5a6edeed2d0e70ab898858b4b64adbb4a3f2ae87c2e0"
+    },
+    {
+      "file": "Backend/services/identity/src/application/use-cases/plate-recognition.ts",
+      "sha256": "6d7793a598d273b0dfcc55797b67e81c0d100fa76f1f113948f0ea221c6b9756"
+    },
+    {
+      "file": "Backend/services/identity/src/application/use-cases/profile-operations.ts",
+      "sha256": "cc409a4d4166d77fbcaa3709d7d51ca744a65f77b3c3b3c2094f637596781ac3"
+    },
+    {
+      "file": "Backend/services/identity/src/application/use-cases/vehicle-linking.ts",
+      "sha256": "45798897d13c17015f0762085b6fb4de12b6309173b726fb834062cb0d6bf71a"
+    },
+    {
+      "file": "Backend/services/identity/src/bootstrap/plate-recognition.composition.ts",
+      "sha256": "5dfaace7cabb601f9d67aa73ce89456bd8c201dbfda2c9d2776029beb7c97637"
+    },
+    {
+      "file": "Backend/services/identity/src/bootstrap/profile-operations.composition.ts",
+      "sha256": "db922d578e763aca1fd745981c62afcb236be72fb88258c161b50280b831ff5e"
+    },
+    {
+      "file": "Backend/services/identity/src/bootstrap/vehicle-linking.composition.ts",
+      "sha256": "94edb44c7b16f787a95ee2cff15cfea74ef7edb54f61b9e8bdad1404a2d0d70b"
+    },
+    {
+      "file": "Backend/src/identity-adapters/lot2-boundaries.spec.ts",
+      "sha256": "a3d20b32c75a9e423870de9beaa1f0028b28157f8baad03ffc62868efd369169"
+    },
+    {
+      "file": "Backend/test/lot2-identity.fixture.ts",
+      "sha256": "4b045eb12ecdb0932ac1ff0126514ddb304ab821bcbb5857f412924c8ba539f2"
+    },
+    {
+      "file": "Backend/test/lot2-identity.integration.cjs",
+      "sha256": "63dde8a1ede25e3576f39f48d782a1e9ce498039c103b5b259eff53d911e627d"
+    },
+    {
+      "file": "Backend/test/lot2-scenarios/admin-ocr.cjs",
+      "sha256": "5129a0a27fb08ed65235d1f390e280e288c9661af24fe784a3167c743dfbba62"
+    },
+    {
+      "file": "Backend/test/lot2-scenarios/catalog.cjs",
+      "sha256": "ef60d8dd97ed52a4a247f33380302c82140653ae0af2209723606a83d5436b64"
+    },
+    {
+      "file": "Backend/test/lot2-scenarios/kiosk.cjs",
+      "sha256": "020dff794337129fe6ac29795eff94ed145580dcb375465ae9d803f71b6a74d6"
+    },
+    {
+      "file": "Backend/test/lot2-scenarios/profile.cjs",
+      "sha256": "93d72f6feb6f6fdf5b771dd4550a4f8a4e59a1c35c52382f12103cfdcfb6b3b7"
+    },
+    {
+      "file": "Backend/test/lot2-scenarios/security.cjs",
+      "sha256": "90ed2801c68df5ccae29fd1e98c0e3d22f0b04c06c7e51733a964a8304dc7c67"
+    },
+    {
+      "file": "Docs/astra/primax-lot2-identity-catalog-results.md",
+      "sha256": "a4ab3fedadd4f0d056ed8fb4b6c709174ca2a9a25bf149fa85f5d0de74d01d0a"
+    },
+    {
+      "file": "Docs/astra/primax-lot2-identity26-catalog6-matrix.md",
+      "sha256": "4a83a28753c9850166fc380a2f47932b7e0d2b74d328a1491af2933e6c389f6a"
+    },
+    {
+      "file": "tools/astra/lot2-core-packaging-diagnostic.cjs",
+      "sha256": "88b680abdbdceec9e42872831af3a8ad9d9c10c1802c1804f77c60342b2859c4"
+    },
+    {
+      "file": "tools/astra/lot2-identity-postgres-redis.cjs",
+      "sha256": "a3a3121770e6db46e8b8ee857f990c7a9c372deeb2739bc9960786836476fe69"
+    },
+    {
+      "file": "tools/astra/lot2-identity-validation.cjs",
+      "sha256": "cc2ec86eeaf060d6c06b10a1dde6ff751a1d44398b72e9f27c127f8854260a9e"
+    }
+  ],
+  "sourceManifestRule": "Working files; this JSON excluded from its own hash",
+  "commitPolicy": {
+    "localCommitsAuthorizedForValidatedFamilies": true,
+    "push": false,
+    "merge": false
+  },
+  "recommendation": "Accept eligible increment and Catalog read scope with observations; keep Identity/Lote 2 open for the finite P0 decision; do not start Lote 3"
+}

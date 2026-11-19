@@ -1,3 +1,4 @@
+import { composePlateRecognition } from '../../services/identity/src/bootstrap/plate-recognition.composition';
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiProperty, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { IsString, IsOptional, IsIn, MaxLength, MinLength } from 'class-validator';
@@ -18,8 +19,9 @@ class ImageDto {
 @KioskOnly()
 @Controller('plate-recognition')
 export class RecognitionController {
-  constructor(private readonly service: RecognitionService) {}
+  private readonly boundary: ReturnType<typeof composePlateRecognition>;
+  constructor(private readonly service: RecognitionService) { this.boundary = composePlateRecognition(this.service); }
   @Post() recognize(@Body() dto: ImageDto) {
-    return this.service.recognize(dto.image, dto.kind);
+    return this.boundary.recognize(dto.image, dto.kind);
   }
 }

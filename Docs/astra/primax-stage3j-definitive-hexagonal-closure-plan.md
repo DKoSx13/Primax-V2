@@ -557,3 +557,46 @@ sobrevivir un fallo SQL; no se promete atomicidad conjunta ni recuperación univ
 Próximo alcance recomendado, sin iniciarlo: Lote 2 de §6, cierre Identity y
 aceptación Catalog, preservando A.4 y plataformas. No hay push ni merge.
 **Lote 1F terminado; Lotes 2–5 no iniciados.**
+
+## 14. Lote 2 — incremento Identity y evaluación Catalog, 2026-11-19
+
+Referencia autorizada `868a74f4dd5aad41e5c1e73774979233d881cb59`, rama
+`feat/dezkz-identity-a4-core`. Se conservan las secciones históricas y el cierre
+Commerce aceptado. Entrega: [informe Lote 2](primax-lot2-identity-catalog-results.md),
+[matriz Identity 26 + Catalog 6](primax-lot2-identity26-catalog6-matrix.md) y
+[evidencia saneada](evidence/lot2-identity/review-summary.json).
+
+| Bloque | Estado comprobado | Pendiente real |
+|---|---|---|
+| Seis lecturas Identity | Puertos previos conservados; regresión HTTP de propietario, consultas, alias, UUID y paginación. | Mantener sus límites documentados; no nueva extracción de consultas. |
+| PATCH /memberships/me/profile, POST /vehicles, POST /plate-recognition | Tres fronteras nuevas mediante ProfileOperations, VehicleLinking y PlateRecognition; motores/repositorios originales, 15 fuentes de capas de delegación y tres controladores modificados. | Ninguna regla nueva; OCR externo se simula y no se certifica su algoritmo. |
+| Cinco auth, seis sesiones kiosco, cuatro workflows admin Identity | Quince C: motores intactos y regresiones verificadas, frontera no implementada. | Decisión P0 sobre composición/empaquetado compartido AuthCore; no se cuentan como consolidados. |
+| Login administrativo y demo-credentials | Dos D propuestas: implementación técnica inline y políticas originales conservadas y probadas. | Aceptación expresa de excepción o autorización de tratamiento; no aceptadas automáticamente. |
+| Seis lecturas Catalog | Cuatro casos de uso existentes y seis contratos comprobados, sin reimplementación ni cambios de permisos/repositorios. | Se mantiene la exposición pública de inventario y dependencia local/lector alternativo; no acredita despliegue productivo ni Compose final. |
+
+**Identity queda en 9/26 fronteras (seis previas + tres nuevas), 15 C y dos D
+propuestas. Catalog cumple el alcance académico de seis lecturas comprobadas.**
+No se declara Identity ni Lote 2 cerrados académicamente. Las regresiones exitosas
+de auth/kiosco/admin acreditan compatibilidad de la plataforma intacta, no una
+frontera que no se haya implementado.
+
+El bloqueo es concreto: AuthCoreModule y AuthModule comparten archivo, que importa
+los tres controladores afectados. Los cuatro entrypoints compilan ese cierre
+transitivo, pero cada Dockerfile copia sólo las fuentes hexagonales propias.
+El diagnóstico aislado, sin red ni bases y sin editar el repositorio, demuestra
+Commerce original exit 0 y TS2307 al importar Identity desde el controlador Auth
+compartido. No se fuerza una migración alterando AuthCore u otros Dockerfiles.
+
+P0 finito para cerrar Identity: autorizar separar la composición Identity del
+archivo AuthCore, o permitir incluir sus nuevas dependencias en los Dockerfiles
+de Catalog/Administration/Commerce; después consolidar las quince fronteras y
+aceptar/resolver las dos D. No se requieren cambios de políticas de autenticación,
+revocación, transacciones o propiedad de datos para la delegación semántica; el
+acoplamiento de distribución actual sí exige una decisión fuera de los límites
+autorizados. No se crean nuevas etapas por ruta ni se mueve lógica a otro servicio.
+
+Se preservan AuthCore, PasswordReset, authVersion y políticas, Prisma/migraciones,
+Commerce/Administration, frontends/Gateway, T01, x-kiosk-key e Identity A.4.
+No hay push ni merge. Se recomienda aceptar el incremento elegible y Catalog con
+observaciones, mantener abierto el cierre Lote 2 y resolver esa decisión antes de
+declararlo terminado. **Trabajo detenido dentro de Lote 2; Lotes 3–5 no iniciados.**

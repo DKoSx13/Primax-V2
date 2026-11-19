@@ -1,0 +1,22 @@
+module.exports=async c=>{
+  const {assert,db,id,call,snapshot,seedPassword,terminals,flags}=c,b='/api/v1/kiosk/session';
+  const api=(verb,route,status,label,o={})=>call(verb,b+route,status,label,{actor:'signed',engine:'kiosk.'+({'':'status','/login':'login','/logout':'logout','/authorize':'authorize','/terminal-bootstrap':'bootstrapTerminal','/terminal-recovery':'exchangeRecoveryTicket'}[route]),...o});
+  await api('GET','',401,'session missing gateway proof',{actor:'anonymous'});await api('GET','',401,'session invalid HMAC',{badSignature:true});
+  const pre=await api('GET','',200,'create preauth session');assert.equal(pre.authenticated,false);assert.equal(pre.token.length,43);
+  await api('POST','/login',403,'login CSRF original rejection',{session:pre.token,csrf:'wrong',body:{username:'synthetic',password:seedPassword}});
+  await api('POST','/login',401,'operator wrong password',{session:pre.token,csrf:pre.csrfToken,body:{username:'synthetic',password:'wrong'}});
+  const session=await api('POST','/login',201,'operator login rotates preauth',{session:pre.token,csrf:pre.csrfToken,body:{username:'synthetic',password:seedPassword}});assert.equal(session.authenticated,true);assert.equal(session.stationId,id('station-A'));assert.notEqual(session.token,pre.token);
+  await api('GET','',200,'authenticated session status',{session:session.token});
+  await api('POST','/authorize',201,'original kiosk authorization projection',{session:session.token,csrf:session.csrfToken,body:{method:'GET',path:'/api/v1/vehicles/AAA-001'}});
+  await api('POST','/authorize',403,'target outside whitelist',{session:session.token,csrf:session.csrfToken,body:{method:'GET',path:'/api/v1/control/assistance'}});
+  await api('POST','/authorize',403,'target csrf rejected',{session:session.token,csrf:'wrong',body:{method:'GET',path:'/api/v1/vehicles/AAA-001'}});
+  await api('POST','/terminal-bootstrap',409,'bootstrap station scoping',{token:'',body:{terminalId:terminals.other.terminalId}});
+  const before=await snapshot();const boot=await api('POST','/terminal-bootstrap',201,'bootstrap existing credential preserved',{token:terminals.main.token,body:{terminalId:terminals.main.terminalId}});assert.equal(boot.terminalToken,terminals.main.token);assert.equal(boot.terminalId,terminals.main.terminalId);
+  const count=await db.terminalCredential.count();await api('POST','/terminal-bootstrap',201,'bootstrap reuse does not create another credential',{token:boot.terminalToken,body:{terminalId:terminals.main.terminalId}});assert.equal(await db.terminalCredential.count(),count);
+  await api('POST','/terminal-recovery',400,'recovery malformed DTO',{body:{ticket:'bad',terminalCode:'T-MAIN'},noEngine:true});
+  await api('POST','/terminal-recovery',401,'recovery nonexistent ticket',{owner:id('missing-ticket-owner'),body:{ticket:'A'.repeat(43),terminalCode:'T-MAIN'}});
+  await api('POST','/logout',403,'logout bad csrf',{session:session.token,csrf:'wrong'});await api('POST','/logout',201,'logout invalidates original session',{session:session.token,csrf:session.csrfToken});
+  await api('POST','/authorize',401,'logout token no longer authorized',{session:session.token,csrf:session.csrfToken,body:{method:'GET',path:'/api/v1/vehicles/AAA-001'}});
+  const expired=await api('GET','',200,'expired session returns new preauth',{session:session.token});assert.equal(expired.authenticated,false);
+  assert.equal(await db.transaction.count(),0);assert.equal(await db.walletMovement.count(),0);flags.originalKioskSixContracts=true;flags.hmacCsrfSessionAndStation=true;flags.originalCredentialReuse=true;flags.noKioskBoundaryClaimed=true;flags.validRecoveryExchangeCoveredOnlyByHistoricalUnitEvidence=true;
+};

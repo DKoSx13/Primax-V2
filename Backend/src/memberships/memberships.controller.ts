@@ -1,3 +1,4 @@
+import { composeProfileOperations } from '../../services/identity/src/bootstrap/profile-operations.composition';
 import { Body, Patch, Controller, Get, Query } from '@nestjs/common';
 import { ProfileDto } from './profile.dto';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -14,7 +15,8 @@ import { MembershipsService } from './memberships.service';
 @ApiBearerAuth()
 @Controller('memberships/me')
 export class MembershipsController {
-  constructor(private readonly service: MembershipsService) {}
+  private readonly boundary: ReturnType<typeof composeProfileOperations>;
+  constructor(private readonly service: MembershipsService) { this.boundary = composeProfileOperations(this.service); }
   @Get() @ApiOkResponse({ type: MembershipResponseDto }) me(
     @CurrentActor() actor: { userId: string },
   ) {
@@ -22,7 +24,7 @@ export class MembershipsController {
   }
   @Patch('profile')
   profile(@CurrentActor() actor: { userId: string }, @Body() dto: ProfileDto) {
-    return this.service.updateProfile(actor.userId, dto);
+    return this.boundary.updateProfile(actor.userId, dto);
   }
   @Get('transactions')
   @ApiOkResponse({ type: [TransactionViewDto] })

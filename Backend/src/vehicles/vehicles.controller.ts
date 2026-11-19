@@ -1,3 +1,4 @@
+import { composeVehicleLinking } from '../../services/identity/src/bootstrap/vehicle-linking.composition';
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateVehicleDto } from './create-vehicle.dto';
 import {
@@ -15,10 +16,11 @@ import { VehiclesService } from './vehicles.service';
 @ApiBearerAuth()
 @Controller('vehicles')
 export class VehiclesController {
-  constructor(private readonly service: VehiclesService) {}
+  private readonly boundary: ReturnType<typeof composeVehicleLinking>;
+  constructor(private readonly service: VehiclesService) { this.boundary = composeVehicleLinking(this.service); }
   @Post()
   create(@Body() dto: CreateVehicleDto, @CurrentActor() actor: Actor) {
-    return this.service.create(dto, actor);
+    return this.boundary.create(dto, actor);
   }
   @Get() @ApiOkResponse({ type: [VehicleResponseDto] }) list(
     @CurrentActor() actor: Actor,
