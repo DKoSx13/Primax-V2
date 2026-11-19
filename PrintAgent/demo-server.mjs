@@ -4,7 +4,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { validateReceipt } from './contract.mjs';
 
-http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   const reply = (status, body) => {
     res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
     res.end(JSON.stringify(body));
@@ -38,4 +38,55 @@ http.createServer(async (req, res) => {
     }
     return reply(200, job);
   } catch (error) { return reply(400, { error: error.message }); }
+}
+
+let draining = false;
+let activeRequests = 0;
+let serverClosed = false;
+let deadline;
+
+function finishShutdown() {
+  if (draining && serverClosed && activeRequests === 0) {
+    clearTimeout(deadline);
+    process.exitCode ??= 0;
+  }
+}
+
+const server = http.createServer(async (req, res) => {
+  if (draining) {
+    res.writeHead(503, { Connection: 'close', 'Content-Length': '0' });
+    res.end();
+    return;
+  }
+  activeRequests++;
+  try {
+    await handleRequest(req, res);
+  } finally {
+    activeRequests--;
+    finishShutdown();
+  }
 }).listen(3000, '0.0.0.0');
+
+function shutdown() {
+  if (draining) return;
+  draining = true;
+  // Leave a two-second margin inside Compose's ten-second stop budget.
+  deadline = setTimeout(() => {
+    console.error('Demo print shutdown deadline exceeded: pending HTTP work; exit 1.');
+    server.closeAllConnections();
+    process.exit(1);
+  }, 8000);
+  deadline.unref();
+  server.close(error => {
+    if (error) {
+      console.error('Demo print shutdown failed: HTTP server could not close.');
+      process.exitCode = 1;
+    }
+    serverClosed = true;
+    finishShutdown();
+  });
+  server.closeIdleConnections();
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

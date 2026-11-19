@@ -15,7 +15,8 @@ async function call(base, path, body, headers = {}, expected = [200,201]) {
     ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal: AbortSignal.timeout(20000) });
   saveCookies(r);
   const data = await r.json();
-  assert(expected.includes(r.status), `${path}: ${r.status} ${JSON.stringify(data)}`);
+  // Failed auth assertions must never dump a token or account response.
+  assert(expected.includes(r.status), `${path}: HTTP ${r.status}`);
   return data;
 }
 const cookieHeader = () => [...cookies].map(([k,v]) => `${k}=${v}`).join('; ');
@@ -25,6 +26,12 @@ function kiosk(path, body, terminal = false, expected) {
     'X-CSRF-Token': terminal ? cookies.get(`primax-terminal-csrf-local-${new URL(origin(1)).port}`) : sessionCsrf }, expected);
 }
 async function main() {
+  const memberEmail = process.env.DEMO_MEMBER_EMAIL;
+  const memberPassword = process.env.DEMO_PASSWORD;
+  const controlEmail = process.env.DEMO_CONTROL_ADMIN_EMAIL;
+  const controlPassword = process.env.DEMO_CONTROL_ADMIN_PASSWORD;
+  assert(memberEmail && memberPassword && controlEmail && controlPassword,
+    'Explicit synthetic member and Control fixtures are required');
   for (const n of [1,2,3]) {
     const r = await fetch(origin(n)); assert(r.ok, `frontend ${n}`);
     assert((await r.text()).includes('<html'), `frontend ${n} HTML`);
@@ -37,12 +44,12 @@ async function main() {
   const initialSession = await kiosk('/api/kiosk/terminal-bootstrap', {});
   sessionCsrf = initialSession.csrfToken;
   assert.equal(initialSession.prepared, true); // Before any Control login.
-  const member = await call(origin(2), '/api/v1/auth/login', { email: 'demo@primaxprime.pe', password: process.env.DEMO_PASSWORD || 'PrimaxDemo123!' });
+  const member = await call(origin(2), '/api/v1/auth/login', { email: memberEmail, password: memberPassword });
   const bearer = { Authorization: 'Bearer ' + member.accessToken };
   await call(origin(2), '/api/v1/memberships/me', undefined, bearer);
   await call(origin(2), '/api/v1/vehicles', undefined, bearer);
   await call(origin(2), '/api/v1/memberships/me', undefined, {}, [401]);
-  await call(origin(3), '/api/v1/control/login', { email: 'control-admin@primax.local', password: process.env.DEMO_CONTROL_ADMIN_PASSWORD || 'AdminDemoLocal123!' });
+  await call(origin(3), '/api/v1/control/login', { email: controlEmail, password: controlPassword });
   const control = { Cookie: cookieHeader() };
   const terminals = await call(origin(3), `/api/v1/control/terminals?stationId=${stationId}`, undefined, control);
   const terminal = terminals.terminals.find(t => t.code === 'PRIMAX-SUR-T01');
@@ -90,7 +97,8 @@ async function main() {
   assert.equal(sale.transaction.receiptType, 'BOLETA');
   assert.equal(sale.transaction.payment.status, 'CAPTURED');
   const { thermalReceipt } = await import(pathToFileURL(resolve(__dirname, '../Frontend_1_FuelFlow/src/js/thermalReceipt.js')));
-  const receipt = thermalReceipt(sale.transaction);
+  const confirmedTerminal = await kiosk('/api/v1/terminal/me');
+  const receipt = thermalReceipt(sale.transaction, confirmedTerminal.pumpCode);
   const printPath = '/api/v1/demo-print/jobs/receipt-' + receipt.id;
   const printed = await kiosk(printPath, receipt);
   assert.equal(printed.simulation, true); assert.equal(printed.physicalConfirmed, false);

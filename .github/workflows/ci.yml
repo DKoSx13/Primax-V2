@@ -26,7 +26,27 @@ jobs:
       - name: OCR and public flows
         run: |
           docker compose exec -T plate-recognition python -m unittest test_ocr test_v11
-          node tools/smoke-microservices.cjs
+          node <<'NODE'
+          const { execFileSync, spawnSync } = require('node:child_process');
+          try {
+            // Fixtures come from this job's local demo stack, never from literals or logs.
+            const compose = JSON.parse(execFileSync('docker', ['compose', 'config', '--format', 'json'], { encoding: 'utf8' }));
+            const db = compose.services.postgres.environment;
+            const fixtures = JSON.parse(execFileSync('docker', ['compose', 'exec', '-T', 'postgres', 'psql', '-X', '-qAt', '-v', 'ON_ERROR_STOP=1', '-U', db.POSTGRES_USER, '-d', db.POSTGRES_DB], {
+              encoding: 'utf8',
+              input: `BEGIN READ ONLY; SELECT json_build_object('member',(SELECT u.email FROM "User" u JOIN "Membership" m ON m."userId"=u.id ORDER BY m."createdAt" LIMIT 1),'control',(SELECT u.email FROM "User" u JOIN "UserPermissionGrant" g ON g."userId"=u.id WHERE g.permission='SYSTEM_ADMIN' AND g."revokedAt" IS NULL LIMIT 1)); COMMIT;`,
+            }));
+            const demo = compose.services.seed.environment;
+            const result = spawnSync(process.execPath, ['tools/smoke-microservices.cjs'], {
+              stdio: 'inherit',
+              env: { ...process.env, DEMO_MEMBER_EMAIL: fixtures.member, DEMO_PASSWORD: demo.DEMO_PASSWORD, DEMO_CONTROL_ADMIN_EMAIL: fixtures.control, DEMO_CONTROL_ADMIN_PASSWORD: demo.DEMO_CONTROL_ADMIN_PASSWORD },
+            });
+            process.exit(result.status ?? 1);
+          } catch {
+            console.error('Unable to prepare explicit smoke fixtures for this CI demo stack');
+            process.exit(1);
+          }
+          NODE
           node tools/audit-secrets.cjs
       - name: Diagnostics
         if: failure()

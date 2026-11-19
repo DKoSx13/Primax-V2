@@ -1,0 +1,443 @@
+{
+  "schemaVersion": 1,
+  "kind": "ASTRA_STAGE2B1_SANITIZED_REVIEW_NOT_CLEAN_CLOSURE",
+  "initialAndFinalHead": "f05027ff86f5a03aba12ffeb528f2d001209d747",
+  "branch": "feat/dezkz-identity-a4-core",
+  "date": "2026-11-18",
+  "project": "primax-astra-stage2b1-34b131b9b5",
+  "ports": [
+    30100,
+    30181,
+    30182,
+    30183,
+    30184
+  ],
+  "commitsCreated": 0,
+  "stage3Started": false,
+  "protectedOriginalFiles": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "size": 42295,
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "size": 86976,
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "size": 177723,
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "size": 56705,
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "size": 18393,
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "size": 4964,
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "size": 5623,
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "size": 10652,
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "size": 9485,
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7",
+      "unchanged": true,
+      "disposition": "Preserved in place, excluded from staging; contents not copied into review package"
+    }
+  ],
+  "protectedOriginalVolumes": [
+    {
+      "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+      "before": {
+        "index": 0,
+        "files": 1509,
+        "bytes": 52019627,
+        "sha256": "50d03ba906d18529471f4b1aea7202eb06d8b588881678558ea230b36a4c75e5"
+      },
+      "after": {
+        "index": 0,
+        "files": 1509,
+        "bytes": 52019627,
+        "sha256": "50d03ba906d18529471f4b1aea7202eb06d8b588881678558ea230b36a4c75e5"
+      },
+      "contentUnchanged": true
+    },
+    {
+      "name": "primax-astra-stage2b-272b482a5f_redis_data",
+      "before": {
+        "index": 1,
+        "files": 4,
+        "bytes": 54043,
+        "sha256": "00bcafc96c1db4abb80c294b62cc0f14a38c70fbce7578ff982c30bffb1ed063"
+      },
+      "after": {
+        "index": 1,
+        "files": 4,
+        "bytes": 54043,
+        "sha256": "00bcafc96c1db4abb80c294b62cc0f14a38c70fbce7578ff982c30bffb1ed063"
+      },
+      "contentUnchanged": true
+    },
+    {
+      "name": "primax-astra-stage2b-272b482a5f_print_data",
+      "before": {
+        "index": 2,
+        "files": 4,
+        "bytes": 3124,
+        "sha256": "d2ee06541991ca7c66f69f472f84636547fd5dc70f8528e831baf8ce9f6f71d9"
+      },
+      "after": {
+        "index": 2,
+        "files": 4,
+        "bytes": 3124,
+        "sha256": "d2ee06541991ca7c66f69f472f84636547fd5dc70f8528e831baf8ce9f6f71d9"
+      },
+      "contentUnchanged": true
+    }
+  ],
+  "smoke": {
+    "historicalMismatchPredatesStage2": true,
+    "historyCommit": "b99b995",
+    "candidate": {
+      "exitCode": 0,
+      "result": "PASS",
+      "verified": [
+        "automatic kiosk availability before Control login",
+        "3 web frontends",
+        "JWT/401",
+        "Control cookie/grants",
+        "catalog",
+        "OCR + vehicle",
+        "prepaid card simulation",
+        "amount ceiling",
+        "idempotent close/receipt",
+        "Prime history",
+        "simulated printing",
+        "4 distinct Swagger contracts"
+      ]
+    },
+    "reference": {
+      "exitCode": 0,
+      "result": "PASS",
+      "verified": [
+        "automatic kiosk availability before Control login",
+        "3 web frontends",
+        "JWT/401",
+        "Control cookie/grants",
+        "catalog",
+        "OCR + vehicle",
+        "prepaid card simulation",
+        "amount ceiling",
+        "idempotent close/receipt",
+        "Prime history",
+        "simulated printing",
+        "4 distinct Swagger contracts"
+      ]
+    },
+    "finalFreshFinancialCounts": {
+      "transactions": 4,
+      "payments": 4,
+      "receipts": 4,
+      "openOperations": 0,
+      "pendingReservations": 0
+    },
+    "requiredFixturesFailBeforeNetwork": true,
+    "thermalReceiptUnitTests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "ciFixtureUnitTests": {
+      "passed": 2,
+      "failed": 0,
+      "githubActionsExecuted": false,
+      "sanitizedFailureCase": true,
+      "workflowYamlAndShellSyntax": "PASS",
+      "otherWorkflowStepsUnchanged": true
+    }
+  },
+  "t01": {
+    "originalVolumesNeverStarted": true,
+    "diagnosticUsedNewCopy": true,
+    "copyNetwork": "none",
+    "transactionReadOnly": "on",
+    "operationStatus": "ACTIVE",
+    "terminalStatus": "EN_USO",
+    "transactionStatus": "PAID",
+    "paymentStatus": "CAPTURED",
+    "provider": "DEMO",
+    "noRefund": true,
+    "authorizationStatus": "SETTLED",
+    "inventoryManaged": true,
+    "reservationStatus": "CLOSED",
+    "receiptCount": 1,
+    "onlineOrderCount": 0,
+    "liveCredentialCountAtRead": 1,
+    "linkChecks": {
+      "saleAuthorization": true,
+      "authorizationPayment": true,
+      "paymentTransaction": true,
+      "reservationAuthorization": true,
+      "reservationTransaction": true,
+      "receipt": true
+    },
+    "technicalContextsMatch": true,
+    "financialDigestMatchedPreviousEvidence": true,
+    "manualRecoveryOrClosureExecuted": false,
+    "remainingLimitation": "Lost-session direct sale without OnlineOrder is not covered by the implemented ticket evidence shape; diagnostic original remains ACTIVE"
+  },
+  "shutdown": {
+    "observed": [
+      {
+        "service": "fuelflow-gateway",
+        "timeoutSeconds": 3,
+        "elapsedMilliseconds": 3386,
+        "exitCode": 137,
+        "oomKilled": false,
+        "signals": [
+          15,
+          9
+        ],
+        "eventKinds": [
+          "kill",
+          "kill",
+          "stop",
+          "die"
+        ]
+      },
+      {
+        "service": "fuelflow-gateway-t02",
+        "timeoutSeconds": 3,
+        "elapsedMilliseconds": 3363,
+        "exitCode": 137,
+        "oomKilled": false,
+        "signals": [
+          15,
+          9
+        ],
+        "eventKinds": [
+          "kill",
+          "kill",
+          "stop",
+          "die"
+        ]
+      },
+      {
+        "service": "print-service",
+        "timeoutSeconds": 3,
+        "elapsedMilliseconds": 10788,
+        "exitCode": 137,
+        "oomKilled": false,
+        "signals": [
+          15,
+          9
+        ],
+        "eventKinds": [
+          "kill",
+          "kill",
+          "stop",
+          "die"
+        ]
+      },
+      {
+        "service": "signal-control",
+        "timeoutSeconds": 3,
+        "elapsedMilliseconds": 281,
+        "exitCode": 0,
+        "oomKilled": false,
+        "signals": [
+          15
+        ],
+        "eventKinds": [
+          "kill",
+          "stop",
+          "die"
+        ]
+      }
+    ],
+    "printRepeat": {
+      "service": "print-service",
+      "timeoutSeconds": 5,
+      "elapsedMilliseconds": 5316,
+      "exitCode": 137,
+      "oomKilled": false,
+      "signals": [
+        15,
+        9
+      ],
+      "eventKinds": [
+        "kill",
+        "kill",
+        "stop",
+        "die"
+      ]
+    },
+    "operationalFixApplied": false,
+    "proposedFiles": [
+      "Frontend_1_FuelFlow/server/local.js",
+      "PrintAgent/demo-server.mjs"
+    ],
+    "gracefulClosureVerifiedForRealAuxiliaries": false
+  },
+  "finalResources": [
+    {
+      "service": "administration-service",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "catalog-service",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "commerce-service",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "identity-service",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "signal-control",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "diagnostic-copy",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "fuelflow-t02",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "frontend1",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "frontend2",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "frontend3",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "fuelflow-gateway",
+      "state": "exited",
+      "exitCode": 137
+    },
+    {
+      "service": "fuelflow-gateway-t02",
+      "state": "exited",
+      "exitCode": 137
+    },
+    {
+      "service": "backend",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "seed-operations",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "seed-control-admin",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "seed",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "migrate",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "postgres",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "redis",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "plate-recognition",
+      "state": "exited",
+      "exitCode": 0
+    },
+    {
+      "service": "print-service",
+      "state": "exited",
+      "exitCode": 137
+    }
+  ],
+  "privacy": {
+    "rawOriginalEvidenceStaged": false,
+    "profileScreenshotsIncluded": false,
+    "rawResponseBodiesIncluded": false,
+    "secretValuesIncluded": false,
+    "privateCacheIgnored": true
+  },
+  "reviewFiles": [
+    ".github/workflows/ci.yml",
+    "tools/smoke-microservices.cjs",
+    "tools/astra/stage2b1-lab.cjs",
+    "tools/astra/stage2b1-ci-fixture.test.cjs",
+    "Docs/astra/primax-stage2b1-observation-resolution.md",
+    "Docs/astra/evidence/stage2b1/review-summary.json"
+  ],
+  "reviewSourceHashes": {
+    ".github/workflows/ci.yml": "0e84d28d6e7bd3b5eda5f2a1594ac665e27899a83ef5c778a1b6896a882ad6ce",
+    "tools/smoke-microservices.cjs": "71ca97d7cc89194c65b32979460c56be2b654f6dbc512b7a597e64613871b86c",
+    "tools/astra/stage2b1-lab.cjs": "4f47fd8891bf18129d688a8a3ee7e2223aaadae14a8606aa34089ca8d60cf0a3",
+    "tools/astra/stage2b1-ci-fixture.test.cjs": "68821582c17ecab256c6b28df1b0801dbdb5c774de718f80b203c37a6d61fdcb"
+  }
+}

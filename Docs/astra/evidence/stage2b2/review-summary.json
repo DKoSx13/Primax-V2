@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "kind": "ASTRA_STAGE2B2_GRACEFUL_VALIDATED_ACCEPTANCE_WITH_OPEN_T01",
+  "date": "2026-11-18",
+  "branch": "feat/dezkz-identity-a4-core",
+  "head": "f05027ff86f5a03aba12ffeb528f2d001209d747",
+  "commitsCreated": 0,
+  "stage3Started": false,
+  "project": {
+    "project": "primax-astra-stage2b2-ca280f1ed7",
+    "network": "primax-astra-stage2b2-ca280f1ed7_data",
+    "volume": "primax-astra-stage2b2-ca280f1ed7_print",
+    "subnet": "10.253.214.0/27"
+  },
+  "isolation": {
+    "newProject": true,
+    "newPrintVolume": true,
+    "portsPublished": false,
+    "postgresOrRedisStarted": false,
+    "previousVolumesUsedByServices": false,
+    "previousVolumeChecksReadOnly": true,
+    "backend": "Network-private nonfinancial catalogue fixture",
+    "physicalPrinterUsed": false
+  },
+  "policy": {
+    "applicationDeadlineMilliseconds": 8000,
+    "dockerStopTimeoutSeconds": 10,
+    "normalExit": 0,
+    "deadlineFailureExit": 1,
+    "normalExitRequiresServerAndAcceptedHandlersFinished": true,
+    "deadlinePathNotReportedAsGraceful": true,
+    "newWorkDuringDrain": "New TCP rejected; pipelined HTTP gets empty 503 with connection close"
+  },
+  "tests": {
+    "passed": true,
+    "project": "primax-astra-stage2b2-ca280f1ed7",
+    "contracts": [
+      {
+        "service": "bff-t01",
+        "health": 200,
+        "catalogue": 200,
+        "foreignOrigin": 403
+      },
+      {
+        "service": "bff-t02",
+        "health": 200,
+        "catalogue": 200,
+        "foreignOrigin": 403
+      },
+      {
+        "service": "print",
+        "accepted": 200,
+        "replay": 200,
+        "conflict": 409,
+        "simulation": true,
+        "physicalConfirmed": false
+      }
+    ],
+    "results": [
+      {
+        "case": "idle-SIGTERM",
+        "service": "bff-t01",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1154,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "idle-SIGINT",
+        "service": "bff-t01",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1086,
+        "signals": [
+          2
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "inflight-repeated-signals",
+        "service": "bff-t01",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1839,
+        "signals": [
+          15,
+          2,
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "statuses": [
+          200,
+          503
+        ],
+        "newConnectionRejected": true
+      },
+      {
+        "case": "deadline-failure",
+        "service": "bff-t01",
+        "exitCode": 1,
+        "oomKilled": false,
+        "elapsedMilliseconds": 9053,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "fixedReasonLogged": true
+      },
+      {
+        "case": "idle-SIGTERM",
+        "service": "bff-t02",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1094,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "idle-SIGINT",
+        "service": "bff-t02",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1052,
+        "signals": [
+          2
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "inflight-repeated-signals",
+        "service": "bff-t02",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1790,
+        "signals": [
+          15,
+          2,
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "statuses": [
+          200,
+          503
+        ],
+        "newConnectionRejected": true
+      },
+      {
+        "case": "deadline-failure",
+        "service": "bff-t02",
+        "exitCode": 1,
+        "oomKilled": false,
+        "elapsedMilliseconds": 9108,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "fixedReasonLogged": true
+      },
+      {
+        "case": "idle-SIGTERM",
+        "service": "print",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1136,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "idle-SIGINT",
+        "service": "print",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1614,
+        "signals": [
+          2
+        ],
+        "stopTimeoutSeconds": 10
+      },
+      {
+        "case": "inflight-repeated-signals",
+        "service": "print",
+        "exitCode": 0,
+        "oomKilled": false,
+        "elapsedMilliseconds": 1958,
+        "signals": [
+          15,
+          2,
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "statuses": [
+          200,
+          503
+        ],
+        "newConnectionRejected": true
+      },
+      {
+        "case": "deadline-failure",
+        "service": "print",
+        "exitCode": 1,
+        "oomKilled": false,
+        "elapsedMilliseconds": 9304,
+        "signals": [
+          15
+        ],
+        "stopTimeoutSeconds": 10,
+        "fixedReasonLogged": true
+      }
+    ],
+    "acceptedPrintJobPreserved": true,
+    "unitContracts": {
+      "exitCode": 0,
+      "tests": 53,
+      "passed": 53,
+      "failed": 0,
+      "node": "22.21.1",
+      "log": "unit-1795050744871.log"
+    },
+    "normalShutdownCases": 9,
+    "expectedDeadlineFailures": 3,
+    "noDockerSigkill": true,
+    "finalContainers": [
+      {
+        "service": "backend",
+        "state": "exited",
+        "exitCode": 0,
+        "oomKilled": false,
+        "imageId": "sha256:b45b1be6df73dcaae49b18e4000ce433ffb5fc2c5f0cc2c1fcb79163d8813e49"
+      },
+      {
+        "service": "bff-t01",
+        "state": "exited",
+        "exitCode": 0,
+        "oomKilled": false,
+        "imageId": "sha256:4fa721dc7cbc2a6ffc56e87ba4f65e727c7e481d990e9fdd0be5fa3b03efaf64"
+      },
+      {
+        "service": "bff-t02",
+        "state": "exited",
+        "exitCode": 0,
+        "oomKilled": false,
+        "imageId": "sha256:4fa721dc7cbc2a6ffc56e87ba4f65e727c7e481d990e9fdd0be5fa3b03efaf64"
+      },
+      {
+        "service": "print",
+        "state": "exited",
+        "exitCode": 0,
+        "oomKilled": false,
+        "imageId": "sha256:8bf6e6acffa138b016257751825c1c824f62799aa867e463cf9dd8374b4d055d"
+      }
+    ],
+    "printVolumeVerification": {
+      "passed": true,
+      "files": 4,
+      "allSimulation": true,
+      "noPhysicalPrint": true,
+      "noPersonalFields": true
+    }
+  },
+  "historicalPreservation": {
+    "stagedSix": [
+      {
+        "file": ".github/workflows/ci.yml",
+        "sha256": "0e84d28d6e7bd3b5eda5f2a1594ac665e27899a83ef5c778a1b6896a882ad6ce",
+        "indexSha256": "0e84d28d6e7bd3b5eda5f2a1594ac665e27899a83ef5c778a1b6896a882ad6ce",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b1/review-summary.json",
+        "sha256": "635925afd06e8270c99df4e74d7498ca3e4b778a8635aba99e2bf0bac65e0fd8",
+        "indexSha256": "635925afd06e8270c99df4e74d7498ca3e4b778a8635aba99e2bf0bac65e0fd8",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      },
+      {
+        "file": "Docs/astra/primax-stage2b1-observation-resolution.md",
+        "sha256": "361488b0462eba1efa8d7c3894a20c72658ab32828262fba3a28482e68fcc467",
+        "indexSha256": "361488b0462eba1efa8d7c3894a20c72658ab32828262fba3a28482e68fcc467",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      },
+      {
+        "file": "tools/astra/stage2b1-ci-fixture.test.cjs",
+        "sha256": "68821582c17ecab256c6b28df1b0801dbdb5c774de718f80b203c37a6d61fdcb",
+        "indexSha256": "68821582c17ecab256c6b28df1b0801dbdb5c774de718f80b203c37a6d61fdcb",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      },
+      {
+        "file": "tools/astra/stage2b1-lab.cjs",
+        "sha256": "4f47fd8891bf18129d688a8a3ee7e2223aaadae14a8606aa34089ca8d60cf0a3",
+        "indexSha256": "4f47fd8891bf18129d688a8a3ee7e2223aaadae14a8606aa34089ca8d60cf0a3",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      },
+      {
+        "file": "tools/smoke-microservices.cjs",
+        "sha256": "71ca97d7cc89194c65b32979460c56be2b654f6dbc512b7a597e64613871b86c",
+        "indexSha256": "ae6647f733e3552d2d175363f8a3482f6f7b783c0f0d8a0ce51a9b53e9752edf",
+        "workingUnchanged": true,
+        "indexUnchanged": true
+      }
+    ],
+    "originalNine": [
+      {
+        "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+        "size": 42295,
+        "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/control.png",
+        "size": 86976,
+        "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/prime.png",
+        "size": 177723,
+        "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/results.json",
+        "size": 56705,
+        "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+        "size": 18393,
+        "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "tools/astra/stage2b-browser.cjs",
+        "size": 4964,
+        "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "tools/astra/stage2b-checks.cjs",
+        "size": 5623,
+        "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "tools/astra/stage2b-lab.cjs",
+        "size": 10652,
+        "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+        "unchanged": true,
+        "excludedFromStaging": true
+      },
+      {
+        "file": "tools/stage2b-smoke.cjs",
+        "size": 9485,
+        "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7",
+        "unchanged": true,
+        "excludedFromStaging": true
+      }
+    ],
+    "sevenVolumes": [
+      {
+        "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+        "before": {
+          "files": 1509,
+          "bytes": 52019627,
+          "sha256": "50d03ba906d18529471f4b1aea7202eb06d8b588881678558ea230b36a4c75e5"
+        },
+        "after": {
+          "files": 1509,
+          "bytes": 52019627,
+          "sha256": "50d03ba906d18529471f4b1aea7202eb06d8b588881678558ea230b36a4c75e5"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b-272b482a5f_redis_data",
+        "before": {
+          "files": 4,
+          "bytes": 54043,
+          "sha256": "00bcafc96c1db4abb80c294b62cc0f14a38c70fbce7578ff982c30bffb1ed063"
+        },
+        "after": {
+          "files": 4,
+          "bytes": 54043,
+          "sha256": "00bcafc96c1db4abb80c294b62cc0f14a38c70fbce7578ff982c30bffb1ed063"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b-272b482a5f_print_data",
+        "before": {
+          "files": 4,
+          "bytes": 3124,
+          "sha256": "d2ee06541991ca7c66f69f472f84636547fd5dc70f8528e831baf8ce9f6f71d9"
+        },
+        "after": {
+          "files": 4,
+          "bytes": 3124,
+          "sha256": "d2ee06541991ca7c66f69f472f84636547fd5dc70f8528e831baf8ce9f6f71d9"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b1-34b131b9b5_postgres_data",
+        "before": {
+          "files": 1508,
+          "bytes": 51986859,
+          "sha256": "f04f1eeffdb782e87aa191bc679e94497d5975b355a07a0b6ec2aaa2efa87305"
+        },
+        "after": {
+          "files": 1508,
+          "bytes": 51986859,
+          "sha256": "f04f1eeffdb782e87aa191bc679e94497d5975b355a07a0b6ec2aaa2efa87305"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b1-34b131b9b5_print_data",
+        "before": {
+          "files": 4,
+          "bytes": 3124,
+          "sha256": "c9da18365d9f865d2e92a444269572f2b9f779dfd18f4619a9dfeb8c0a1c4d02"
+        },
+        "after": {
+          "files": 4,
+          "bytes": 3124,
+          "sha256": "c9da18365d9f865d2e92a444269572f2b9f779dfd18f4619a9dfeb8c0a1c4d02"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b1-34b131b9b5_redis_data",
+        "before": {
+          "files": 4,
+          "bytes": 39789,
+          "sha256": "cc1f2939134744483a96b02fc6a8168ef5565a409ad31c75ae8a3fc65acba843"
+        },
+        "after": {
+          "files": 4,
+          "bytes": 39789,
+          "sha256": "cc1f2939134744483a96b02fc6a8168ef5565a409ad31c75ae8a3fc65acba843"
+        },
+        "unchanged": true
+      },
+      {
+        "name": "primax-astra-stage2b1-34b131b9b5_diagnostic_data",
+        "before": {
+          "files": 1507,
+          "bytes": 51702987,
+          "sha256": "4e5afaf5c54f0de57435edff832343e003b3dfc1b7688a9bf9966c5e11088786"
+        },
+        "after": {
+          "files": 1507,
+          "bytes": 51702987,
+          "sha256": "4e5afaf5c54f0de57435edff832343e003b3dfc1b7688a9bf9966c5e11088786"
+        },
+        "unchanged": true
+      }
+    ]
+  },
+  "t01": {
+    "source": "Accepted 2B.1 diagnosis; original not restarted or modified in 2B.2",
+    "sale": "PAID",
+    "payment": "CAPTURED",
+    "authorization": "SETTLED",
+    "reservation": "CLOSED",
+    "receiptConsistent": true,
+    "attention": "ACTIVE",
+    "classification": "Known harness-associated finalization/recovery incident; functionally unresolved",
+    "credentialsReconstructed": false,
+    "manualFinalization": false,
+    "refundOrCompensation": false
+  },
+  "acceptance": {
+    "recommendation": "Close integration validation only with T01 explicitly open, subject to user approval",
+    "universalEquivalenceClaim": false,
+    "limits": [
+      "Selected HTTP and lifecycle cases only",
+      "Eight-second fatal path is not successful graceful shutdown",
+      "No physical storage failure, stuck filesystem or complete financial-flow validation",
+      "A Docker stop budget shorter than the application deadline requires realignment",
+      "No Phase 3 or operational Compose adoption"
+    ]
+  },
+  "readyForCommit": [
+    ".github/workflows/ci.yml",
+    "Docs/astra/evidence/stage2b1/review-summary.json",
+    "Docs/astra/primax-stage2b1-observation-resolution.md",
+    "tools/astra/stage2b1-ci-fixture.test.cjs",
+    "tools/astra/stage2b1-lab.cjs",
+    "tools/smoke-microservices.cjs",
+    "Frontend_1_FuelFlow/server/local.js",
+    "PrintAgent/demo-server.mjs",
+    "tools/astra/stage2b2-backend.cjs",
+    "tools/astra/stage2b2-probe.cjs",
+    "tools/astra/stage2b2-shutdown.cjs",
+    "Docs/astra/primax-stage2b2-graceful-shutdown-results.md",
+    "Docs/astra/evidence/stage2b2/review-summary.json"
+  ],
+  "sourceHashes": {
+    ".github/workflows/ci.yml": "0e84d28d6e7bd3b5eda5f2a1594ac665e27899a83ef5c778a1b6896a882ad6ce",
+    "Docs/astra/evidence/stage2b1/review-summary.json": "635925afd06e8270c99df4e74d7498ca3e4b778a8635aba99e2bf0bac65e0fd8",
+    "Docs/astra/primax-stage2b1-observation-resolution.md": "361488b0462eba1efa8d7c3894a20c72658ab32828262fba3a28482e68fcc467",
+    "tools/astra/stage2b1-ci-fixture.test.cjs": "68821582c17ecab256c6b28df1b0801dbdb5c774de718f80b203c37a6d61fdcb",
+    "tools/astra/stage2b1-lab.cjs": "4f47fd8891bf18129d688a8a3ee7e2223aaadae14a8606aa34089ca8d60cf0a3",
+    "tools/smoke-microservices.cjs": "71ca97d7cc89194c65b32979460c56be2b654f6dbc512b7a597e64613871b86c",
+    "Frontend_1_FuelFlow/server/local.js": "1ba6cf081cc0034ec94093fbb6a745e6821409734e55f6a19be7de1f0a63eebf",
+    "PrintAgent/demo-server.mjs": "53e747e95f0e7477039dfecdf3ef82f93428cbec96ecfd41de3da431b0ae8104",
+    "tools/astra/stage2b2-backend.cjs": "6c837514833c5a2a160bc371211a51161635efbe70dbf079c6c064834f5435c6",
+    "tools/astra/stage2b2-probe.cjs": "e7e7a586ed254c5351ecf2abfa901e9f369e78a140b9ae42952bbd91388e679b",
+    "tools/astra/stage2b2-shutdown.cjs": "1547d1bb41805fd01a33193b613862b62f64b9f0851d8199870abbcb048d61b2",
+    "Docs/astra/primax-stage2b2-graceful-shutdown-results.md": "9c2cb0f90bfcf77d85a855714a8a0d863508fce15a177119e6293f4e5b5e0f87"
+  }
+}
