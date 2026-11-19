@@ -9,9 +9,10 @@ import { Actor } from '../auth/access';
 import { PaginationDto } from '../common/pagination.dto';
 import { normalizePlate } from './plate.dto';
 import { VehiclesRepository } from './vehicles.repository';
+import { VehicleListReadAdapter } from '../../services/identity/src/adapters/inbound/vehicle-list-read.adapter';
 @Injectable()
 export class VehiclesService {
-  constructor(private readonly repo: VehiclesRepository) {}
+  constructor(private readonly repo: VehiclesRepository, private readonly vehicleList: VehicleListReadAdapter) {}
   membership(number: string) { return this.repo.membership(number); }
   async create(dto: CreateVehicleDto, actor: Actor) {
     if (actor.kind !== 'member') throw new ForbiddenException();
@@ -54,6 +55,6 @@ export class VehiclesService {
     };
   }
   list(actor: Actor, query: PaginationDto) {
-    return actor.kind === 'member' ? this.repo.list(actor.userId, query) : [];
+    return this.vehicleList.list(actor, query);
   }
 }

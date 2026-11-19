@@ -1,0 +1,533 @@
+{
+  "kind": "astra-stage3db-identity-protected-vehicle-list",
+  "referenceHead": "7e9746f4eb49f475e2bd23942e8b052b179c2b78",
+  "branch": "feat/dezkz-identity-a4-core",
+  "operation": {
+    "route": "GET /api/v1/vehicles",
+    "trustedOwner": "CurrentActor from unchanged AccessGuard and persisted User",
+    "pagination": "Existing PaginationDto, array only; no envelope/metadata added",
+    "queryUnchanged": true,
+    "newRoutes": 0,
+    "otherVehicleMethodBodiesUnchanged": true
+  },
+  "baselineRun": ".cache/astra-stage3db/run-a38b75366757",
+  "offline": {
+    "run": ".cache/astra-stage3db/run-896dd842a382",
+    "node": "v22.21.1",
+    "baseline": false,
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 8,
+      "passed": 76,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "identity-contracts",
+        "exitCode": 0,
+        "elapsedMs": 11848,
+        "log": "identity-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 70,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 122,
+        "log": "packaging-contracts.log"
+      },
+      {
+        "name": "build-catalog",
+        "exitCode": 0,
+        "elapsedMs": 4854,
+        "log": "build-catalog.log"
+      },
+      {
+        "name": "build-identity",
+        "exitCode": 0,
+        "elapsedMs": 4710,
+        "log": "build-identity.log"
+      },
+      {
+        "name": "build-administration",
+        "exitCode": 0,
+        "elapsedMs": 5159,
+        "log": "build-administration.log"
+      },
+      {
+        "name": "build-commerce",
+        "exitCode": 0,
+        "elapsedMs": 5149,
+        "log": "build-commerce.log"
+      },
+      {
+        "name": "build-legacy",
+        "exitCode": 0,
+        "elapsedMs": 5877,
+        "log": "build-legacy.log"
+      }
+    ]
+  },
+  "tests": {
+    "identity": 76,
+    "newVehicleListTests": 32,
+    "gateway": 24,
+    "packaging": 9,
+    "offlineTotal": 109,
+    "postgresRedisComparisons": 36,
+    "httpRequests": 72
+  },
+  "integration": {
+    "run": ".cache/astra-stage3db/primax-astra-stage3db-fa8b9a2a02d2",
+    "targetVerified": {
+      "newSyntheticDatabase": true,
+      "tablesBeforeMigration": 0,
+      "newRedisInitiallyEmpty": true
+    },
+    "migrationsApplied": 36,
+    "applicationSeedsExecuted": 0,
+    "comparisons": 36,
+    "httpRequests": 72,
+    "cases": [
+      {
+        "name": "anonymous",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "invalid token",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "expired token",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "wrong audience",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "inactive persisted user",
+        "status": 403,
+        "matched": true
+      },
+      {
+        "name": "missing persisted user",
+        "status": 403,
+        "matched": true
+      },
+      {
+        "name": "old authVersion",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "Control cookie is not member auth",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "kiosk key is not member auth",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "owner A ordered own vehicles",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "owner B cannot read A",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "no membership or vehicles",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "spoofed headers ignored",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "spoofed GET body ignored",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "page 1",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "page 2",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "empty page",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "maximum limit",
+        "status": 200,
+        "matched": true
+      },
+      {
+        "name": "invalid query userId",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query membershipId",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query plate",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query sort",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query page",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query page",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query page",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query page",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query page",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query limit",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query limit",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query limit",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid query limit",
+        "status": 400,
+        "matched": true
+      },
+      {
+        "name": "invalid HMAC",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "missing Redis session",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "expired Redis session",
+        "status": 401,
+        "matched": true
+      },
+      {
+        "name": "valid Redis kiosk session is forbidden from member list",
+        "status": 403,
+        "matched": true
+      },
+      {
+        "name": "signed session cannot override a member token",
+        "status": 403,
+        "matched": true
+      }
+    ],
+    "before": {
+      "sha256": "9dfe6c8ea317628a99ac80a089fa3e16af5b2003e6b86d2da9277f093890ca01",
+      "tables": 41,
+      "rows": 48
+    },
+    "after": {
+      "sha256": "9dfe6c8ea317628a99ac80a089fa3e16af5b2003e6b86d2da9277f093890ca01",
+      "tables": 41,
+      "rows": 48
+    },
+    "sqlDataUnchanged": true,
+    "realPrisma": true,
+    "realJwt": true,
+    "realKioskService": true,
+    "realKioskStore": true,
+    "redisKeys": 3,
+    "redisEffects": "Original authorization limiter writes preserved; no application vehicle writes",
+    "isolation": {
+      "project": "primax-astra-stage3db-fa8b9a2a02d2",
+      "volume": "primax-astra-stage3db-fa8b9a2a02d2-pgdata",
+      "redisVolume": "primax-astra-stage3db-fa8b9a2a02d2-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.253.216.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "finalStates": [
+      {
+        "service": "postgres",
+        "exitCode": 0,
+        "running": false
+      },
+      {
+        "service": "redis",
+        "exitCode": 0,
+        "running": false
+      }
+    ]
+  },
+  "priorAttempt": {
+    "run": ".cache/astra-stage3db/run-e6e45ae9b113",
+    "failure": "New fixture mock KioskService type assertion TS2352; fixed, then full rerun",
+    "preserved": true
+  },
+  "builds": [
+    {
+      "service": "identity",
+      "entrypoint": "src/apps/identity/main.js",
+      "files": 125,
+      "identityOutputs": 14,
+      "exitCode": 0
+    },
+    {
+      "service": "catalog",
+      "entrypoint": "src/apps/catalog/main.js",
+      "files": 159,
+      "identityOutputs": 0,
+      "exitCode": 0
+    },
+    {
+      "service": "administration",
+      "entrypoint": "src/apps/administration/main.js",
+      "files": 95,
+      "identityOutputs": 0,
+      "exitCode": 0
+    },
+    {
+      "service": "commerce",
+      "entrypoint": "src/apps/commerce/main.js",
+      "files": 171,
+      "identityOutputs": 0,
+      "exitCode": 0
+    }
+  ],
+  "images": [
+    {
+      "tag": "primax-astra-identity:stage3db",
+      "id": "sha256:0bede181de2a259a94478c39d39dc66c4c907b7d3ff83490912bbda91e983e98"
+    },
+    {
+      "tag": "primax-astra-legacy:stage3db-build",
+      "id": "sha256:55c32c9c2fcb8f709b1015aa67f6747adbffa9ce0759c5cf91c5df029178d155"
+    }
+  ],
+  "runtimeModuleLoad": {
+    "exitCode": 0,
+    "vehiclesModuleLoads": true,
+    "pureQueryResult": []
+  },
+  "protectedSourceHashes": {
+    "Backend/src/vehicles/vehicles.controller.ts": "6178b9f8840c9288665acbe59f28e1570816e13615da20758a84b5f4cab82ddf",
+    "Backend/src/vehicles/vehicles.repository.ts": "de6fa991ae02381a2e6c1f65c4fc6118304bc99566f59a636d4f6ae30eb4c51f",
+    "Backend/src/auth/access.guard.ts": "90ed8e6566aaae9788ef7126481f0d5172c7f777055cfaff6ad72f69d256f971",
+    "Backend/src/auth/auth.module.ts": "b0f3cf4af08f7a8faba49e7ab9728e1aad9d79b9e7e153310ffd8a2af773baaf",
+    "Backend/src/auth/auth.service.ts": "d8907b6b10cc9cbb6d5af97ee50f2ec07e284cd91c790c5912234ba0a94521a7",
+    "Backend/src/auth/password-reset.service.ts": "8cd25147c3a6bce6f13cfaca6afab1eb9efe8f66bf4dd21efbe4c894ae0613a0",
+    "Backend/src/kiosk/kiosk.service.ts": "3c4ea46bcbf3695378ad1c3978f8bd4b2d729f4f0ebef1c9f519611ca43cb8cc",
+    "Backend/src/kiosk/redis-store.ts": "f3fa25130fd0e74af7af4b980d19713ee1ba1a5bc1353feb530a7957c109dd86",
+    "Backend/src/common/pagination.dto.ts": "546c604fff2b0a9d7063f02903de514d753e834c48fd2a0da07d183571ab21b6",
+    "Backend/src/setup-app.ts": "8ddba3bbc5490dd00c48d2fbdc40e05cba98604f37a91fb33051449c969ba146",
+    "Backend/src/identity-core/domain.ts": "74642af106c055dec922caf81a9908bbe8c8bf721d1108de1efe18b62021cb32",
+    "Backend/prisma/schema.prisma": "d3529db35e26554c5216c966a55349a870ce62989c01e9b3482d148e5f05648a",
+    "Backend/gateway/routes.cjs": "30b64cb9691a4b251b3e744b8cba38554bca7b4a039f14043dd7d43b7c1a87a8",
+    "compose.yaml": "37b7021f7de770b94737dd448a91e9aef210325a8c8ed3f9585957f81a097d17",
+    "Docs/astra/identity-a4-academic-closure.md": "4e769c9ccf37b51c210deb12632b193d8850a34050179f5139217feca3a5bb25"
+  },
+  "migrationSourceHashes": {
+    "Backend/prisma/migrations/20261008235020_init/migration.sql": "4c79e1f930b4f898b7962801897c5582252e7f99aec7cba838a1cd96e827aef6",
+    "Backend/prisma/migrations/20261008235100_constraints/migration.sql": "f824645abc9af03c3272f74ab8a611124fa733fc9036f07e9937737e24aabc13",
+    "Backend/prisma/migrations/20261009120000_postpago_wallet/migration.sql": "cc2f121fa4305213cd56b65f9f5002f7bc15dafb0af8e375c950788a711529aa",
+    "Backend/prisma/migrations/20261009130000_authorization_dispensing/migration.sql": "90aabcd8270cb497e04447219d407f3a56079815d1e2c8c30a4b61024f18d668",
+    "Backend/prisma/migrations/20261009131000_dispense_progress/migration.sql": "676f0a296ab871c288a8f23259fe464b0990c4ba1f0c1e05ffbc4884973d884c",
+    "Backend/prisma/migrations/202610120001_v9_debt_profile/migration.sql": "2c4d6a0fdacfc4be12e9b7057a5a9b3fb56b0d3073bf8027b5efb5dc48b1a521",
+    "Backend/prisma/migrations/202610120002_v9_credit_constraints/migration.sql": "11784a8a8aebcfb77b7d420ceed12d912d30e59c24c9ab4bb92dcd385bc780d4",
+    "Backend/prisma/migrations/20261017000000_critical_transaction_integrity/migration.sql": "d2d332209469313e2eb79253c68dde357c3d0c25d1a7782f48a47ca862bfa7df",
+    "Backend/prisma/migrations/20261020000000_points_divisor/migration.sql": "101a1f87679a4b5fb232e6a3eba5386b650b5d5eaf9792a42b1b2d5afa54db55",
+    "Backend/prisma/migrations/20261021000000_membership_number_counter/migration.sql": "0f28360624b0f99cf4da0fe9cf752c5f7a1ac9b141df33c81a107276453f4c9e",
+    "Backend/prisma/migrations/20261022000000_business_alerts/migration.sql": "6af8a97229bd5550048061e8c5094d071f239b49ab7b5eee44b4a312585afaef",
+    "Backend/prisma/migrations/20261022000000_guest_prepay_unique_documents/migration.sql": "676772b05034f5607dccb8b596d3447d0d4ef2f346d9893f8202924095a35db7",
+    "Backend/prisma/migrations/20261022010000_align_prisma_constraints/migration.sql": "b5e38bda185c74bc97f73b94eb931a5bfd0eb6a080691c8e8c773b8388a4cd6b",
+    "Backend/prisma/migrations/20261022010000_identity_and_recovery/migration.sql": "32641813eac024f667c7ad71222320a4b0640cda88aa582f34d02b1b2374f69d",
+    "Backend/prisma/migrations/20261023000000_payment_lifecycle/migration.sql": "4f05fc02bb5501613ad694a75a87385eee2af3a9be9581048f6b082d31e97690",
+    "Backend/prisma/migrations/20261023000000_v11_inventory_welcome/migration.sql": "a77b9c9a53b6a26c3921a00cfc63b1fb8fa20e35e1c42756f85e295506eefc33",
+    "Backend/prisma/migrations/20261023010000_online_orders/migration.sql": "1f8b586d983959e3bd05de3372b35a96e74b0ab7fe32197b50e18fecba1b613d",
+    "Backend/prisma/migrations/20261023010000_refund_reward_trace/migration.sql": "1a23deb48cbc1fb1de3fc0945db4721303dfe90097baa51631b56eb670a36034",
+    "Backend/prisma/migrations/20261026000000_v12_1_operational_foundations/migration.sql": "ff699bc1f17238f707d2885a56a3768b807977c81e30d49bd3dc917f4c5914e3",
+    "Backend/prisma/migrations/20261026010000_v12_1_inventory_reservations/migration.sql": "f4ddc1d2c48e4deb68baa767d9af082c22c37d3cba3123fb61ce85dca87b8146",
+    "Backend/prisma/migrations/20261026020000_v12_1_inventory_lifecycle/migration.sql": "e1fc94377db410dcc33bdae446637adaceeb9a44a0b88155514163ba65489bb8",
+    "Backend/prisma/migrations/20261027010000_v12_1_inventory_reconciliation/migration.sql": "2e143f7e4ac26d7b844cab7a3466574f2122b85df14306e578776a797187157e",
+    "Backend/prisma/migrations/20261028000000_operational_incidents/migration.sql": "ee5268200867a0af7ef355763e5d640594a6ff799fc8190becbb3377c8a1a7b1",
+    "Backend/prisma/migrations/20261029000000_primax_control_foundation/migration.sql": "aeccc79843966cd46b949ab45ef2490f8923a9ac3b928b282aa3ef21096d00fe",
+    "Backend/prisma/migrations/20261029000000_reconcile_staging_membership_numbers/migration.sql": "c640c79f66173fa115e65dbaa63fb48e4386eb186b4f9f2efb945c93c280b36d",
+    "Backend/prisma/migrations/20261029010000_primax_control_operations/migration.sql": "1ad7d334a0bf8aecb6559234a18fcc4ba5b56e1f6907e9eadee1cef12735890f",
+    "Backend/prisma/migrations/20261029020000_primax_control_customers_receipts/migration.sql": "292404df6b8816f9ace0044bf3916c640bf8f649a7f5d67a75c4922641dd858c",
+    "Backend/prisma/migrations/20261030020000_v2_assistance/migration.sql": "1096cbfe8355f22958322b5dd60e67310a0f7fb476299e6c3eb52886d414f420",
+    "Backend/prisma/migrations/20261030020100_v2_assistance_invariants/migration.sql": "29ae7a23411061684c9ab8787402e2a4ca4883582b2608f26b756c3a95524fd4",
+    "Backend/prisma/migrations/20261030050000_v2_prime_numbering/migration.sql": "5391446ca0c26eebc8dbce46e8b215e162ecc4459e3e9777d67107ecd5e4d148",
+    "Backend/prisma/migrations/20261105000000_terminal_independent_operation/migration.sql": "222549f37a3cc63bb6665a36ed07451ffda81a178007e1853eef56d9aa8fa6e2",
+    "Backend/prisma/migrations/20261107000000_receipt_numbering/migration.sql": "a322afead4099aec64514a160ef264e2994d060c95c6f44f803cff570100d8e4",
+    "Backend/prisma/migrations/20261107010000_terminal_always_available/migration.sql": "a4d344c01cbeb6aadd7275f7f8f3ddca25913d7f13ed35ec9d721e2fd180dcc6",
+    "Backend/prisma/migrations/20261107020000_legacy_admin_block_recovery/migration.sql": "f26f6e64f4f63dac7b3a81a42bf5b09051bb26c33028a56ded557e97fc890e26",
+    "Backend/prisma/migrations/20261109000000_operation_number_op01/migration.sql": "85008043544651707ff4658e7c01b5be8d1b04191f63886e86a81403a9aeb353",
+    "Backend/prisma/migrations/20261109010000_active_pump_exclusion/migration.sql": "ee57854b1b1a5967ab13ddf3cdd4f2987984b76bb440deeff0f51a47ff901e93"
+  },
+  "preservedOriginalEvidence": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    }
+  ],
+  "sourceHashes": {
+    "Backend/Dockerfile": "84ffeadc9044f0bca302f6d1979f98fdefee88d6e0cbfdefa507856b722f8fe0",
+    "Backend/services/identity/Dockerfile": "75151464e4ef1c4eb3b6fc7ba8b54ce7d995c08e77efbade83279e137b475d56",
+    "Backend/services/identity/src/adapters/inbound/vehicle-list-read.adapter.ts": "c6bfd85b19bbbb11ade77a4c058f599c62c31a12bc4378298c8f6e76fc65c247",
+    "Backend/services/identity/src/adapters/outbound/existing-vehicle-list.reader.ts": "816f3b60e9e98408235d355ce181730248e7df754c1f1c88dcbce5b49ad32ae5",
+    "Backend/services/identity/src/application/ports/list-vehicles-query.ts": "4ad458c71fff86b1e8b603e22df0f870e03a9f1b83c40aa916598b995b0caeb6",
+    "Backend/services/identity/src/application/ports/vehicle-list-reader.ts": "f2dc46009d12dd56e5de48da261ba14ec49b1f29054f3767b41e933819d2ff36",
+    "Backend/services/identity/src/application/use-cases/list-vehicles.ts": "9e5dc31e29545a63b7174ffe7ccf3b7fb38dbf2e84f0c5a14f6aac14bf6aea12",
+    "Backend/services/identity/src/application/vehicle-read-model.ts": "10b6fbc16317e48cf5b2127599ee05a4f97083207e166e845115c4784700c20e",
+    "Backend/services/identity/src/bootstrap/vehicle-list-read.module.ts": "01f7218c95451c5867afdde28d054781acc5b3a1900f4e1ade9f2bd37b5d7520",
+    "Backend/src/vehicles/vehicle-list-hexagonal.spec.ts": "22fc34821625da8981920e056b34003e84a15afff2d28ecfdb27a8b29d4ea2ee",
+    "Backend/src/vehicles/vehicles.module.ts": "a4ea2638891bef54cb4567e5b18c0277f47dc4c64c6f172c477460a5bf463709",
+    "Backend/src/vehicles/vehicles.service.spec.ts": "aab68ddf5e3d3fe0aca2e86845367fab386b6791a9248fc2f819b1e7c5598a7f",
+    "Backend/src/vehicles/vehicles.service.ts": "4aca6baada317bc087f1846736e8783cfb06ecdc16244f53796714e2486043ad",
+    "Backend/test/vehicle-list.fixture.ts": "8ba55f7ad621e3355beb245cbcfd107f0aadcd033ecfdf12eebf716923109f6c",
+    "Backend/test/vehicle-list.integration.cjs": "1e8b219a209a086d0b1d10c0fa6e9595d57020bc7539573f4421d8fc20aa46a4",
+    "Docs/astra/primax-stage3db-identity-vehicle-list.md": "6cb6795e09983e2dd647a1c0c9bfa84e21c651f08a3de601ae6d3d7bbab756ba",
+    "tools/astra/stage3db-identity-validation.cjs": "391636c57b9eee0fbf2906eb302090cf43b6c832716235c569736c3b3f2ed0fa",
+    "tools/astra/stage3db-postgres-redis.cjs": "bd135c05fc92378bf978682ea2bd77d5aeae105189177fa227be4a31d5d488e8"
+  },
+  "filesForCommit": [
+    "Backend/Dockerfile",
+    "Backend/services/identity/Dockerfile",
+    "Backend/services/identity/src/adapters/inbound/vehicle-list-read.adapter.ts",
+    "Backend/services/identity/src/adapters/outbound/existing-vehicle-list.reader.ts",
+    "Backend/services/identity/src/application/ports/list-vehicles-query.ts",
+    "Backend/services/identity/src/application/ports/vehicle-list-reader.ts",
+    "Backend/services/identity/src/application/use-cases/list-vehicles.ts",
+    "Backend/services/identity/src/application/vehicle-read-model.ts",
+    "Backend/services/identity/src/bootstrap/vehicle-list-read.module.ts",
+    "Backend/src/vehicles/vehicle-list-hexagonal.spec.ts",
+    "Backend/src/vehicles/vehicles.module.ts",
+    "Backend/src/vehicles/vehicles.service.spec.ts",
+    "Backend/src/vehicles/vehicles.service.ts",
+    "Backend/test/vehicle-list.fixture.ts",
+    "Backend/test/vehicle-list.integration.cjs",
+    "Docs/astra/evidence/stage3db/review-summary.json",
+    "Docs/astra/primax-stage3db-identity-vehicle-list.md",
+    "tools/astra/stage3db-identity-validation.cjs",
+    "tools/astra/stage3db-postgres-redis.cjs"
+  ],
+  "limits": [
+    "No full frontend/system equivalence, load or physical recovery certification",
+    "No login/logout/registration/link/profile/revocation commands executed",
+    "Global bootstrap throttler not exercised in focused HTTP compositions",
+    "Existing membership status semantics preserved; no new eligibility rule",
+    "PostgreSQL fixtures inserted only before read comparison in a new database",
+    "Redis original authorization limit writes intentionally preserved",
+    "Experimental Identity/A.4 runtimes not activated; T01 unchanged"
+  ]
+}

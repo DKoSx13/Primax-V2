@@ -2,9 +2,10 @@ import { Prisma } from '@prisma/client';
 import { NotFoundException } from '@nestjs/common';
 import { VehiclesRepository } from './vehicles.repository';
 import { VehiclesService } from './vehicles.service';
+import { VehicleListReadAdapter } from '../../services/identity/src/adapters/inbound/vehicle-list-read.adapter';
 describe('VehiclesService', () => {
   const repo = { findByPlate: jest.fn() };
-  const service = new VehiclesService(repo as unknown as VehiclesRepository);
+  const service = new VehiclesService(repo as unknown as VehiclesRepository, new VehicleListReadAdapter({ execute: jest.fn() }));
   beforeEach(() =>
     repo.findByPlate.mockResolvedValue({
       id: 'v',

@@ -3,9 +3,10 @@ import { RecognitionService } from './recognition.service';
 import { Module } from '@nestjs/common';
 import { VehiclesController } from './vehicles.controller';
 import { VehiclesService } from './vehicles.service';
-import { VehiclesRepository } from './vehicles.repository';
+import { VehicleListReadModule } from '../../services/identity/src/bootstrap/vehicle-list-read.module';
 @Module({
+  imports: [VehicleListReadModule],
   controllers: [VehiclesController, RecognitionController],
-  providers: [VehiclesService, VehiclesRepository, RecognitionService],
+  providers: [VehiclesService, RecognitionService],
 })
 export class VehiclesModule {}

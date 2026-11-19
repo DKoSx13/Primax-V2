@@ -12,6 +12,7 @@ COPY tsconfig*.json ./
 COPY src ./src
 COPY scripts ./scripts
 COPY services/identity/tsconfig.build.json ./services/identity/tsconfig.build.json
+COPY services/identity/src ./services/identity/src
 RUN npm run build:identity
 
 FROM build AS prod-deps
