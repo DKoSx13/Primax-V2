@@ -13,6 +13,7 @@ import { KioskService } from '../src/kiosk/kiosk.service';
 import { ControlCustomersController } from '../src/control/control-customers.controller';
 import { ControlCustomersService } from '../src/control/control-customers.service';
 import { AdministrativeListsModule } from '../services/administration/src/bootstrap/administrative-lists.module';
+import { AdministrativeDetailsModule } from '../services/administration/src/bootstrap/administrative-details.module';
 import { setupApp } from '../src/setup-app';
 
 /** Focused HTTP test composition: actual controller, guard, pipe and new DI module. */
@@ -27,7 +28,7 @@ export async function administrativeFixture(db: PrismaService, reference?: objec
   @Module({ providers: [{ provide: PrismaService, useValue: db }, { provide: ConfigService, useValue: config }],
     exports: [PrismaService, ConfigService] })
   class Dependencies {}
-  const module = await Test.createTestingModule({ imports: [Dependencies, ...(reference ? [] : [AdministrativeListsModule])],
+  const module = await Test.createTestingModule({ imports: [Dependencies, ...(reference ? [] : [AdministrativeListsModule, AdministrativeDetailsModule])],
     controllers: [ControlCustomersController], providers: [
       reference ? { provide: ControlCustomersService, useValue: reference } : ControlCustomersService,
       { provide: APP_GUARD, useValue: guard },

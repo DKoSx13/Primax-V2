@@ -1,3 +1,6 @@
+import { AdministrativeDetailsAdapter } from '../../services/administration/src/adapters/inbound/administrative-details.adapter';
+import { AdministrativeDetails } from '../../services/administration/src/application/use-cases/administrative-details';
+import { LegacyAdministrativeDetails, LegacyAdministrativeDetailViews } from '../../services/administration/src/adapters/outbound/legacy-administrative-details';
 import { AdministrativeListsAdapter } from '../../services/administration/src/adapters/inbound/administrative-lists.adapter';
 import { AdministrativeLists } from '../../services/administration/src/application/use-cases/administrative-lists';
 import { LegacyAdministrativeLists, LegacyAdministrativeViews } from '../../services/administration/src/adapters/outbound/legacy-administrative-lists';
@@ -100,7 +103,7 @@ function fixture(rows = [member('A', [A]), member('B', [B], 'SUSPENDED', 2), mem
     transaction: { findMany: jest.fn().mockResolvedValue([]) },
     fuelAuthorization: { findMany: jest.fn().mockResolvedValue([]) },
   };
-  return { service: new ControlCustomersService(db as unknown as PrismaService, new AdministrativeListsAdapter(new AdministrativeLists<LegacyAdministrativeViews>(new LegacyAdministrativeLists(db as unknown as PrismaService)))), findMany, findFirst, count, db, rows };
+  return { service: new ControlCustomersService(db as unknown as PrismaService, new AdministrativeListsAdapter(new AdministrativeLists<LegacyAdministrativeViews>(new LegacyAdministrativeLists(db as unknown as PrismaService))), new AdministrativeDetailsAdapter(new AdministrativeDetails<LegacyAdministrativeDetailViews>(new LegacyAdministrativeDetails(db as unknown as PrismaService)))), findMany, findFirst, count, db, rows };
 }
 
 describe('Control station scope survives search predicates (synthetic semantic mocks)', () => {

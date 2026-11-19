@@ -10,10 +10,12 @@ import { ControlOperationsService } from './control-operations.service';
 import { ControlCustomersController } from './control-customers.controller';
 import { ControlCustomersService } from './control-customers.service';
 import { AdministrativeListsModule } from '../../services/administration/src/bootstrap/administrative-lists.module';
+import { AdministrativeDetailsModule } from '../../services/administration/src/bootstrap/administrative-details.module';
 
 @Module({
   imports: [
     AdministrativeListsModule,
+    AdministrativeDetailsModule,
     InventoryModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
