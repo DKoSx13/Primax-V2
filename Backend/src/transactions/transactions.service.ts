@@ -1,4 +1,5 @@
 import { matchesMembershipCode } from '../users/membership-code';
+import { TransactionReadAdapter } from '../../services/commerce/src/adapters/inbound/transaction-read.adapter';
 import {
   BadRequestException,
   ConflictException,
@@ -41,6 +42,7 @@ export class TransactionsService {
     private readonly payments: PaymentsService,
     private readonly authorizations: AuthorizationsRepository,
     private readonly wallet: WalletRepository,
+    private readonly transactionRead: TransactionReadAdapter,
   ) {}
 
   async create(dto: CreateTransactionDto) {
@@ -575,13 +577,6 @@ export class TransactionsService {
   }
 
   async get(id: string, actor: Actor) {
-    const transaction = await this.repo.byId(id);
-    if (
-      !transaction ||
-      (actor.kind === 'member' &&
-        transaction.membership?.userId !== actor.userId)
-    )
-      throw new NotFoundException('Transacción no encontrada');
-    return transactionResponse(transaction);
+    return this.transactionRead.get(id, actor);
   }
 }

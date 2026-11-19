@@ -1,3 +1,6 @@
+import { TransactionReadAdapter } from '../../services/commerce/src/adapters/inbound/transaction-read.adapter';
+import { LegacyTransactionRead } from '../../services/commerce/src/adapters/outbound/legacy-transaction-read';
+import { ReadTransaction } from '../../services/commerce/src/application/use-cases/read-transaction';
 import { ConfigService } from '@nestjs/config';
 import {
   BadRequestException,
@@ -45,13 +48,11 @@ describe('TransactionsService', () => {
   const policy = new PointsPolicyService(
     new ConfigService({ SOLES_PER_POINT: '9' }),
   );
-  const service = new TransactionsService(
-    repo as unknown as TransactionsRepository,
+  const service = new TransactionsService(repo as unknown as TransactionsRepository,
     policy,
     new PaymentsService(),
     authorizations as unknown as AuthorizationsRepository,
-    wallet as unknown as WalletRepository,
-  );
+    wallet as unknown as WalletRepository, new TransactionReadAdapter(new ReadTransaction(new LegacyTransactionRead(repo as unknown as TransactionsRepository))));
   const membership = {
     id: 'member',
     number: 'PRIME-001',

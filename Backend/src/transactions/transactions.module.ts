@@ -9,6 +9,7 @@ import { AuthorizationsService } from './authorizations.service';
 import { TransactionsController } from './transactions.controller';
 import { TransactionsRepository } from './transactions.repository';
 import { TransactionsService } from './transactions.service';
+import { transactionReadProviders } from '../../services/commerce/src/bootstrap/transaction-read.providers';
 
 @Module({
   // RewardsModule aporta PointsPolicyService; WalletModule aporta WalletRepository;
@@ -16,6 +17,7 @@ import { TransactionsService } from './transactions.service';
   imports: [WalletModule, RewardsModule, PaymentsModule, IncidentsModule],
   controllers: [TransactionsController, AuthorizationsController],
   providers: [
+    ...transactionReadProviders,
     TransactionsService,
     TransactionsRepository,
     AuthorizationsService,

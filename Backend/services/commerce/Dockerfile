@@ -12,6 +12,7 @@ COPY tsconfig*.json ./
 COPY src ./src
 COPY scripts ./scripts
 COPY services/commerce/tsconfig.build.json ./services/commerce/tsconfig.build.json
+COPY services/commerce/src ./services/commerce/src
 RUN npm run build:commerce
 
 FROM build AS prod-deps

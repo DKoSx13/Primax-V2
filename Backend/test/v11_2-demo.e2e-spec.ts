@@ -1,3 +1,6 @@
+import { TransactionReadAdapter } from '../services/commerce/src/adapters/inbound/transaction-read.adapter';
+import { LegacyTransactionRead } from '../services/commerce/src/adapters/outbound/legacy-transaction-read';
+import { ReadTransaction } from '../services/commerce/src/application/use-cases/read-transaction';
 import '../src/config/load-env';
 import {execFileSync} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
@@ -25,7 +28,7 @@ describe('V11_4 DEMO persisted in exclusive PostgreSQL',()=>{
   process.env.APP_MODE='local';process.env.PAYMENT_ENV='demo';process.env.DEMO_WALLET_ENABLED='true';
   execFileSync(process.execPath,[require.resolve('prisma/build/index.js'),'migrate','deploy'],{env:process.env,stdio:'pipe'});
   db=new PrismaService();await db.$connect();orders=new OnlineOrdersService(db,new DemoWalletProvider(db));
-  const repo=new AuthorizationsRepository(db),wallet=new WalletRepository(db),payments=new PaymentsService();auth=new AuthorizationsService(repo,wallet,payments);purchases=new TransactionsService(new TransactionsRepository(db),new PointsPolicyService(new ConfigService({SOLES_PER_POINT:'9'})),payments,repo,wallet);
+  const repo=new AuthorizationsRepository(db),wallet=new WalletRepository(db),payments=new PaymentsService();auth=new AuthorizationsService(repo,wallet,payments);purchases=new TransactionsService(new TransactionsRepository(db),new PointsPolicyService(new ConfigService({SOLES_PER_POINT:'9'})),payments,repo,wallet, new TransactionReadAdapter(new ReadTransaction(new LegacyTransactionRead(new TransactionsRepository(db)))));
   stationId=(await db.station.create({data:{code:'DEMO',name:'V11_4 test',address:'Fixture'}})).id;
   fuelId=(await db.fuel.create({data:{code:'DEMO',name:'V11_4 fuel',pricePerGallon:20}})).id;
   await db.fuelInventory.create({data:{stationId,fuelId,liters:1000}});

@@ -1,3 +1,6 @@
+import { TransactionReadAdapter } from '../../services/commerce/src/adapters/inbound/transaction-read.adapter';
+import { LegacyTransactionRead } from '../../services/commerce/src/adapters/outbound/legacy-transaction-read';
+import { ReadTransaction } from '../../services/commerce/src/application/use-cases/read-transaction';
 import { ConfigService } from '@nestjs/config';
 import {
   Prisma,
@@ -194,13 +197,11 @@ function harness(status: PaymentStatus = 'CAPTURED') {
         } as unknown as TransactionModel),
     ),
   };
-  const transactions = new TransactionsService(
-    transactionsRepo as unknown as TransactionsRepository,
+  const transactions = new TransactionsService(transactionsRepo as unknown as TransactionsRepository,
     new PointsPolicyService(new ConfigService({ SOLES_PER_POINT: '9' })),
     payments,
     repo as unknown as AuthorizationsRepository,
-    wallet as unknown as WalletRepository,
-  );
+    wallet as unknown as WalletRepository, new TransactionReadAdapter(new ReadTransaction(new LegacyTransactionRead(transactionsRepo as unknown as TransactionsRepository))));
   const close = (changes: Partial<CreateTransactionDto> = {}) =>
     transactions.create({
       ...request,

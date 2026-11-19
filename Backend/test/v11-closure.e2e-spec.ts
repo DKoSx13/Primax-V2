@@ -1,3 +1,6 @@
+import { TransactionReadAdapter } from '../services/commerce/src/adapters/inbound/transaction-read.adapter';
+import { LegacyTransactionRead } from '../services/commerce/src/adapters/outbound/legacy-transaction-read';
+import { ReadTransaction } from '../services/commerce/src/application/use-cases/read-transaction';
 import '../src/config/load-env';
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
@@ -42,7 +45,7 @@ describe('V11 internal closure against PostgreSQL (provider is explicitly mocked
   await db.fuelInventory.create({data:{stationId,fuelId,liters:100000}});
   const repo=new AuthorizationsRepository(db),wallet=new WalletRepository(db),payments=new PaymentsService();
   auth=new AuthorizationsService(repo,wallet,payments);
-  purchases=new TransactionsService(new TransactionsRepository(db),new PointsPolicyService(new ConfigService({SOLES_PER_POINT:'9'})),payments,repo,wallet);
+  purchases=new TransactionsService(new TransactionsRepository(db),new PointsPolicyService(new ConfigService({SOLES_PER_POINT:'9'})),payments,repo,wallet, new TransactionReadAdapter(new ReadTransaction(new LegacyTransactionRead(new TransactionsRepository(db)))));
   orders=new OnlineOrdersService(db,provider);refunds=new PaymentLifecycleService(db);
  },90000);
  afterAll(async()=>{await db?.$disconnect();process.env.DATABASE_URL=original; process.env.DATABASE_URL_UNPOOLED = process.env.DATABASE_URL;console.log('Retained V11 evidence schema:',schema);});
