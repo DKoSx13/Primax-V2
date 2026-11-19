@@ -20,10 +20,12 @@ import { CreateTransactionDto } from './create-transaction.dto';
 import { TransactionResponseDto } from './transaction-response.dto';
 import { TransactionsService } from './transactions.service';
 import { AlertsService } from '../alerts/alerts.service';
+import { TransactionCreationAdapter } from '../../services/commerce/src/adapters/inbound/transaction-creation.adapter';
 @ApiTags('transactions')
 @Controller('transactions')
 export class TransactionsController {
-  constructor(private readonly service: TransactionsService, private readonly alerts: AlertsService) {}
+  constructor(private readonly service: TransactionsService, private readonly alerts: AlertsService,
+    private readonly creation: TransactionCreationAdapter) {}
   @Post()
   @KioskOnly()
   @ApiSecurity('kiosk')
@@ -34,7 +36,7 @@ export class TransactionsController {
   async create(@Body() dto: CreateTransactionDto) {
     if (dto.mode === 'POSTPAGO' && dto.authorizationId)
       await this.alerts.checkAuthorization(dto.plate, dto.authorizationId, dto.operationId);
-    return this.service.create(dto);
+    return this.creation.create(dto);
   }
   @Get(':id')
   @MemberOrKiosk()
