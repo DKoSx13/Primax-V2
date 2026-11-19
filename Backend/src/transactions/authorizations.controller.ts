@@ -23,11 +23,13 @@ import { KioskOnly } from '../auth/access';
 import { AuthorizationsService } from './authorizations.service';
 import { CreateAuthorizationDto } from './create-authorization.dto';
 import { DispenseProgressDto } from './dispense-progress.dto';
+import { AuthorizationCommandsAdapter } from '../../services/commerce/src/adapters/inbound/authorization-commands.adapter';
 
 @ApiTags('authorizations')
 @Controller('authorizations')
 export class AuthorizationsController {
-  constructor(private readonly service: AuthorizationsService, private readonly alerts: AlertsService) {}
+  constructor(private readonly service: AuthorizationsService, private readonly alerts: AlertsService,
+    private readonly commands: AuthorizationCommandsAdapter) {}
   @Post()
   @KioskOnly()
   @ApiSecurity('kiosk')
@@ -39,12 +41,12 @@ export class AuthorizationsController {
   })
   async create(@Body() dto: CreateAuthorizationDto) {
     if (dto.mode !== 'PREPAGO' && dto.membershipCode) await this.alerts.checkPlate(dto.plate, dto.membershipCode, dto.operationId);
-    return this.service.create(dto);
+    return this.commands.create(dto);
   }
   @Post(':id/intervention')
   @KioskOnly()
   intervention(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.service.intervention(id);
+    return this.commands.intervention(id);
   }
   @Post(':id/progress')
   @KioskOnly()
@@ -58,7 +60,7 @@ export class AuthorizationsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() dto: DispenseProgressDto,
   ) {
-    return this.service.progress(id, dto);
+    return this.commands.progress(id, dto);
   }
   @Get(':id')
   @KioskOnly()
@@ -92,6 +94,6 @@ export class AuthorizationsController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: 'Reserva liberada sin consumo.' })
   release(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.service.release(id);
+    return this.commands.release(id);
   }
 }

@@ -11,6 +11,7 @@ import { TransactionsRepository } from './transactions.repository';
 import { TransactionsService } from './transactions.service';
 import { transactionReadProviders } from '../../services/commerce/src/bootstrap/transaction-read.providers';
 import { transactionCreationProviders } from '../../services/commerce/src/bootstrap/transaction-creation.providers';
+import { authorizationCommandProviders } from '../../services/commerce/src/bootstrap/authorization-commands.providers';
 
 @Module({
   // RewardsModule aporta PointsPolicyService; WalletModule aporta WalletRepository;
@@ -20,6 +21,7 @@ import { transactionCreationProviders } from '../../services/commerce/src/bootst
   providers: [
     ...transactionReadProviders,
     ...transactionCreationProviders,
+    ...authorizationCommandProviders,
     TransactionsService,
     TransactionsRepository,
     AuthorizationsService,
