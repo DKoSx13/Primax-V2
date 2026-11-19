@@ -1,8 +1,6 @@
-import { Prisma } from '@prisma/client';
 import {
   ForbiddenException,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import { CreateVehicleDto } from './create-vehicle.dto';
 import { Actor } from '../auth/access';
@@ -10,9 +8,10 @@ import { PaginationDto } from '../common/pagination.dto';
 import { normalizePlate } from './plate.dto';
 import { VehiclesRepository } from './vehicles.repository';
 import { VehicleListReadAdapter } from '../../services/identity/src/adapters/inbound/vehicle-list-read.adapter';
+import { VehicleLookupAdapter } from '../../services/identity/src/adapters/inbound/vehicle-lookup.adapter';
 @Injectable()
 export class VehiclesService {
-  constructor(private readonly repo: VehiclesRepository, private readonly vehicleList: VehicleListReadAdapter) {}
+  constructor(private readonly repo: VehiclesRepository, private readonly vehicleList: VehicleListReadAdapter, private readonly lookup: VehicleLookupAdapter) {}
   membership(number: string) { return this.repo.membership(number); }
   async create(dto: CreateVehicleDto, actor: Actor) {
     if (actor.kind !== 'member') throw new ForbiddenException();
@@ -20,40 +19,7 @@ export class VehiclesService {
     await this.repo.link(actor.userId, plate, dto.label);
     return this.findByPlate(plate, actor);
   }
-  async findByPlate(plate: string, actor: Actor) {
-    const vehicle = await this.repo.findByPlate(
-      normalizePlate(plate) as string,
-    );
-    if (
-      !vehicle ||
-      (actor.kind === 'member' && vehicle.membership?.userId !== actor.userId)
-    )
-      throw new NotFoundException('Vehículo no encontrado');
-    return {
-      id: vehicle.id,
-      plate: vehicle.plate,
-      label: vehicle.label,
-      membership: vehicle.membership
-        ? {
-            id: vehicle.membership.id,
-            number: vehicle.membership.number,
-            legacyNumbers: vehicle.membership.codeAliases.map(alias => alias.code),
-            status: vehicle.membership.status,
-            name: vehicle.membership.user.name,
-            balance: vehicle.membership.balance.toFixed(2),
-            dni: vehicle.membership.dni,
-            ruc: vehicle.membership.ruc,
-            businessName: vehicle.membership.businessName,
-            pendingBalance: vehicle.membership.debts
-              .reduce(
-                (sum, d) => sum.plus(d.amountPending),
-                new Prisma.Decimal(0),
-              )
-              .toFixed(2),
-          }
-        : null,
-    };
-  }
+  async findByPlate(plate: string, actor: Actor) { return this.lookup.findByPlate(plate, actor); }
   list(actor: Actor, query: PaginationDto) {
     return this.vehicleList.list(actor, query);
   }

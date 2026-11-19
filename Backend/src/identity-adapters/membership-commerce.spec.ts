@@ -1,3 +1,9 @@
+import { MembershipReadsAdapter } from '../../services/identity/src/adapters/inbound/membership-reads.adapter';
+import { MembershipReads } from '../../services/identity/src/application/use-cases/membership-reads';
+import { LegacyMembershipReads, LegacyMemberViews } from '../../services/identity/src/adapters/outbound/legacy-membership-reads';
+function serviceFor(repo: MembershipsRepository) {
+  return new MembershipsService(repo, new MembershipReadsAdapter(new MembershipReads<LegacyMemberViews>(new LegacyMembershipReads(repo))));
+}
 import { Prisma } from '@prisma/client';
 import { MembershipsService } from '../memberships/memberships.service';
 import { MembershipsRepository } from '../memberships/memberships.repository';
@@ -34,9 +40,7 @@ describe('legacy membership finance boundary', () => {
           return new Prisma.Decimal(pending);
         },
       };
-      const result = await new MembershipsService(
-        repo as unknown as MembershipsRepository,
-      ).me('synthetic-user');
+      const result = await serviceFor(repo as unknown as MembershipsRepository).me('synthetic-user');
       expect(result).toEqual({
         ...membership,
         balance: new Prisma.Decimal(balance).toFixed(2),
@@ -60,7 +64,7 @@ describe('legacy membership finance boundary', () => {
       },
     };
     await expect(
-      new MembershipsService(repo as unknown as MembershipsRepository).me(
+      serviceFor(repo as unknown as MembershipsRepository).me(
         'synthetic',
       ),
     ).rejects.toThrow('unavailable');

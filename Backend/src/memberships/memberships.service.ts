@@ -1,43 +1,20 @@
 import { ProfileDto } from './profile.dto';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PaginationDto } from '../common/pagination.dto';
 import { MembershipsRepository } from './memberships.repository';
-import { transactionResponse } from '../transactions/transaction.model';
-import { LegacyMembershipCommerce } from '../identity-adapters/membership-commerce';
-import type { CommerceMemberships } from '../identity-core/ports';
+import { MembershipReadsAdapter } from '../../services/identity/src/adapters/inbound/membership-reads.adapter';
+import { readOwnMembership } from '../../services/identity/src/adapters/outbound/legacy-membership-reads';
 @Injectable()
 export class MembershipsService {
-  constructor(private readonly repo: MembershipsRepository) {}
-  async forUser(userId: string) {
-    const membership = await this.repo.findForUser(userId);
-    if (!membership) throw new NotFoundException('Membresía no encontrada');
-    return membership;
-  }
+  constructor(private readonly repo: MembershipsRepository, private readonly reads: MembershipReadsAdapter) {}
+  async forUser(userId: string) { return readOwnMembership(this.repo, userId); }
   async updateProfile(userId: string, dto: ProfileDto) {
     await this.forUser(userId);
     await this.repo.updateProfile(userId, dto);
     return this.me(userId);
   }
-  async me(userId: string) {
-    const membership = await this.forUser(userId);
-    const commerce: CommerceMemberships = new LegacyMembershipCommerce(
-      this.repo,
-      membership.balance,
-    );
-    return {
-      ...membership,
-      ...(await commerce.summary(membership.id)),
-    };
-  }
-  async transactions(userId: string, query: PaginationDto) {
-    return (
-      await this.repo.transactions((await this.forUser(userId)).id, query)
-    ).map(transactionResponse);
-  }
-  async rewards(userId: string, query: PaginationDto) {
-    return this.repo.rewards((await this.forUser(userId)).id, query);
-  }
-  async redemptions(userId: string, query: PaginationDto) {
-    return this.repo.redemptions((await this.forUser(userId)).id, query);
-  }
+  async me(userId: string) { return this.reads.me(userId); }
+  async transactions(userId: string, query: PaginationDto) { return this.reads.transactions(userId, query); }
+  async rewards(userId: string, query: PaginationDto) { return this.reads.rewards(userId, query); }
+  async redemptions(userId: string, query: PaginationDto) { return this.reads.redemptions(userId, query); }
 }

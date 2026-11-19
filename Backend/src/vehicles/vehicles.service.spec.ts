@@ -1,3 +1,6 @@
+import { VehicleLookupAdapter } from '../../services/identity/src/adapters/inbound/vehicle-lookup.adapter';
+import { LookupVehicle } from '../../services/identity/src/application/use-cases/lookup-vehicle';
+import { LegacyVehicleLookup, LegacyVehicleView } from '../../services/identity/src/adapters/outbound/legacy-vehicle-lookup';
 import { Prisma } from '@prisma/client';
 import { NotFoundException } from '@nestjs/common';
 import { VehiclesRepository } from './vehicles.repository';
@@ -5,7 +8,7 @@ import { VehiclesService } from './vehicles.service';
 import { VehicleListReadAdapter } from '../../services/identity/src/adapters/inbound/vehicle-list-read.adapter';
 describe('VehiclesService', () => {
   const repo = { findByPlate: jest.fn() };
-  const service = new VehiclesService(repo as unknown as VehiclesRepository, new VehicleListReadAdapter({ execute: jest.fn() }));
+  const service = new VehiclesService(repo as unknown as VehiclesRepository, new VehicleListReadAdapter({ execute: jest.fn() }), new VehicleLookupAdapter(new LookupVehicle<LegacyVehicleView>(new LegacyVehicleLookup(repo as unknown as VehiclesRepository))));
   beforeEach(() =>
     repo.findByPlate.mockResolvedValue({
       id: 'v',
