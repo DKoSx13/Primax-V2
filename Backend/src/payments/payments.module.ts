@@ -6,5 +6,6 @@ import { PaymentLifecycleController, PaymentLifecycleService } from './payment-l
 import { PaymentWebhookController } from './webhook';
 import { OnlineOrdersController, OnlineOrdersService } from './online-orders';
 import { PartialRefundController, PartialRefundService } from './partial-refund';
-@Module({ controllers:[OnlineOrdersController,PaymentWebhookController,PaymentLifecycleController,PartialRefundController],providers: [PaymentsService,CulqiProvider,DemoWalletProvider,{provide:PAYMENT_PROVIDER,inject:[CulqiProvider,DemoWalletProvider],useFactory:(commercial:CulqiProvider,demo:DemoWalletProvider)=>process.env.DEMO_WALLET_ENABLED==='true'?demo:commercial},OnlineOrdersService,PaymentLifecycleService,PartialRefundService], exports: [PaymentsService,OnlineOrdersService] })
+import { paymentWorkflowProviders } from '../../services/commerce/src/bootstrap/payment-workflow.providers';
+@Module({ controllers:[OnlineOrdersController,PaymentWebhookController,PaymentLifecycleController,PartialRefundController],providers: [...paymentWorkflowProviders,PaymentsService,CulqiProvider,DemoWalletProvider,{provide:PAYMENT_PROVIDER,inject:[CulqiProvider,DemoWalletProvider],useFactory:(commercial:CulqiProvider,demo:DemoWalletProvider)=>process.env.DEMO_WALLET_ENABLED==='true'?demo:commercial},OnlineOrdersService,PaymentLifecycleService,PartialRefundService], exports: [PaymentsService,OnlineOrdersService] })
 export class PaymentsModule {}

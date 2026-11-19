@@ -1,6 +1,7 @@
 import { ConflictException, Controller, Injectable, NotFoundException, Param, ParseUUIDPipe, Post } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { KioskOnly } from '../auth/access';
+import { PaymentWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/payment-workflow.adapter';
 
 @Injectable()
 export class PaymentLifecycleService {
@@ -32,7 +33,7 @@ export class PaymentLifecycleService {
 }
 @Controller('payments')
 export class PaymentLifecycleController {
- constructor(private readonly service:PaymentLifecycleService) {}
+ constructor(private readonly service:PaymentWorkflowAdapter) {}
  @Post(':id/refund') @KioskOnly()
  refund(@Param('id',new ParseUUIDPipe()) id:string) {return this.service.refund(id);}
 }

@@ -13,6 +13,7 @@ import {
 import { IsIn, IsString, IsUUID, Matches, MaxLength } from 'class-validator';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaymentWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/payment-workflow.adapter';
 
 type RefundOutcome = 'CONFIRMED' | 'REJECTED' | 'AMBIGUOUS';
 type Reader = Pick<
@@ -199,12 +200,12 @@ export class PartialRefundService {
 
 @Controller('payments')
 export class PartialRefundController {
-  constructor(private readonly service: PartialRefundService) {}
+  constructor(private readonly service: PaymentWorkflowAdapter) {}
 
   @Get(':id/partial-refund')
   @SetMetadata('access', 'admin')
   get(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.service.get(id);
+    return this.service.inspect(id);
   }
 
   @Post(':id/partial-refund')
