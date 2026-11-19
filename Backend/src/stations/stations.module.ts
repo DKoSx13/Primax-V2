@@ -1,11 +1,11 @@
-import { CatalogReader } from '../catalog-reader/catalog-reader';
 import { Module } from '@nestjs/common';
 import { StationsController } from './stations.controller';
 import { StationsService } from './stations.service';
-import { StationsRepository } from './stations.repository';
+import { StationsReadModule } from '../../services/catalog/src/bootstrap/stations-read.module';
 @Module({
+  imports: [StationsReadModule],
   exports: [StationsService],
   controllers: [StationsController],
-  providers: [CatalogReader, StationsService, StationsRepository],
+  providers: [StationsService],
 })
 export class StationsModule {}

@@ -1,0 +1,296 @@
+{
+  "kind": "astra-stage3b-single-stations-read",
+  "branch": "feat/dezkz-identity-a4-core",
+  "referenceHead": "a6cf8c648d1bc484eeee16cf29b04ce9f1dcf4f6",
+  "operation": {
+    "useCase": "StationsService.list()",
+    "publicRoute": "GET /api/v1/stations",
+    "existingPrivateConsumer": "GET /api/v1/control/catalog/stations",
+    "owner": "existing Backend Catalog process",
+    "queryUnchanged": true,
+    "authorizationUnchanged": true,
+    "stationScopeRemainsInControllers": true,
+    "newRoutes": 0
+  },
+  "baseline": {
+    "run": ".cache/astra-stage3b/run-2ff7173bcc28",
+    "node": "v22.21.1",
+    "baseline": true,
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 4,
+      "passed": 22,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "catalog-contracts",
+        "exitCode": 0,
+        "elapsedMs": 15085,
+        "log": "catalog-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 165,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 288,
+        "log": "packaging-contracts.log"
+      }
+    ]
+  },
+  "final": {
+    "run": ".cache/astra-stage3b/run-5af8c6c8c3ae",
+    "node": "v22.21.1",
+    "baseline": false,
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 5,
+      "passed": 62,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "catalog-contracts",
+        "exitCode": 0,
+        "elapsedMs": 17395,
+        "log": "catalog-contracts.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 119,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 221,
+        "log": "packaging-contracts.log"
+      },
+      {
+        "name": "build-catalog",
+        "exitCode": 0,
+        "elapsedMs": 10950,
+        "log": "build-catalog.log"
+      },
+      {
+        "name": "build-identity",
+        "exitCode": 0,
+        "elapsedMs": 12086,
+        "log": "build-identity.log"
+      },
+      {
+        "name": "build-administration",
+        "exitCode": 0,
+        "elapsedMs": 13632,
+        "log": "build-administration.log"
+      },
+      {
+        "name": "build-commerce",
+        "exitCode": 0,
+        "elapsedMs": 15547,
+        "log": "build-commerce.log"
+      },
+      {
+        "name": "build-legacy",
+        "exitCode": 0,
+        "elapsedMs": 17254,
+        "log": "build-legacy.log"
+      }
+    ]
+  },
+  "testTotals": {
+    "newStationTests": 40,
+    "regressionJest": 22,
+    "jest": 62,
+    "gateway": 24,
+    "packaging": 9,
+    "total": 95,
+    "failed": 0
+  },
+  "priorAttempt": {
+    "run": ".cache/astra-stage3b/run-37ca55d792bf",
+    "failure": "TS7034/TS7005 in new test array; annotated unknown[] and repeated full validation",
+    "preserved": true
+  },
+  "builds": [
+    {
+      "service": "catalog",
+      "files": 133,
+      "entrypoint": "src/apps/catalog/main.js",
+      "catalogHexagonalFiles": 28,
+      "exitCode": 0
+    },
+    {
+      "service": "identity",
+      "files": 111,
+      "entrypoint": "src/apps/identity/main.js",
+      "catalogHexagonalFiles": 0,
+      "exitCode": 0
+    },
+    {
+      "service": "administration",
+      "files": 95,
+      "entrypoint": "src/apps/administration/main.js",
+      "catalogHexagonalFiles": 0,
+      "exitCode": 0
+    },
+    {
+      "service": "commerce",
+      "files": 171,
+      "entrypoint": "src/apps/commerce/main.js",
+      "catalogHexagonalFiles": 0,
+      "exitCode": 0
+    }
+  ],
+  "images": [
+    {
+      "tag": "primax-astra-catalog:stage3b",
+      "id": "sha256:e18255377d37aceb1b68fdf801295e0f29fb776d7bb586ee4937fcc9a864134b"
+    },
+    {
+      "tag": "primax-astra-legacy:stage3b-build",
+      "id": "sha256:1d29394ded50fa93ab08b9644f863642fee350d123611a16ab582fb2a3816a9f"
+    },
+    {
+      "tag": "primax-astra-stage2-validation:test",
+      "id": "sha256:6e302655d939563bad677d3dab8381cbe2e5ab19c71e89eb464db285e71a75cd"
+    }
+  ],
+  "runtimeModuleLoad": {
+    "exitCode": 0,
+    "stationsModuleLoads": true,
+    "emptyResult": []
+  },
+  "isolation": {
+    "testNetwork": "none",
+    "publishedPorts": 0,
+    "existingDataVolumesMounted": 0,
+    "databasesUsed": 0,
+    "migrationsExecuted": 0,
+    "seedsExecuted": 0,
+    "composeStarted": false,
+    "temporaryContainersRemoved": true
+  },
+  "limits": [
+    "No real PostgreSQL execution or SQL plan validation",
+    "Real AccessGuard/controllers/ValidationPipe with mocked JWT, users, kiosk and persistence",
+    "Inactive station represented by absence from active projection; exact ORM predicates asserted",
+    "No universal functional equivalence or production certification",
+    "T01 unchanged and functionally unresolved"
+  ],
+  "previousStage3A": {
+    "commit": "a6cf8c648d1bc484eeee16cf29b04ce9f1dcf4f6",
+    "sourceHashesVerified": 15,
+    "allSourceFilesUnchanged": true
+  },
+  "protectedPathHashes": {
+    "Backend/src/stations/stations.controller.ts": "767f3409dabd55aaa4ea693f25df8f33a6cb083a70396cbbcf77b82841aea1bf",
+    "Backend/src/stations/stations.repository.ts": "6e179e520927567ebfdf19c37aea7b4393561278fba15f11ea314e3b122393b8",
+    "Backend/src/catalog-reader/catalog-reader.ts": "52c92d7345bbee761cc1d8238811a846a7b09b54dcda8eaa82928b9a3532e101",
+    "Backend/src/catalog-reader/private-catalog.controller.ts": "a5a4164818d977bc36627e44197e4028c7026b9e05f4cb94683c8cd5855e92a4",
+    "Backend/src/auth/access.guard.ts": "90ed8e6566aaae9788ef7126481f0d5172c7f777055cfaff6ad72f69d256f971",
+    "Backend/src/auth/auth.module.ts": "b0f3cf4af08f7a8faba49e7ab9728e1aad9d79b9e7e153310ffd8a2af773baaf",
+    "Backend/src/auth/password-reset.service.ts": "8cd25147c3a6bce6f13cfaca6afab1eb9efe8f66bf4dd21efbe4c894ae0613a0",
+    "Backend/src/setup-app.ts": "8ddba3bbc5490dd00c48d2fbdc40e05cba98604f37a91fb33051449c969ba146",
+    "Backend/prisma/schema.prisma": "d3529db35e26554c5216c966a55349a870ce62989c01e9b3482d148e5f05648a",
+    "Backend/gateway/routes.cjs": "30b64cb9691a4b251b3e744b8cba38554bca7b4a039f14043dd7d43b7c1a87a8",
+    "Backend/Dockerfile": "4007c90f0d843c77a8c08aad273af00ff95f94dd3cfff9504334c36d5165c15a",
+    "Backend/services/catalog/Dockerfile": "803c9ec30c99c9818ab00d82437ca695e3648977f039dbc730abe98cacff039a",
+    "compose.yaml": "37b7021f7de770b94737dd448a91e9aef210325a8c8ed3f9585957f81a097d17"
+  },
+  "preservedOriginalEvidence": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+      "unchanged": true,
+      "excludedFromCommit": true
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7",
+      "unchanged": true,
+      "excludedFromCommit": true
+    }
+  ],
+  "sourceHashes": {
+    "Backend/services/catalog/src/adapters/inbound/stations-read.adapter.ts": "0ffeb051473c5d8573a39eae923e855ea3c3aa4abc5af6acf4577e84238c1fb9",
+    "Backend/services/catalog/src/adapters/outbound/existing-station-list.reader.ts": "1633efe7c9609e47fccc4250d20b57fb955f219d6781a14d5254bdb8e7a0613a",
+    "Backend/services/catalog/src/application/ports/list-stations-query.ts": "690ec23e07e624f90072d4dfd6839118f1b41734af5d90e55030cdda5f1a6ecf",
+    "Backend/services/catalog/src/application/ports/station-list-reader.ts": "dec9b2b082142e7bb368951149a193883f24392c4c13196c6437f2e32e9ffcec",
+    "Backend/services/catalog/src/application/station-read-model.ts": "ef4c39157292248837ca35484ee0086b954fa6acf188e068d4b9c4fef9362c19",
+    "Backend/services/catalog/src/application/use-cases/list-stations.ts": "9f3955fae14ee74d06880859b2638f67af8df4a4e52b2ce702d255fd148e26e2",
+    "Backend/services/catalog/src/bootstrap/stations-read.module.ts": "5444a61bf48111ff6a3a20dabc58f3a0373de6c3395fc7fe4d1ece7251980775",
+    "Backend/src/stations/stations-hexagonal.spec.ts": "175e2fe7afb59db4b4d9d23fec6a06f23e723f5b26e11535a1fd6b525f4f3c77",
+    "Backend/src/stations/stations.module.ts": "5486d9153a90e386a5c296e50c9247da46316e341357ed285eba9064ba6e196e",
+    "Backend/src/stations/stations.service.ts": "15108c4e59d5f174b390109e1429191b6f0fe3d51a2813c0dafbb8125a516de5",
+    "Docs/astra/primax-stage3b-catalog-stations-read.md": "81d6d6d743345250cb49540c0285ae8c8e6d3b63411b1ae70a6c0d00d7050802",
+    "tools/astra/stage3b-catalog-validation.cjs": "b33c0dd4ee953f657f1fbb47a6d1160b57dd4766e4f2c1acafacb561fd02673e"
+  },
+  "filesForCommit": [
+    "Backend/services/catalog/src/adapters/inbound/stations-read.adapter.ts",
+    "Backend/services/catalog/src/adapters/outbound/existing-station-list.reader.ts",
+    "Backend/services/catalog/src/application/ports/list-stations-query.ts",
+    "Backend/services/catalog/src/application/ports/station-list-reader.ts",
+    "Backend/services/catalog/src/application/station-read-model.ts",
+    "Backend/services/catalog/src/application/use-cases/list-stations.ts",
+    "Backend/services/catalog/src/bootstrap/stations-read.module.ts",
+    "Backend/src/stations/stations-hexagonal.spec.ts",
+    "Backend/src/stations/stations.module.ts",
+    "Backend/src/stations/stations.service.ts",
+    "Docs/astra/evidence/stage3b/review-summary.json",
+    "Docs/astra/primax-stage3b-catalog-stations-read.md",
+    "tools/astra/stage3b-catalog-validation.cjs"
+  ]
+}

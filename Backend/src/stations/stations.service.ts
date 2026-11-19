@@ -1,10 +1,9 @@
-import { CatalogReader } from '../catalog-reader/catalog-reader';
 import { Injectable } from '@nestjs/common';
-import { StationsRepository } from './stations.repository';
+import { StationsReadAdapter } from '../../services/catalog/src/adapters/inbound/stations-read.adapter';
 @Injectable()
 export class StationsService {
-  constructor(private readonly repo: StationsRepository, private readonly reader: CatalogReader) {}
+  constructor(private readonly stationsRead: StationsReadAdapter) {}
   list() {
-    return this.reader.enabled() ? this.reader.read<Awaited<ReturnType<StationsRepository['list']>>>('stations') : this.repo.list();
+    return this.stationsRead.list();
   }
 }
