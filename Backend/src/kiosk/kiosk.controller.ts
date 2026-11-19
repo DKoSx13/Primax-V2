@@ -1,3 +1,4 @@
+import { composeKioskSessionOperations } from '../../services/identity/src/bootstrap/kiosk-session-operations.composition';
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import {
   IsIn,
@@ -33,27 +34,28 @@ class TerminalRecoveryDto {
 @Public()
 @Controller('kiosk/session')
 export class KioskController {
-  constructor(private readonly service: KioskService) {}
+  private readonly boundary: ReturnType<typeof composeKioskSessionOperations>;
+  constructor(private readonly service: KioskService) { this.boundary = composeKioskSessionOperations(this.service); }
   @Get() status(@Req() req: Request) {
-    return this.service.status(req);
+    return this.boundary.status(req);
   }
   @Post('login') login(@Req() req: Request, @Body() body: OperatorLogin) {
-    return this.service.login(req, body);
+    return this.boundary.login(req, body);
   }
   @Post('terminal-bootstrap') terminalBootstrap(@Req() req: Request, @Body() body: TerminalBootstrapDto) {
-    return this.service.bootstrapTerminal(req, body.terminalId, body.terminalCode);
+    return this.boundary.bootstrapTerminal(req, body.terminalId, body.terminalCode);
   }
   @Post('terminal-recovery') terminalRecovery(@Req() req: Request, @Body() body: TerminalRecoveryDto) {
-    return this.service.exchangeRecoveryTicket(req, body.ticket, body.terminalCode);
+    return this.boundary.exchangeRecoveryTicket(req, body.ticket, body.terminalCode);
   }
   @Post('logout') logout(@Req() req: Request) {
-    return this.service.logout(req);
+    return this.boundary.logout(req);
   }
   @Post('authorize') async authorize(
     @Req() req: Request,
     @Body() body: TargetOperation,
   ) {
-    const actor = await this.service.authorize(req, body);
+    const actor = await this.boundary.authorize(req, body);
     return { allowed: true, stationId: actor.stationId };
   }
 }

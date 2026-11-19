@@ -634,3 +634,54 @@ Siguiente propuesta finita, sin ejecutarla: consolidar los quince contratos junt
 por las tres familias internas auth/kiosco/admin Identity, y resolver expresamente
 las dos excepciones. Requiere nueva autorizaci?n. Sin push/merge; no se inicia
 Administration, Lotes 3?5 ni Docker Compose definitivo. **Lote 2B terminado.**
+
+
+## 16. Lote 2C ? quince fronteras Identity consolidadas, 2026-11-19
+
+Referencia autorizada: `a72e787deb03facf29989eab64949aec5d339950`.
+Se conserva ?ntegro el texto hist?rico de las secciones anteriores. Estado vigente:
+[informe 2C](primax-lot2c-identity-results.md),
+[matriz 26 + 6](primax-lot2-identity26-catalog6-matrix.md),
+[evidencia nueva](evidence/lot2c-identity/review-summary.json).
+
+Las quince operaciones desbloqueadas por 2B se consolidan en tres familias internas:
+IdentitySecurityOperations (cinco), KioskSessionOperations (seis) y
+AdminIdentityWorkflows (cuatro). Cada familia a?ade puerto, caso de uso, adaptadores
+de entrada/salida y composici?n local bajo services/identity/src. Los controladores
+originales conservan DTOs, decoradores, permisos y proyecciones; los adaptadores
+invocan una vez las mismas instancias de AuthService, PasswordResetService,
+KioskService y AlertsService. Motores, repositorios, transacciones, AuthCore,
+authVersion, guards, JWT, cookies, CSRF y firmas permanecen intactos.
+
+224 pruebas en 21 suites, 24 contratos Gateway, nueve checks de empaquetado,
+compilaciones de cuatro servicios/legacy y diez builds de contextos baseline/candidate
+pasan. Los tres procesos ajenos a Identity generan exactamente los mismos archivos
+y hashes que baseline. Cinco im?genes nuevas arrancan realmente con otra PostgreSQL
+y Redis nuevos; health y separaci?n de rutas pasan, sin cambios en datos/secuencias
+por los arranques. No se introduce TS2307 ni un ciclo nuevo de composici?n.
+
+Las comparaciones principales suman 302 checks HTTP y la ampliaci?n de kiosco prueba
+26 por brazo, incluidos siete casos nuevos de recuperaci?n SQL/Redis. Sin contar
+casos repetidos: 158 por brazo, 316 checks. Ticket v?lido, expiraci?n, privilegio
+revocado, replay y rollback conservan el comportamiento original, incluida la ventana
+Redis/SQL en que un ticket puede consumirse aunque SQL haga rollback. No se promete
+atomicidad conjunta ni recuperaci?n universal; T01 permanece pendiente y sin cambios.
+
+**Identity: 24/26 fronteras validadas; dos excepciones t?cnicas propuestas, no aceptadas.**
+POST /admin/login y GET /admin/demo-credentials conservan sus m?todos inline.
+La extracci?n literal de ambos es t?cnicamente viable sin cambiar pol?ticas, pero
+no se ampl?a por inferencia el paquete autorizado de quince. No se cuentan como
+consolidadas por compilar o por superar sus regresiones. El ?nico pendiente para
+el cierre acad?mico incondicional del bloque Identity/Lote 2 es la decisi?n expresa
+de aceptar esas dos justificaciones o autorizar su extracci?n conservadora.
+No hay bloqueos t?cnicos pendientes entre las quince operaciones implementadas.
+
+Catalog mantiene sus seis lecturas aceptadas y observaciones de inventario p?blico,
+inactivos y filtrado Control. AuthCore, Prisma/bootstrap y escrituras financieras
+compartidas siguen expl?citos. No se presume autonom?a productiva. A.4, A.2, T01,
+x-kiosk-key, TARJETA y proveedores no se reabren ni corrigen en este lote.
+
+No se modifica Compose definitivo ni se certifican los P0 globales de portabilidad.
+Un commit local del paquete verificado, sin push/merge. Las nueve evidencias hist?ricas
+siguen intactas y excluidas. **Trabajo detenido al terminar 2C; Administration y
+Lotes 3?5 no iniciados.** No se propone una etapa nueva por ruta.

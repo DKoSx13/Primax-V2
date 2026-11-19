@@ -1,3 +1,4 @@
+import { composeAdminIdentityWorkflows } from '../../services/identity/src/bootstrap/admin-identity-workflows.composition';
 import { demoAdminEnabled } from './demo-admin-enabled';
 import {
   Body,
@@ -36,11 +37,12 @@ const equal = (a: string, b: string) =>
 
 @Controller('admin')
 export class AdminController {
+  private readonly boundary: ReturnType<typeof composeAdminIdentityWorkflows>;
   constructor(
     private readonly config: ConfigService,
     private readonly jwt: JwtService,
     private readonly alerts: AlertsService,
-  ) {}
+  ) { this.boundary = composeAdminIdentityWorkflows(this.alerts); }
   @Get('demo-credentials')
   @Public()
   demo() {
@@ -79,17 +81,17 @@ export class AdminController {
   @Get('alerts')
   @SetMetadata('access', 'admin')
   list() {
-    return this.alerts.list();
+    return this.boundary.list();
   }
   @Get('dashboard')
   @SetMetadata('access', 'admin')
   dashboard() {
-    return this.alerts.dashboard();
+    return this.boundary.dashboard();
   }
   @Post('alerts/:id/resolve')
   @SetMetadata('access', 'admin')
   resolve(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.alerts.resolve(
+    return this.boundary.resolve(
       id,
       this.config.get<string>(
         demoAdminEnabled(this.config) ? 'DEMO_ADMIN_USER' : 'ADMIN_USER',
@@ -99,7 +101,7 @@ export class AdminController {
   @Post('check-plate')
   @KioskOnly()
   check(@Body() dto: CheckPlateDto) {
-    return this.alerts.checkPlate(
+    return this.boundary.checkPlate(
       dto.plate,
       dto.membershipCode,
       dto.operationId,

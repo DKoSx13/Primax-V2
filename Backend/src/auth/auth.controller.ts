@@ -1,3 +1,4 @@
+import { composeIdentitySecurityOperations } from '../../services/identity/src/bootstrap/identity-security-operations.composition';
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import {
   ApiOkResponse,
@@ -18,36 +19,37 @@ import { RegisterDto } from './register.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
+  private readonly boundary: ReturnType<typeof composeIdentitySecurityOperations>;
   constructor(
     private readonly service: AuthService,
     private readonly resetService: PasswordResetService,
-  ) {}
+  ) { this.boundary = composeIdentitySecurityOperations(this.service, this.resetService); }
   @Public()
   @Post('forgot-password')
   @HttpCode(200)
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   forgot(@Body() dto: ForgotPasswordDto) {
-    return this.resetService.forgot(dto);
+    return this.boundary.forgot(dto);
   }
   @Public()
   @Post('verify-reset-code')
   @HttpCode(200)
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   verify(@Body() dto: VerifyResetCodeDto) {
-    return this.resetService.verify(dto);
+    return this.boundary.verify(dto);
   }
   @Public()
   @Post('reset-password')
   @HttpCode(200)
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   reset(@Body() dto: ResetPasswordDto) {
-    return this.resetService.reset(dto);
+    return this.boundary.reset(dto);
   }
   @Public()
   @Post('register')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
   register(@Body() dto: RegisterDto) {
-    return this.service.register(dto);
+    return this.boundary.register(dto);
   }
   @Public()
   @Post('login')
@@ -56,6 +58,6 @@ export class AuthController {
   @ApiOkResponse({ type: LoginResponseDto })
   @ApiUnauthorizedResponse({ description: 'Credenciales incorrectas' })
   login(@Body() dto: LoginDto) {
-    return this.service.login(dto);
+    return this.boundary.login(dto);
   }
 }
