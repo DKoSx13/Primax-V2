@@ -1,3 +1,4 @@
+import { OrderWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/order-workflow.adapter';
 import { matchesMembershipCode } from '../users/membership-code';
 import { assertDemoWallet, DemoWalletProvider } from './demo-provider';
 import { recordPaymentIssue } from './payment-incidents';
@@ -375,7 +376,7 @@ export class OnlineOrdersService {
 }
 @Controller('online-orders')
 export class OnlineOrdersController {
- constructor(private readonly service:OnlineOrdersService){}
+ constructor(private readonly service:OrderWorkflowAdapter){}
  @Post() @MemberOrKiosk() create(@Body()dto:OrderDto,@CurrentActor()actor:Actor){return this.service.create(dto,actor);}
  @Post(':id/demo-confirm') @MemberOrKiosk() confirmDemo(@Param('id',new ParseUUIDPipe())id:string,@Body()dto:DemoConfirmationDto,@CurrentActor()actor:Actor){return this.service.confirmDemo(id,dto,actor);}
  @Post(':id/cancel') @MemberOrKiosk() cancel(@Param('id',new ParseUUIDPipe())id:string,@CurrentActor()actor:Actor){return this.service.cancel(id,actor);}

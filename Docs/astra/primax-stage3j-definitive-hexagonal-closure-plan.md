@@ -394,3 +394,76 @@ para prolongar la arquitectura académica una vez satisfechos los criterios.
 Estado de 3J: sólo este plan nuevo, sin staging ni commit; HEAD permanece en
 `b0f9dcf6ce37e77aa2e9b8a892efce55460ef2d2`. Las nueve evidencias históricas
 permanecen sin seguimiento y excluidas. No se inicia ninguno de los lotes.
+
+## 11. Actualización de cierre Commerce tras Lote 1D — 2026-11-19
+
+Esta sección agrega el estado actual autorizado; las secciones anteriores son el
+plan histórico de 3J y conservan sus cifras/HEAD de referencia. Base de 1D:
+eb0d893cb0534e6cebcca903a884f74e1cd1d421. Evidencia nueva y límites:
+primax-lot1d-orders-reconciliation-callbacks-results.md y
+evidence/lot1d-orders/review-summary.json. No se ejecutan lotes 2–5.
+
+La unidad de cierre es la familia/puerto con adaptador al motor completo; no
+extraer cada consulta ni reescribir cada función Prisma. Conservamos los 46
+contratos de la matriz 3I, con numeración de filas usada abajo.
+
+| Familia / contratos 3I | Estado comprobado | Pendiente real / criterio de salida |
+|---|---|---|
+| Venta y autorizaciones: filas 2,4,5,6,45 (5) | Lotes 1 y 1B: frontera al motor intacto. | Mantener regresiones y excepciones; no más extracción de sus cálculos internos. |
+| Lectura de transacción: 46 (1) | 3I, puerto/repo original. | Mantener contrato y aislamiento, no otra migración de lectura. |
+| Reembolso local/conciliación parcial: 31–33 (3) | 1C: tres fronteras, atomic/lock originales. | Adaptadores locales existentes son solución académica válida; proveedor real no acreditado. |
+| Órdenes/reconciliación/callbacks: 17–23,34 (8) | 1D: ocho entradas, siete métodos de puerto, motor único sin alterar. | Preservar límites de simulación y observación TARJETA; no volver a extraer status/confirmRefund internos por separado. |
+| Wallet/puntos y lecturas de autorización: 1,3,15,16,35 (5) | Pendiente de frontera, no autorizado en 1D. | Un bloque agrupado de cinco contratos; WalletService/RewardsService/AuthorizationsService originales como adapters. Balance/deuda/puntos/hash/lock/replay inalterados. |
+| Terminal/atención/asistencia/recuperación/seguridad operacional: 7–14,24–30,36–44 (24) | Legacy vigente, no consolidado por estos pagos. | Un bloque operacional, puertos agrupados sobre OperationsService, AssistanceService y ControlPaymentsService. Conservar actor/estación/owner, auditoría, efectos Redis y atomic completo. No mover a Administration por su consumidor. |
+
+Total verificado: 17 contratos con frontera de 46; 29 restantes, agrupados en dos
+paquetes finitos (5 financieros/lecturas + 24 operacionales), no 29 etapas.
+Commerce completo y Lote 1 completo aún no se declaran. La independencia de
+proceso/imagen ya existe; la de código es parcial; la de datos no se exige (una
+PostgreSQL aceptada), sin cambiar escritores o transacciones.
+
+### Compatibilidad legacy admisible y decisiones
+
+- Los motores existentes, repositorios Prisma, SQL/triggers, mappers y helpers
+  internos pueden permanecer como adaptadores locales detrás de los puertos:
+  esto cumple el alcance académico aceptado sin prometer dominio totalmente extraído.
+- AuthCore, JWT, PasswordReset, AccessGuard, KioskService/Redis y bootstrap pueden
+  seguir como plataforma técnica compartida declarada, sin otro escritor o política.
+- Candidatos explícitos a excepción técnica dentro de las 24 rutas: grants/revoke
+  globales (24/25), claim/me (39/40), recovery-ticket (13). Son cinco candidatos,
+  no cinco rutas automáticamente terminadas. Requieren aceptación expresa del
+  responsable y cobertura de sus rechazos/efectos originales. Si no se aceptan,
+  se incluyen en el mismo paquete operacional, sin crear una etapa adicional.
+- Crear/cerrar atención, asistencia, cancel-unpaid, resolve, asignación de surtidor,
+  inventario o wallet son negocio/workflows: no declararlos plataforma para
+  ocultar pendientes. Una dependencia de seguridad no impide una frontera que
+  conserve el motor; sólo bloquea un cambio de política no autorizado.
+- TARJETA en reselect tiene contradicción DTO/constraint SQL histórica: 500 con
+  rollback, mientras PLIN funciona. Su corrección necesita decisión de regla/esquema
+  independiente; 1D conserva y compara la conducta, no la presenta corregida.
+- CulqiProvider carece de findByReference/cancel/refund y no se certifica la firma
+  nativa del proveedor. Son bloqueos de integración comercial/producción; la
+  simulación no los resuelve. No son nuevas fases para prolongar el cierre académico.
+- T01 sigue abierta, legacy key no tiene el scope firmado y A.2/AuthCore autónomo
+  siguen pendientes. Cualquier aceptación con observaciones debe nombrarlos;
+  no se cambia T01 ni se reabre A.4.
+
+### Criterio finito de finalización del Lote 1
+
+1. Una única matriz de 46 rutas con cada entrada conectada a una familia/puerto
+   comprobable o excepción técnica aceptada explícitamente; cero entradas sin dueño.
+2. Completar los dos paquetes restantes autorizados de forma agrupada, o registrar
+   el bloqueo concreto con decisión del responsable; no inventar nuevas familias.
+   Un bloqueo documentado no equivale por sí solo a una funcionalidad terminada.
+3. Mantener motores locales y transacciones idénticos, sin nuevos retries/HTTP
+   financieros/escritores; aplicación depende sólo de puertos, plataforma declarada.
+4. Una regresión final agrupada de Commerce (incluidos wallet, puntos, terminal,
+   asistencia, SQL/Redis y contratos), cuatro builds + legacy y empaquetado; comprobar
+   autenticación/estación/propietario, replay/concurrencia/rollback y efectos.
+5. Cero regresiones nuevas frente a referencia y aceptación explícita de observaciones
+   preexistentes/límites de proveedor; código/evidencia saneada y manifiesto de rutas.
+
+Cumplidos estos puntos se cierra Lote 1 académico sin exigir separar bases, eliminar
+todos los adapters legacy, corregir toda deuda productiva o abrir experimentos
+adicionales. El arranque Compose integral, tres frontends y Windows/Linux/macOS
+permanecen en lotes 4–5; terminar las fronteras Commerce no los acredita.

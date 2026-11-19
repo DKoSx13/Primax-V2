@@ -2,7 +2,7 @@ import { Body, Controller, Headers, Post, UnauthorizedException } from '@nestjs/
 import { IsIn, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { Public } from '../auth/access';
-import { OnlineOrdersService } from './online-orders';
+import { OrderWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/order-workflow.adapter';
 
 export class PaymentEventDto {
  @IsString() @MinLength(1) @MaxLength(100) eventId: string;
@@ -14,7 +14,7 @@ export class PaymentEventDto {
 // signature before forwarding here. No payload alone is proof of payment.
 @Controller('payments')
 export class PaymentWebhookController {
- constructor(private readonly service: OnlineOrdersService) {}
+ constructor(private readonly service: OrderWorkflowAdapter) {}
  @Public() @Post('webhook')
  receive(@Body() event: PaymentEventDto, @Headers('x-webhook-secret') secret: string) {
   const expected=process.env.PAYMENT_WEBHOOK_SECRET;
