@@ -9,9 +9,11 @@ import { ControlOperationsController } from './control-operations.controller';
 import { ControlOperationsService } from './control-operations.service';
 import { ControlCustomersController } from './control-customers.controller';
 import { ControlCustomersService } from './control-customers.service';
+import { AdministrativeListsModule } from '../../services/administration/src/bootstrap/administrative-lists.module';
 
 @Module({
   imports: [
+    AdministrativeListsModule,
     InventoryModule,
     JwtModule.registerAsync({
       inject: [ConfigService],

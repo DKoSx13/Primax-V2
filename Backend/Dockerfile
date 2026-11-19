@@ -11,6 +11,7 @@ COPY tsconfig*.json ./
 COPY src ./src
 COPY services/catalog/src ./services/catalog/src
 COPY services/identity/src ./services/identity/src
+COPY services/administration/src ./services/administration/src
 COPY scripts ./scripts
 RUN npm run build
 

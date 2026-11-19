@@ -24,6 +24,8 @@ import {
 import { receiptResponse } from '../receipts/receipt.service';
 import { Actor } from '../auth/access';
 import { PrismaService } from '../prisma/prisma.service';
+import { LegacyCustomerReadContext } from '../../services/administration/src/adapters/outbound/legacy-customer-context';
+import { AdministrativeListsAdapter } from '../../services/administration/src/adapters/inbound/administrative-lists.adapter';
 
 type ControlActor = Extract<Actor, { kind: 'control' }>;
 type OperationRelations = {
@@ -43,41 +45,12 @@ type AuthorizationProjectionRow = FuelAuthorization & OperationRelations & { ter
 type Filter = { stationId?: string; q?: string; from?: Date; to?: Date; status?: string; mode?: PurchaseMode; method?: string };
 
 @Injectable()
-export class ControlCustomersService {
-  constructor(private readonly db: PrismaService) {}
-
-  private async scope(actor: ControlActor, stationId: string | undefined, permission: AdminControlPermission) {
-    if (!actor.permissions.includes(permission)) throw new ForbiddenException('Permiso administrativo insuficiente');
-    if (typeof actor.global !== 'boolean' || !Array.isArray(actor.stationIds) ||
-        actor.stationIds.some((id) => typeof id !== 'string' || !id.trim()))
-      throw new ForbiddenException('Alcance de estaciones no disponible');
-    if (stationId && !actor.global && !actor.stationIds.includes(stationId)) throw new ForbiddenException('Estación fuera del alcance autorizado');
-    const ids = stationId ? [stationId] : actor.global ? undefined : actor.stationIds;
-    if (!actor.global && ids?.length === 0) throw new ForbiddenException('No hay estaciones asignadas');
-    return ids;
-  }
-
+export class ControlCustomersService extends LegacyCustomerReadContext {
+  constructor(db: PrismaService, private readonly lists: AdministrativeListsAdapter) { super(db); }
   private range(from?: Date, to?: Date) {
     if (from && to && from > to) throw new BadRequestException('El rango de fechas no es válido');
     return from || to ? { ...(from ? { gte: from } : {}), ...(to ? { lte: to } : {}) } : undefined;
   }
-
-  private membershipStationFilter(ids?: string[]): Prisma.MembershipWhereInput {
-    if (!ids) return {};
-    return { OR: [
-      { transactions: { some: { stationId: { in: ids } } } },
-      { authorizations: { some: { stationId: { in: ids } } } },
-    ] };
-  }
-
-  private vehicleStationFilter(ids?: string[]): Prisma.VehicleWhereInput {
-    if (!ids) return {};
-    return { OR: [
-      { transactions: { some: { stationId: { in: ids } } } },
-      { authorizations: { some: { stationId: { in: ids } } } },
-    ] };
-  }
-
   private operationSearch(q?: string) {
     const value = q?.trim();
     if (!value) return {};
@@ -86,44 +59,7 @@ export class ControlCustomersService {
       : { plate: { contains: value, mode: 'insensitive' as const } };
   }
 
-  async customers(actor: ControlActor, filters: Filter) {
-    const ids = await this.scope(actor, filters.stationId, AdminControlPermission.ADMIN_CUSTOMER_VIEW);
-    const q = filters.q?.trim();
-    const members = await this.db.membership.findMany({
-      where: {
-        AND: [this.membershipStationFilter(ids), ...(q ? [{ OR: [
-          { number: { contains: q, mode: 'insensitive' as const } },
-          { user: { name: { contains: q, mode: 'insensitive' as const } } },
-          { user: { email: { contains: q, mode: 'insensitive' as const } } },
-          { vehicles: { some: { plate: { contains: q, mode: 'insensitive' as const }, ...this.vehicleStationFilter(ids) } } },
-        ] }] : [])],
-      },
-      include: {
-        user: { select: { id: true, name: true, email: true, active: true, createdAt: true } },
-        vehicles: { where: this.vehicleStationFilter(ids), select: { id: true, plate: true, label: true } },
-        transactions: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } },
-        authorizations: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 100,
-    });
-    const canMembership = actor.permissions.includes(AdminControlPermission.ADMIN_MEMBERSHIP_VIEW);
-    return members.filter((membership) => membership.user.active).map((membership) => ({
-      id: membership.user.id,
-      name: membership.user.name,
-      email: actor.global ? membership.user.email : this.maskEmail(membership.user.email),
-      active: membership.user.active,
-      registeredAt: membership.user.createdAt,
-      membership: canMembership ? {
-        id: membership.id,
-        number: membership.number,
-        status: membership.status,
-        ...(actor.global ? { balance: membership.balance.toFixed(2) } : {}),
-      } : null,
-      vehicles: actor.permissions.includes(AdminControlPermission.ADMIN_VEHICLE_VIEW) ? membership.vehicles : [],
-      lastActivityAt: [membership.transactions[0]?.createdAt, membership.authorizations[0]?.createdAt].filter(Boolean).sort((a, b) => b!.getTime() - a!.getTime())[0] ?? null,
-    }));
-  }
+  async customers(actor: ControlActor, filters: Filter) { return this.lists.customers(actor, filters); }
 
   async customer(actor: ControlActor, userId: string) {
     const ids = await this.scope(actor, undefined, AdminControlPermission.ADMIN_CUSTOMER_VIEW);
@@ -177,19 +113,7 @@ export class ControlCustomersService {
     };
   }
 
-  async memberships(actor: ControlActor, filters: Filter) {
-    const ids = await this.scope(actor, filters.stationId, AdminControlPermission.ADMIN_MEMBERSHIP_VIEW);
-    const q = filters.q?.trim();
-    const rows = await this.db.membership.findMany({
-      where: {
-        AND: [this.membershipStationFilter(ids), ...(q ? [{ OR: [{ number: { contains: q, mode: 'insensitive' as const } }, { user: { name: { contains: q, mode: 'insensitive' as const } } }, { user: { email: { contains: q, mode: 'insensitive' as const } } }] }] : [])],
-        ...(filters.status ? { status: filters.status as 'ACTIVE' | 'SUSPENDED' } : {}),
-      },
-      include: { user: { select: { id: true, name: true, email: true, active: true } }, transactions: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } }, authorizations: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { createdAt: true } } },
-      orderBy: { createdAt: 'desc' }, take: 100,
-    });
-    return rows.map((row) => ({ id: row.id, number: row.number, status: row.status, customer: { id: row.user.id, name: row.user.name, email: actor.global ? row.user.email : this.maskEmail(row.user.email) }, ...(actor.global ? { balance: row.balance.toFixed(2) } : {}), createdAt: row.createdAt, lastActivityAt: [row.transactions[0]?.createdAt, row.authorizations[0]?.createdAt].filter(Boolean).sort((a, b) => b!.getTime() - a!.getTime())[0] ?? null }));
-  }
+  async memberships(actor: ControlActor, filters: Filter) { return this.lists.memberships(actor, filters); }
 
   async membership(actor: ControlActor, membershipId: string) {
     await this.scope(actor, undefined, AdminControlPermission.ADMIN_MEMBERSHIP_VIEW);
@@ -200,19 +124,7 @@ export class ControlCustomersService {
     return customer.membership;
   }
 
-  async vehicles(actor: ControlActor, filters: Filter) {
-    const ids = await this.scope(actor, filters.stationId, AdminControlPermission.ADMIN_VEHICLE_VIEW);
-    const q = filters.q?.trim();
-    const rows = await this.db.vehicle.findMany({
-      where: { AND: [
-        ...(q ? [{ OR: [{ plate: { contains: q, mode: 'insensitive' as const } }, { label: { contains: q, mode: 'insensitive' as const } }, { membership: { is: { user: { name: { contains: q, mode: 'insensitive' as const } } } } }] }] : []),
-        ...(ids ? [this.vehicleStationFilter(ids)] : []),
-      ] },
-      include: { membership: { select: { id: true, number: true, status: true, user: { select: { id: true, name: true } } } }, transactions: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { id: true, plate: true, createdAt: true, station: { select: { id: true, code: true, name: true } } } }, authorizations: { where: ids ? { stationId: { in: ids } } : {}, orderBy: { createdAt: 'desc' }, take: 1, select: { id: true, plate: true, createdAt: true, station: { select: { id: true, code: true, name: true } } } } },
-      orderBy: { updatedAt: 'desc' }, take: 100,
-    });
-    return rows.map((row) => ({ id: row.id, plate: row.plate, label: row.label, status: 'REGISTERED', customer: row.membership ? { id: row.membership.user.id, name: row.membership.user.name } : null, membership: row.membership ? { number: row.membership.number, status: row.membership.status } : null, lastActivityAt: [row.transactions[0]?.createdAt, row.authorizations[0]?.createdAt].filter(Boolean).sort((a, b) => b!.getTime() - a!.getTime())[0] ?? null, plateEvidence: row.transactions[0] || row.authorizations[0] ? 'REGISTRATION_USED_IN_OPERATION' : 'REGISTERED' }));
-  }
+  async vehicles(actor: ControlActor, filters: Filter) { return this.lists.vehicles(actor, filters); }
 
   async transactions(actor: ControlActor, filters: Filter) {
     const ids = await this.scope(actor, filters.stationId, AdminControlPermission.ADMIN_TRANSACTION_VIEW);
@@ -285,11 +197,6 @@ export class ControlCustomersService {
     return 'Pago por verificar';
   }
 
-  private maskEmail(email: string) {
-    const [name, domain] = email.split('@');
-    if (!domain) return '•••';
-    return `${name.slice(0, 1)}•••@•••`;
-  }
 
   private transactionProjection(row: TransactionProjectionRow, actor: ControlActor) {
     const incidents = row.operationalIncidents ?? [];

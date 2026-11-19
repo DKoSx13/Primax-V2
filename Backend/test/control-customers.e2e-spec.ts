@@ -1,3 +1,6 @@
+import { AdministrativeListsAdapter } from '../services/administration/src/adapters/inbound/administrative-lists.adapter';
+import { AdministrativeLists } from '../services/administration/src/application/use-cases/administrative-lists';
+import { LegacyAdministrativeLists, LegacyAdministrativeViews } from '../services/administration/src/adapters/outbound/legacy-administrative-lists';
 import { randomUUID } from 'node:crypto';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { AdminControlPermission } from '@prisma/client';
@@ -61,7 +64,7 @@ suite('Primax Control customers, memberships, vehicles and receipts on isolated 
     process.env.DATABASE_URL = isolated;
     db = new PrismaService();
     await db.$connect();
-    service = new ControlCustomersService(db);
+    service = new ControlCustomersService(db, new AdministrativeListsAdapter(new AdministrativeLists<LegacyAdministrativeViews>(new LegacyAdministrativeLists(db))));
     await db.user.createMany({ data: [
       { id: userA, email: `client-a-${tag.toLowerCase()}@primax.test`, name: 'Client A', passwordHash: 'not-used' },
       { id: userB, email: `client-b-${tag.toLowerCase()}@primax.test`, name: 'Client B', passwordHash: 'not-used' },

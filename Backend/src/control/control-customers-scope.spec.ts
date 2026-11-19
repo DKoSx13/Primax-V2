@@ -1,3 +1,6 @@
+import { AdministrativeListsAdapter } from '../../services/administration/src/adapters/inbound/administrative-lists.adapter';
+import { AdministrativeLists } from '../../services/administration/src/application/use-cases/administrative-lists';
+import { LegacyAdministrativeLists, LegacyAdministrativeViews } from '../../services/administration/src/adapters/outbound/legacy-administrative-lists';
 import 'reflect-metadata';
 import { BadRequestException, ForbiddenException, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
@@ -97,7 +100,7 @@ function fixture(rows = [member('A', [A]), member('B', [B], 'SUSPENDED', 2), mem
     transaction: { findMany: jest.fn().mockResolvedValue([]) },
     fuelAuthorization: { findMany: jest.fn().mockResolvedValue([]) },
   };
-  return { service: new ControlCustomersService(db as unknown as PrismaService), findMany, findFirst, count, db, rows };
+  return { service: new ControlCustomersService(db as unknown as PrismaService, new AdministrativeListsAdapter(new AdministrativeLists<LegacyAdministrativeViews>(new LegacyAdministrativeLists(db as unknown as PrismaService)))), findMany, findFirst, count, db, rows };
 }
 
 describe('Control station scope survives search predicates (synthetic semantic mocks)', () => {
@@ -191,7 +194,10 @@ describe('Control station scope survives search predicates (synthetic semantic m
     const { service, findMany, count } = fixture(rows);
     const members = await service.memberships(scoped, { q: 'COMMON' });
     const customers = await service.customers(scoped, { q: 'COMMON' });
+    const vehicles = await service.vehicles(scoped, { q: 'Synthetic' });
     expect(members).toHaveLength(100); expect(customers).toHaveLength(100);
+    expect(vehicles).toHaveLength(100);
+    expect(vehicles.every((r) => r.id.startsWith('vehicle-A'))).toBe(true);
     expect(members.every((r) => r.id.startsWith('member-A'))).toBe(true);
     expect(customers.every((r) => r.id.startsWith('user-A'))).toBe(true);
     expect(members[0].id).toBe('member-A104');

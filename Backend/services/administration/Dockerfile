@@ -12,6 +12,7 @@ COPY tsconfig*.json ./
 COPY src ./src
 COPY scripts ./scripts
 COPY services/administration/tsconfig.build.json ./services/administration/tsconfig.build.json
+COPY services/administration/src ./services/administration/src
 RUN npm run build:administration
 
 FROM build AS prod-deps
