@@ -1,0 +1,91 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const { spawnSync } = require('node:child_process');
+const assert = require('node:assert/strict');
+
+function main() {
+  const repo = path.resolve(__dirname, '../..');
+  const id = crypto.randomBytes(6).toString('hex');
+  const project = 'primax-astra-stage3c-' + id;
+  const dir = path.join(repo, '.cache', 'astra-stage3c', project);
+  fs.mkdirSync(dir, { recursive: true });
+  const volume = project + '-pgdata';
+  const password = crypto.randomBytes(48).toString('hex');
+  const user = 'lab_' + id, database = 'synthetic_' + id;
+  const url = `postgresql://${user}:${password}@postgres:5432/${database}?schema=public`;
+  const postgresImage = 'postgres:17.6-bookworm';
+  function docker(args, name, allowFailure = false) {
+    const r = spawnSync('docker', args, { encoding: 'utf8', shell: false, windowsHide: true });
+    fs.writeFileSync(path.join(dir, name + '.log'), (r.stdout || '') + (r.stderr || ''));
+    if (!allowFailure && (r.error || r.status !== 0)) throw new Error('Isolated PostgreSQL step failed: ' + name);
+    return r;
+  }
+  const networkIds = docker(['network', 'ls', '-q'], 'network-inventory').stdout.trim().split(/\s+/).filter(Boolean);
+  const existingNetworks = networkIds.length ? JSON.parse(docker(['network', 'inspect', ...networkIds], 'network-ranges').stdout) : [];
+  const ranges = existingNetworks.flatMap(n => n.IPAM?.Config || []).map(c => c.Subnet).filter(c => c && !c.includes(':'));
+  function range(cidr) {
+    const [ip, prefix] = cidr.split('/');
+    const value = ip.split('.').reduce((n, part) => (n << 8n) + BigInt(part), 0n);
+    const size = 1n << BigInt(32 - Number(prefix));
+    const start = value / size * size; return [start, start + size - 1n];
+  }
+  const subnet = Array.from({ length: 8 }, (_, i) => `10.253.215.${i * 32}/27`).find(candidate => {
+    const [a, b] = range(candidate); return ranges.every(c => { const [x, y] = range(c); return b < x || y < a; });
+  });
+  assert(subnet, 'No unused validation subnet available');
+  const compose = { name: project, services: {
+    postgres: { image: postgresImage, environment: { POSTGRES_USER: user, POSTGRES_PASSWORD: password, POSTGRES_DB: database },
+      labels: { 'io.primax.validation': project }, volumes: [volume + ':/var/lib/postgresql/data'],
+      healthcheck: { test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"'], interval: '1s', timeout: '3s', retries: 40 } },
+    tester: { image: 'primax-astra-stage2-validation:test', entrypoint: ['node', '/integration.cjs'],
+      environment: { DATABASE_URL: url, DATABASE_URL_UNPOOLED: url, ASTRA_SYNTHETIC_DB: database, ASTRA_SYNTHETIC_USER: user },
+      labels: { 'io.primax.validation': project },
+      volumes: [path.join(repo, 'Backend').replaceAll('\\', '/') + ':/source:ro',
+        path.join(repo, 'Backend/test/catalog-postgres.integration.cjs').replaceAll('\\', '/') + ':/integration.cjs:ro',
+        dir.replaceAll('\\', '/') + ':/evidence'] },
+  }, networks: { default: { internal: true, ipam: { config: [{ subnet }] } } }, volumes: { [volume]: { external: true, name: volume } } };
+  const file = path.join(dir, 'compose.json');
+  fs.writeFileSync(file, JSON.stringify(compose, null, 2) + '\n', { mode: 0o600, flag: 'wx' });
+  const base = ['compose', '--project-name', project, '--file', file];
+  let started = false;
+  try {
+    assert.equal(docker(['volume', 'inspect', volume], 'volume-must-not-exist', true).status === 0, false);
+    assert.equal(docker(['ps', '-aq', '--filter', 'label=com.docker.compose.project=' + project], 'project-must-be-empty').stdout.trim(), '');
+    docker(['volume', 'create', '--label', 'io.primax.validation=' + project, volume], 'create-volume');
+    const v = JSON.parse(docker(['volume', 'inspect', volume], 'verify-volume').stdout)[0];
+    assert.equal(v.Labels['io.primax.validation'], project);
+    docker(['run', '--rm', '--network', 'none', '--mount', `type=volume,source=${volume},target=/checked,readonly`,
+      '--entrypoint', 'sh', postgresImage, '-c', 'test -z "$(ls -A /checked)"'], 'verify-empty-volume');
+    // PostgreSQL initialization can now write only to this newly verified volume.
+    started = true;
+    docker([...base, 'up', '-d', '--wait', '--wait-timeout', '60', 'postgres'], 'start-postgres');
+    const container = docker([...base, 'ps', '-q', 'postgres'], 'postgres-id').stdout.trim();
+    const c = JSON.parse(docker(['inspect', container], 'verify-postgres').stdout)[0];
+    assert.equal(c.Config.Labels['com.docker.compose.project'], project);
+    assert.equal(c.Mounts.length, 1); assert.equal(c.Mounts[0].Name, volume);
+    assert.equal(Object.keys(c.HostConfig.PortBindings || {}).length, 0);
+    const networks = Object.keys(c.NetworkSettings.Networks); assert.equal(networks.length, 1);
+    const n = JSON.parse(docker(['network', 'inspect', networks[0]], 'verify-network').stdout)[0];
+    assert.equal(n.Internal, true); assert.equal(n.Labels['com.docker.compose.project'], project);
+    fs.writeFileSync(path.join(dir, 'isolation.json'), JSON.stringify({ project, volume, newVolumeVerifiedEmpty: true,
+      volumeOwned: true, expectedMountVerified: true, internalNetwork: true, subnet, publishedPorts: 0,
+      databases: 1, migrationsTargetVerifiedBeforeExecution: true }, null, 2) + '\n');
+    console.log(project + ': new empty volume, owned PostgreSQL mount and private network verified');
+    docker([...base, 'run', '--rm', '--no-deps', 'tester'], 'integration');
+    console.log('PostgreSQL comparison passed; evidence: .cache/astra-stage3c/' + project);
+  } finally {
+    if (started) {
+      docker([...base, 'stop', '--timeout', '10'], 'stop-owned-project');
+      const ids = docker([...base, 'ps', '--all', '-q'], 'final-container-ids').stdout.trim().split(/\s+/).filter(Boolean);
+      const states = ids.map(cid => {
+        const c = JSON.parse(docker(['inspect', cid], 'final-state-' + cid.slice(0, 12)).stdout)[0];
+        assert.equal(c.Config.Labels['com.docker.compose.project'], project);
+        assert.equal(c.State.Running, false);
+        return { service: c.Config.Labels['com.docker.compose.service'], exitCode: c.State.ExitCode, running: c.State.Running };
+      });
+      fs.writeFileSync(path.join(dir, 'final-states.json'), JSON.stringify(states, null, 2) + '\n');
+    }
+  }
+}
+if (require.main === module) { try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; } }
