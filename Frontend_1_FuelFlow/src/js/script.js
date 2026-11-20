@@ -1198,12 +1198,14 @@ function actualizarEstado(texto) { $('status-state').textContent = '● ' + text
 
 // Modal personalizado (NO se usa alert nativo)
 let modalCallback = null;
-function mostrarModal(titulo, mensaje, icono = 'ℹ️', callback = null) {
+function mostrarModal(titulo, mensaje, icono = 'ℹ️', callback = null, confirmLabel = null) {
   $('modal-title').textContent = titulo;
   $('modal-msg').textContent = mensaje;
   $('modal-icon').textContent = icono;
   $('modal-overlay').classList.remove('hidden');
   modalCallback = callback;
+  $('modal-ok').textContent = confirmLabel || t('btn_entendido');
+  $('modal-cancel').classList.toggle('hidden', !confirmLabel);
 }
 function cerrarModal() {
   $('modal-overlay').classList.add('hidden');
@@ -1386,10 +1388,10 @@ function snapshotOrden(extra = {}) {
   return { ...state, ...extra, creatingOrder:false, changingMethod:false, confirmingQR:false, despachoTimer:null };
 }
 
-async function validarOrdenRecuperada(order, pending) {
+async function validarOrdenRecuperada(order, pending, captured = false) {
   if (order.id !== state.onlineOrderId || order.operationId !== pending.operationId)
     throw Error('La orden no coincide con la operación local. Solicita asistencia.');
-  if (!['PENDING', 'CREATING'].includes(order.status))
+  if (!(captured ? order.status === 'CAPTURED' : ['PENDING', 'CREATING'].includes(order.status)))
     throw Error('El pago tiene estado '+order.status+'. Solicita asistencia para continuar con esta misma operación.');
   if (state.modalidad !== 'PREPAGO' || !catalog?.fuels.some(f => f.id === state.combustible?.id && f.active) ||
       !Number.isFinite(state.combustible?.precio) || state.combustible.precio <= 0 ||
@@ -1408,6 +1410,23 @@ async function validarOrdenRecuperada(order, pending) {
     throw Error('Los datos guardados no coinciden con la orden del Backend. Solicita asistencia antes de otro pago.');
 }
 
+async function continuarPagoCapturado(orderId) {
+  try {
+    const pending = transactionsService.current();
+    const operation = await ensureTerminalOperation();
+    await cargarCatalogoOperacion(operation);
+    const order = await apiClient('/online-orders/' + orderId);
+    await validarOrdenRecuperada(order, pending, true);
+    if (!order.providerId?.startsWith('demo:') || !order.paymentId || order.transactionId || !['YAPE','PLIN'].includes(order.method))
+      throw Error('Este pago requiere asistencia para continuar.');
+    state.metodoPago = order.method;
+    state.pagoAutorizado = false;
+    await procesarPago({orderId:order.id, paymentId:order.paymentId, amount:Number(order.amount).toFixed(2), currency:'PEN'});
+  } catch(error) {
+    mostrarModal('Operación conservada',error.message+' No vuelvas a pagar; solicita asistencia.','⚠️');
+  }
+}
+
 async function iniciar() {
   try {
     const pending=transactionsService.current();
@@ -1417,7 +1436,9 @@ async function iniciar() {
       return;
     }
     const operation = !pending?.result ? await ensureTerminalOperation() : null;
-    if(pending?.intervention || (!pending?.payload && pending?.authorizationRequest)){
+    if(pending?.intervention || (!pending?.payload && pending?.authorizationRequest &&
+        (!pending.authorizationRequest.capturedContinuation || !pending.snapshot?.onlineOrderId ||
+         pending.authorizationRequest.capturedContinuation.orderId !== pending.snapshot.onlineOrderId))){
       Object.assign(state,pending.snapshot||{});
       state.autorizacionId = pending.authorization?.authorization?.id || state.autorizacionId;
       requerirIntervencion(Error(pending.intervention || 'Operación interrumpida antes del cierre; revisar autorización y consumo.'));
@@ -1430,6 +1451,16 @@ async function iniciar() {
       try { order=await apiClient('/online-orders/'+state.onlineOrderId); }
       catch(error){mostrarModal('Orden conservada',error.message+' Consulta la misma orden antes de otro pago.','⚠️');return;}
       if(order.operationId!==pending.operationId){mostrarModal('Orden conservada','La orden no coincide con la operación local. Solicita asistencia.','⚠️');return;}
+      if(order.status === 'CAPTURED') {
+        await cargarCatalogoOperacion(operation);
+        await validarOrdenRecuperada(order, pending, true);
+        if (!order.providerId?.startsWith('demo:') || !order.paymentId || order.transactionId || !['YAPE','PLIN'].includes(order.method)) {
+          mostrarModal('Orden conservada','El pago requiere asistencia para continuar con esta misma operación.','⚠️');return;
+        }
+        mostrarModal('Pago conservado','El pago ya está capturado. Puedes solicitar la autorización de despacho de esta misma operación. Backend comprobará el pago y la reserva; no se realizará un nuevo cobro.','ℹ️',
+          ()=>void continuarPagoCapturado(order.id), 'Continuar con el despacho');
+        return;
+      }
       if(!['PENDING','CREATING'].includes(order.status)){
         mostrarModal('Orden conservada','El pago tiene estado '+order.status+'. Solicita asistencia para continuar con esta misma operación.','⚠️');return;
       }
@@ -1699,17 +1730,21 @@ function applyVehicle(vehicle) {
 // ---------- Procesamiento de pago (solo prepago) ----------
 // El postpago no pasa por aquí: el saldo ya se descontó al reservar.
 let paymentInFlight = false;
-async function procesarPago() {
+async function procesarPago(continuation) {
   if (paymentInFlight || state.pagoAutorizado || state.estadoOperacion === 'INTERVENTION_REQUIRED') return;
   paymentInFlight = true;
   mostrarPantalla('pantalla-procesamiento');
   $('proc-titulo').textContent = 'Validando pago DEMO en Backend';
   try {
-    await ejecutarReserva(state.montoPrepago);
+    await ejecutarReserva(state.montoPrepago, false, continuation);
     state.pagoAutorizado = true;
     mostrarModal(t('modal_pago_t'), t('modal_pago_m'), '✅', simularDespacho);
   } catch (error) {
     state.pagoAutorizado = false;
+    if (continuation) {
+      mostrarModal('Operación conservada',error.message+' No vuelvas a pagar. Conserva esta operación; puedes consultar de nuevo el inicio o solicitar asistencia.','⚠️');
+      return;
+    }
     const pending = /pendiente|ambigu[oa]|no pudimos confirmar/i.test(error.message || '');
     const title = pending ? 'Pago pendiente de confirmación' : 'No se pudo autorizar el despacho';
     mostrarModal(title, error.message + ' No vuelvas a pagar ni iniciar otra operación; puedes reintentar esta misma venta.', '⚠️', () => void procesarPago());
@@ -2504,7 +2539,7 @@ function cambiarAPrepago(montoPostpago) {
 }
 
 /** Pide la reserva al backend y refleja el estado AUTORIZADO. */
-async function ejecutarReserva(monto, allowDebt = false) {
+async function ejecutarReserva(monto, allowDebt = false, continuation) {
   if (!catalog?.station?.id) throw Error('La estación no está disponible. Reintenta el inicio de esta misma operación.');
   const body = {
     mode: state.modalidad,
@@ -2517,6 +2552,7 @@ async function ejecutarReserva(monto, allowDebt = false) {
     stationId: catalog.station.id,
     fuelId: state.combustible.id,
     receiptType: state.tipoComprobante || 'BOLETA',
+    ...(continuation ? {capturedContinuation:continuation} : {}),
   };
   await ensureTerminalOperation();
   const result = await transactionsService.authorize(body, {...state, despachoTimer:null});
@@ -2910,6 +2946,7 @@ function init() {
 
   // Modal
   $('modal-ok').addEventListener('click', cerrarModal);
+  $('modal-cancel').addEventListener('click', () => { modalCallback = null; cerrarModal(); });
 
   // Permite Enter en placa para continuar
   $('input-placa').addEventListener('keydown', (e) => { if (e.key === 'Enter') continuarIdentificacion(); });

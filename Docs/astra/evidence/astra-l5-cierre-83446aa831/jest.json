@@ -1,0 +1,337 @@
+﻿{
+    "tests":  635,
+    "failed":  0,
+    "suites":  62,
+    "skipped":  0,
+    "contracts":  [
+                      {
+                          "assertions":  [
+                                             {
+                                                 "title":  "makes only the active operation eligible for manual resolution",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for partial",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for pending",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for other payment",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for event missing",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for wrong terminal operation",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for inventory consumed",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for authorization",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps the ordinary incident workflow for sale",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects missing permission before writes",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects missing station before writes",
+                                                 "status":  "passed"
+                                             }
+                                         ],
+                          "suite":  "src/operations/refund-intervention.spec.ts"
+                      },
+                      {
+                          "assertions":  [
+                                             {
+                                                 "title":  "requires proof, validates DTOs and rejects key-only access in the academic profile",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "authenticates, restricts public catalog station, blocks foreign resources and revokes",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects missing, expired and revoked technical credentials over signed HTTP",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "requires the same active terminal operation for signed financial creation and rejects the direct legacy key",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects foreign orders at the HTTP boundary before provider calls or financial writes and admits the owner cancellation",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "requires the persisted terminal for payments refunds before dispatch",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "requires the persisted terminal for online-orders refunds before dispatch",
+                                                 "status":  "passed"
+                                             }
+                                         ],
+                          "suite":  "src/kiosk/kiosk-http.spec.ts"
+                      },
+                      {
+                          "assertions":  [
+                                             {
+                                                 "title":  "requires an explicit SUPER_ADMIN privilege and a matching active operation",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "grants one scoped credential after rechecking evidence and revokes old credentials",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a changed payment or the wrong terminal before revocation",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a provider confirmation that arrived after the recovery request",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rechecks the administrator grant when the ticket is exchanged",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "recovers an already settled sale while preserving its receipt",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "allows only one concurrent exchange of the same ticket",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a ticket after its Redis expiry",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "limits the recovered kiosk session to cancelling its original pending order",
+                                                 "status":  "passed"
+                                             }
+                                         ],
+                          "suite":  "src/kiosk/terminal-recovery.spec.ts"
+                      },
+                      {
+                          "assertions":  [
+                                             {
+                                                 "title":  "admits only a correlated captured payment and an untouched terminal reservation",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects missing order reference without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong payment reference without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong operation without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong amount without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong currency without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects unconfirmed payment without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects refund without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects payment already used without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects sale or receipt final without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects customer-owned order without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong station without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong terminal without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects closed operation without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects invalid reserve review without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects closed reserve without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects cancelled reserve without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects consumed reserve without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects released reserve without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects tampered original request without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects missing persistent capture without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects contradictory provider terminal event without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects unknown provider reference without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong provider amount without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects wrong provider currency without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects commercial evidence unavailable without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects malformed provider proof without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects existing unrelated authorization without financial effects",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "admits replay only of the same untouched continuation authorization",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects an otherwise identical authorization when the continuation event records a different authorization",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a replay without its persisted terminalOperationId",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a replay without its persisted terminalId",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a replay without its persisted pumpId",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects a replay without its persisted terminalPumpAssignmentId",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects consumed/existing authorization DISPENSING",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects consumed/existing authorization SETTLED",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects consumed/existing authorization RELEASED",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects consumed/existing authorization INTERVENTION_REQUIRED",
+                                                 "status":  "passed"
+                                             }
+                                         ],
+                          "suite":  "src/transactions/captured-continuation.spec.ts"
+                      },
+                      {
+                          "assertions":  [
+                                             {
+                                                 "title":  "blocks provider refund when dispensing has started by the time the refund intent is locked",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "rejects continuation metadata on order creation and reselection before any external effect",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards create once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards confirmDemo once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards reselect once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards cancel once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards refund once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards status once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "forwards webhook once without cloning, retries or translated errors",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps both callback secrets in the original controller before dispatch",
+                                                 "status":  "passed"
+                                             },
+                                             {
+                                                 "title":  "keeps application/port free of infrastructure imports",
+                                                 "status":  "passed"
+                                             }
+                                         ],
+                          "suite":  "src/payments/order-workflow.spec.ts"
+                      }
+                  ]
+}

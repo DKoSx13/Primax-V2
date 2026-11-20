@@ -1,0 +1,32 @@
+# Lote 5 · Validación funcional con Playwright
+
+**Evidencia nueva del 20 de noviembre de 2026.** Esta suite verifica el comportamiento actual que motivó los tres mensajes históricos. La reconstrucción de sus aserciones originales queda fuera del criterio funcional solicitado. Los informes y artefactos anteriores se conservan.
+
+## Resultados
+
+| Escenario | Qué ejercita la prueba | Criterio observado |
+|---|---|---|
+| Autorización ajena al replay | Durante la continuación real en Chromium, el contrato llama al validador de producción con el DTO de esa petición y los datos de PostgreSQL en una transacción de solo lectura. Primero usa los repositorios reales. Después un doble devuelve la autorización de T01 al buscar la de T02. Ambas pertenecen a la misma estación. | La referencia propia admite el pago de T02. La referencia ajena produce la excepción de dominio 400 por discrepancia de operación. El log identifica ambas terminales mediante sus operaciones, autorizaciones y pagos. Este resultado es de contrato; los intercambios HTTP del replay legítimo se comprueban por separado. |
+| Continuación CAPTURED | El proveedor DEMO confirma el pago; Playwright pierde la respuesta después de recibir el 201. Se intenta crear otra orden con metadatos de continuación para la operación propia. | HTTP 400 con el mensaje de continuación, sin cambios en los cinco recuentos financieros. La continuación legítima conserva la orden y el pago originales. |
+| Permisos de creación | Una terminal con atención activa crea su orden. T01 vuelve a solicitar la creación con los datos de su propia atención después de cerrarla. | 201 en la atención activa; 403 con «Operación técnica no disponible» después del cierre. El segundo intento conserva los recuentos PostgreSQL. |
+| Recarga T02 | Se recarga FuelFlow después de perder la respuesta de captura. | Se conservan la operación, la orden y la identidad de pestaña. Antes y después, Redis vincula la operación a la estación y la titularidad a la pestaña, con TTL positivo. |
+| Concurrencia, pérdida y replay | Dos peticiones simultáneas de autorización en dos procesos, pérdida de la respuesta, recarga y recuperación. Después, dos peticiones simultáneas de venta. | Cada pareja recibe dos 201, el mismo ID y exactamente un `replayed=true`. La recarga recupera la misma autorización. La venta queda ligada al mismo pago, autorización y comprobante. |
+| Compra normal | T01 realiza una compra ordinaria por S/ 20 con YAPE DEMO, despacho y cierre desde la interfaz. T02 completa otra compra de S/ 20 mediante recuperación. | Dos atenciones cerradas, dos órdenes, dos pagos CAPTURED, dos autorizaciones SETTLED, dos ventas PAID, dos reservas cerradas y dos comprobantes distintos. |
+
+La suite comenzó con cero tablas públicas y cero claves Redis antes de inicializar los datos sintéticos. PostgreSQL y Redis corrieron en una red Docker interna; el navegador accedió por loopback a los gateways de T01 y T02. Las aserciones finales enlazan cada fila SQL con la operación, orden y pago observados por Chromium. También comparan la autorización y la venta de T02 con los IDs recibidos en las respuestas simultáneas.
+
+**Primera ejecución.** T01 emitió EB01-0001 y T02 emitió EB01-0002. La autorización recuperada de T02 fue `d0503a5c-ae9e-46e2-8414-f618329b968d`; la autorización ajena usada exclusivamente en el contrato fue `4b00b283-7041-4f73-9a06-f4a5a50d159a`. La venta recuperada fue `7addc3a6-eae8-417e-9f7d-07ea61b40195`. [Eventos, respuestas y filas SQL](evidence/astra-pw5-36b586c132/playwright-1795194085408.json) · [Distribución por proceso](evidence/astra-pw5-36b586c132/replicas.txt) · [Traza T01](evidence/astra-pw5-36b586c132/T01.zip) · [Traza T02](evidence/astra-pw5-36b586c132/T02.zip)
+
+**Repetición independiente.** Se ejecutó el script de preparación completo con credenciales, base, Redis y procesos nuevos. La suite volvió a pasar con las dos ventas, dos pagos y dos comprobantes esperados. En ambas ejecuciones los 404 corresponden a la consulta de operaciones aún sin crear y a placas sintéticas sin registro. Los dos fallos de transporte fueron inducidos para perder las respuestas de captura y autorización. Los rechazos HTTP 400 y 403 se comprobaron por mensaje y por ausencia de efectos financieros. No se registraron excepciones de página. [Segunda ejecución](evidence/astra-pw5-f8117dd812/playwright-1795194314715.json) · [Réplicas](evidence/astra-pw5-f8117dd812/replicas.txt) · [Traza T01](evidence/astra-pw5-f8117dd812/T01.zip) · [Traza T02](evidence/astra-pw5-f8117dd812/T02.zip)
+
+**Dictamen: cierre funcional DEMO aprobado para los seis escenarios solicitados.** Las comprobaciones previas del reembolso y la resolución manual de T02 siguen documentadas en su propia ejecución. La nueva suite verifica los tres riesgos funcionales en la versión presente; la causa de los mensajes históricos permanece indeterminada. La aceptación formal corresponde a Dezkz. Rama `feat/dezkz-identity-a4-core`, HEAD `cec1cafc56f770597e786c9182a0fb82c3bfc7d4`. Esta entrega añade herramientas, trazas, resultados y este informe. Se conservaron el código de aplicación, el índice, las políticas de seguridad y la evidencia recuperada. No hubo commit, push ni merge. [Validación previa de T02](lot5-cierre-tecnico-validacion.md)
+
+## Cómo repetir la suite
+
+Desde la raíz de Astra en Windows, con Docker Linux, Node, Python, Chromium de Playwright y la imagen de pruebas `primax-v11-tests:latest` disponibles:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/astra/lot5-playwright-lab.ps1
+```
+
+Cada ejecución crea un identificador nuevo, usa los puertos locales 29481 y 29484 y guarda los resultados en `Docs/astra/evidence/astra-pw5-<id>/`. Si Chromium o playwright-core se instalaron fuera de su ubicación habitual, definir `PW_EXE` y `PW_CORE`. El registro JSON contiene respuestas HTTP, avisos de consola, errores de red, verificaciones Redis, comprobaciones de contrato y estado financiero final. Los ZIP de entrega contienen la cronología de acciones para Trace Viewer; el exportador suprime valores devueltos y parámetros sensibles. Los originales completos permanecen en la caché privada de cada ejecución. El laboratorio detiene el gateway y ambos procesos backend al finalizar y conserva los dos almacenes sintéticos. [Preparación](../../tools/astra/lot5-playwright-lab.ps1) · [Suite Chromium](../../tools/astra/lot5-playwright-finance.cjs) · [Contrato de replay](../../tools/astra/lot5-playwright-replay-contract.cjs)

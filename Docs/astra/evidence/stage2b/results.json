@@ -1,0 +1,1914 @@
+{
+  "schemaVersion": 1,
+  "kind": "ASTRA_STAGE2B_CONTROLLED_INTEGRATION_WITH_OBSERVATIONS",
+  "head": "f05027ff86f5a03aba12ffeb528f2d001209d747",
+  "project": "primax-astra-stage2b-272b482a5f",
+  "ports": [
+    29100,
+    29181,
+    29182,
+    29183,
+    29184
+  ],
+  "date": "2026-11-18",
+  "isolation": {
+    "newPostgres": true,
+    "newRedis": true,
+    "newVolumes": true,
+    "operationalComposeUnchanged": true,
+    "operationalDataAccess": false,
+    "networks": {
+      "data": {
+        "name": "primax-astra-stage2b-272b482a5f_data",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.0/26"
+            }
+          ]
+        },
+        "internal": true
+      },
+      "web": {
+        "name": "primax-astra-stage2b-272b482a5f_web",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.64/27"
+            }
+          ]
+        },
+        "internal": true
+      },
+      "edge": {
+        "name": "primax-astra-stage2b-272b482a5f_edge",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.96/27"
+            }
+          ]
+        }
+      }
+    },
+    "credentials": "Unique synthetic credentials retained only in ignored private cache; withheld here",
+    "postgresPublished": false,
+    "redisPublished": false
+  },
+  "running": [
+    {
+      "id": "331406f0808aee64cf5376f7765d8299db0dfb38ac0d02f93411e10dc269a3e4",
+      "name": "/primax-astra-stage2b-272b482a5f-catalog-service-1",
+      "service": "catalog-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-catalog:stage2",
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "id": "5ed2ed591eedbb869f38efe3762b652ddb827356b283d4cc6cccc64523dc789d",
+      "name": "/primax-astra-stage2b-272b482a5f-identity-service-1",
+      "service": "identity-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-identity:stage2",
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "id": "fe6e7b9c10ad1e5db46ece0c1686bb94bde3e0984fa27db8c2516eceda5d3c48",
+      "name": "/primax-astra-stage2b-272b482a5f-commerce-service-1",
+      "service": "commerce-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-commerce:stage2",
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "id": "d6db373a356afa399a99beca7529433da2ab1f49b2adaeda4d07f1bf49e99dff",
+      "name": "/primax-astra-stage2b-272b482a5f-administration-service-1",
+      "service": "administration-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-administration:stage2",
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "id": "2f77db3187a7b2f761837111da4c502326bf521787a2fc7b1fb1577abe13e983",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend2-1",
+      "service": "frontend2",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend2:validation",
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "29182"
+          }
+        ]
+      }
+    },
+    {
+      "id": "7ed88e1ca2e299196083a142b139c4e8c01c7523676a748cdfc7010e90f72d69",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend3-1",
+      "service": "frontend3",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend3:validation",
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "29183"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2a0f2e9c75c1ffb7e1738b8ee3cc92e72e4eb57718c840ea028abfa9edadf052",
+      "name": "/primax-astra-stage2b-272b482a5f-backend-1",
+      "service": "backend",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "29100"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b45d3a33d1617e01d9a807c143fc4cff9066a8cc6c4db896b05fab1ea5b2074c",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend1-1",
+      "service": "frontend1",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend1:validation",
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "29181"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3ec5b8fbcaa1b1aeb862531c6b83e718214ac729970ab525c5793d5506062fb2",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-t02-1",
+      "service": "fuelflow-t02",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-t02:validation",
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "29184"
+          }
+        ]
+      }
+    },
+    {
+      "id": "154e07bd3da1f2b928898b2d58de65f821ec37c0eb58deec7a1ee54033e61d2a",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-1",
+      "service": "fuelflow-gateway",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway:validation",
+      "mounts": [],
+      "ports": {
+        "3001/tcp": null
+      }
+    },
+    {
+      "id": "8a6fa6b7c94612817e800d07fe34e7ca9cc17aca8629d064e9e103357af46c48",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02-1",
+      "service": "fuelflow-gateway-t02",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02:validation",
+      "mounts": [],
+      "ports": {
+        "3001/tcp": null
+      }
+    },
+    {
+      "id": "3b8789091232dddc54b0a390c76efbd2e9cb982989143e052c4302fc724e4e30",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-operations-1",
+      "service": "seed-operations",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "f70dab139a6ed58f6a64bfaceb001d6f56b87d8e7f2b27eeb21d55f223fcc7a7",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-control-admin-1",
+      "service": "seed-control-admin",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "2e377c3e1f22fa8680110ee236cef20170ed420630913e9d262849f04b0153bb",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-1",
+      "service": "seed",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "e19855c13e91fdd34e9152e5741d0f526ede3264ff2eebc2d8a8c388ede0c126",
+      "name": "/primax-astra-stage2b-272b482a5f-migrate-1",
+      "service": "migrate",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "598bd571f3a67ba2163cc693bc867a536206dbcd67912e68679d7d1ce356c951",
+      "name": "/primax-astra-stage2b-272b482a5f-postgres-1",
+      "service": "postgres",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "postgres:17.6-bookworm",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+          "destination": "/var/lib/postgresql/data"
+        }
+      ],
+      "ports": {
+        "5432/tcp": null
+      }
+    },
+    {
+      "id": "22f52433cf221dbf94a34ea4b23224718541fd1c587ce3bdefcf74b5353f1d09",
+      "name": "/primax-astra-stage2b-272b482a5f-redis-1",
+      "service": "redis",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "redis:7.4-alpine",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_redis_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {
+        "6379/tcp": null
+      }
+    },
+    {
+      "id": "73742a55e1835951c254ae56e90961d408bbe3938778285ffba47d9a58cef38f",
+      "name": "/primax-astra-stage2b-272b482a5f-plate-recognition-1",
+      "service": "plate-recognition",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-plate-recognition:validation",
+      "mounts": [],
+      "ports": {
+        "8000/tcp": null
+      }
+    },
+    {
+      "id": "c69c88d9a75a3a17a9e06118deac9cdddc76a68f34e7e1efc67b371c2db8e0c4",
+      "name": "/primax-astra-stage2b-272b482a5f-print-service-1",
+      "service": "print-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-print-service:validation",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_print_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {
+        "3000/tcp": null
+      }
+    }
+  ],
+  "stopped": [
+    {
+      "id": "331406f0808aee64cf5376f7765d8299db0dfb38ac0d02f93411e10dc269a3e4",
+      "name": "/primax-astra-stage2b-272b482a5f-catalog-service-1",
+      "service": "catalog-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-catalog:stage2",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "5ed2ed591eedbb869f38efe3762b652ddb827356b283d4cc6cccc64523dc789d",
+      "name": "/primax-astra-stage2b-272b482a5f-identity-service-1",
+      "service": "identity-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-identity:stage2",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "fe6e7b9c10ad1e5db46ece0c1686bb94bde3e0984fa27db8c2516eceda5d3c48",
+      "name": "/primax-astra-stage2b-272b482a5f-commerce-service-1",
+      "service": "commerce-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-commerce:stage2",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "d6db373a356afa399a99beca7529433da2ab1f49b2adaeda4d07f1bf49e99dff",
+      "name": "/primax-astra-stage2b-272b482a5f-administration-service-1",
+      "service": "administration-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-administration:stage2",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "2f77db3187a7b2f761837111da4c502326bf521787a2fc7b1fb1577abe13e983",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend2-1",
+      "service": "frontend2",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend2:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "7ed88e1ca2e299196083a142b139c4e8c01c7523676a748cdfc7010e90f72d69",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend3-1",
+      "service": "frontend3",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend3:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "2a0f2e9c75c1ffb7e1738b8ee3cc92e72e4eb57718c840ea028abfa9edadf052",
+      "name": "/primax-astra-stage2b-272b482a5f-backend-1",
+      "service": "backend",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "b45d3a33d1617e01d9a807c143fc4cff9066a8cc6c4db896b05fab1ea5b2074c",
+      "name": "/primax-astra-stage2b-272b482a5f-frontend1-1",
+      "service": "frontend1",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-frontend1:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "3ec5b8fbcaa1b1aeb862531c6b83e718214ac729970ab525c5793d5506062fb2",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-t02-1",
+      "service": "fuelflow-t02",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-t02:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "154e07bd3da1f2b928898b2d58de65f821ec37c0eb58deec7a1ee54033e61d2a",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-1",
+      "service": "fuelflow-gateway",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 137,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "8a6fa6b7c94612817e800d07fe34e7ca9cc17aca8629d064e9e103357af46c48",
+      "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02-1",
+      "service": "fuelflow-gateway-t02",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 137,
+      "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "3b8789091232dddc54b0a390c76efbd2e9cb982989143e052c4302fc724e4e30",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-operations-1",
+      "service": "seed-operations",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "f70dab139a6ed58f6a64bfaceb001d6f56b87d8e7f2b27eeb21d55f223fcc7a7",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-control-admin-1",
+      "service": "seed-control-admin",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "2e377c3e1f22fa8680110ee236cef20170ed420630913e9d262849f04b0153bb",
+      "name": "/primax-astra-stage2b-272b482a5f-seed-1",
+      "service": "seed",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "e19855c13e91fdd34e9152e5741d0f526ede3264ff2eebc2d8a8c388ede0c126",
+      "name": "/primax-astra-stage2b-272b482a5f-migrate-1",
+      "service": "migrate",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "exitCode": 0,
+      "image": "primax-astra-stage2-baseline:test",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "598bd571f3a67ba2163cc693bc867a536206dbcd67912e68679d7d1ce356c951",
+      "name": "/primax-astra-stage2b-272b482a5f-postgres-1",
+      "service": "postgres",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "postgres:17.6-bookworm",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+          "destination": "/var/lib/postgresql/data"
+        }
+      ],
+      "ports": {}
+    },
+    {
+      "id": "22f52433cf221dbf94a34ea4b23224718541fd1c587ce3bdefcf74b5353f1d09",
+      "name": "/primax-astra-stage2b-272b482a5f-redis-1",
+      "service": "redis",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "redis:7.4-alpine",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_redis_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {}
+    },
+    {
+      "id": "73742a55e1835951c254ae56e90961d408bbe3938778285ffba47d9a58cef38f",
+      "name": "/primax-astra-stage2b-272b482a5f-plate-recognition-1",
+      "service": "plate-recognition",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "image": "primax-astra-stage2b-272b482a5f-plate-recognition:validation",
+      "mounts": [],
+      "ports": {}
+    },
+    {
+      "id": "c69c88d9a75a3a17a9e06118deac9cdddc76a68f34e7e1efc67b371c2db8e0c4",
+      "name": "/primax-astra-stage2b-272b482a5f-print-service-1",
+      "service": "print-service",
+      "project": "primax-astra-stage2b-272b482a5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 137,
+      "image": "primax-astra-stage2b-272b482a5f-print-service:validation",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-stage2b-272b482a5f_print_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {}
+    }
+  ],
+  "shutdown": [
+    {
+      "service": "catalog-service",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.276904972Z"
+    },
+    {
+      "service": "identity-service",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.292798482Z"
+    },
+    {
+      "service": "commerce-service",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.29300637Z"
+    },
+    {
+      "service": "administration-service",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.274759973Z"
+    },
+    {
+      "service": "frontend2",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:12.489687073Z"
+    },
+    {
+      "service": "frontend3",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:12.481277423Z"
+    },
+    {
+      "service": "backend",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:43.816749018Z"
+    },
+    {
+      "service": "frontend1",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:12.453119285Z"
+    },
+    {
+      "service": "fuelflow-t02",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:12.473279181Z"
+    },
+    {
+      "service": "fuelflow-gateway",
+      "state": "exited",
+      "exitCode": 137,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:43.327997819Z"
+    },
+    {
+      "service": "fuelflow-gateway-t02",
+      "state": "exited",
+      "exitCode": 137,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:43.656896007Z"
+    },
+    {
+      "service": "seed-operations",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:35:57.313729573Z"
+    },
+    {
+      "service": "seed-control-admin",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:35:57.418093608Z"
+    },
+    {
+      "service": "seed",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:35:56.610401772Z"
+    },
+    {
+      "service": "migrate",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:35:55.911802378Z"
+    },
+    {
+      "service": "postgres",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.741935388Z"
+    },
+    {
+      "service": "redis",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:44.714539023Z"
+    },
+    {
+      "service": "plate-recognition",
+      "state": "exited",
+      "exitCode": 0,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:47:12.494812018Z"
+    },
+    {
+      "service": "print-service",
+      "state": "exited",
+      "exitCode": 137,
+      "oomKilled": false,
+      "error": "",
+      "finishedAt": "2026-11-18T23:48:14.27245087Z"
+    }
+  ],
+  "initialSyntheticSnapshot": {
+    "migrations": 36,
+    "transactions": 0,
+    "payments": 0,
+    "receipts": 0,
+    "duplicateTransactions": 0,
+    "pendingReservations": 0,
+    "openOperations": 0,
+    "orphanReceipts": 0,
+    "inventory": [
+      {
+        "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+        "fuelId": "26800ac8-0230-4806-95de-590e14623f76",
+        "liters": "5000.000000",
+        "reservedLiters": "0.000000"
+      },
+      {
+        "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+        "fuelId": "4f0ad16e-608c-41c6-88c1-132e970197fa",
+        "liters": "5000.000000",
+        "reservedLiters": "0.000000"
+      },
+      {
+        "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+        "fuelId": "d8cfc9d0-7a8c-477d-917f-c63798f1e937",
+        "liters": "5000.000000",
+        "reservedLiters": "0.000000"
+      }
+    ],
+    "financialDigest": "f3a979d9aedd47582b930eec016e9ec9",
+    "memberships": [
+      {
+        "id": "fcb847ad-46d2-4e6f-80e2-bab0acbee599",
+        "number": "PRIME-001",
+        "userId": "39e15e98-bd7f-43a3-af21-a1ad07f311bf",
+        "status": "ACTIVE",
+        "balance": "0.00"
+      }
+    ]
+  },
+  "candidateExtra": {
+    "mode": "candidate",
+    "passed": true,
+    "checks": [
+      {
+        "route": "/auth/register",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/auth/register",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/auth/login",
+        "method": "POST",
+        "status": 401
+      },
+      {
+        "route": "/auth/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "route": "/memberships/me",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/dashboard",
+        "method": "GET",
+        "status": 403
+      },
+      {
+        "route": "/vehicles",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/payments/webhook",
+        "method": "POST",
+        "status": 401
+      },
+      {
+        "route": "/control/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "route": "/stations",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/fuels",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/control/catalog/inventory",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/audit",
+        "method": "GET",
+        "status": 200
+      }
+    ],
+    "syntheticRegisteredUserId": "ab433f62-62b5-453d-b2d8-3c2a1a448015",
+    "inventoryMovementId": "6dc30612-4286-4d08-86cc-9e954565e4eb"
+  },
+  "referenceExtra": {
+    "mode": "reference",
+    "passed": true,
+    "checks": [
+      {
+        "route": "/auth/register",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/auth/register",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/auth/login",
+        "method": "POST",
+        "status": 401
+      },
+      {
+        "route": "/auth/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "route": "/memberships/me",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/dashboard",
+        "method": "GET",
+        "status": 403
+      },
+      {
+        "route": "/vehicles",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/payments/webhook",
+        "method": "POST",
+        "status": 401
+      },
+      {
+        "route": "/control/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "route": "/stations",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/fuels",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "route": "/control/inventory/receipts",
+        "method": "POST",
+        "status": 409
+      },
+      {
+        "route": "/control/catalog/inventory",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "route": "/control/audit",
+        "method": "GET",
+        "status": 200
+      }
+    ],
+    "syntheticRegisteredUserId": "a4a92875-d439-449a-ae90-1a660c0049f3",
+    "inventoryMovementId": "ae3763c3-7f24-43d5-b7f9-1456b4526538"
+  },
+  "parity": {
+    "passed": true,
+    "exactReadResponses": 14,
+    "identicalExtraRequestStatuses": 16,
+    "candidateSmoke": {
+      "result": "PASS",
+      "transactionId": "eeb2bbae-352f-4016-b295-7e63cef2a362",
+      "operationId": "fb11c632-949e-4561-bdd1-f14ea33c71cb",
+      "receiptNumber": "EB01-0002",
+      "verified": [
+        "automatic kiosk availability before Control login",
+        "3 web frontends",
+        "JWT/401",
+        "Control cookie/grants",
+        "catalog",
+        "OCR + vehicle",
+        "prepaid card simulation",
+        "amount ceiling",
+        "idempotent close/receipt",
+        "Prime history",
+        "simulated printing",
+        "4 distinct Swagger contracts"
+      ]
+    },
+    "referenceSmoke": {
+      "result": "PASS",
+      "transactionId": "92f3f2fb-bba2-41e6-a201-cef561432afa",
+      "operationId": "6125b2a4-8b1f-4379-a75b-0db3c8086b03",
+      "receiptNumber": "EB01-0005",
+      "verified": [
+        "automatic kiosk availability before Control login",
+        "3 web frontends",
+        "JWT/401",
+        "Control cookie/grants",
+        "catalog",
+        "OCR + vehicle",
+        "prepaid card simulation",
+        "amount ceiling",
+        "idempotent close/receipt",
+        "Prime history",
+        "simulated printing",
+        "4 distinct Swagger contracts"
+      ]
+    },
+    "readResponses": [
+      {
+        "route": "/api/v1/health",
+        "status": 200,
+        "bodySha256": "50684bf8326a290c044c2a31ef3f3b7abfbf049bae4b9467411ea939ff1a8f25"
+      },
+      {
+        "route": "/api/v1/fuels",
+        "status": 200,
+        "bodySha256": "b5778a36ae7e666a2f808720138cfad09f17b22f63febee807857c8ca731ef5f"
+      },
+      {
+        "route": "/api/v1/stations",
+        "status": 200,
+        "bodySha256": "19af4c40091d4fcbb007fe04c43875b0a2c1463613e37b2f919d1334b7313f4d"
+      },
+      {
+        "route": "/api/v1/benefits",
+        "status": 200,
+        "bodySha256": "61d5a47cac47224b2e335a2b15cd6684241bfc052e34a5af36183f9e505fa918"
+      },
+      {
+        "route": "/api/v1/memberships/me",
+        "actor": "member",
+        "status": 200,
+        "bodySha256": "a5fed7246470e682967f1d35e3683e7f71b74e369479d271f3daa24531554cb8"
+      },
+      {
+        "route": "/api/v1/memberships/me/transactions",
+        "actor": "member",
+        "status": 200,
+        "bodySha256": "6fe546fc38708695dfb5ac95700205f930b9a811c4c7354c583b8f2341ca33a1"
+      },
+      {
+        "route": "/api/v1/transactions/eeb2bbae-352f-4016-b295-7e63cef2a362",
+        "actor": "member",
+        "status": 200,
+        "bodySha256": "5f416af78c82edfef9dde1d70559771c2d7320074477ad07506d176e2242dcf8"
+      },
+      {
+        "route": "/api/v1/control/catalog/inventory",
+        "actor": "control",
+        "status": 200,
+        "bodySha256": "d7db520cbfca7904148faab2fb498b0afb489c7dc3ab78609409800b37c33ac9"
+      },
+      {
+        "route": "/api/v1/control/transactions",
+        "actor": "control",
+        "status": 200,
+        "bodySha256": "62cdee854641beeae581371654510c83ffee2bab8c06651c85ffa7bbdc502c55"
+      },
+      {
+        "route": "/api/v1/control/receipts/eeb2bbae-352f-4016-b295-7e63cef2a362",
+        "actor": "control",
+        "status": 200,
+        "bodySha256": "a7a53928954ac4dfdedd7dcc874b4b9e0f805f58f01467902d56380687045ec8"
+      },
+      {
+        "route": "/docs/identity/api/docs-json",
+        "status": 200,
+        "bodySha256": "a0a52d20f3e0e4e51db7e72cf5b4288187326aa396ed2d2b48b52b10415cfd8e"
+      },
+      {
+        "route": "/docs/catalog/api/docs-json",
+        "status": 200,
+        "bodySha256": "4f7a6214b186eb3f9ad41ea6ae88bb62ca559c1902cebea87a63e3c288d2f675"
+      },
+      {
+        "route": "/docs/administration/api/docs-json",
+        "status": 200,
+        "bodySha256": "c42a60f9c78eecea9cdf930633f8ac851e953c74afcf3676f670dbef9f4b6958"
+      },
+      {
+        "route": "/docs/commerce/api/docs-json",
+        "status": 200,
+        "bodySha256": "acb95dfbec13218af410ddddee045b72356f8414c99533ee6f4a7bcf1f16419f"
+      }
+    ]
+  },
+  "browser": {
+    "passed": true,
+    "browser": "156.0.8078.4",
+    "primeLoginReload": true,
+    "controlLoginReload": true,
+    "fuelFlowPurchaseAndDemoPrint": true,
+    "transactionId": "2d8cf75e-3fc1-4bf1-816f-fed60b5bfdc1",
+    "receipt": "EB01-0004",
+    "operationId": "d3ee98c9-5154-4c58-b6d4-c6da420868d8",
+    "errors": [],
+    "requests": [
+      {
+        "path": "/api/v1/auth/login",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/benefits",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/redemptions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/rewards",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/wallet",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/transactions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/benefits",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/rewards",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/redemptions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/wallet",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/transactions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/session",
+        "status": 401,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/login",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/control/assistance",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/dashboard",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/session",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/assistance",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/control/dashboard",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/kiosk/session",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/kiosk/terminal-bootstrap",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/claim",
+        "status": 201,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/operations/d3ee98c9-5154-4c58-b6d4-c6da420868d8",
+        "status": 404,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/operations",
+        "status": 201,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/fuels",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/stations",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/fuels/inventory",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/vehicles/ABC-123",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/vehicles/ABC-123",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/operations/d3ee98c9-5154-4c58-b6d4-c6da420868d8",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/authorizations",
+        "status": 201,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/authorizations/4cfd51e3-e6d6-4d14-a402-8cc9bf0a7fae/progress",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/operations/d3ee98c9-5154-4c58-b6d4-c6da420868d8",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/transactions",
+        "status": 201,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/benefits",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/rewards",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/redemptions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/wallet",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/memberships/me/transactions",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/transactions/2d8cf75e-3fc1-4bf1-816f-fed60b5bfdc1",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/terminal/me",
+        "status": 200,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/demo-print/jobs/receipt-23620f2e-8e3e-49dd-982d-78439178fed1",
+        "status": 404,
+        "method": "GET"
+      },
+      {
+        "path": "/api/v1/demo-print/jobs/receipt-23620f2e-8e3e-49dd-982d-78439178fed1",
+        "status": 200,
+        "method": "POST"
+      },
+      {
+        "path": "/api/v1/terminal/operations/d3ee98c9-5154-4c58-b6d4-c6da420868d8/close",
+        "status": 201,
+        "method": "POST"
+      }
+    ]
+  },
+  "restart": {
+    "passed": true,
+    "postgresSnapshotUnchanged": true,
+    "redisAofValuePreserved": true,
+    "before": {
+      "migrations": 36,
+      "transactions": 5,
+      "payments": 5,
+      "receipts": 5,
+      "duplicateTransactions": 0,
+      "pendingReservations": 0,
+      "openOperations": 1,
+      "orphanReceipts": 0,
+      "inventory": [
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "26800ac8-0230-4806-95de-590e14623f76",
+          "liters": "5000.000000",
+          "reservedLiters": "0.000000"
+        },
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "4f0ad16e-608c-41c6-88c1-132e970197fa",
+          "liters": "5001.534754",
+          "reservedLiters": "0.000000"
+        },
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "d8cfc9d0-7a8c-477d-917f-c63798f1e937",
+          "liters": "5000.000000",
+          "reservedLiters": "0.000000"
+        }
+      ],
+      "financialDigest": "6c9ae36c8f183a7e1cbb38c4f0b33ecb",
+      "memberships": [
+        {
+          "id": "3fbc0e63-1fc3-4af1-8833-91d0a3ca1a43",
+          "number": "PRIME-004",
+          "userId": "ab433f62-62b5-453d-b2d8-3c2a1a448015",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "43fbe3ca-e887-40d8-8a50-b234ba88aeb3",
+          "number": "PRIME-003",
+          "userId": "d9c11df3-e799-480f-8a32-cc51d340c704",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "591382cf-db12-4c52-bc28-c9a36e5a1178",
+          "number": "PRIME-005",
+          "userId": "a4a92875-d439-449a-ae90-1a660c0049f3",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "d68dfdf3-34e2-44e6-b874-a2a0ea53f5ae",
+          "number": "PRIME-002",
+          "userId": "b5659f8a-ec46-4198-ae06-84737f4083d8",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "fcb847ad-46d2-4e6f-80e2-bab0acbee599",
+          "number": "PRIME-001",
+          "userId": "39e15e98-bd7f-43a3-af21-a1ad07f311bf",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        }
+      ]
+    },
+    "after": {
+      "migrations": 36,
+      "transactions": 5,
+      "payments": 5,
+      "receipts": 5,
+      "duplicateTransactions": 0,
+      "pendingReservations": 0,
+      "openOperations": 1,
+      "orphanReceipts": 0,
+      "inventory": [
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "26800ac8-0230-4806-95de-590e14623f76",
+          "liters": "5000.000000",
+          "reservedLiters": "0.000000"
+        },
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "4f0ad16e-608c-41c6-88c1-132e970197fa",
+          "liters": "5001.534754",
+          "reservedLiters": "0.000000"
+        },
+        {
+          "stationId": "5c3c7c0a-af36-4686-8b42-a48cc51d82f0",
+          "fuelId": "d8cfc9d0-7a8c-477d-917f-c63798f1e937",
+          "liters": "5000.000000",
+          "reservedLiters": "0.000000"
+        }
+      ],
+      "financialDigest": "6c9ae36c8f183a7e1cbb38c4f0b33ecb",
+      "memberships": [
+        {
+          "id": "3fbc0e63-1fc3-4af1-8833-91d0a3ca1a43",
+          "number": "PRIME-004",
+          "userId": "ab433f62-62b5-453d-b2d8-3c2a1a448015",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "43fbe3ca-e887-40d8-8a50-b234ba88aeb3",
+          "number": "PRIME-003",
+          "userId": "d9c11df3-e799-480f-8a32-cc51d340c704",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "591382cf-db12-4c52-bc28-c9a36e5a1178",
+          "number": "PRIME-005",
+          "userId": "a4a92875-d439-449a-ae90-1a660c0049f3",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "d68dfdf3-34e2-44e6-b874-a2a0ea53f5ae",
+          "number": "PRIME-002",
+          "userId": "b5659f8a-ec46-4198-ae06-84737f4083d8",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        },
+        {
+          "id": "fcb847ad-46d2-4e6f-80e2-bab0acbee599",
+          "number": "PRIME-001",
+          "userId": "39e15e98-bd7f-43a3-af21-a1ad07f311bf",
+          "status": "ACTIVE",
+          "balance": "0.00"
+        }
+      ]
+    },
+    "containers": [
+      {
+        "id": "331406f0808aee64cf5376f7765d8299db0dfb38ac0d02f93411e10dc269a3e4",
+        "name": "/primax-astra-stage2b-272b482a5f-catalog-service-1",
+        "service": "catalog-service",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-catalog:stage2",
+        "mounts": [],
+        "ports": {
+          "3000/tcp": null
+        }
+      },
+      {
+        "id": "5ed2ed591eedbb869f38efe3762b652ddb827356b283d4cc6cccc64523dc789d",
+        "name": "/primax-astra-stage2b-272b482a5f-identity-service-1",
+        "service": "identity-service",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-identity:stage2",
+        "mounts": [],
+        "ports": {
+          "3000/tcp": null
+        }
+      },
+      {
+        "id": "fe6e7b9c10ad1e5db46ece0c1686bb94bde3e0984fa27db8c2516eceda5d3c48",
+        "name": "/primax-astra-stage2b-272b482a5f-commerce-service-1",
+        "service": "commerce-service",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-commerce:stage2",
+        "mounts": [],
+        "ports": {
+          "3000/tcp": null
+        }
+      },
+      {
+        "id": "d6db373a356afa399a99beca7529433da2ab1f49b2adaeda4d07f1bf49e99dff",
+        "name": "/primax-astra-stage2b-272b482a5f-administration-service-1",
+        "service": "administration-service",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-administration:stage2",
+        "mounts": [],
+        "ports": {
+          "3000/tcp": null
+        }
+      },
+      {
+        "id": "2f77db3187a7b2f761837111da4c502326bf521787a2fc7b1fb1577abe13e983",
+        "name": "/primax-astra-stage2b-272b482a5f-frontend2-1",
+        "service": "frontend2",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-frontend2:validation",
+        "mounts": [],
+        "ports": {
+          "80/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "29182"
+            }
+          ]
+        }
+      },
+      {
+        "id": "7ed88e1ca2e299196083a142b139c4e8c01c7523676a748cdfc7010e90f72d69",
+        "name": "/primax-astra-stage2b-272b482a5f-frontend3-1",
+        "service": "frontend3",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-frontend3:validation",
+        "mounts": [],
+        "ports": {
+          "80/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "29183"
+            }
+          ]
+        }
+      },
+      {
+        "id": "2a0f2e9c75c1ffb7e1738b8ee3cc92e72e4eb57718c840ea028abfa9edadf052",
+        "name": "/primax-astra-stage2b-272b482a5f-backend-1",
+        "service": "backend",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2-baseline:test",
+        "mounts": [],
+        "ports": {
+          "3000/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "29100"
+            }
+          ]
+        }
+      },
+      {
+        "id": "b45d3a33d1617e01d9a807c143fc4cff9066a8cc6c4db896b05fab1ea5b2074c",
+        "name": "/primax-astra-stage2b-272b482a5f-frontend1-1",
+        "service": "frontend1",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-frontend1:validation",
+        "mounts": [],
+        "ports": {
+          "80/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "29181"
+            }
+          ]
+        }
+      },
+      {
+        "id": "3ec5b8fbcaa1b1aeb862531c6b83e718214ac729970ab525c5793d5506062fb2",
+        "name": "/primax-astra-stage2b-272b482a5f-fuelflow-t02-1",
+        "service": "fuelflow-t02",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-t02:validation",
+        "mounts": [],
+        "ports": {
+          "80/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "29184"
+            }
+          ]
+        }
+      },
+      {
+        "id": "154e07bd3da1f2b928898b2d58de65f821ec37c0eb58deec7a1ee54033e61d2a",
+        "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-1",
+        "service": "fuelflow-gateway",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway:validation",
+        "mounts": [],
+        "ports": {
+          "3001/tcp": null
+        }
+      },
+      {
+        "id": "8a6fa6b7c94612817e800d07fe34e7ca9cc17aca8629d064e9e103357af46c48",
+        "name": "/primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02-1",
+        "service": "fuelflow-gateway-t02",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02:validation",
+        "mounts": [],
+        "ports": {
+          "3001/tcp": null
+        }
+      },
+      {
+        "id": "3b8789091232dddc54b0a390c76efbd2e9cb982989143e052c4302fc724e4e30",
+        "name": "/primax-astra-stage2b-272b482a5f-seed-operations-1",
+        "service": "seed-operations",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "exited",
+        "exitCode": 0,
+        "image": "primax-astra-stage2-baseline:test",
+        "mounts": [],
+        "ports": {}
+      },
+      {
+        "id": "f70dab139a6ed58f6a64bfaceb001d6f56b87d8e7f2b27eeb21d55f223fcc7a7",
+        "name": "/primax-astra-stage2b-272b482a5f-seed-control-admin-1",
+        "service": "seed-control-admin",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "exited",
+        "exitCode": 0,
+        "image": "primax-astra-stage2-baseline:test",
+        "mounts": [],
+        "ports": {}
+      },
+      {
+        "id": "2e377c3e1f22fa8680110ee236cef20170ed420630913e9d262849f04b0153bb",
+        "name": "/primax-astra-stage2b-272b482a5f-seed-1",
+        "service": "seed",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "exited",
+        "exitCode": 0,
+        "image": "primax-astra-stage2-baseline:test",
+        "mounts": [],
+        "ports": {}
+      },
+      {
+        "id": "e19855c13e91fdd34e9152e5741d0f526ede3264ff2eebc2d8a8c388ede0c126",
+        "name": "/primax-astra-stage2b-272b482a5f-migrate-1",
+        "service": "migrate",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "exited",
+        "exitCode": 0,
+        "image": "primax-astra-stage2-baseline:test",
+        "mounts": [],
+        "ports": {}
+      },
+      {
+        "id": "598bd571f3a67ba2163cc693bc867a536206dbcd67912e68679d7d1ce356c951",
+        "name": "/primax-astra-stage2b-272b482a5f-postgres-1",
+        "service": "postgres",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "postgres:17.6-bookworm",
+        "mounts": [
+          {
+            "type": "volume",
+            "name": "primax-astra-stage2b-272b482a5f_postgres_data",
+            "destination": "/var/lib/postgresql/data"
+          }
+        ],
+        "ports": {
+          "5432/tcp": null
+        }
+      },
+      {
+        "id": "22f52433cf221dbf94a34ea4b23224718541fd1c587ce3bdefcf74b5353f1d09",
+        "name": "/primax-astra-stage2b-272b482a5f-redis-1",
+        "service": "redis",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "redis:7.4-alpine",
+        "mounts": [
+          {
+            "type": "volume",
+            "name": "primax-astra-stage2b-272b482a5f_redis_data",
+            "destination": "/data"
+          }
+        ],
+        "ports": {
+          "6379/tcp": null
+        }
+      },
+      {
+        "id": "73742a55e1835951c254ae56e90961d408bbe3938778285ffba47d9a58cef38f",
+        "name": "/primax-astra-stage2b-272b482a5f-plate-recognition-1",
+        "service": "plate-recognition",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-plate-recognition:validation",
+        "mounts": [],
+        "ports": {
+          "8000/tcp": null
+        }
+      },
+      {
+        "id": "c69c88d9a75a3a17a9e06118deac9cdddc76a68f34e7e1efc67b371c2db8e0c4",
+        "name": "/primax-astra-stage2b-272b482a5f-print-service-1",
+        "service": "print-service",
+        "project": "primax-astra-stage2b-272b482a5f",
+        "state": "running",
+        "health": "healthy",
+        "exitCode": 0,
+        "image": "primax-astra-stage2b-272b482a5f-print-service:validation",
+        "mounts": [
+          {
+            "type": "volume",
+            "name": "primax-astra-stage2b-272b482a5f_print_data",
+            "destination": "/data"
+          }
+        ],
+        "ports": {
+          "3000/tcp": null
+        }
+      }
+    ]
+  },
+  "sessionsAfterRestart": {
+    "passed": true,
+    "memberJwtPreserved": true,
+    "controlCookiePreserved": true
+  },
+  "printPersistence": {
+    "passed": true,
+    "persistedDemoJobs": 4,
+    "files": [
+      "receipt-1c9e7afd-80a5-4526-b37f-512c49ae0c68.json",
+      "receipt-23620f2e-8e3e-49dd-982d-78439178fed1.json",
+      "receipt-77ff2fb2-dffc-4c0a-b629-6078ab82d9cc.json",
+      "receipt-c851e12f-8c08-4498-a8f2-a63a59805a8a.json"
+    ]
+  },
+  "observations": [
+    {
+      "id": "ENV-01",
+      "detail": "Automatic Docker address pools exhausted; no existing network removed. New internal subnets checked against Docker and host routes."
+    },
+    {
+      "id": "ENV-02",
+      "detail": "Internal-only networks did not publish ports. A project-exclusive edge network was added only for Gateway and static frontend containers."
+    },
+    {
+      "id": "TEST-01",
+      "detail": "Existing smoke-microservices calls thermalReceipt without its required confirmedPumpCode. Original failed after a committed demo sale. Private adapted harness passed for both packaging variants."
+    },
+    {
+      "id": "TEST-02",
+      "detail": "Extra-test fixture initially omitted required Vehicle label and expected formatted fuel prices instead of raw API decimal strings. Test fixture corrected; product unchanged."
+    },
+    {
+      "id": "TEST-03",
+      "detail": "Browser init script initially touched storage in opaque-origin documents. Guarded the test initializer; final browser run passed with zero page errors."
+    },
+    {
+      "id": "DIAG-01",
+      "detail": "First T01 operation remains ACTIVE with settled sale, captured payment and valid receipt; no forced close or credential reconstruction. T02 tests completed and closed."
+    },
+    {
+      "id": "STOP-01",
+      "detail": "Two FuelFlow BFF containers and PrintAgent exited 137 after Compose stop timeout, OOMKilled=false. Others exited 0. All resources are stopped; volumes retained."
+    }
+  ],
+  "limitations": [
+    "Selected flows only: not full financial/regression/security certification.",
+    "Legacy-reference image is the Stage2 baseline test/build image running its original compiled domain mains as node, with same data and synthetic configuration.",
+    "Not a restore-from-backup or physical storage loss test.",
+    "LEGACY inventory pairs tested; advanced managed-reservation concurrency, refunds/postpaid/debt and all responsive/accessibility scenarios not exercised.",
+    "No Stage3 changes or commits/push/merge."
+  ],
+  "sourceHashes": {
+    "compose.yaml": "37b7021f7de770b94737dd448a91e9aef210325a8c8ed3f9585957f81a097d17",
+    "Backend/prisma/schema.prisma": "d3529db35e26554c5216c966a55349a870ce62989c01e9b3482d148e5f05648a",
+    "tools/astra/stage2b-lab.cjs": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6",
+    "tools/astra/stage2b-checks.cjs": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f",
+    "tools/astra/stage2b-browser.cjs": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269",
+    "tools/stage2b-smoke.cjs": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7"
+  },
+  "diagnosticSale": {
+    "transactionId": "30e38551-25b8-47f8-ace7-4992e55b8fcb",
+    "operationId": "974e2a7d-b75c-4e59-91fb-b45097c10903",
+    "receipt": {
+      "id": "3f2bdced-f8c4-41d3-8f23-d11e05a3354b",
+      "transactionId": "30e38551-25b8-47f8-ace7-4992e55b8fcb",
+      "documentType": "BOLETA",
+      "series": "EB01",
+      "correlative": "1",
+      "number": "EB01-0001",
+      "issuedAt": "2026-11-18T23:39:16.192Z",
+      "legacy": false,
+      "demo": true
+    },
+    "paymentStatus": "CAPTURED",
+    "amount": "21.30"
+  }
+}

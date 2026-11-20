@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { Request } from 'express';
 import { demoAdminEnabled } from './demo-admin-enabled';
-import { KioskService } from '../kiosk/kiosk.service';
+import { KioskService, requiresTerminalOwnership } from '../kiosk/kiosk.service';
 import { Actor } from './access';
 import { UsersService } from '../users/users.service';
 import { PrismaService } from '../prisma/prisma.service';
@@ -91,7 +91,7 @@ export class AccessGuard implements CanActivate {
       throw new ForbiddenException('Ruta firmada no permitida');
     const key = req.header('x-kiosk-key');
     if (key && (access === 'kiosk' || access === 'either')) {
-      if (this.newKioskSale(req))
+      if (this.newKioskSale(req) || requiresTerminalOwnership(req.method, req.path))
         throw new ForbiddenException('La venta requiere operación técnica de terminal');
       if (this.config.get('APP_MODE') === 'academic')
         throw new UnauthorizedException('Se requiere una sesión de operador');

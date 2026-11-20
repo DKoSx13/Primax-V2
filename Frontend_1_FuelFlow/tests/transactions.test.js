@@ -3,6 +3,18 @@ import {createTransactionsService,OPERATION_KEY} from '../src/js/transactionsSer
 import {apiClient} from '../src/js/apiClient.js';
 const storage=()=>{const map=new Map();return{getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k)}};
 const payload={plate:'ABC-123',amount:'100.00',mode:'PREPAGO',paymentMethod:'TARJETA',receiptType:'BOLETA',gallons:'4.255',stationId:'station',fuelId:'fuel'};
+test('a captured continuation cannot adopt another saved request or payment',async()=>{
+  const disk=storage(), capturedContinuation={orderId:'order',paymentId:'payment',amount:'20.00',currency:'PEN'};
+  const body={mode:'PREPAGO',capturedContinuation};
+  let calls=0;
+  const svc=createTransactionsService({storage:disk,authorizations:{reserve:async()=>{calls++;}}});
+  for(const saved of [{...body,operationId:'other'}, {operationId:'op',mode:'PREPAGO'},
+    {...body,operationId:'op',capturedContinuation:{...capturedContinuation,paymentId:'other'}}]){
+    disk.setItem(OPERATION_KEY,JSON.stringify({operationId:'op',authorizationRequest:saved}));
+    await assert.rejects(svc.authorize(body,{}),/continuación/i);
+    assert.equal(calls,0);
+  }
+});
 test('compra usa el payload final y bloquea envíos simultáneos',async()=>{let calls=0,resolve;const disk=storage();const svc=createTransactionsService({storage:disk,uuid:()=> 'uuid',request:async(path,options)=>{calls++;assert.equal(path,'/transactions');assert.deepEqual(options.body,{...payload,operationId:'uuid'});return new Promise(r=>resolve=r);}});svc.prepare(payload,{});const a=svc.submit(),b=svc.submit();assert.equal(a,b);resolve({transaction:{id:'tx'},pointsEarned:11});await a;assert.equal(calls,1);await svc.submit();assert.equal(calls,1);assert.ok(JSON.parse(disk.getItem(OPERATION_KEY)).result);});
 test('respuesta perdida y recarga reutilizan UUID y cuerpo exactos',async()=>{const disk=storage();let captured;const first=createTransactionsService({storage:disk,uuid:()=> 'stable',request:async(_,{body})=>{captured=body;throw Error('timeout')}});first.prepare(payload,{placa:'ABC-123'});await assert.rejects(first.submit());assert.throws(()=>first.finish());const reloaded=createTransactionsService({storage:disk,request:async(_,{body})=>{assert.deepEqual(body,captured);return{replayed:true}}});reloaded.prepare({...payload,amount:'101.00'},{});assert.equal((await reloaded.submit()).replayed,true);reloaded.finish();assert.equal(disk.getItem(OPERATION_KEY),null);});
 test('nuevo UUID solo después de finalizar; refrescar conserva el actual',()=>{const disk=storage();let n=0;const svc=createTransactionsService({storage:disk,uuid:()=>String(++n)});assert.equal(svc.begin().operationId,'1');assert.equal(svc.begin().operationId,'1');svc.finish();assert.equal(svc.begin().operationId,'2');});

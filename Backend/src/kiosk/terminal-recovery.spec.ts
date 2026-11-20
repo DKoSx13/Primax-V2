@@ -159,6 +159,7 @@ describe('exceptional terminal recovery', () => {
     await expect(f.service.authorize(req, { method: 'POST', path: '/api/v1/online-orders', body: {} })).rejects.toThrow('limitada');
     await expect(f.service.authorize(req, { method: 'GET', path: `/api/v1/online-orders/${f.order.id}` })).rejects.toThrow('limitada');
     await expect(f.service.authorize(req, { method: 'POST', path: `/api/v1/online-orders/${f.order.id}/demo-confirm` })).rejects.toThrow('limitada');
+    await expect(f.service.authorize(req, { method: 'POST', path: `/api/v1/online-orders/${f.order.id}/refund` })).rejects.toThrow('limitada');
     await expect(f.service.authorize(req, { method: 'GET', path: '/api/v1/online-orders/eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee' })).rejects.toThrow('limitada');
   });
 });

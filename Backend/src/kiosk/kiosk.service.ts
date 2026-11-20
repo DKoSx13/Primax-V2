@@ -39,6 +39,10 @@ const equal = (a: string, b: string) =>
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const opaque = /^[A-Za-z0-9_-]{43}$/;
 
+export function requiresTerminalOwnership(method: string, path: string) {
+  return method === 'POST' && /^\/api\/v1\/(?:online-orders\/[^/]+\/(?:cancel|demo-confirm|refund)|payments\/[^/]+\/refund|authorizations\/[^/]+\/(?:progress|release|intervention))\/?$/i.test(path);
+}
+
 @Injectable()
 export class KioskService {
   constructor(
@@ -536,6 +540,34 @@ export class KioskService {
     if (!row) throw new NotFoundException();
     this.assertStation(row.stationId, stationId);
   }
+
+  private async assertRefundOwner(resource: string, id: string, terminalId: string, stationId: string) {
+    let paymentId = id;
+    let orderOperationId: string | undefined;
+    if (resource === 'online-orders') {
+      const order = await this.db.onlineOrder.findUnique({ where: { id } });
+      if (!order?.paymentId || order.userId || order.transactionId)
+        throw new ForbiddenException('Orden fuera de la operación');
+      paymentId = order.paymentId;
+      orderOperationId = order.operationId;
+    }
+    const payment = await this.db.payment.findUnique({
+      where: { id: paymentId }, include: { authorization: true, transaction: true },
+    });
+    const operationId = payment?.operationId ?? payment?.transaction?.operationId ?? payment?.authorization?.operationId;
+    if (!operationId || !payment || (orderOperationId && orderOperationId !== operationId) ||
+        (resource === 'payments' && !payment.transaction && !payment.authorization))
+      throw new ForbiddenException('Pago fuera de la operación');
+    // A closed sale retains its original terminal even after the Redis lease expires.
+    const operation = await this.db.terminalOperation.findUnique({ where: { operationId } });
+    if (!operation || operation.stationId !== stationId || operation.terminalId !== terminalId)
+      throw new ForbiddenException('Operación de otra terminal');
+    for (const record of [payment.authorization, payment.transaction]) {
+      if (record && (record.operationId !== operationId || record.terminalOperationId !== operation.id ||
+          record.terminalId !== terminalId || record.stationId !== stationId))
+        throw new ForbiddenException('Vínculos del pago incompatibles');
+    }
+  }
   async authorize(
     req: Request,
     target?: { method: string; path: string; body?: Record<string, unknown> },
@@ -560,6 +592,10 @@ export class KioskService {
       throw new ForbiddenException('Operación de terminal no permitida');
     const stationId = session.stationId;
     const technical = req.header('x-terminal-session') || '';
+    const ordinaryAction = !session.recoveryOperationId && requiresTerminalOwnership(method, path);
+    if (ordinaryAction && !/^[a-f0-9]{64}$/.test(technical))
+      throw new UnauthorizedException('Sesión técnica requerida');
+    let actingTerminal: string | undefined;
     if (session.recoveryOperationId) {
       const scope = await this.recoveryCredential(technical, req.header('x-terminal-owner') || '');
       if (scope.operationId !== session.recoveryOperationId || scope.terminalId !== session.recoveryTerminalId || scope.stationId !== stationId)
@@ -570,9 +606,14 @@ export class KioskService {
         throw new ForbiddenException('Recuperación limitada a la orden existente');
     }
     if (!session.recoveryOperationId && method === 'POST' && technical && /^[a-f0-9]{64}$/.test(technical) &&
-        (/^\/api\/v1\/(authorizations|transactions|online-orders)(?:\/|$)/.test(path))) {
-      const credential = await this.db.terminalCredential.findUnique({ where: { tokenHash: digest(technical) } });
+        (ordinaryAction || /^\/api\/v1\/(authorizations|transactions|online-orders)(?:\/|$)/.test(path))) {
+      const credential = await this.db.terminalCredential.findUnique({ where: { tokenHash: digest(technical) }, include: { terminal: true } });
       if (!credential || credential.revokedAt || credential.expiresAt <= new Date()) throw new UnauthorizedException('Credencial técnica vencida');
+      if (ordinaryAction) {
+        if (credential.terminal.lifecycle !== 'REGISTRADA' || credential.terminal.revokedAt || credential.terminal.stationId !== stationId)
+          throw new ForbiddenException('Terminal no disponible');
+        actingTerminal = credential.terminalId;
+      }
       await this.assertTerminalOwner(credential.terminalId, req.header('x-terminal-owner') || '');
     }
     if (method === 'POST' && path === '/api/v1/admin/check-plate') {
@@ -641,7 +682,34 @@ export class KioskService {
     const resource = parts[3],
       id = parts[4];
     if (id && uuid.test(id)) {
-      if (resource === 'authorizations')
+      if (ordinaryAction && parts[5] === 'refund') {
+        if (!actingTerminal) throw new ForbiddenException('Terminal no disponible');
+        await this.assertRefundOwner(resource, id, actingTerminal, stationId);
+        return { kind: 'kiosk' as const, stationId };
+      }
+      const order = resource === 'online-orders' ? await this.db.onlineOrder.findUnique({ where: { id } }) : null;
+      if (ordinaryAction) {
+        const auth = resource === 'authorizations' ? await this.db.fuelAuthorization.findUnique({
+          where: { id },
+        }) : null;
+        const target = auth ?? order;
+        if (!target || !actingTerminal) throw new ForbiddenException('Operación no disponible');
+        const operation = await this.db.terminalOperation.findUnique({ where: { operationId: target.operationId } });
+        const interventionReplay = parts[5] === 'intervention' && auth?.status === 'INTERVENTION_REQUIRED' &&
+          operation?.status === 'INTERVENTION_REQUIRED';
+        if (!operation || operation.closedAt || (operation.status !== 'ACTIVE' && !interventionReplay) ||
+            operation.terminalId !== actingTerminal || operation.stationId !== stationId ||
+            (auth && (auth.stationId !== stationId || auth.terminalId !== actingTerminal ||
+              auth.terminalOperationId !== operation.id || auth.pumpId !== operation.pumpId ||
+              auth.terminalPumpAssignmentId !== operation.terminalPumpAssignmentId)) ||
+            ((order || auth?.mode === 'PREPAGO') && !target.paymentId))
+          throw new ForbiddenException('Operación no disponible');
+        if (target.paymentId) {
+          const payment = await this.db.payment.findUnique({ where: { id: target.paymentId } });
+          if (payment?.operationId !== operation.operationId) throw new ForbiddenException('Pago fuera de la operación');
+        }
+      }
+      if (resource === 'authorizations' && !ordinaryAction)
         await this.authorization(id, stationId);
       if (resource === 'transactions') {
         const row = await this.db.transaction.findUnique({ where: { id } });
@@ -649,7 +717,6 @@ export class KioskService {
         this.assertStation(row.stationId, stationId);
       }
       if (resource === 'online-orders') {
-        const order = await this.db.onlineOrder.findUnique({ where: { id } });
         if (!order || order.userId || order.transactionId)
           throw new ForbiddenException();
         if (session.recoveryOperationId) {

@@ -1,0 +1,16 @@
+{
+  "operationId": "4801dbcc-f74d-490b-b4c0-7f356601e040",
+  "method": "YAPE",
+  "authorization": {
+    "mode": "PREPAGO",
+    "paymentMethod": "YAPE",
+    "unitPrice": "21.30",
+    "allowDebt": false,
+    "plate": "CNT-601",
+    "amount": "20.00",
+    "stationId": "4caac428-6ac4-48e7-9898-a1ca23e3cb9d",
+    "fuelId": "07f11cfc-4f58-45d4-8d87-d1f39ec05fe3",
+    "receiptType": "BOLETA",
+    "operationId": "4801dbcc-f74d-490b-b4c0-7f356601e040"
+  }
+}

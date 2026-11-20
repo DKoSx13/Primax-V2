@@ -1,0 +1,14 @@
+﻿/api/v1/online-orders/dc1ba4b8-2ae1-43f1-9058-b95893d9e28e/refund 3000
+/api/v1/online-orders/dc1ba4b8-2ae1-43f1-9058-b95893d9e28e/refund 3002
+/api/v1/online-orders/dc1ba4b8-2ae1-43f1-9058-b95893d9e28e/refund 3000
+/api/v1/authorizations 3000
+/api/v1/transactions 3002
+/api/v1/payments/c154c2a9-315e-48d5-9f76-2e5ea65c3b2e/refund 3000
+/api/v1/payments/c154c2a9-315e-48d5-9f76-2e5ea65c3b2e/refund 3002
+/api/v1/payments/c154c2a9-315e-48d5-9f76-2e5ea65c3b2e/refund 3000
+/api/v1/authorizations 3002
+/api/v1/authorizations 3000
+/api/v1/authorizations 3002
+/api/v1/transactions 3000
+/api/v1/transactions 3002
+/api/v1/authorizations 3000

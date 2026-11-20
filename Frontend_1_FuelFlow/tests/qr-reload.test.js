@@ -62,6 +62,42 @@ test('authorization cannot dereference an uninitialized catalog',()=>{
   const f=fixture();assert.throws(()=>f.context.ordenAuthorization('YAPE'),/estación no está disponible/);
 });
 
+test('captured snapshot is advisory and validation alone performs no authorization',async()=>{
+  const f=fixture();await f.context.cargarCatalogoOperacion(f.operation);
+  const saved={...order(f),status:'CAPTURED'};
+  await f.context.validarOrdenRecuperada(saved,{operationId:'op'},true);
+  assert.equal(f.state.pagoAutorizado,undefined);assert.equal(f.state.autorizacionId,undefined);
+  await assert.rejects(f.context.validarOrdenRecuperada({...saved,operationId:'other'},{operationId:'op'},true),/no coincide/);
+});
+
+test('a continuation request without its saved order identifier cannot restart selection',async()=>{
+  const f=fixture();let blocked=false;
+  f.context.transactionsService.current=()=>({operationId:'op',snapshot:{},authorizationRequest:{capturedContinuation:{orderId:'order'}}});
+  f.context.ensureTerminalOperation=async()=>f.operation;f.context.requerirIntervencion=()=>{blocked=true;};
+  vm.runInContext(source.slice(source.indexOf('async function iniciar('),source.indexOf('function seleccionarCombustible(')),f.context);
+  await f.context.iniciar();assert.equal(blocked,true);
+});
+
+test('explicit continuation reads same order and passes metadata to ordinary authorization only',async()=>{
+  const f=fixture(),calls=[];f.context.ensureTerminalOperation=async()=>f.operation;
+  f.context.transactionsService.current=()=>({operationId:'op'});
+  f.context.apiClient=async path=>{calls.push(path);return {...order(f),status:'CAPTURED',providerId:'demo:order',paymentId:'payment'};};
+  f.context.procesarPago=async meta=>calls.push(JSON.parse(JSON.stringify(meta)));
+  f.context.mostrarModal=()=>assert.fail('Unexpected assistance');
+  await f.context.continuarPagoCapturado('order');
+  assert.deepEqual(calls,['/online-orders/order',{orderId:'order',paymentId:'payment',amount:'10.00',currency:'PEN'}]);
+  assert.equal(f.state.pagoAutorizado,false);
+});
+
+for(const mutate of [o=>({...o,providerId:'commercial'}),o=>({...o,paymentId:null}),o=>({...o,status:'REFUNDED'}),o=>({...o,transactionId:'sale'})])
+test('ineligible captured evidence preserves assistance without a financial request',async()=>{
+  const f=fixture();let assistance=false;f.context.ensureTerminalOperation=async()=>f.operation;
+  f.context.transactionsService.current=()=>({operationId:'op'});
+  f.context.apiClient=async()=>mutate({...order(f),status:'CAPTURED',providerId:'demo:order',paymentId:'payment'});
+  f.context.procesarPago=async()=>assert.fail('No authorization permitted');f.context.mostrarModal=()=>{assistance=true;};
+  await f.context.continuarPagoCapturado('order');assert.equal(assistance,true);
+});
+
 for (const staysCreating of [false,true]) test(`existing CREATING order ${staysCreating?'stays blocked':'becomes a QR'} without another POST`,async()=>{
   const f=fixture();await f.context.cargarCatalogoOperacion(f.operation);
   const saved={...order(f),providerId:'demo:order'};const calls=[];const elements=new Map();

@@ -34,14 +34,21 @@ export function createTransactionsService({
       return save({...this.begin(), snapshot, intervention: reason});
     },
     authorize(body, snapshot) {
-      if (authorizing) return authorizing;
       const pending = this.begin();
       if (pending.intervention) return Promise.reject(Error('Requiere intervención'));
+      const continuation = body.capturedContinuation;
+      const saved = pending.authorizationRequest;
+      if (continuation && saved && (saved.operationId !== pending.operationId ||
+          ['orderId','paymentId','amount','currency'].some(key => saved.capturedContinuation?.[key] !== continuation[key])))
+        return Promise.reject(Error('La continuación guardada no corresponde a este pago.'));
+      if (authorizing) return authorizing;
       // A cached response is recovery evidence, never permission to dispense.
       // Replay the stable request so Backend revalidates the persisted state.
       const requestBody = pending.authorizationRequest || {...body, operationId:pending.operationId};
       save({...pending, authorizationRequest:requestBody, snapshot});
       authorizing = authorizations.reserve(requestBody).then(result => {
+        if (requestBody.capturedContinuation && current()?.operationId !== requestBody.operationId)
+          throw Error('La operación cambió durante la continuación.');
         if (result?.authorization?.status !== 'RESERVED' || !result.authorization.unitPrice)
           throw Error('Backend no autorizó el abastecimiento');
         save({...current(), authorization:result});

@@ -14,12 +14,39 @@ import { ControlPaymentWorkflowAdapter } from '../../services/commerce/src/adapt
 } from '@nestjs/common';
 import { IsIn, IsOptional, IsString, MaxLength } from 'class-validator';
 import { randomUUID } from 'node:crypto';
+import { Prisma } from '@prisma/client';
 import { Actor, CurrentActor } from '../auth/access';
 import { PrismaService } from '../prisma/prisma.service';
 import { OnlineOrdersService } from '../payments/online-orders';
 import { recordPaymentIssue } from '../payments/payment-incidents';
 import { OperationsService } from './operations.service';
 type ControlActor = Extract<Actor, { kind: 'control' }>;
+
+async function escalateConfirmedRefund(tx: Prisma.TransactionClient, operationId: string) {
+  const operation = await tx.terminalOperation.findUnique({ where: { operationId } });
+  if (!operation || operation.status !== 'ACTIVE' || operation.closedAt) return;
+  const payment = await tx.payment.findUnique({ where: { operationId } });
+  if (payment?.status !== 'REFUNDED' || payment.transactionId ||
+      !payment.amount.gt(0) || !payment.refundedAmount.eq(payment.amount)) return;
+  const order = await tx.onlineOrder.findUnique({ where: { operationId } });
+  if (order?.status !== 'REFUNDED' || order.paymentId !== payment.id || order.transactionId ||
+      order.method !== payment.method || !order.amount.eq(payment.amount)) return;
+  const event = await tx.paymentEvent.findUnique({ where: { eventKey: 'refund:' + order.id } });
+  if (event?.kind !== 'REFUNDED' || event.orderId !== order.id || event.paymentId !== payment.id) return;
+  const reservation = await tx.inventoryReservation.findUnique({ where: { operationId } });
+  if (reservation?.terminalOperationId !== operation.id || reservation.stationId !== operation.stationId ||
+      reservation.source !== 'TERMINAL' || reservation.status !== 'CANCELLED' ||
+      reservation.transactionId || reservation.authorizationId || !reservation.initialLiters.gt(0) ||
+      !reservation.releasedLiters.eq(reservation.initialLiters) ||
+      !reservation.consumedLiters.isZero() || !reservation.remainingLiters.isZero()) return;
+  const links = { OR: [{ operationId }, { terminalOperationId: operation.id }] };
+  if (await tx.fuelAuthorization.findFirst({ where: { OR: [...links.OR, { paymentId: payment.id }] }, select: { id: true } }) ||
+      await tx.transaction.findFirst({ where: links, select: { id: true } })) return;
+  await tx.terminalOperation.updateMany({
+    where: { id: operation.id, status: 'ACTIVE', closedAt: null },
+    data: { status: 'INTERVENTION_REQUIRED', version: { increment: 1 } },
+  });
+}
 class RecoveryActionDto {
   @IsIn(['RETRY', 'RESELECT', 'CANCEL', 'ESCALATE']) action:
     | 'RETRY'
@@ -133,13 +160,15 @@ export class ControlPaymentsService {
       await this.operations.cancelUnpaidOperation(actor.userId, operationId);
     }
     await this.db.atomic(async (tx) => {
-      if (dto.action === 'ESCALATE')
+      if (dto.action === 'ESCALATE') {
         await recordPaymentIssue(
           tx,
           operationId,
           dto.observation?.trim() || 'Personal autorizado solicita revisión del pago',
           actor.userId,
         );
+        await escalateConfirmedRefund(tx, operationId);
+      }
       await tx.operationalAuditEvent.create({
         data: {
           eventKey: `control-payment:${randomUUID()}`,

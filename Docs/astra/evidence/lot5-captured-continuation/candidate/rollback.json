@@ -1,0 +1,10 @@
+{
+  "project": "primax-astra-lot5-continuation-fa8013a8f3",
+  "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+  "fault": "after authorization insert and inventory activation, before continuation audit commit",
+  "transactionRolledBack": true,
+  "exactStateUnchanged": true,
+  "providerCalls": 0,
+  "injected": 1,
+  "manualFinancialStateEdits": false
+}

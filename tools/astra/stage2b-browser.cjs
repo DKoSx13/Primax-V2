@@ -1,0 +1,62 @@
+const fs = require('node:fs');
+const path = require('node:path');
+const assert = require('node:assert/strict');
+const h = require('./stage2b-lab.cjs');
+async function main() {
+  h.assertResources(); const state = h.load();
+  const { chromium } = require(path.join(h.folder, 'browser/node_modules/playwright'));
+  const out = path.join(h.folder, 'browser-evidence'); fs.mkdirSync(out, { recursive: true });
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  await context.addInitScript(owner => { if (location.hostname !== '127.0.0.1') return; sessionStorage.setItem('fuelflow:tab:v1', owner); localStorage.setItem('primax_idioma', 'es'); }, state.owner);
+  const errors = [], requests = [];
+  context.on('page', page => { page.on('pageerror', e => errors.push(e.message)); page.on('response', r => { if (r.url().includes('/api/')) requests.push({ path: new URL(r.url()).pathname, status: r.status(), method: r.request().method() }); }); });
+  await context.route('**/*', route => { const u = new URL(route.request().url()); return ['127.0.0.1', 'localhost'].includes(u.hostname) ? route.continue() : route.abort(); });
+  try {
+    const prime = await context.newPage();
+    await prime.goto('http://127.0.0.1:29182');
+    await prime.getByLabel(/^Correo(?: o DNI)?$/, { exact: true }).fill('demo@primaxprime.pe');
+    await prime.getByLabel('Contraseña', { exact: true }).fill(state.values.DEMO_PASSWORD);
+    await prime.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+    await prime.getByRole('heading', { name: 'Hola, Diego' }).waitFor();
+    await prime.reload(); await prime.getByRole('heading', { name: 'Hola, Diego' }).waitFor();
+    await prime.screenshot({ path: path.join(out, 'prime.png'), fullPage: true });
+    const control = await context.newPage();
+    await control.goto('http://127.0.0.1:29183');
+    await control.getByLabel('Correo', { exact: true }).fill('control-admin@primax.local');
+    await control.getByLabel('Contraseña', { exact: true }).fill(state.values.DEMO_CONTROL_ADMIN_PASSWORD);
+    await control.getByRole('button', { name: 'Entrar a Control' }).click();
+    await control.locator('#logout').waitFor();
+    await control.reload(); await control.locator('#logout').waitFor();
+    await control.screenshot({ path: path.join(out, 'control.png'), fullPage: true });
+    const fuel = await context.newPage();
+    await fuel.goto('http://127.0.0.1:29184');
+    await fuel.locator('#btn-iniciar').click();
+    await fuel.locator('[data-fuel="Regular"]').click();
+    await fuel.locator('#btn-prepago').click();
+    await fuel.locator('#prepago-panel [data-monto="20"]').click();
+    await fuel.locator('#btn-confirmar-monto').click();
+    await fuel.locator('#btn-boleta').click();
+    await fuel.locator('#input-dni').fill('70123456');
+    await fuel.locator('#prep-input-placa').fill('ABC-123');
+    await fuel.locator('#btn-continuar-datos').click();
+    await fuel.locator('[data-metodo="TARJETA"]').click();
+    const sold = fuel.waitForResponse(r => r.url().endsWith('/api/v1/transactions') && r.request().method() === 'POST', { timeout: 90000 });
+    await fuel.locator('#btn-nfc-tap').click(); await fuel.locator('#modal-ok').click();
+    const response = await sold; assert.equal(response.status(), 201); const sale = await response.json();
+    assert.match(sale.transaction.receipt.number, /^EB01-\d+$/);
+    await fuel.screenshot({ path: path.join(out, 'fuelflow-paid.png'), fullPage: true });
+    const printPath = '/api/v1/demo-print/jobs/receipt-' + sale.transaction.receipt.id;
+    const printed = fuel.waitForResponse(r => new URL(r.url()).pathname === printPath && r.request().method() === 'POST');
+    await fuel.locator('#btn-comprobante').click();
+    const pr = await printed; assert(pr.ok()); const job = await pr.json(); assert.equal(job.simulation, true); assert.equal(job.physicalConfirmed, false);
+    await fuel.locator('#pantalla-inicio').waitFor(); assert.deepEqual(errors, []);
+    const result = { passed: true, browser: browser.version(), primeLoginReload: true, controlLoginReload: true, fuelFlowPurchaseAndDemoPrint: true, transactionId: sale.transaction.id, receipt: sale.transaction.receipt.number, operationId: sale.transaction.operationId, errors, requests };
+    fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify(result, null, 2));
+    console.log(JSON.stringify({ result: 'PASS', receipt: result.receipt, requests: requests.length }));
+  } catch (e) {
+    for (const [i, page] of context.pages().entries()) await page.screenshot({ path: path.join(out, 'failure-' + i + '.png'), fullPage: true }).catch(() => {});
+    fs.writeFileSync(path.join(out, 'failure.json'), JSON.stringify({ error: e.message, errors, requests }, null, 2)); throw e;
+  } finally { await browser.close(); }
+}
+main().catch(e => { console.error(e.message); process.exitCode = 1; });

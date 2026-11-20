@@ -1,0 +1,18 @@
+{
+  "mode": "PREPAGO",
+  "paymentMethod": "YAPE",
+  "unitPrice": "21.30",
+  "allowDebt": false,
+  "plate": "CNT-602",
+  "amount": "20.00",
+  "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1",
+  "fuelId": "9b6b91e1-2e8c-41e4-83fb-50be0ab35fee",
+  "receiptType": "BOLETA",
+  "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+  "capturedContinuation": {
+    "orderId": "9f88760c-30d3-4060-bb4e-33d62e392e9e",
+    "paymentId": "e3a1d636-427e-4f14-b590-5bf336da939e",
+    "amount": "20.00",
+    "currency": "PEN"
+  }
+}

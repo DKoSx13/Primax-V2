@@ -1,0 +1,45 @@
+﻿docker : FAIL src/operations/refund-intervention.spec.ts (7.854 s)
+En línea: 7 Carácter: 1
++ docker exec --env-file ".cache/$l/private.env" -w /lot "$l-test" ./no ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL src/operat...ec.ts (7.854 s):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  staff escalation after confirmed pre-dispense refund
+    ✕ makes only the active operation eligible for manual resolution (9 ms)
+    ✓ keeps the ordinary incident workflow for partial (2 ms)
+    ✓ keeps the ordinary incident workflow for pending (1 ms)
+    ✓ keeps the ordinary incident workflow for other payment (1 ms)
+    ✓ keeps the ordinary incident workflow for event missing (1 ms)
+    ✓ keeps the ordinary incident workflow for wrong terminal operation
+    ✓ keeps the ordinary incident workflow for inventory consumed
+    ✓ keeps the ordinary incident workflow for authorization
+    ✓ keeps the ordinary incident workflow for sale (1 ms)
+    ✓ rejects missing permission before writes (3 ms)
+    ✓ rejects missing station before writes (1 ms)
+
+  ● staff escalation after confirmed pre-dispense refund › makes only the active operation eligible for manual 
+resolution
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"data": {"status": "INTERVENTION_REQUIRED", "version": {"increment": 1}}, "where": {"closedAt": null, 
+"id": "row", "status": "ACTIVE"}}
+
+    Number of calls: 0
+
+      30 |     const f = fixture();
+      31 |     await f.escalate();
+    > 32 |     expect(f.db.terminalOperation.updateMany).toHaveBeenCalledWith({
+         |                                               ^
+      33 |       where: {id:'row', status:'ACTIVE', closedAt:null},
+      34 |       data: {status:'INTERVENTION_REQUIRED',version:{increment:1}},
+      35 |     });
+
+      at Object.<anonymous> (src/operations/refund-intervention.spec.ts:32:47)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 10 passed, 11 total
+Snapshots:   0 total
+Time:        8.23 s
+Ran all test suites matching /refund-intervention.spec.ts/i.

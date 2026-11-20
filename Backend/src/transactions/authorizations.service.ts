@@ -1,4 +1,6 @@
 import { matchesMembershipCode } from '../users/membership-code';
+import { assertCapturedContinuation } from './captured-continuation';
+import type { CapturedContinuationCommand } from '../../services/commerce/src/application/ports/authorization-commands';
 import { recordPaymentIssue } from '../payments/payment-incidents';
 import { reserveWelcome } from '../payments/welcome';
 import {
@@ -127,9 +129,13 @@ export class AuthorizationsService {
    * dos veces el mismo saldo desde dos surtidores simultáneos.
    */
   create(dto: CreateAuthorizationDto) {
+    const { capturedContinuation, ...ordinary } = dto;
+    if (capturedContinuation && dto.mode !== 'PREPAGO')
+      throw new BadRequestException('La continuación requiere prepago');
+    dto = ordinary;
     assertV2PaymentMethod(dto.paymentMethod);
     if (dto.mode === 'PREPAGO') {
-      const fingerprint = JSON.stringify(dto);
+      const fingerprint = JSON.stringify({ dto, capturedContinuation });
       const running = this.prepaidInFlight.get(dto.operationId);
       if (running) {
         if (running.fingerprint !== fingerprint)
@@ -138,7 +144,7 @@ export class AuthorizationsService {
           );
         return running.promise;
       }
-      const pending = this.createPrepaidV12_1(dto).finally(() => {
+      const pending = this.createPrepaidV12_1(dto, capturedContinuation).finally(() => {
         if (this.prepaidInFlight.get(dto.operationId)?.promise === pending)
           this.prepaidInFlight.delete(dto.operationId);
       });
@@ -686,7 +692,7 @@ export class AuthorizationsService {
   }
 
   /** Reserve stock before simulated/external payment; never hold a DB transaction across payment. */
-  private async createPrepaidV12_1(dto: CreateAuthorizationDto): Promise<{
+  private async createPrepaidV12_1(dto: CreateAuthorizationDto, continuation?: CapturedContinuationCommand): Promise<{
     authorization: ReturnType<typeof authorizationResponse>;
     replayed?: boolean;
     membershipNumber?: string;
@@ -703,6 +709,7 @@ export class AuthorizationsService {
       .digest('hex');
 
     const intent = await this.repo.atomic(async (tx) => {
+      if (continuation) await assertCapturedContinuation(tx, dto, continuation);
       const existingAuth = await this.repo.byOperation(dto.operationId, tx);
       if (existingAuth) {
         if (existingAuth.requestHash !== requestHash)
@@ -863,6 +870,7 @@ export class AuthorizationsService {
     }
 
     return this.repo.atomic(async (tx) => {
+      if (continuation) await assertCapturedContinuation(tx, dto, continuation);
       const operation = await terminalOperationFor(
         tx,
         dto.operationId,
@@ -919,6 +927,11 @@ export class AuthorizationsService {
         where: { id: reservation.id },
         data: { authorizationId: authorization.id },
       });
+      if (continuation) await tx.paymentEvent.create({ data: {
+        eventKey: 'captured-continuation:' + dto.operationId,
+        orderId: continuation.orderId, paymentId: payment!.id, kind: 'CAPTURED_CONTINUED',
+        detail: JSON.stringify({ authorizationId: authorization.id }),
+      } });
       const linkedAuthorization = await this.repo.byId(authorization.id, tx);
       return {
         authorization: authorizationResponse(linkedAuthorization ?? authorization),

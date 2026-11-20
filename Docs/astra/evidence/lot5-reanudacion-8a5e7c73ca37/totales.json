@@ -1,0 +1,1 @@
+{"orders" : 4, "payments" : 4, "authorizations" : 4, "sales" : 4, "receipts" : 4, "reservations" : 4, "totalCapturedPEN" : 80.00, "totalPaidPEN" : 80.00, "events" : { "CAPTURED" : 4, "DEMO_PAID" : 4, "CAPTURED_CONTINUED" : 2, "DEMO_PENDING" : 4 }}

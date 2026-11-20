@@ -1,0 +1,1159 @@
+{
+  "notice": "Evidence only; secret values withheld. Do not use as an operational Compose file.",
+  "configuration": {
+    "name": "primax-astra-stage2b-272b482a5f",
+    "networks": {
+      "data": {
+        "name": "primax-astra-stage2b-272b482a5f_data",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.0/26"
+            }
+          ]
+        },
+        "internal": true
+      },
+      "web": {
+        "name": "primax-astra-stage2b-272b482a5f_web",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.64/27"
+            }
+          ]
+        },
+        "internal": true
+      },
+      "edge": {
+        "name": "primax-astra-stage2b-272b482a5f_edge",
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.253.212.96/27"
+            }
+          ]
+        }
+      }
+    },
+    "services": {
+      "administration-service": {
+        "restart": "no",
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "image": "primax-astra-administration:stage2",
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "depends_on": {
+          "postgres": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "redis": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "seed-control-admin": {
+            "condition": "service_completed_successfully",
+            "required": true
+          },
+          "seed-operations": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "5s",
+          "interval": "10s",
+          "retries": 10,
+          "start_period": "15s"
+        },
+        "user": "node"
+      },
+      "backend": {
+        "restart": "no",
+        "command": [
+          "node",
+          "gateway/server.cjs"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "PORT": "3000"
+        },
+        "image": "primax-astra-stage2-baseline:test",
+        "networks": {
+          "data": null,
+          "web": null,
+          "edge": {
+            "gw_priority": 1
+          }
+        },
+        "pull_policy": "never",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "depends_on": {
+          "administration-service": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "catalog-service": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "commerce-service": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "identity-service": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "print-service": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "5s",
+          "interval": "10s",
+          "retries": 10
+        },
+        "ports": [
+          {
+            "mode": "ingress",
+            "host_ip": "127.0.0.1",
+            "target": 3000,
+            "published": "29100",
+            "protocol": "tcp"
+          }
+        ]
+      },
+      "catalog-service": {
+        "restart": "no",
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "image": "primax-astra-catalog:stage2",
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "depends_on": {
+          "postgres": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "redis": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "seed-control-admin": {
+            "condition": "service_completed_successfully",
+            "required": true
+          },
+          "seed-operations": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "5s",
+          "interval": "10s",
+          "retries": 10,
+          "start_period": "15s"
+        },
+        "user": "node"
+      },
+      "commerce-service": {
+        "restart": "no",
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "image": "primax-astra-commerce:stage2",
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "depends_on": {
+          "postgres": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "redis": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "seed-control-admin": {
+            "condition": "service_completed_successfully",
+            "required": true
+          },
+          "seed-operations": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "5s",
+          "interval": "10s",
+          "retries": 10,
+          "start_period": "15s"
+        },
+        "user": "node"
+      },
+      "frontend1": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "FUELFLOW_GATEWAY_UPSTREAM": "http://fuelflow-gateway:3001",
+          "PRIME_WEB_PORT": "29182"
+        },
+        "networks": {
+          "web": null,
+          "edge": {
+            "gw_priority": 1
+          }
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_1_FuelFlow",
+          "dockerfile": "Dockerfile",
+          "args": {
+            "FUELFLOW_DEMO": "0",
+            "FUELFLOW_KIOSK_AUTH": "true",
+            "FUELFLOW_PRINT_DEMO": "true"
+          }
+        },
+        "depends_on": {
+          "fuelflow-gateway": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "wget",
+            "-q",
+            "--spider",
+            "http://127.0.0.1/healthz"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "ports": [
+          {
+            "mode": "ingress",
+            "host_ip": "127.0.0.1",
+            "target": 80,
+            "published": "29181",
+            "protocol": "tcp"
+          }
+        ],
+        "image": "primax-astra-stage2b-272b482a5f-frontend1:validation"
+      },
+      "frontend2": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "BACKEND_UPSTREAM": "http://backend:3000"
+        },
+        "networks": {
+          "web": null,
+          "edge": {
+            "gw_priority": 1
+          }
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_2_PrimaxPrime",
+          "dockerfile": "Dockerfile",
+          "args": {
+            "PRIME_API_BASE_URL": "/api/v1"
+          }
+        },
+        "depends_on": {
+          "backend": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "wget",
+            "-q",
+            "--spider",
+            "http://127.0.0.1/healthz"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "ports": [
+          {
+            "mode": "ingress",
+            "host_ip": "127.0.0.1",
+            "target": 80,
+            "published": "29182",
+            "protocol": "tcp"
+          }
+        ],
+        "image": "primax-astra-stage2b-272b482a5f-frontend2:validation"
+      },
+      "frontend3": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "BACKEND_UPSTREAM": "http://backend:3000"
+        },
+        "networks": {
+          "web": null,
+          "edge": {
+            "gw_priority": 1
+          }
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_3_PrimaxControl",
+          "dockerfile": "Dockerfile",
+          "args": {
+            "FUELFLOW_PUBLIC_ORIGIN": "http://127.0.0.1:29181",
+            "FUELFLOW_T02_PUBLIC_ORIGIN": "http://127.0.0.1:29184"
+          }
+        },
+        "depends_on": {
+          "backend": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "wget",
+            "-q",
+            "--spider",
+            "http://127.0.0.1/healthz"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "ports": [
+          {
+            "mode": "ingress",
+            "host_ip": "127.0.0.1",
+            "target": 80,
+            "published": "29183",
+            "protocol": "tcp"
+          }
+        ],
+        "image": "primax-astra-stage2b-272b482a5f-frontend3:validation"
+      },
+      "fuelflow-gateway": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "BACKEND_ORIGIN": "http://backend:3000",
+          "FUELFLOW_COOKIE_SCOPE": "29181",
+          "FUELFLOW_LOCAL_HTTP": "true",
+          "FUELFLOW_PUBLIC_ORIGIN": "http://127.0.0.1:29181",
+          "FUELFLOW_TERMINAL_CODE": "PRIMAX-SUR-T01",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>"
+        },
+        "networks": {
+          "web": null
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_1_FuelFlow",
+          "dockerfile": "Dockerfile",
+          "target": "gateway"
+        },
+        "depends_on": {
+          "backend": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3001/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway:validation"
+      },
+      "fuelflow-gateway-t02": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "BACKEND_ORIGIN": "http://backend:3000",
+          "FUELFLOW_COOKIE_SCOPE": "29184",
+          "FUELFLOW_LOCAL_HTTP": "true",
+          "FUELFLOW_PUBLIC_ORIGIN": "http://127.0.0.1:29184",
+          "FUELFLOW_TERMINAL_CODE": "PRIMAX-SUR-T02",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>"
+        },
+        "networks": {
+          "web": null
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_1_FuelFlow",
+          "dockerfile": "Dockerfile",
+          "target": "gateway"
+        },
+        "depends_on": {
+          "backend": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3001/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-gateway-t02:validation"
+      },
+      "fuelflow-t02": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "FUELFLOW_GATEWAY_UPSTREAM": "http://fuelflow-gateway-t02:3001",
+          "PRIME_WEB_PORT": "29182"
+        },
+        "networks": {
+          "web": null,
+          "edge": {
+            "gw_priority": 1
+          }
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/Frontend_1_FuelFlow",
+          "dockerfile": "Dockerfile",
+          "args": {
+            "FUELFLOW_DEMO": "0",
+            "FUELFLOW_KIOSK_AUTH": "true",
+            "FUELFLOW_PRINT_DEMO": "true"
+          }
+        },
+        "depends_on": {
+          "fuelflow-gateway-t02": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "wget",
+            "-q",
+            "--spider",
+            "http://127.0.0.1/healthz"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "ports": [
+          {
+            "mode": "ingress",
+            "host_ip": "127.0.0.1",
+            "target": 80,
+            "published": "29184",
+            "protocol": "tcp"
+          }
+        ],
+        "image": "primax-astra-stage2b-272b482a5f-fuelflow-t02:validation"
+      },
+      "identity-service": {
+        "restart": "no",
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "image": "primax-astra-identity:stage2",
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "depends_on": {
+          "postgres": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "redis": {
+            "condition": "service_healthy",
+            "required": true
+          },
+          "seed-control-admin": {
+            "condition": "service_completed_successfully",
+            "required": true
+          },
+          "seed-operations": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "5s",
+          "interval": "10s",
+          "retries": 10,
+          "start_period": "15s"
+        },
+        "user": "node"
+      },
+      "migrate": {
+        "restart": "no",
+        "command": [
+          "npm",
+          "run",
+          "prisma:migrate"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "depends_on": {
+          "postgres": {
+            "condition": "service_healthy",
+            "required": true
+          }
+        },
+        "image": "primax-astra-stage2-baseline:test"
+      },
+      "plate-recognition": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>"
+        },
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "build",
+        "read_only": true,
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "tmpfs": [
+          "/tmp:size=64m,mode=1777"
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/PlateRecognition",
+          "dockerfile": "Dockerfile"
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "python",
+            "-c",
+            "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 10,
+          "start_period": "20s"
+        },
+        "image": "primax-astra-stage2b-272b482a5f-plate-recognition:validation"
+      },
+      "postgres": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "environment": {
+          "POSTGRES_DB": "stage2b_synthetic",
+          "POSTGRES_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "POSTGRES_USER": "stage2b"
+        },
+        "image": "postgres:17.6-bookworm",
+        "networks": {
+          "data": null
+        },
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "volumes": [
+          {
+            "type": "volume",
+            "source": "postgres_data",
+            "target": "/var/lib/postgresql/data",
+            "volume": {}
+          }
+        ],
+        "healthcheck": {
+          "test": [
+            "CMD-SHELL",
+            "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""
+          ],
+          "timeout": "3s",
+          "interval": "5s",
+          "retries": 20
+        }
+      },
+      "print-service": {
+        "restart": "no",
+        "command": null,
+        "entrypoint": null,
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "build",
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "volumes": [
+          {
+            "type": "volume",
+            "source": "print_data",
+            "target": "/data",
+            "volume": {}
+          }
+        ],
+        "build": {
+          "context": "<REPOSITORY_ROOT>/PrintAgent",
+          "dockerfile": "Dockerfile"
+        },
+        "healthcheck": {
+          "test": [
+            "CMD",
+            "node",
+            "-e",
+            "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+          ],
+          "timeout": "3s",
+          "interval": "10s",
+          "retries": 5
+        },
+        "image": "primax-astra-stage2b-272b482a5f-print-service:validation"
+      },
+      "redis": {
+        "restart": "no",
+        "command": [
+          "redis-server",
+          "--appendonly",
+          "yes",
+          "--requirepass",
+          "<SYNTHETIC-SECRET-REDACTED>"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "REDIS_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>"
+        },
+        "image": "redis:7.4-alpine",
+        "networks": {
+          "data": null
+        },
+        "security_opt": [
+          "no-new-privileges:true"
+        ],
+        "volumes": [
+          {
+            "type": "volume",
+            "source": "redis_data",
+            "target": "/data",
+            "volume": {}
+          }
+        ],
+        "healthcheck": {
+          "test": [
+            "CMD-SHELL",
+            "redis-cli -a \"$$REDIS_PASSWORD\" ping 2>/dev/null | grep -q PONG"
+          ],
+          "timeout": "3s",
+          "interval": "5s",
+          "retries": 20
+        }
+      },
+      "seed": {
+        "restart": "no",
+        "command": [
+          "node",
+          "scripts/seed-local-demo.cjs"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "depends_on": {
+          "migrate": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "image": "primax-astra-stage2-baseline:test"
+      },
+      "seed-control-admin": {
+        "restart": "no",
+        "command": [
+          "node",
+          "scripts/seed-control-admin.cjs"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "depends_on": {
+          "seed": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "image": "primax-astra-stage2-baseline:test"
+      },
+      "seed-operations": {
+        "restart": "no",
+        "command": [
+          "node",
+          "scripts/seed-local-operations.cjs"
+        ],
+        "entrypoint": null,
+        "environment": {
+          "APP_MODE": "local",
+          "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+          "DATABASE_PURPOSE": "local-v12.1-demo",
+          "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+          "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+          "DEMO_CONTROL_ADMIN_ENABLED": "true",
+          "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+          "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_OPERATIONS_ENABLED": "true",
+          "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+          "DEMO_WALLET_ENABLED": "true",
+          "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+          "KIOSK_OPERATOR_USER": "stage2b-operator",
+          "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+          "KIOSK_SESSION_NAMESPACE": "primax-astra-stage2b-272b482a5f",
+          "KIOSK_STATION_CODE": "PRIMAX-SUR",
+          "KIOSK_STATION_ID": "",
+          "NODE_ENV": "production",
+          "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+          "PASSWORD_RESET_DELIVERY": "disabled",
+          "PASSWORD_RESET_MAX_ATTEMPTS": "5",
+          "PASSWORD_RESET_TTL_MINUTES": "10",
+          "PAYMENT_ENV": "demo",
+          "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+          "PLATE_RECOGNITION_ENABLED": "true",
+          "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+          "PORT": "3000",
+          "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+          "PRIME_DEBT_LIMIT": "200",
+          "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+          "SOLES_PER_POINT": "9"
+        },
+        "networks": {
+          "data": null
+        },
+        "pull_policy": "never",
+        "depends_on": {
+          "seed": {
+            "condition": "service_completed_successfully",
+            "required": true
+          }
+        },
+        "image": "primax-astra-stage2-baseline:test"
+      }
+    },
+    "volumes": {
+      "postgres_data": {
+        "name": "primax-astra-stage2b-272b482a5f_postgres_data"
+      },
+      "print_data": {
+        "name": "primax-astra-stage2b-272b482a5f_print_data"
+      },
+      "redis_data": {
+        "name": "primax-astra-stage2b-272b482a5f_redis_data"
+      }
+    },
+    "x-backend-env": {
+      "APP_MODE": "local",
+      "CORS_ORIGINS": "http://localhost:29100,http://127.0.0.1:29100,http://localhost:29181,http://127.0.0.1:29181,http://localhost:29182,http://127.0.0.1:29182,http://localhost:29183,http://127.0.0.1:29183,http://localhost:29184,http://127.0.0.1:29184",
+      "DATABASE_PURPOSE": "local-v12.1-demo",
+      "DATABASE_URL": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+      "DATABASE_URL_UNPOOLED": "postgresql://stage2b:<SYNTHETIC-SECRET-REDACTED>@postgres:5432/stage2b_synthetic?schema=public",
+      "DEMO_CONTROL_ADMIN_EMAIL": "control-admin@primax.local",
+      "DEMO_CONTROL_ADMIN_ENABLED": "true",
+      "DEMO_CONTROL_ADMIN_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+      "DEMO_ENCARGADO_EMAIL": "encargado@primax.local",
+      "DEMO_ENCARGADO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+      "DEMO_OPERATIONS_ENABLED": "true",
+      "DEMO_PASSWORD": "<SYNTHETIC-SECRET-REDACTED>",
+      "DEMO_WALLET_ENABLED": "true",
+      "JWT_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+      "KIOSK_API_KEY": "<SYNTHETIC-SECRET-REDACTED>",
+      "KIOSK_GATEWAY_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+      "KIOSK_OPERATOR_PASSWORD_HASH": "<SYNTHETIC-SECRET-REDACTED>",
+      "KIOSK_OPERATOR_USER": "stage2b-operator",
+      "KIOSK_REDIS_URL": "redis://:<SYNTHETIC-SECRET-REDACTED>@redis:6379/0",
+      "KIOSK_SESSION_NAMESPACE": "local-v12-1",
+      "KIOSK_STATION_CODE": "PRIMAX-SUR",
+      "KIOSK_STATION_ID": "",
+      "NODE_ENV": "production",
+      "OCR_SERVICE_SECRET": "<SYNTHETIC-SECRET-REDACTED>",
+      "PASSWORD_RESET_DELIVERY": "disabled",
+      "PASSWORD_RESET_MAX_ATTEMPTS": 5,
+      "PASSWORD_RESET_TTL_MINUTES": 10,
+      "PAYMENT_ENV": "demo",
+      "PLATE_CONFIDENCE_THRESHOLD": "0.75",
+      "PLATE_RECOGNITION_ENABLED": "true",
+      "PLATE_RECOGNITION_URL": "http://plate-recognition:8000",
+      "PORT": 3000,
+      "PRIMAX_CONTROL_PUBLIC_URL": "http://localhost:29183",
+      "PRIME_DEBT_LIMIT": "200",
+      "SHOW_DEMO_ADMIN_CREDENTIALS": "false",
+      "SOLES_PER_POINT": "9"
+    }
+  }
+}

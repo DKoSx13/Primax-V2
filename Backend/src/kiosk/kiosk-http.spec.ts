@@ -13,6 +13,8 @@ import { AppModule } from '../app.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { setupApp } from '../setup-app';
 import { KioskStore } from './redis-store';
+import { PAYMENT_PROVIDER } from '../payments/payment-provider';
+import { OnlineOrdersService } from '../payments/online-orders';
 
 describe('Nest HTTP operator boundary (all persistence mocked)', () => {
   let app: INestApplication;
@@ -21,6 +23,7 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
   const secret = randomBytes(32).toString('hex');
   const password = 'fictional-http-fixture';
   const data = new Map<string, string>();
+  const provider = { get: jest.fn(), cancel: jest.fn(), confirm: jest.fn(), create: jest.fn(), refund: jest.fn() };
   const store = {
     key: (key: string) => key,
     limit: jest.fn().mockResolvedValue(true),
@@ -37,6 +40,7 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
     }),
   };
   const db = {
+    atomic: jest.fn(),
     station: {
       findUnique: jest.fn().mockResolvedValue({ id: stationId, active: true }),
       findMany: jest
@@ -75,6 +79,8 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
       .useValue(db)
       .overrideProvider(KioskStore)
       .useValue(store)
+      .overrideProvider(PAYMENT_PROVIDER)
+      .useValue(provider)
       .compile();
     app = module.createNestApplication({ bodyParser: false });
     setupApp(app);
@@ -226,5 +232,64 @@ describe('Nest HTTP operator boundary (all persistence mocked)', () => {
     await signed('POST', '/api/v1/authorizations', body, session.token, session.csrfToken, technical).expect(400);
     await signed('POST', '/api/v1/online-orders', order, session.token, session.csrfToken, technical).expect(400);
     await signed('POST', '/api/v1/authorizations', { ...body, stationId: foreignId }, session.token, session.csrfToken, technical).expect(403);
+  });
+
+  it('rejects foreign orders at the HTTP boundary before provider calls or financial writes and admits the owner cancellation', async () => {
+    const operationId = '33333333-3333-4333-8333-333333333333';
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const order = { id: foreignId, operationId, paymentId: operationId, status: 'PENDING', providerId: 'demo:fixture' };
+    db.onlineOrder.findUnique.mockResolvedValue(order);
+    db.payment.findUnique.mockResolvedValue({ operationId });
+    db.terminalCredential.findUnique.mockResolvedValue({ terminalId, expiresAt: new Date(Date.now()+60000),
+      terminal: { lifecycle: 'REGISTRADA', stationId } });
+    const operation = { id: operationId, operationId, terminalId, stationId, status: 'ACTIVE', closedAt: null };
+    db.terminalOperation.findUnique.mockResolvedValue({ ...operation, terminalId: 'other-terminal' });
+    data.set('operation:' + operationId, stationId);
+    const pre = (await signed('GET', '/api/v1/kiosk/session').expect(200)).body;
+    const session = (await signed('POST', '/api/v1/kiosk/session/login', { username: 'fixture-operator', password }, pre.token, pre.csrfToken).expect(201)).body;
+    const path = '/api/v1/online-orders/' + order.id;
+    for (const action of ['cancel','demo-confirm']) {
+      const payload = action === 'cancel' ? {} : { amount: '20.00', currency: 'PEN' };
+      await signed('POST', path+'/'+action, payload, session.token, session.csrfToken, 'b'.repeat(64)).expect(403);
+      await request(app.getHttpServer()).post(path+'/'+action).set('x-kiosk-key','k'.repeat(48)).send(payload).expect(403);
+    }
+    expect(db.atomic).not.toHaveBeenCalled();
+    for (const call of Object.values(provider)) expect(call).not.toHaveBeenCalled();
+    db.terminalOperation.findUnique.mockResolvedValue(operation);
+    const status = jest.spyOn(app.get(OnlineOrdersService), 'status')
+      .mockResolvedValueOnce(order as never).mockResolvedValueOnce({ ...order, status: 'CANCELLED' } as never);
+    try {
+      await signed('POST', path+'/cancel', {}, session.token, session.csrfToken, 'b'.repeat(64)).expect(201);
+      expect(provider.cancel).toHaveBeenCalledWith(order.providerId, 'cancel:'+order.id);
+      expect(provider.cancel).toHaveBeenCalledTimes(1);
+    } finally { status.mockRestore(); }
+  });
+
+  it.each(['payments','online-orders'])('requires the persisted terminal for %s refunds before dispatch', async resource => {
+    const operationId = '33333333-3333-4333-8333-333333333333';
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const op = { id: operationId, operationId, stationId, terminalId, status: 'CLOSED', closedAt: new Date() };
+    const sale = { ...op, terminalOperationId: op.id };
+    db.payment.findUnique.mockResolvedValue({ id: foreignId, operationId, transaction: sale });
+    db.onlineOrder.findUnique.mockResolvedValue({ id: foreignId, operationId, paymentId: foreignId });
+    db.terminalCredential.findUnique.mockResolvedValue({ terminalId, expiresAt: new Date(Date.now()+60000),
+      terminal: { lifecycle: 'REGISTRADA', stationId } });
+    db.terminalOperation.findUnique.mockResolvedValue({ ...op, terminalId: 'other-terminal' });
+    const pre = (await signed('GET', '/api/v1/kiosk/session').expect(200)).body;
+    const session = (await signed('POST', '/api/v1/kiosk/session/login', { username: 'fixture-operator', password }, pre.token, pre.csrfToken).expect(201)).body;
+    const path = '/api/v1/'+resource+'/'+foreignId+'/refund';
+    data.set('operation:' + operationId, stationId);
+    const invoke = () => signed('POST', path, {}, session.token, session.csrfToken, 'b'.repeat(64));
+    await signed('POST', path, {}, session.token, session.csrfToken).expect(401);
+    await invoke().expect(403);
+    await request(app.getHttpServer()).post(path).set('x-kiosk-key','k'.repeat(48)).send({}).expect(403);
+    db.terminalOperation.findUnique.mockResolvedValue(op);
+    db.payment.findUnique.mockResolvedValueOnce({ id: foreignId, operationId, transaction: { ...sale, terminalOperationId: 'other' } });
+    await invoke().expect(403);
+    expect(db.atomic).not.toHaveBeenCalled();
+    for (const call of Object.values(provider)) expect(call).not.toHaveBeenCalled();
+    // Redis station bindings can expire long before an eligible refund of a closed sale.
+    data.delete('operation:' + operationId);
+    await signed('POST','/api/v1/kiosk/session/authorize',{ method:'POST',path },session.token,session.csrfToken,'b'.repeat(64)).expect(201);
   });
 });

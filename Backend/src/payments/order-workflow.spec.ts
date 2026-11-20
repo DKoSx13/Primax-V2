@@ -1,12 +1,38 @@
 import { OrderWorkflow } from '../../services/commerce/src/application/use-cases/order-workflow';
 import { ExistingOrderWorkflow, ExistingOrderInputs, ExistingOrderViews } from '../../services/commerce/src/adapters/outbound/existing-order-workflow';
 import { OrderWorkflowAdapter } from '../../services/commerce/src/adapters/inbound/order-workflow.adapter';
-import { OnlineOrdersController } from './online-orders';
+import { OnlineOrdersController, OnlineOrdersService } from './online-orders';
 import { PaymentWebhookController } from './webhook';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 describe('Order workflow compatibility', () => {
+  it('blocks provider refund when dispensing has started by the time the refund intent is locked', async () => {
+    const tx = { $queryRaw:jest.fn(), onlineOrder:{findUniqueOrThrow:jest.fn(),updateMany:jest.fn()},
+      payment:{findUniqueOrThrow:jest.fn().mockResolvedValue({authorization:{dispensedAmount:{gt:()=>true}}})} };
+    const order = { id:'order', operationId:'operation', paymentId:'payment', providerId:'demo:order', status:'CAPTURED' };
+    tx.onlineOrder.findUniqueOrThrow.mockResolvedValue(order);
+    const provider = { refund:jest.fn() };
+    const db = { onlineOrder:{findUnique:jest.fn().mockResolvedValue(order)},
+      atomic:(work:(client:typeof tx)=>Promise<unknown>)=>work(tx) };
+    await expect(new OnlineOrdersService(db as never, provider as never).refund(order.id,{kind:'kiosk'})).rejects.toMatchObject({status:409});
+    expect(tx.onlineOrder.updateMany).not.toHaveBeenCalled();
+    expect(provider.refund).not.toHaveBeenCalled();
+  });
+  it('rejects continuation metadata on order creation and reselection before any external effect', async () => {
+    const provider = { create: jest.fn(), cancel: jest.fn() };
+    const db = { atomic: jest.fn(), onlineOrder: { findUnique: jest.fn() } };
+    const service = new OnlineOrdersService(db as never, provider as never);
+    const dto = { operationId: 'operation', method: 'YAPE', authorization: { capturedContinuation: { orderId: 'order' } } } as const;
+    for (const result of [
+      () => service.create(dto as never, { kind: 'kiosk' }),
+      () => service.reselect('order', dto as never, { kind: 'kiosk' }),
+    ]) await expect(result()).rejects.toMatchObject({ status: 400 });
+    expect(db.atomic).not.toHaveBeenCalled();
+    expect(db.onlineOrder.findUnique).not.toHaveBeenCalled();
+    expect(provider.create).not.toHaveBeenCalled();
+    expect(provider.cancel).not.toHaveBeenCalled();
+  });
   const names = ['create','confirmDemo','reselect','cancel','refund','status','webhook'] as const;
   it.each(names)('forwards %s once without cloning, retries or translated errors', async name => {
     const value = { synthetic: true }, engine = Object.fromEntries(names.map(k => [k,jest.fn(async (..._args: unknown[]) => value)]));

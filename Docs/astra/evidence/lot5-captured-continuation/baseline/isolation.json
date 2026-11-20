@@ -1,0 +1,22 @@
+{
+  "reference": "cec1cafc56f770597e786c9182a0fb82c3bfc7d4",
+  "project": "primax-astra-lot5-continuation-6b1fd954ac",
+  "ports": [
+    28000,
+    28081,
+    28082,
+    28083,
+    28084
+  ],
+  "subnets": [
+    "10.245.2.0/24",
+    "10.245.3.0/24"
+  ],
+  "volumesVerifiedAbsent": true,
+  "containerProjectVerifiedAbsent": true,
+  "reusedImages": [],
+  "newProjectImagesFromVerifiedSource": true,
+  "frontendConfigurationRebuilt": true,
+  "newSchemaMigrations": 0,
+  "existingMigrationChainOnly": 36
+}

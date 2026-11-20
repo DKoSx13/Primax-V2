@@ -1,0 +1,41 @@
+{
+  "trace": [
+    [
+      "GET",
+      "/api/kiosk/session",
+      200,
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "POST",
+      "/api/kiosk/terminal-bootstrap",
+      200,
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "GET",
+      "/api/v1/terminal/me",
+      200,
+      "",
+      "",
+      "",
+      null
+    ],
+    [
+      "POST",
+      "/api/v1/terminal/claim",
+      409,
+      "",
+      "",
+      "Terminal ocupada en otra pestaña. Conserva la sesión original.",
+      null
+    ]
+  ],
+  "errors": []
+}

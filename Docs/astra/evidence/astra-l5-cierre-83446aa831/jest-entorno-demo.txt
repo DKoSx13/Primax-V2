@@ -1,0 +1,5 @@
+﻿/lot/src/identity-adapters/lot2d-boundaries.spec.ts | never discloses or accepts demo credentials in APP_MODE=undefined
+/lot/src/vehicles/recognition.service.spec.ts | alta confianza busca Vehicle/Membership
+/lot/src/vehicles/recognition.service.spec.ts | baja confianza no identifica una membresÃ­a
+/lot/src/vehicles/recognition.service.spec.ts | placa inexistente permite fallback
+/lot/src/vehicles/recognition.service.spec.ts | resultado malformado no tiene confianza

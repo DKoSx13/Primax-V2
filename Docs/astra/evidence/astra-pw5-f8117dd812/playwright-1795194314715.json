@@ -1,0 +1,1315 @@
+[
+  {
+    "at": "2026-11-20T17:04:48.093Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/kiosk/session",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.194Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.229Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.258Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/terminal/claim",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.282Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.541Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.563Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.564Z",
+    "name": "console",
+    "data": {
+      "terminal": "T01",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.607Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/terminal/operations",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.625Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.627Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.682Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:48.747Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/fuels/inventory",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:51.813Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/vehicles/NEW-701",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:51.813Z",
+    "name": "console",
+    "data": {
+      "terminal": "T01",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:51.821Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/vehicles/NEW-701",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:51.821Z",
+    "name": "console",
+    "data": {
+      "terminal": "T01",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:52.548Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:52.565Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:52.661Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/online-orders",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:53.554Z",
+    "name": "redis-binding",
+    "data": {
+      "op": "fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "terminalId": "47e4fcd2-ee3e-4a31-ba2f-d908327db3ae",
+      "stationId": "d4423873-328a-480a-b041-f9b11435c2cf",
+      "ownerMatches": true,
+      "ttl": 119
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:53.716Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/online-orders/4b03d6a0-f603-41be-9856-e27b2b05a004/demo-confirm",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:53.749Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:53.774Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:53.884Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:54.823Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:55.117Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:55.409Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:55.704Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:55.992Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:56.311Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:56.613Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:56.891Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/authorizations/403680f6-c0e4-4c29-8351-ab9b7b95fc4c/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:56.921Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:56.940Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:57.122Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/transactions",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:58.138Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/terminal/operations/fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7/close",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:58.494Z",
+    "name": "http",
+    "data": {
+      "terminal": "T01",
+      "method": "POST",
+      "path": "/api/v1/online-orders",
+      "status": 403
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:58.494Z",
+    "name": "console",
+    "data": {
+      "terminal": "T01",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:58.738Z",
+    "name": "order-create-after-own-close",
+    "data": {
+      "op": "fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "denied": {
+        "status": 403,
+        "message": "Operación técnica no disponible"
+      },
+      "before": {
+        "payments": 1,
+        "orders": 1,
+        "auth": 1,
+        "sales": 1,
+        "receipts": 1
+      }
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:58.738Z",
+    "name": "terminal-complete",
+    "data": {
+      "terminal": "T01",
+      "op": "fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "order": "4b03d6a0-f603-41be-9856-e27b2b05a004",
+      "payment": "26b9ed5a-2130-4e83-a6cb-420cba7b34a0"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.092Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/kiosk/session",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.126Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.147Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.168Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/terminal/claim",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.192Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.551Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.572Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.573Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.615Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/terminal/operations",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.629Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.631Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.650Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:04:59.711Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels/inventory",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.647Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/vehicles/NEW-702",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.647Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.648Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/vehicles/NEW-702",
+      "status": 404
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.648Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.772Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.791Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:02.878Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/online-orders",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:03.780Z",
+    "name": "redis-binding",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "terminalId": "ba6ff958-c6fc-4e89-a77e-5cdecbe5e400",
+      "stationId": "d4423873-328a-480a-b041-f9b11435c2cf",
+      "ownerMatches": true,
+      "ttl": 119
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:03.950Z",
+    "name": "requestfailed",
+    "data": {
+      "terminal": "T02",
+      "path": "/api/v1/online-orders/a3ecc87d-6d0c-4bf3-bc42-6d183c99d697/demo-confirm",
+      "error": "net::ERR_FAILED"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:03.950Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.293Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/online-orders",
+      "status": 400
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.294Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 (Bad Request)"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.558Z",
+    "name": "continuation-cannot-create-order",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "order": "a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "payment": "a81b9be4-ccae-46e9-b307-e78c46b808a9",
+      "blocked": {
+        "status": 400,
+        "message": "La continuación no permite cambiar ni crear una orden"
+      },
+      "before": {
+        "payments": 2,
+        "orders": 2,
+        "auth": 1,
+        "sales": 1,
+        "receipts": 1
+      }
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.693Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/kiosk/session",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.724Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.749Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/terminal/claim",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:04.772Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.240Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.263Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.301Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/online-orders/a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.320Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.322Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:05.336Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.258Z",
+    "name": "redis-binding",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "terminalId": "ba6ff958-c6fc-4e89-a77e-5cdecbe5e400",
+      "stationId": "d4423873-328a-480a-b041-f9b11435c2cf",
+      "ownerMatches": true,
+      "ttl": 119
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.458Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.477Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.493Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.494Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.505Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.530Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/online-orders/a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.556Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.573Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:06.825Z",
+    "name": "concurrent-authorization",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "auth": "2a21d84e-a9ec-40ca-82c2-9a556d3f85f3",
+      "payment": "a81b9be4-ccae-46e9-b307-e78c46b808a9",
+      "replays": [
+        false,
+        true
+      ]
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:07.996Z",
+    "name": "foreign-authorization-contract",
+    "data": {
+      "sameStation": "d4423873-328a-480a-b041-f9b11435c2cf",
+      "ownOperation": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "ownAuth": "2a21d84e-a9ec-40ca-82c2-9a556d3f85f3",
+      "foreignOperation": "fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+      "foreignAuth": "403680f6-c0e4-4c29-8351-ab9b7b95fc4c",
+      "ownPayment": "a81b9be4-ccae-46e9-b307-e78c46b808a9",
+      "foreignPayment": "26b9ed5a-2130-4e83-a6cb-420cba7b34a0",
+      "admitted": true,
+      "rejectedStatus": 400,
+      "transaction": "READ ONLY",
+      "substituted": "fuelAuthorization.findUnique"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.000Z",
+    "name": "requestfailed",
+    "data": {
+      "terminal": "T02",
+      "path": "/api/v1/authorizations",
+      "error": "net::ERR_FAILED"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.000Z",
+    "name": "console",
+    "data": {
+      "terminal": "T02",
+      "level": "error",
+      "text": "Failed to load resource: net::ERR_FAILED"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.126Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/kiosk/session",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.158Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.179Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/terminal/claim",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.203Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.605Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.621Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.650Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/online-orders/a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.664Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.666Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:08.681Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.331Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.350Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.366Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/fuels",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.368Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/stations",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.379Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.407Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/online-orders/a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.433Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.450Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.516Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:09.519Z",
+    "name": "lost-response-recovered",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "order": "a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "payment": "a81b9be4-ccae-46e9-b307-e78c46b808a9",
+      "auth": "2a21d84e-a9ec-40ca-82c2-9a556d3f85f3"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:10.382Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:10.659Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:10.954Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:11.269Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:11.567Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:11.858Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.163Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.463Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/authorizations/2a21d84e-a9ec-40ca-82c2-9a556d3f85f3/progress",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.489Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/me",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.505Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "GET",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "status": 200
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.712Z",
+    "name": "concurrent-sale",
+    "data": {
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "sale": "6c5a9a0b-b2ea-4f38-8bda-59bf71c64aa2",
+      "replays": [
+        false,
+        true
+      ]
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:12.716Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/transactions",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:13.592Z",
+    "name": "http",
+    "data": {
+      "terminal": "T02",
+      "method": "POST",
+      "path": "/api/v1/terminal/operations/bf707a83-23fa-4780-bb09-ec32b0dde6cd/close",
+      "status": 201
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:13.593Z",
+    "name": "terminal-complete",
+    "data": {
+      "terminal": "T02",
+      "op": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+      "order": "a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+      "payment": "a81b9be4-ccae-46e9-b307-e78c46b808a9"
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:14.665Z",
+    "name": "postgres-final",
+    "data": {
+      "rows": [
+        {
+          "operationId": "fc9028df-a6e4-4d0b-b7b2-859b4b34ffa7",
+          "operation": "CLOSED",
+          "code": "PRIMAX-SUR-T01",
+          "payment": "26b9ed5a-2130-4e83-a6cb-420cba7b34a0",
+          "paid": "CAPTURED",
+          "provider": "DEMO",
+          "amount": 20,
+          "order": "4b03d6a0-f603-41be-9856-e27b2b05a004",
+          "auth": "403680f6-c0e4-4c29-8351-ab9b7b95fc4c",
+          "authorization": "SETTLED",
+          "sale": "58a270e3-afbd-4892-9983-c1cb1fc31932",
+          "sold": "PAID",
+          "receipt": "EB01-0001",
+          "reservation": "CLOSED"
+        },
+        {
+          "operationId": "bf707a83-23fa-4780-bb09-ec32b0dde6cd",
+          "operation": "CLOSED",
+          "code": "PRIMAX-SUR-T02",
+          "payment": "a81b9be4-ccae-46e9-b307-e78c46b808a9",
+          "paid": "CAPTURED",
+          "provider": "DEMO",
+          "amount": 20,
+          "order": "a3ecc87d-6d0c-4bf3-bc42-6d183c99d697",
+          "auth": "2a21d84e-a9ec-40ca-82c2-9a556d3f85f3",
+          "authorization": "SETTLED",
+          "sale": "6c5a9a0b-b2ea-4f38-8bda-59bf71c64aa2",
+          "sold": "PAID",
+          "receipt": "EB01-0002",
+          "reservation": "CLOSED"
+        }
+      ],
+      "totals": {
+        "payments": 2,
+        "orders": 2,
+        "auth": 2,
+        "sales": 2,
+        "receipts": 2
+      }
+    }
+  },
+  {
+    "at": "2026-11-20T17:05:14.665Z",
+    "name": "passed",
+    "data": true
+  }
+]

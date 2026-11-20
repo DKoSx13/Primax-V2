@@ -1,0 +1,111 @@
+﻿## feat/dezkz-identity-a4-core
+M  Backend/services/commerce/src/application/ports/authorization-commands.ts
+ M Backend/src/auth/access.guard.ts
+ M Backend/src/kiosk/kiosk-http.spec.ts
+ M Backend/src/kiosk/kiosk.service.ts
+ M Backend/src/kiosk/kiosk.spec.ts
+ M Backend/src/kiosk/terminal-recovery.spec.ts
+ M Backend/src/operations/control-payments.ts
+ M Backend/src/payments/online-orders.ts
+ M Backend/src/payments/order-workflow.spec.ts
+M  Backend/src/transactions/authorizations.service.ts
+AM Backend/src/transactions/captured-continuation.ts
+MM Backend/src/transactions/create-authorization.dto.ts
+M  Frontend_1_FuelFlow/src/index.html
+MM Frontend_1_FuelFlow/src/js/script.js
+ M Frontend_1_FuelFlow/src/js/transactionsService.js
+ M Frontend_1_FuelFlow/tests/qr-reload.test.js
+ M Frontend_1_FuelFlow/tests/transactions.test.js
+?? Backend/src/operations/refund-intervention.spec.ts
+?? Backend/src/transactions/captured-continuation.spec.ts
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/antes-control.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/auditoria.jsonl
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/claves-iniciales.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/conciliacion-final.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/contrato-antes.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/control-manual.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/control.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/despues-control.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/evidencias-verificadas.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/fuelflow.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/git-final.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/incidente-antes.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/infraestructura.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/jest-entorno-demo.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/jest.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/operaciones-finales.jsonl
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/operaciones.sql
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/refund-29381-1795192719024.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/refund-29384-1795192714235.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/replicas.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/revision-incidente.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/tablas-iniciales.txt
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/trace-29384-1795192800293.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/trace-29384-1795192876516.json
+?? Docs/astra/evidence/astra-l5-cierre-83446aa831/trace-29384-1795193002326.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/browser.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/captured-block.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/isolation.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/order-request.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/startup.json
+?? Docs/astra/evidence/lot5-captured-continuation/baseline/stopped.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/after-explicit-replay.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/authorization-response-lost.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/before-continuation.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/continuation-request.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/isolation.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/recovered-sale.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/replay-confirmed.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/rollback.json
+?? Docs/astra/evidence/lot5-captured-continuation/candidate/startup.json
+?? Docs/astra/evidence/lot5-captured-continuation/unit/backend-results.json
+?? Docs/astra/evidence/lot5-captured-continuation/unit/initial-harness-backend-results.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/assets.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/cierre-operaciones.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/cierre-totales.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/correlacion.sql
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/fuelflow.txt
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/infraestructura.txt
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/jest.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/postgres-final.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/postgres.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/replicas-final.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/replicas-puertos.txt
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/totales-final.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/totales.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/totales.sql
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29181-1795189334320.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29181-1795189392672.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29181-1795189480559.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29181-1795189778557.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29184-1795189326717.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29184-1795189392676.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29184-1795189480774.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29184-1795189590360.json
+?? Docs/astra/evidence/lot5-reanudacion-8a5e7c73ca37/trace-29184-1795189630354.json
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/correlacion.sql
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/fuelflow.txt
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/infraestructura.txt
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/jest.json
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/reembolsos.json
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/refund-29281-1795191730058.json
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/refund-29284-1795191725821.json
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/replicas.txt
+?? Docs/astra/evidence/lot5-reembolsos-b4ea3efca2e3/totales.json
+?? Docs/astra/evidence/stage2b/compose-isolated-redacted.json
+?? Docs/astra/evidence/stage2b/control.png
+?? Docs/astra/evidence/stage2b/prime.png
+?? Docs/astra/evidence/stage2b/results.json
+?? Docs/astra/lot5-cierre-tecnico-validacion.md
+?? Docs/astra/lot5-reanudacion-alcance-ordenes.md
+?? Docs/astra/lot5-reembolsos-validacion.md
+?? Docs/astra/lot5-revision-recuperada.md
+?? Docs/astra/lot5-validacion-terminal-captured.md
+?? Docs/astra/primax-stage2b-isolated-integration-results.md
+?? tools/astra/lot5-captured-continuation-lab.cjs
+?? tools/astra/lot5-continuation-rollback.cjs
+?? tools/astra/lot5-continuation-unit.cjs
+?? tools/astra/stage2b-browser.cjs
+?? tools/astra/stage2b-checks.cjs
+?? tools/astra/stage2b-lab.cjs
+?? tools/stage2b-smoke.cjs

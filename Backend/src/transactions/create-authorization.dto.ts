@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsIn,
@@ -7,10 +8,19 @@ import {
   IsString,
   IsUUID,
   Matches,
+  ValidateNested,
+  IsObject,
 } from 'class-validator';
 import { PaymentMethod, PurchaseMode, ReceiptType } from '@prisma/client';
 import { PlateDto } from '../vehicles/plate.dto';
 import { V2_PAYMENT_METHODS } from '../payments/payments.service';
+
+export class CapturedContinuationDto {
+  @IsUUID() orderId: string;
+  @IsUUID() paymentId: string;
+  @IsString() @Matches(/^\d{1,6}(\.\d{1,2})?$/) amount: string;
+  @IsIn(['PEN']) currency: 'PEN';
+}
 
 /**
  * Solicitud de reserva de saldo, previa al abastecimiento postpago.
@@ -20,6 +30,9 @@ import { V2_PAYMENT_METHODS } from '../payments/payments.service';
  * que quede comprometido mientras la manguera dispensa.
  */
 export class CreateAuthorizationDto extends PlateDto {
+  @ApiPropertyOptional({ type: CapturedContinuationDto })
+  @IsOptional() @IsObject() @ValidateNested() @Type(() => CapturedContinuationDto)
+  capturedContinuation?: CapturedContinuationDto;
   @IsOptional() @IsEnum(PurchaseMode) mode?: PurchaseMode;
   @IsOptional() @IsIn(V2_PAYMENT_METHODS) paymentMethod?: PaymentMethod;
   @IsOptional()

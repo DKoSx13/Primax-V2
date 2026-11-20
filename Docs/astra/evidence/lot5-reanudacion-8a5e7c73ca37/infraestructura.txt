@@ -1,0 +1,4 @@
+/astra-l5-8a5e7c73ca37-web exited bridge {"29181/tcp":[{"HostIp":"127.0.0.1","HostPort":"29181"}],"29184/tcp":[{"HostIp":"127.0.0.1","HostPort":"29184"}]} null
+/astra-l5-8a5e7c73ca37-test exited astra-l5-8a5e7c73ca37 {} null
+/astra-l5-8a5e7c73ca37-pg running astra-l5-8a5e7c73ca37 {} {"/var/lib/postgresql/data":""}
+/astra-l5-8a5e7c73ca37-redis running astra-l5-8a5e7c73ca37 {} {"/data":""}

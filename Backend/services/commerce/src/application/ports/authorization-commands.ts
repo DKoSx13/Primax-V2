@@ -1,5 +1,7 @@
 /** Transport validation and defaults remain in the original DTO. */
+export interface CapturedContinuationCommand { orderId: string; paymentId: string; amount: string; currency: 'PEN' }
 export interface AuthorizationCreationCommand {
+  capturedContinuation?: CapturedContinuationCommand;
   operationId: string;
   stationId: string;
   fuelId: string;

@@ -1,0 +1,7 @@
+/api/v1/authorizations 3000
+/api/v1/transactions 3002
+/api/v1/authorizations 3000
+/api/v1/authorizations 3002
+/api/v1/authorizations 3000
+/api/v1/transactions 3002
+/api/v1/transactions 3000

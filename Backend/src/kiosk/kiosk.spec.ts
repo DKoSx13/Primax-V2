@@ -110,6 +110,60 @@ function fixture() {
   return { a, b, store, db, config, login };
 }
 describe('operator security across independent function instances', () => {
+  it.each(['cancel', 'demo-confirm', 'progress', 'release', 'intervention'])('binds ordinary %s to its operation before dispatch', async action => {
+    const { a, db, login, store } = fixture();
+    const session = await login();
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const operation = { id, operationId: id, terminalId, stationId, pumpId: 'pump', terminalPumpAssignmentId: 'assignment', status: 'ACTIVE', closedAt: null };
+    const findOperation = jest.fn().mockResolvedValue(operation);
+    Object.assign(db, {
+      terminalCredential: { findUnique: jest.fn().mockResolvedValue({
+        terminalId, expiresAt: new Date(Date.now() + 60000), revokedAt: null,
+        terminal: { id: terminalId, stationId, lifecycle: 'REGISTRADA', revokedAt: null },
+      }) },
+      terminalOperation: { findUnique: findOperation, findFirst: findOperation },
+    });
+    db.payment.findUnique.mockResolvedValue({ operationId: id });
+    const auth = { ...operation, terminalOperationId: id, paymentId: id, mode: 'PREPAGO', status: 'RESERVED' };
+    db.fuelAuthorization.findUnique.mockResolvedValue(auth);
+    db.onlineOrder.findUnique.mockResolvedValue({ id, operationId: id, paymentId: id,
+      status: 'PENDING', userId: null, transactionId: null });
+    store.data.set(store.key('operation:' + id), stationId);
+    const owner = '55555555-5555-4555-8555-555555555555';
+    store.data.set(store.key('terminal-owner:' + terminalId), createHash('sha256').update(owner).digest('hex'));
+    const technical = randomBytes(32).toString('hex');
+    const req = request('/api/v1/kiosk/session/authorize', 'POST', {}, session.token, session.csrfToken);
+    // Gateway authentication is covered separately. Exercise resource authorization in isolation.
+    jest.spyOn(a, 'verifyGateway').mockImplementation(() => undefined);
+    const headers = req.header.bind(req);
+    Object.assign(req, { header: (name: string) => name === 'x-terminal-session' ? technical :
+      name === 'x-terminal-owner' ? owner : headers(name) });
+    const provider = jest.fn(), financialWrite = jest.fn();
+    const resource = ['cancel', 'demo-confirm'].includes(action) ? 'online-orders' : 'authorizations';
+    const dispatch = async () => {
+      await a.authorize(req, { method: 'POST', path: '/api/v1/' + resource + '/' + id + '/' + action });
+      provider();
+      financialWrite();
+    };
+    findOperation.mockResolvedValue({ ...operation, terminalId: 'another-terminal' });
+    await expect(dispatch()).rejects.toThrow();
+    expect(provider).not.toHaveBeenCalled();
+    expect(financialWrite).not.toHaveBeenCalled();
+    findOperation.mockResolvedValue(operation);
+    db.payment.findUnique.mockResolvedValue({ operationId: 'other' });
+    await expect(dispatch()).rejects.toThrow();
+    db.payment.findUnique.mockResolvedValue({ operationId: id });
+    if (resource === 'authorizations') {
+      db.fuelAuthorization.findUnique.mockResolvedValue({ ...auth, terminalOperationId: 'older-operation' });
+      await expect(dispatch()).rejects.toThrow();
+      db.fuelAuthorization.findUnique.mockResolvedValue(auth);
+    }
+    expect(provider).not.toHaveBeenCalled();
+    expect(financialWrite).not.toHaveBeenCalled();
+    await dispatch();
+    expect(provider).toHaveBeenCalledTimes(1);
+    expect(financialWrite).toHaveBeenCalledTimes(1);
+  });
   it('assigns one tab owner and refuses a competing tab while preserving financial attention', async () => {
     const { a, b, db, store } = fixture();
     const terminalId = '44444444-4444-4444-8444-444444444444';

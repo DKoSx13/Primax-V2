@@ -1,0 +1,22 @@
+﻿[
+    {
+        "asset":  "ojos_abiertos_boca _abierta.jpeg",
+        "status":  200,
+        "bytes":  117590
+    },
+    {
+        "asset":  "ojos_abiertos_boca _cerrada.jpeg",
+        "status":  200,
+        "bytes":  124799
+    },
+    {
+        "asset":  "ojos_cerrrados_boca _abierta.jpeg",
+        "status":  200,
+        "bytes":  110546
+    },
+    {
+        "asset":  "ojos_cerrrados_boca _cerrada.jpeg",
+        "status":  200,
+        "bytes":  116201
+    }
+]

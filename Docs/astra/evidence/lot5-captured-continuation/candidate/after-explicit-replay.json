@@ -1,0 +1,156 @@
+{
+  "label": "after-explicit-replay",
+  "recordedAt": "2026-11-20T14:18:09.165Z",
+  "project": "primax-astra-lot5-continuation-fa8013a8f3",
+  "postgres": {
+    "payments": [
+      {
+        "id": "e3a1d636-427e-4f14-b590-5bf336da939e",
+        "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+        "status": "CAPTURED",
+        "method": "YAPE",
+        "amount": 20,
+        "provider": "DEMO",
+        "transactionId": null
+      }
+    ],
+    "orders": [
+      {
+        "id": "9f88760c-30d3-4060-bb4e-33d62e392e9e",
+        "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+        "status": "CAPTURED",
+        "amount": 20,
+        "method": "YAPE",
+        "paymentId": "e3a1d636-427e-4f14-b590-5bf336da939e",
+        "transactionId": null
+      }
+    ],
+    "transactions": [],
+    "receipts": [],
+    "authorizations": [
+      {
+        "id": "ebb41092-1ad9-4e63-9bfc-8a9cb08614e1",
+        "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+        "status": "RESERVED",
+        "authorizedAmount": 20
+      }
+    ],
+    "operations": [
+      {
+        "id": "6ec64723-9990-43d6-aaad-db0875566f18",
+        "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+        "status": "ACTIVE",
+        "terminalId": "3b0c9ed8-de96-4ac8-871a-5794c394643c",
+        "number": "OP01-0001"
+      }
+    ],
+    "inventory": [
+      {
+        "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1",
+        "fuelId": "98ef705b-8334-43ac-be9c-76a64c9bb948",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T14:12:11.446+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1",
+        "fuelId": "9b6b91e1-2e8c-41e4-83fb-50be0ab35fee",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T14:14:36.011+00:00",
+        "reservedLiters": 3.554972
+      },
+      {
+        "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1",
+        "fuelId": "a6a40c92-ecff-4d13-b967-80d0326fdbfe",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T14:12:11.449+00:00",
+        "reservedLiters": 0
+      }
+    ],
+    "reservations": [
+      {
+        "id": "ee474d2e-09e7-49ff-ae44-0faf6da4889b",
+        "operationId": "bc01f193-7549-4b79-9f01-cf519a180a78",
+        "status": "ACTIVE",
+        "authorizationId": "ebb41092-1ad9-4e63-9bfc-8a9cb08614e1",
+        "transactionId": null,
+        "remainingLiters": 3.554972,
+        "consumedLiters": 0,
+        "releasedLiters": 0
+      }
+    ],
+    "paymentEvents": [
+      {
+        "id": "0440d897-45a9-4df4-ae2b-94ef075fce4f",
+        "kind": "CAPTURED_CONTINUED",
+        "paymentId": "e3a1d636-427e-4f14-b590-5bf336da939e",
+        "orderId": "9f88760c-30d3-4060-bb4e-33d62e392e9e"
+      },
+      {
+        "id": "29f11f0d-8bc1-4016-aa63-30ce4a5a0395",
+        "kind": "DEMO_PENDING",
+        "paymentId": null,
+        "orderId": "9f88760c-30d3-4060-bb4e-33d62e392e9e"
+      },
+      {
+        "id": "87da0669-8210-4702-9a77-67b53f8e0391",
+        "kind": "DEMO_PAID",
+        "paymentId": null,
+        "orderId": "9f88760c-30d3-4060-bb4e-33d62e392e9e"
+      },
+      {
+        "id": "bef83e65-a518-4e05-aef5-0c718e65d041",
+        "kind": "CAPTURED",
+        "paymentId": "e3a1d636-427e-4f14-b590-5bf336da939e",
+        "orderId": "9f88760c-30d3-4060-bb4e-33d62e392e9e"
+      }
+    ]
+  },
+  "redis": {
+    "ping": "PONG",
+    "keyCount": 4,
+    "keys": [
+      {
+        "keyClass": "other",
+        "keySha256": "efff0b2869e7770dfcb793956415a2367ebc8f630045d9251d453d556af38a29",
+        "type": "string",
+        "ttl": 604588,
+        "valueSha256": "9b1d469c86015ca38288226d32ef417ef770bcfbf8b1c334004348aa7d7b87b2",
+        "safeFields": null
+      },
+      {
+        "keyClass": "session",
+        "keySha256": "9546426af025999427fe0a0c2e61f63486b70d8ba410dabfc8256e31a1d6dcdc",
+        "type": "string",
+        "ttl": 1519,
+        "valueSha256": "cc7b4a2190683b8bdbaed5fd3699dc05b38838fa85d67db50149b3df63638fa6",
+        "safeFields": {
+          "authenticated": true,
+          "expiresAt": 1795185806800,
+          "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1"
+        }
+      },
+      {
+        "keyClass": "session",
+        "keySha256": "2d4c79cac40f5c00739c8d6b40d2411e10022e1e59b92140ddde153f1e4b5d69",
+        "type": "string",
+        "ttl": 18,
+        "valueSha256": "1eb9b2bb4fa9abd610487ebc77ef5f30918e125d31ff1c615448af34cf0b9583",
+        "safeFields": {
+          "authenticated": false,
+          "expiresAt": 1795184306765,
+          "stationId": "cc35e3a9-2e87-4b17-ba76-4bada51796b1"
+        }
+      },
+      {
+        "keyClass": "terminal-owner",
+        "keySha256": "f1fa14d0ff329135c7cf63a5fdeece3555304e82e06385d7888a94e3538c2ee6",
+        "type": "string",
+        "ttl": 109,
+        "valueSha256": "9cfe8a2f2dac13a90150f06df8e05e9f7638c7eef39b7b53cf6f37404638493b",
+        "safeFields": null
+      }
+    ],
+    "credentialsExcluded": true
+  }
+}

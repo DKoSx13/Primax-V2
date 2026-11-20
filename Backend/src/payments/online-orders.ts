@@ -47,6 +47,7 @@ class DemoConfirmationDto {
 export class OnlineOrdersService {
  constructor(private readonly db:PrismaService,@Inject(PAYMENT_PROVIDER) private readonly provider:PaymentProvider){}
  async reselect(id:string,dto:ReselectDto,actor:Actor){
+  if(dto.authorization?.capturedContinuation)throw new BadRequestException('La continuación no permite cambiar ni crear una orden');
   assertV2PaymentMethod(dto.method);
   if(actor.kind!=='kiosk')throw new UnauthorizedException();
   if(!(this.provider instanceof DemoWalletProvider))throw new ConflictException('Cambio de método disponible solo para órdenes DEMO pendientes');
@@ -82,6 +83,7 @@ export class OnlineOrdersService {
   });
  }
  async create(dto:OrderDto,actor:Actor){
+  if(dto.authorization?.capturedContinuation)throw new BadRequestException('La continuación no permite cambiar ni crear una orden');
   assertV2PaymentMethod(dto.method);
   const demo=this.provider instanceof DemoWalletProvider;
   if(!demo&&!dto.customer)throw new BadRequestException('Datos del cliente requeridos');
@@ -182,25 +184,27 @@ export class OnlineOrdersService {
   if(order.status==='REFUNDED')return order;
   if(!['CAPTURED','REFUNDING'].includes(order.status)||!order.providerId)throw new ConflictException('Solo un pago capturado admite reembolso');
   if(!this.provider.refund)throw new ServiceUnavailableException('Reembolso externo pendiente de adapter comercial');
-  if(order.paymentId){
-   const paid=await this.db.payment.findUniqueOrThrow({where:{id:order.paymentId},include:{authorization:true}});
-   if(paid.authorization?.dispensedAmount.gt(0))throw new ConflictException('El reembolso total no está permitido después del despacho; concilia solo el excedente financiero');
-  }
   // Persist uncertainty before side effect; retries use the same provider key.
-  await this.db.atomic(async tx=>{
+  const completed=await this.db.atomic(async tx=>{
+   await tx.$queryRaw`SELECT id FROM "OnlineOrder" WHERE id=${id}::uuid FOR UPDATE`;
+   const fresh=await tx.onlineOrder.findUniqueOrThrow({where:{id}});
+   if(fresh.status==='REFUNDED')return fresh;
+   if(!['CAPTURED','REFUNDING'].includes(fresh.status))throw new ConflictException('Estado incompatible');
+   const paid=fresh.paymentId?await tx.payment.findUniqueOrThrow({where:{id:fresh.paymentId},include:{authorization:true}}):null;
+   if(paid?.authorization?.dispensedAmount.gt(0))throw new ConflictException('El reembolso total no está permitido después del despacho; concilia solo el excedente financiero');
    await tx.onlineOrder.updateMany({where:{id,status:'CAPTURED'},data:{status:'REFUNDING'}});
-   if(order.paymentId) {
-    const auth=await tx.fuelAuthorization.findFirst({where:{paymentId:order.paymentId,status:{in:['RESERVED','DISPENSING']},dispensedAmount:0}});
-    if(auth) {
+   const auth=paid?.authorization;
+   if(auth && ['RESERVED','DISPENSING'].includes(auth.status)) {
      await tx.fuelAuthorization.update({where:{id:auth.id},data:{status:'INTERVENTION_REQUIRED',interventionReason:'Reembolso en conciliacion; despacho bloqueado'}});
      if(auth.inventoryManaged) {
       const reservation=await tx.inventoryReservation.findUnique({where:{authorizationId:auth.id}});
       if(reservation)await reviewInventoryReservation(tx,reservation.id,'Payment refund is being reconciled');
     await recordPaymentIssue(tx,order.operationId,'Payment refund is being reconciled');
      }
-    }
    }
+   return null;
   });
+  if(completed)return completed;
   await this.provider.refund(order.providerId,'refund:'+order.id);
   return this.confirmRefund(id);
  }

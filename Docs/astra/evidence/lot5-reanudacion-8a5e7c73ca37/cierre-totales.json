@@ -1,0 +1,1 @@
+{"orders" : 6, "payments" : 6, "authorizations" : 6, "sales" : 6, "receipts" : 6, "reservations" : 6, "totalCapturedPEN" : 120.00, "totalPaidPEN" : 120.00, "events" : { "CAPTURED" : 6, "DEMO_PAID" : 6, "CAPTURED_CONTINUED" : 4, "DEMO_PENDING" : 6 }}
