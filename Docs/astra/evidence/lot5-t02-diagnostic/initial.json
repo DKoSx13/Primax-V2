@@ -1,0 +1,94 @@
+{
+  "label": "initial",
+  "recordedAt": "2026-11-20T12:53:13.281Z",
+  "project": "primax-astra-lot5-t02-27d5ab6a9f",
+  "postgres": {
+    "payments": [],
+    "orders": [],
+    "transactions": [],
+    "receipts": [],
+    "authorizations": [],
+    "operations": [],
+    "inventory": [
+      {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+        "fuelId": "0ff306e5-c329-4917-9824-91266a56355f",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T12:51:53.333+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+        "fuelId": "3c509016-b6f5-4628-b015-0d2cccbb8d60",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T12:51:53.339+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+        "fuelId": "86772029-1433-459f-a3ab-bc5741e34ee4",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T12:51:53.342+00:00",
+        "reservedLiters": 0
+      }
+    ],
+    "paymentEvents": []
+  },
+  "redis": {
+    "ping": "PONG",
+    "keyCount": 6,
+    "keys": [
+      {
+        "keySha256": "ff4571fba797a653c7295a4287275a18037540ecf4e8a7ccedb9754b4d8a5ec5",
+        "type": "string",
+        "ttl": 52,
+        "valueSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "safeFields": {}
+      },
+      {
+        "keySha256": "b23dbb1cdc3da6d6cc10958edf51f74f27092107a01cb5d50d7d58f90604ee3d",
+        "type": "string",
+        "ttl": 52,
+        "valueSha256": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+        "safeFields": {}
+      },
+      {
+        "keySha256": "fa2d0b2d4760afe7603a8df98292fedd47798a462a1554db0d9a071a6e181c00",
+        "type": "string",
+        "ttl": 51,
+        "valueSha256": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "safeFields": {}
+      },
+      {
+        "keySha256": "72bdaefee672e333d63c798ccfee7157d49041421f87b7d00f3c730b39ab0103",
+        "type": "string",
+        "ttl": 1791,
+        "valueSha256": "4c5ee9722ee0be78970b62607d58952cc2f8b019972029b5f06a1a4de351420e",
+        "safeFields": {
+          "authenticated": true,
+          "expiresAt": 1795180983259,
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9"
+        }
+      },
+      {
+        "keySha256": "1b2d647785d45fbe64503dd784ffd695f12b0de1fbb4e7e5bbe4f66748cc6d23",
+        "type": "string",
+        "ttl": 290,
+        "valueSha256": "4c5ad3330438fc488f8ee71f92d810fba67ba56a1a786cbec03788a632167b14",
+        "safeFields": {
+          "authenticated": false,
+          "expiresAt": 1795179483219,
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9"
+        }
+      },
+      {
+        "keySha256": "0916af4715bf4ee4564a10dfca4d02fe57f203503fc96d59879ab79058684b82",
+        "type": "string",
+        "ttl": 110,
+        "valueSha256": "5e2c047270804523ba8117464559d1145d67b4f9176833a7bd672d9670db45b5",
+        "safeFields": null
+      }
+    ],
+    "credentialsExcluded": true
+  }
+}

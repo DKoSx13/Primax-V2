@@ -1,0 +1,63 @@
+{
+  "recordedAt": "2026-11-20T12:59:46.210Z",
+  "initial": {
+    "desktopProcessesFound": 0,
+    "desktopService": "Stopped / Manual",
+    "wslDockerDesktop": "Stopped / Version 2",
+    "context": "desktop-linux",
+    "engineError": "failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine; check if the path is correct and if the daemon is running: open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.",
+    "composeConfigExitCode": 0
+  },
+  "action": {
+    "command": "docker desktop start",
+    "exitCode": 0,
+    "globalCleanup": false,
+    "destructiveReset": false,
+    "manuallyStartedExistingProjects": false
+  },
+  "after": {
+    "context": "desktop-linux",
+    "version": "29.9.2",
+    "osType": "linux",
+    "architecture": "x86_64",
+    "operatingSystem": "Docker Desktop",
+    "wsl": "NAME              STATE           VERSION\r\n* docker-desktop    Running         2",
+    "protectedProjects": {
+      "primax-astra-original": {
+        "containers": 17,
+        "unchangedSinceLabCreation": true,
+        "healthy": 15,
+        "jobsExit0": 2
+      },
+      "primax-v2-avance-5c50b4a9": {
+        "containers": 20,
+        "unchangedSinceLabCreation": true,
+        "healthy": 15,
+        "jobsExit0": 5
+      }
+    }
+  },
+  "logs": [
+    {
+      "service": "backend",
+      "sha256": "70855bddac0c1569808c1133c631e44f03530ca64cf06d0a5c0c4427a6f3715c",
+      "errorLines": []
+    },
+    {
+      "service": "commerce-service",
+      "sha256": "d2b443a6e72030111d3367baab53f921e000db6cb985b872019b409851113a9f",
+      "errorLines": []
+    },
+    {
+      "service": "identity-service",
+      "sha256": "f15d0b4518a63bf0041ebd2f7f1b1a141e2895d14c4a195e7faccfef9ab262fb",
+      "errorLines": []
+    },
+    {
+      "service": "fuelflow-gateway-t02",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "errorLines": []
+    }
+  ],
+  "limitations": "Desktop startup automatically restarted existing containers according to their restart policies; no compose up/stop was issued on protected projects. Unchanged comparison begins after engine startup, not before it."
+}

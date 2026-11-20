@@ -1,0 +1,174 @@
+{
+  "reference": "945abd06dc2f5392348438d466c7e2e3967e316b",
+  "verifiedAt": "2026-11-20T13:05:32.256Z",
+  "project": "primax-astra-lot5-t02-27d5ab6a9f",
+  "diagnosticVerified": true,
+  "functionalFixApplied": false,
+  "lot5Complete": false,
+  "severity": "P1 functional; captured demo payment without dispatch/sale/receipt",
+  "cause": "Frontend recovery skips catalog initialization and restores transient creatingOrder flag; DOM total not rebuilt",
+  "checks": [
+    {
+      "id": "D01",
+      "case": "Docker Desktop restored without destructive reset",
+      "pass": true
+    },
+    {
+      "id": "D02",
+      "case": "Original 15 healthy and two successful jobs",
+      "pass": true
+    },
+    {
+      "id": "D03",
+      "case": "New isolated synthetic lab starts healthy",
+      "pass": true
+    },
+    {
+      "id": "D04",
+      "case": "Pending reload preserves session/tab/order/operation",
+      "pass": true
+    },
+    {
+      "id": "D05",
+      "case": "Pending reload rebuilds total and QR",
+      "pass": false
+    },
+    {
+      "id": "D06",
+      "case": "Confirm after reload completes dispatch and receipt",
+      "pass": false
+    },
+    {
+      "id": "D07",
+      "case": "Two failed UI retries preserve identifiers without duplicate HTTP capture",
+      "pass": true
+    },
+    {
+      "id": "D08",
+      "case": "Replay of same demo-confirm preserves one captured payment/event",
+      "pass": true
+    },
+    {
+      "id": "D09",
+      "case": "Reload CAPTURED preserves operation and requests assistance under existing rule",
+      "pass": true
+    },
+    {
+      "id": "D10",
+      "case": "SQL financial/inventory snapshot exact across retries/replay/second reload",
+      "pass": true
+    },
+    {
+      "id": "D11",
+      "case": "Captured exception confirms catalog undefined; transient flag persists",
+      "pass": true
+    },
+    {
+      "id": "D12",
+      "case": "Initial synthetic lab has no payment or sale",
+      "pass": true
+    },
+    {
+      "id": "D13",
+      "case": "Application sources, prior evidence and nine historical files preserved",
+      "pass": true
+    },
+    {
+      "id": "D14",
+      "case": "Only new lab stopped; four volumes retained without SIGKILL/OOM",
+      "pass": true
+    }
+  ],
+  "counts": {
+    "groupedChecks": 14,
+    "pass": 12,
+    "fail": 2,
+    "httpResponses": 43,
+    "prior3526NotRepeated": true
+  },
+  "sourceManifestEntries": 1551,
+  "changedPreviouslyTrackedFiles": [
+    "Docs/astra/primax-lot5-final-report.md",
+    "Docs/astra/primax-lot5-known-incidents.md",
+    "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md"
+  ],
+  "historicalFilesUnchangedAndUntracked": 9,
+  "protectedProjectsUnchangedSinceEngineStartup": true,
+  "privateSecretScanMatches": 0,
+  "evidence": [
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/after-captured-reload.json",
+      "sha256": "a04e7074cb30f960c35ddb8655f21fb8ba5faa36b6aa88a6c625e83975ec8937"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/before-start-lease.json",
+      "sha256": "1473419d2d67eb6049bd9904f11b2adaf58779f4b15d3e1655ad225425aa31a4"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/browser-evidence.json",
+      "sha256": "f186422458747fb7bbda2673d8ac833a0b9576ecbd4b6668c3dc812a136a2dd4"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/captured-after-failure.json",
+      "sha256": "13fec4057bfe9d7d5d254a4bae3d809e5772015e0af653d83f5c821a8358f2e0"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/captured-after-retries.json",
+      "sha256": "e61c9344586a8bdbb3a44f4d1b28316b3b1f266c3d8648418c60c263d1a1086f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/docker-and-backend.json",
+      "sha256": "fdabc5246d3a0e7350759735741223c40ec14252c596e79a06f21ef011454013"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/failure-confirmed.png",
+      "sha256": "adaba26624675bc760e794a76ef0f9ccfc31567a2eb204d7d951d4658508840a"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/initial.json",
+      "sha256": "1086887d46f968fea25abd41573b4c2535d12dcd07b6ddb7b6ed7395f0ad9055"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/isolation.json",
+      "sha256": "9ef9bfc403f83ca66196423035c65c0264f165731aa811733fd3577c3c797839"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/pending-after-reload.json",
+      "sha256": "2a605f75983eaadfbb43f46f3d58b89720a6bc35278020c33ccd1e0fabf77f6b"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/pending-before-reload.json",
+      "sha256": "db8ba6e03ff5a178e89a68306272ecfa5269f9b2946ccfd0e415526fc9fb9ebf"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/pending-before-reload.png",
+      "sha256": "78a24fed745fcec50d2beb84307642b9065f37c12edba9690d787a5b0ab5d85f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/persisted-transient-flags.json",
+      "sha256": "af7124186c4abe6501dc0c3e0e3f11da9664e87e9efb9c3b88914f6335c5f5c8"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/recovered-pending-total-missing.png",
+      "sha256": "0c90e34c9dd81550c5a214b8e4f585e22fab040e2e1437c153528b6071543832"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/reload-captured-blocked.png",
+      "sha256": "e446b5f9716f7402671e6dac8b445cfa934146b44c6adfd7ce0f5b7a6fa9b303"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/startup.json",
+      "sha256": "7a26e9f55e6d70d5ba1ab5b32dedc4619d3a92d759007e1f425c37107b6292c7"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-diagnostic/stopped-lab.json",
+      "sha256": "2305555e00266e1a8cbc39899a3bc4fc74eab56a238f3c9c737d8231a66ac465"
+    }
+  ],
+  "mandatoryPending": [
+    "Authorized functional correction and targeted regression",
+    "Native Linux and macOS host validation per unchanged 3J",
+    "ARM64 execution if applicable to target Mac"
+  ],
+  "financialRecoveryOfFrozenOperationsPerformed": false
+}

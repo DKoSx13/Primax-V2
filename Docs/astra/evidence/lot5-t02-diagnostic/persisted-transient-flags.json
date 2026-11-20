@@ -1,0 +1,9 @@
+{
+  "phase": "persisted-transient-flags",
+  "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+  "onlineOrderId": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+  "savedCreatingOrder": true,
+  "hasAuthorizationRequest": false,
+  "hasPayload": false,
+  "hasResult": false
+}

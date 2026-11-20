@@ -2,6 +2,8 @@
 
 Fecha: 20/11/2026. Referencia comprobada: `9d57edea9bf047ac8e5d05833ec752bb82572591`, rama `feat/dezkz-identity-a4-core`.
 
+**Actualización posterior al commit 945abd:** Docker Desktop restablecido; original 15 healthy/dos jobs exit 0. Nueva reproducción T02 confirma `catalog` undefined en frontend, bandera creatingOrder persistida y pago capturado sin autorización/venta/comprobante. Dos reintentos UI y replay de la misma confirmación no duplican registros. No se aplicó corrección funcional. Véase [diagnóstico completo y propuesta pendiente de autorización](primax-lot5-t02-diagnostic.md). Las menciones siguientes a Docker inaccesible describen la sesión anterior, no su estado posterior a esta intervención. Lote 5 sigue abierto.
+
 **Resultado tras reanudar: verificaciones locales disponibles documentadas y auditadas; Lote 5 y cierre integral pendientes.** Hay dos impedimentos diferentes: una incidencia P1 funcional de recuperación en FuelFlow T02 y la ejecución real en hosts Linux/macOS exigida por 3J (§7, §8.10 y §10.6), sin infraestructura disponible. Windows con contenedores Linux amd64 acredita el recorrido normal demo y las regresiones indicadas, con las limitaciones descritas. No se cambia el criterio de aceptación ni se presume aceptación académica de la incidencia. No se declara autonomía productiva ni equivalencia universal.
 
 ## Cumplimiento

@@ -1,0 +1,736 @@
+{
+  "project": "primax-astra-lot5-t02-27d5ab6a9f",
+  "browserVersion": "158.0.8127.36",
+  "requestRecording": "Allowlisted response/request fields only; no headers, cookie values or tokens",
+  "requests": [
+    {
+      "phase": "boot",
+      "at": "2026-11-20T12:54:07.132Z",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {}
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:54:07.150Z",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200,
+      "requestBody": {},
+      "responseBody": {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+        "terminalId": "5d5d39d0-c597-417a-a2a0-4cd761a8b626",
+        "prepared": true
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:54:07.164Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:54:07.178Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 409,
+      "requestBody": {},
+      "responseBody": {
+        "statusCode": 409,
+        "message": "Terminal ocupada en otra pestaña. Conserva la sesión original."
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:54:37.182Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:55:03.502Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 409,
+      "requestBody": {},
+      "responseBody": {
+        "statusCode": 409,
+        "message": "Terminal ocupada en otra pestaña. Conserva la sesión original."
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:55:07.182Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:55:37.182Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:55:49.335Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 409,
+      "requestBody": {},
+      "responseBody": {
+        "statusCode": 409,
+        "message": "Terminal ocupada en otra pestaña. Conserva la sesión original."
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:07.182Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.302Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {},
+      "responseBody": {
+        "activeOperationId": null
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.323Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.340Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.351Z",
+      "path": "/api/v1/terminal/operations/59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "method": "GET",
+      "status": 404,
+      "requestBody": null,
+      "responseBody": {
+        "statusCode": 404,
+        "message": "Operación no encontrada"
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.376Z",
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      },
+      "responseBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.386Z",
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": [
+        {
+          "id": "86772029-1433-459f-a3ab-bc5741e34ee4"
+        },
+        {
+          "id": "3c509016-b6f5-4628-b015-0d2cccbb8d60"
+        },
+        {
+          "id": "0ff306e5-c329-4917-9824-91266a56355f"
+        }
+      ]
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.420Z",
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": [
+        {
+          "id": "efeec318-cc81-4655-ac2f-b594a181bea9"
+        }
+      ]
+    },
+    {
+      "phase": "normal-start",
+      "at": "2026-11-20T12:56:13.421Z",
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": [
+        {
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+          "fuelId": "0ff306e5-c329-4917-9824-91266a56355f"
+        },
+        {
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+          "fuelId": "3c509016-b6f5-4628-b015-0d2cccbb8d60"
+        },
+        {
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+          "fuelId": "86772029-1433-459f-a3ab-bc5741e34ee4"
+        }
+      ]
+    },
+    {
+      "phase": "normal-order-preparation",
+      "at": "2026-11-20T12:56:37.198Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "normal-order-preparation",
+      "at": "2026-11-20T12:56:42.365Z",
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "id": "6d958f94-0789-4bd2-b544-772a9b6a5e59"
+      }
+    },
+    {
+      "phase": "normal-order-preparation",
+      "at": "2026-11-20T12:56:42.366Z",
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "id": "6d958f94-0789-4bd2-b544-772a9b6a5e59"
+      }
+    },
+    {
+      "phase": "order-pending-before-reload",
+      "at": "2026-11-20T12:56:59.186Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "order-pending-before-reload",
+      "at": "2026-11-20T12:56:59.197Z",
+      "path": "/api/v1/terminal/operations/59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "order-pending-before-reload",
+      "at": "2026-11-20T12:56:59.259Z",
+      "path": "/api/v1/online-orders",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "method": "YAPE",
+        "authorization": {
+          "mode": "PREPAGO",
+          "unitPrice": "21.30",
+          "amount": "20.00",
+          "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9",
+          "fuelId": "0ff306e5-c329-4917-9824-91266a56355f",
+          "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+        }
+      },
+      "responseBody": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "transactionId": null,
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "PENDING"
+      }
+    },
+    {
+      "phase": "order-pending-before-reload",
+      "at": "2026-11-20T12:57:07.190Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.015Z",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9"
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.030Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.044Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      },
+      "responseBody": {
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.060Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.424Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.431Z",
+      "path": "/api/v1/terminal/operations/59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "reload-pending",
+      "at": "2026-11-20T12:57:18.448Z",
+      "path": "/api/v1/online-orders/053f9833-ea7c-403e-a3e0-94ba1d15b740",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "transactionId": null,
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "PENDING"
+      }
+    },
+    {
+      "phase": "confirm-after-reload",
+      "at": "2026-11-20T12:57:34.078Z",
+      "path": "/api/v1/online-orders/053f9833-ea7c-403e-a3e0-94ba1d15b740/demo-confirm",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "amount": "20.00",
+        "currency": "PEN"
+      },
+      "responseBody": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "transactionId": null,
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "CAPTURED"
+      }
+    },
+    {
+      "phase": "confirm-after-reload",
+      "at": "2026-11-20T12:57:48.053Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "captured-demo-confirm-idempotency",
+      "at": "2026-11-20T12:58:16.910Z",
+      "path": "/api/v1/online-orders/053f9833-ea7c-403e-a3e0-94ba1d15b740/demo-confirm",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "amount": "20.00",
+        "currency": "PEN"
+      },
+      "responseBody": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "transactionId": null,
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "CAPTURED"
+      }
+    },
+    {
+      "phase": "captured-demo-confirm-idempotency",
+      "at": "2026-11-20T12:58:18.053Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.121Z",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "stationId": "efeec318-cc81-4655-ac2f-b594a181bea9"
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.138Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.153Z",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "requestBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      },
+      "responseBody": {
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.167Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.524Z",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.533Z",
+      "path": "/api/v1/terminal/operations/59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "at": "2026-11-20T12:58:35.547Z",
+      "path": "/api/v1/online-orders/053f9833-ea7c-403e-a3e0-94ba1d15b740",
+      "method": "GET",
+      "status": 200,
+      "requestBody": null,
+      "responseBody": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "transactionId": null,
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "CAPTURED"
+      }
+    }
+  ],
+  "errors": [],
+  "debugger": [
+    {
+      "phase": "same-operation-ui-retry-1",
+      "functionName": "ejecutarReserva",
+      "location": {
+        "scriptId": "1886",
+        "lineNumber": 2451,
+        "columnNumber": 23
+      },
+      "stack": [
+        {
+          "functionName": "ejecutarReserva",
+          "url": "",
+          "line": 2452
+        },
+        {
+          "functionName": "procesarPago",
+          "url": "",
+          "line": 1644
+        },
+        {
+          "functionName": "",
+          "url": "",
+          "line": 1651
+        },
+        {
+          "functionName": "cerrarModal",
+          "url": "",
+          "line": 1210
+        }
+      ],
+      "variables": {
+        "catalogType": "undefined",
+        "stateFuel": {
+          "id": "0ff306e5-c329-4917-9824-91266a56355f",
+          "nombre": "Regular",
+          "precio": 21.3
+        },
+        "amount": 20,
+        "orderId": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "orderAmount": "20",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334"
+      }
+    }
+  ],
+  "states": [
+    {
+      "phase": "order-pending-before-reload",
+      "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "hasPayload": false,
+      "hasAuthorizationRequest": false,
+      "hasResult": false,
+      "snapshot": {
+        "onlineOrderId": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "onlineOrderAmount": "20",
+        "montoPrepago": 20,
+        "modalidad": "PREPAGO",
+        "combustible": {
+          "id": "0ff306e5-c329-4917-9824-91266a56355f",
+          "nombre": "Regular",
+          "precio": 21.3
+        },
+        "metodoPago": "YAPE"
+      },
+      "total": "S/ 20.00",
+      "tabId": "34f0cda0-cd34-40e7-901f-0e75f227b601"
+    },
+    {
+      "phase": "reload-pending",
+      "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+      "onlineOrderId": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+      "amount": 20,
+      "onlineOrderAmount": "20",
+      "hasPayload": false,
+      "total": "—",
+      "qrMessage": "",
+      "tabId": "34f0cda0-cd34-40e7-901f-0e75f227b601",
+      "cookies": [
+        {
+          "name": "primax-kiosk-local-27584",
+          "preserved": true,
+          "httpOnly": true,
+          "sameSite": "Strict"
+        },
+        {
+          "name": "primax-terminal-local-27584",
+          "preserved": true,
+          "httpOnly": true,
+          "sameSite": "Strict"
+        },
+        {
+          "name": "primax-terminal-csrf-local-27584",
+          "preserved": false,
+          "httpOnly": false,
+          "sameSite": "Strict"
+        }
+      ]
+    },
+    {
+      "phase": "confirm-after-reload",
+      "modal": "⚠️\nNo se pudo autorizar el despacho\n\nCannot read properties of undefined (reading 'station') No vuelvas a pagar ni iniciar otra operación; puedes reintentar esta misma venta.\n\nEntendido"
+    },
+    {
+      "phase": "captured-demo-confirm-idempotency",
+      "result": {
+        "id": "053f9833-ea7c-403e-a3e0-94ba1d15b740",
+        "operationId": "59b97980-55d3-4201-a6b2-17b1dc14e334",
+        "paymentId": "bd019d27-a3ad-4600-9463-853402645a77",
+        "status": "CAPTURED",
+        "amount": "20",
+        "transactionId": null
+      }
+    },
+    {
+      "phase": "reload-after-capture",
+      "modal": "⚠️\nOrden conservada\n\nEl pago tiene estado CAPTURED. Solicita asistencia para continuar con esta misma operación.\n\nEntendido"
+    }
+  ],
+  "financialMutations": "One synthetic order; confirmation and one replay of same captured demo order; two UI authorization retries; no other payment"
+}

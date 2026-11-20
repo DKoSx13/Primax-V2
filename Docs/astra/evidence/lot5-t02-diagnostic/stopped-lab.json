@@ -1,0 +1,114 @@
+{
+  "project": "primax-astra-lot5-t02-27d5ab6a9f",
+  "stoppedOnlyNewProject": true,
+  "volumesRetained": [
+    "primax-astra-lot5-t02-27d5ab6a9f_bootstrap_state",
+    "primax-astra-lot5-t02-27d5ab6a9f_postgres_data",
+    "primax-astra-lot5-t02-27d5ab6a9f_print_data",
+    "primax-astra-lot5-t02-27d5ab6a9f_redis_data"
+  ],
+  "containers": [
+    {
+      "service": "frontend1",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "fuelflow-t02",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "frontend2",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "frontend3",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "fuelflow-gateway",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "fuelflow-gateway-t02",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "backend",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "identity-service",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "catalog-service",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "commerce-service",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "administration-service",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "bootstrap",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "postgres",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "redis",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "print-service",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "plate-recognition",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    },
+    {
+      "service": "volume-guard",
+      "running": false,
+      "exitCode": 0,
+      "oomKilled": false
+    }
+  ]
+}

@@ -895,3 +895,41 @@ de las verificaciones y documentación completadas, indicando estos pendientes;
 no equivale a commit de cierre. Sin push/merge y sin incorporar evidencia histórica,
 secretos, dumps o configuraciones privadas. La ausencia de hosts no es el único
 impedimento: la recuperación T02 continúa fallida y exige decisión/validación propia.
+
+## 21. Lote 5 — diagnóstico Docker/T02 autorizado, 2026-11-20
+
+Base documental aceptada: `945abd06dc2f5392348438d466c7e2e3967e316b`. La sesión
+posterior autorizó exclusivamente restauración del entorno y diagnóstico, con
+recursos sintéticos nuevos y detención antes de corregir un defecto funcional.
+[Informe y propuesta concreta](primax-lot5-t02-diagnostic.md).
+
+Docker Desktop estaba detenido; se inició por CLI sin reset, cambio de contexto,
+limpieza o reinicialización. WSL2 arranca y original muestra 15 healthy/dos jobs
+exit 0. Los contenedores existentes reinician por sus políticas al arrancar el
+motor; desde entonces no cambian IDs/imágenes/inicios/reinicios/montajes del
+original (17) y exposición (20). No se emiten up/stop sobre proyectos protegidos.
+
+Nuevo laboratorio primax-astra-lot5-t02-27d5ab6a9f, volúmenes/redes/secretos nuevos,
+snapshot de fuentes aceptadas y cadena de migraciones existente. Navegador real:
+PENDING → recarga conserva IDs/sesión pero omite catálogo y total; demo-confirm
+captura un pago de 20; TypeError en script.js:2452, catalog undefined confirmado en
+depurador antes del POST authorizations. creatingOrder=true persistido también
+impide regenerar QR. No es solo visual: cero autorizaciones/ventas/comprobantes,
+atención ACTIVE, reserva PENDING_PAYMENT y stock físico sin consumir.
+
+Dos reintentos UI fallan sin solicitudes; replay explícito de la misma confirmación
+conserva un único pago y los mismos eventos. Segunda recarga CAPTURED conserva la
+operación y solicita asistencia. PostgreSQL exacto tras fallo/replay/segunda recarga;
+Redis PONG y sesiones con TTL válido. No se fuerza recuperación, cancelación ni
+reembolso. Proyecto nuevo detenido, cuatro volúmenes conservados, sin SIGKILL/OOM.
+
+Defecto funcional P1 preexistente del frontend, distinto de T01. Sin cambios de
+aplicación, AuthCore, Prisma, motores, políticas o contratos. Las 3526 comprobaciones
+previas no se repiten ni se cuentan otra vez; evidencia anterior y nueve archivos
+históricos intactos. La propuesta mínima limita la recuperación de UI para órdenes
+PENDING/CREATING; rehidrata contexto, excluye flags transitorios y restaura vista,
+con mismos IDs/precio/importe. Recuperar automáticamente CAPTURED no está autorizado.
+
+**Diagnóstico terminado; corrección funcional pendiente de autorización específica.
+Lote 5 abierto**, Linux nativo/macOS/ARM64 pendientes y criterios de aceptación
+inalterados. Se permite commit local del diagnóstico verificado, sin push/merge.
