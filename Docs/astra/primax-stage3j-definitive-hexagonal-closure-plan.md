@@ -685,3 +685,45 @@ No se modifica Compose definitivo ni se certifican los P0 globales de portabilid
 Un commit local del paquete verificado, sin push/merge. Las nueve evidencias hist?ricas
 siguen intactas y excluidas. **Trabajo detenido al terminar 2C; Administration y
 Lotes 3?5 no iniciados.** No se propone una etapa nueva por ruta.
+
+## 17. Lote 2D — cierre académico Identity 26/26 y Catalog 6/6
+
+Referencia: `efcbdc9bc7f68944f0c72c6bbff125f55793f4e4`. La historia anterior se
+conserva; esta actualización resuelve únicamente el pendiente finito de las dos
+excepciones de 2C. [Informe 2D](primax-lot2d-identity-results.md),
+[matriz definitiva](primax-lot2-identity26-catalog6-matrix.md) y
+[evidencia](evidence/lot2d-identity/review-summary.json).
+
+POST /admin/login y GET /admin/demo-credentials utilizan ahora AdminAccessOperations
+con puerto, caso de uso, adaptador de entrada, adaptador local y composición bajo
+services/identity/src. AdminAccessEngine contiene literalmente los cuerpos y helper
+originales, con la misma configuración y el mismo JwtService inyectados. DTOs,
+decoradores, throttle, errores, JWT, guards y condición demo local no cambian.
+AuthCore, PasswordReset, authVersion, Prisma, repositorios y políticas financieras
+permanecen intactos. No se añade habilitación demo en producción.
+
+235 pruebas en 22 suites, Gateway 24/24 y empaquetado 9/9 pasan. Cuatro servicios y
+legacy compilan; diez builds de contexto pasan sin TS2307, con hashes emitidos
+idénticos en Catalog/Commerce/Administration. Cinco imágenes nuevas arrancan con
+Nest real y PostgreSQL/Redis nuevos, health correcto y sin cambios en datos o
+secuencias. 174 checks HTTP por brazo, 348 pareados, comparan las cinco familias
+contra el commit inicial. Se comprueba ausencia de escrituras SQL/Redis durante
+login/demo y ausencia de ciclos nuevos. Recursos exclusivos, sintéticos, sin
+puertos publicados y detenidos al terminar; ninguna limpieza global Docker.
+
+**Identity 26/26 H y Catalog 6/6: cierre académico del alcance finito del Lote 2,
+con dependencias y observaciones declaradas.** Ya no quedan excepciones inline
+pendientes de Identity. No se declara autonomía productiva: AuthCore/JWT/guards,
+PasswordReset, Prisma/bootstrap, base común, Redis, repositorios, motores y
+escritores legacy siguen explícitos. El token técnico admin conserva sus límites
+de revocación originales; no recibe authVersion por esta extracción.
+
+Catalog conserva inventario público, filas inactivas, permisos Control y lector
+alternativo con sus límites previos. T01, consumo Redis previo a rollback SQL,
+TARJETA/OnlineOrder_method_check, x-kiosk-key y proveedores externos permanecen
+documentados. A.2/A.4 no se reabren. Compose definitivo y portabilidad global no
+se certifican. La copia de exposición permanece fuera de todas las mutaciones.
+
+Un commit local del lote verificado; nueve evidencias históricas intactas y sin
+seguimiento. Sin push/merge. **Trabajo detenido al finalizar 2D; Administration
+y Lotes 3, 4 y 5 no iniciados.**

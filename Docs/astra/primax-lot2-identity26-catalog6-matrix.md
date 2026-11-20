@@ -1,24 +1,20 @@
-# Identity 26 + Catalog 6 ? matriz vigente despu?s del Lote 2C
+# Identity 26 + Catalog 6 — matriz vigente del Lote 2D
 
-Referencia autorizada: `a72e787deb03facf29989eab64949aec5d339950`.
-Los estados anteriores se conservan en Git y en los informes de Lotes 2 y 2B.
-Estado vigente: **24 fronteras implementadas y validadas, dos excepciones t?cnicas
-propuestas sin aceptar, ning?n contrato sin clasificaci?n ni bloqueo t?cnico nuevo**.
-No se afirma cierre acad?mico incondicional ni autonom?a productiva.
+Referencia: `efcbdc9bc7f68944f0c72c6bbff125f55793f4e4`.
+Estado vigente: **26/26 fronteras Identity implementadas y validadas; 6/6 lecturas
+Catalog aceptadas académicamente**. Sin excepciones inline pendientes de Identity.
+H significa frontera comprobada que reutiliza el motor y la autoridad de escritura
+originales. Los estados anteriores se conservan en Git y en los informes 2/2B/2C.
+La aceptación académica de este alcance no declara autonomía productiva.
 
-H: frontera hexagonal comprobada, con adaptador local legacy expl?cito cuando
-corresponde. El motor y su autoridad de escritura permanecen donde estaban.
-D: implementaci?n t?cnica inline conservada y evaluada; sin frontera ni aceptaci?n
-nueva. Un HTTP correcto de una D no la convierte en H.
-
-| Contrato p?blico | Estado | Familia | Motor/compatibilidad original | Evidencia 2C |
+| Contrato público | Estado | Familia | Motor/compatibilidad original | Evidencia 2C/2D |
 |---|:---:|---|---|---|
 | GET /api/v1/admin/alerts | H | AdminIdentityWorkflows | AlertsService.list | lot2c-boundaries + admin-ocr |
 | POST /api/v1/admin/alerts/:id/resolve | H | AdminIdentityWorkflows | AlertsService.resolve | lot2c-boundaries + admin-ocr |
 | POST /api/v1/admin/check-plate | H | AdminIdentityWorkflows | AlertsService.checkPlate | lot2c-boundaries + admin-ocr |
 | GET /api/v1/admin/dashboard | H | AdminIdentityWorkflows | AlertsService.dashboard | lot2c-boundaries + admin-ocr |
-| GET /api/v1/admin/demo-credentials | D | Technical exception proposed | AdminController.demo (inline) | admin-ocr: comportamiento original + inspecci?n literal; sin frontera nueva |
-| POST /api/v1/admin/login | D | Technical exception proposed | AdminController.login (inline) | admin-ocr: comportamiento original + inspecci?n literal; sin frontera nueva |
+| GET /api/v1/admin/demo-credentials | H | AdminAccessOperations | AdminAccessEngine.demo (original extraído) | lot2d-boundaries + admin-ocr |
+| POST /api/v1/admin/login | H | AdminAccessOperations | AdminAccessEngine.login (original extraído) | lot2d-boundaries + admin-ocr |
 | POST /api/v1/auth/forgot-password | H | IdentitySecurityOperations | PasswordResetService.forgot | lot2c-boundaries + security |
 | POST /api/v1/auth/login | H | IdentitySecurityOperations | AuthService.login | lot2c-boundaries + security |
 | POST /api/v1/auth/register | H | IdentitySecurityOperations | AuthService.register | lot2c-boundaries + security |
@@ -40,20 +36,21 @@ nueva. Un HTTP correcto de una D no la convierte en H.
 | POST /api/v1/vehicles | H | VehicleLinking | VehiclesService.create | profile |
 | GET /api/v1/vehicles/:plate | H | LookupVehicle | Existing vehicle readers / VehiclesRepository | profile |
 
-Los quince contratos antes bloqueados son las cinco filas IdentitySecurityOperations,
-seis KioskSessionOperations y cuatro AdminIdentityWorkflows. Cada familia incorpora
-caso de uso con m?todos expl?citos, puerto, adaptadores de entrada/salida y composici?n
-en `Backend/services/identity/src/`. El controlador original valida y proyecta
-los mismos datos; el adaptador local invoca una vez la instancia Nest existente.
-No cambian AuthCore, PasswordReset, guards, JWT, CSRF, permisos ni transacciones.
 
-Las dos D son t?cnicamente viables mediante una futura extracci?n literal de sus
-bloques inline hacia un motor local inyectado. No existe un bloqueo de seguridad
-nuevo ni TS2307 que impida esa opci?n. Esta autorizaci?n consolida quince operaciones
-y eval?a separadamente estas dos: no se ampl?a a diecisiete ni se acepta la excepci?n
-por inferencia. Sus m?todos y decoradores permanecen literalmente iguales. La decisi?n
-finita pendiente es aceptar expresamente ambas excepciones justificadas o autorizar
-su extracci?n conservadora, sin cambiar pol?ticas ni contratos.
+Las 24 fronteras anteriores conservan sus motores, composición y políticas. Las dos
+restantes usan AdminAccessOperations: controlador existente → adaptador de entrada →
+caso de uso → puerto explícito → adaptador local → AdminAccessEngine. Este motor
+contiene literalmente los cuerpos y la comparación constante originales; reutiliza
+ConfigService y el JwtService inyectado por AuthCore. No crea otro autenticador,
+JwtService, Prisma ni escritor. Se conservan DTOs, errores, HTTP 201/401/400,
+decoradores, permisos y throttle original.
+
+La condición demo original exige APP_MODE=local y SHOW_DEMO_ADMIN_CREDENTIALS=true
+exactos. Las pruebas rechazan divulgación y login demo en production/staging/test;
+no se introduce una nueva habilitación productiva. El JWT administrativo técnico
+mantiene sub=admin, role=admin, adminUser y 30 minutos; no se le atribuye revocación
+por authVersion que el diseño original no proporciona. El guard conserva la
+validación del usuario configurado y la revocación de cuentas con authVersion.
 
 | Lectura Catalog | Caso de uso | Persistencia original | Evidencia |
 |---|---|---|---|
@@ -64,17 +61,29 @@ su extracci?n conservadora, sin cambiar pol?ticas ni contratos.
 | GET /api/v1/fuels/inventory | ReadInventory | FuelsRepository.inventory | catalog |
 | GET /api/v1/stations | ListStations | StationsRepository.list | catalog |
 
-Catalog conserva **6/6 lecturas aceptadas acad?micamente**, sin reimplementaci?n.
-La exposici?n p?blica de inventario incluye filas de estaciones/combustibles inactivos;
-un Bearer en una ruta p?blica no activa el filtrado Control por estaci?n. Se conservan
-estos l?mites, los repositorios originales y el lector HTTP alternativo con su evidencia
-unitaria, sin certificar su despliegue. No se cambian pol?ticas de exposici?n.
+Catalog conserva **6/6 lecturas aceptadas académicamente**, sin reimplementación.
+La exposición pública de inventario incluye filas de estaciones/combustibles inactivos;
+un Bearer en una ruta pública no activa el filtrado Control por estación. Se conservan
+estos límites, los repositorios originales y el lector HTTP alternativo con su evidencia
+unitaria, sin certificar su despliegue. No se cambian políticas de exposición.
 
 Las dependencias AuthCore/Prisma/bootstrap, operaciones financieras compartidas,
-T01, pol?tica legacy x-kiosk-key, TARJETA/OnlineOrder_method_check y proveedores
+T01, política legacy x-kiosk-key, TARJETA/OnlineOrder_method_check y proveedores
 siguen documentadas. A.4 permanece cerrado. Los P0 globales de Compose definitivo
 y portabilidad pertenecen a Lotes posteriores no iniciados.
 
-Informe, l?mites y evaluaci?n de las dos excepciones:
-[Lote 2C](primax-lot2c-identity-results.md).
-Ejecuciones nuevas y trazabilidad: [resumen](evidence/lot2c-identity/review-summary.json).
+
+
+## Evaluación vigente
+
+Se cierra académicamente el alcance finito del Lote 2 (Identity 26 + Catalog 6):
+fronteras, compatibilidad local, composición y empaquetado comprobados. No queda
+pendiente aceptar las dos excepciones anteriores: ambas fueron implementadas.
+Los P0 globales de Compose definitivo y portabilidad siguen fuera de este lote.
+AuthCore, PasswordReset, Prisma/bootstrap, PostgreSQL/Redis compartidos, repositorios,
+Alerts/OCR y operaciones financieras legacy siguen como dependencias explícitas.
+T01, TARJETA/OnlineOrder_method_check, x-kiosk-key, proveedores externos y A.4
+conservan sus observaciones sin reabrirse. No se inicia Administration ni Lotes 3–5.
+
+Informe: [Lote 2D](primax-lot2d-identity-results.md).
+Evidencia: [resumen saneado](evidence/lot2d-identity/review-summary.json).
