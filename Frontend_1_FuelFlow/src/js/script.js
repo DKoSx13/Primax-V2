@@ -1352,10 +1352,71 @@ function guardarTransaccion(tx) {
 /* ============================================================================
  * 6. FLUJO DEL CLIENTE
  * ========================================================================== */
+async function cargarCatalogoOperacion(operation) {
+  catalog = undefined;
+  const [fuels, stations, terminal] = await Promise.all([
+    catalogService.fuels(), catalogService.stations(),
+    kioskAuthEnabled() ? terminalService.me() : Promise.resolve(null),
+  ]);
+  // The BFF deliberately redacts terminal/station UUIDs. Station comes from the
+  // authenticated kiosk session; operation ownership remains enforced by Backend.
+  const stationId = kioskAuthEnabled() ? kioskStationId() : operation?.stationId;
+  if (terminal && (!terminal.prepared || !stationId ||
+      (operation && (operation.closedAt || terminal.activeOperationId !== operation.operationId)) ||
+      (confirmedTerminal && (terminal.code !== confirmedTerminal.code || terminal.pumpCode !== confirmedTerminal.pumpCode))))
+    throw Error('La operación no coincide con la estación y terminal actuales. Solicita asistencia.');
+  const station = stations.find(s => (stationId ? s.id === stationId : s.code === 'PRIMAX-SUR') && s.active);
+  if (!station) throw Error('La estación no está disponible.');
+  catalog = { fuels, station };
+}
+
+function restaurarOrdenSnapshot(snapshot) {
+  // Only known operation data is advisory input; never restore UI locks or admin state.
+  for (const key of new Set([...Object.keys(state), 'onlineOrderId', 'onlineOrderAmount'])) {
+    if (!['adminAutenticado', 'vozActivada', 'idioma', 'despachoTimer'].includes(key) &&
+        Object.hasOwn(snapshot, key)) state[key] = snapshot[key];
+  }
+  state.creatingOrder = false;
+  state.changingMethod = false;
+  state.confirmingQR = false;
+  state.despachoTimer = null;
+}
+
+function snapshotOrden(extra = {}) {
+  return { ...state, ...extra, creatingOrder:false, changingMethod:false, confirmingQR:false, despachoTimer:null };
+}
+
+async function validarOrdenRecuperada(order, pending) {
+  if (order.id !== state.onlineOrderId || order.operationId !== pending.operationId)
+    throw Error('La orden no coincide con la operación local. Solicita asistencia.');
+  if (!['PENDING', 'CREATING'].includes(order.status))
+    throw Error('El pago tiene estado '+order.status+'. Solicita asistencia para continuar con esta misma operación.');
+  if (state.modalidad !== 'PREPAGO' || !catalog?.fuels.some(f => f.id === state.combustible?.id && f.active) ||
+      !Number.isFinite(state.combustible?.precio) || state.combustible.precio <= 0 ||
+      !Number.isFinite(state.montoPrepago) || state.montoPrepago <= 0)
+    throw Error('Faltan datos válidos de la orden guardada. Solicita asistencia antes de otro pago.');
+  // Compare the original request with the server's existing checksum. Keep the saved
+  // price/amount: order.amount may include a backend discount and is not the request amount.
+  const input = ordenAuthorization(order.method);
+  // Existing OrderDto/CreateAuthorizationDto serialization (PlateDto first).
+  const authorization = Object.fromEntries(['plate','mode','paymentMethod','unitPrice','allowDebt','operationId','amount','membershipCode','stationId','fuelId','receiptType']
+    .filter(key => input[key] !== undefined).map(key => [key,input[key]]));
+  const request = { operationId:pending.operationId, method:order.method, authorization };
+  const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(request)));
+  const hex = Array.from(new Uint8Array(hash), b => b.toString(16).padStart(2, '0')).join('');
+  if (hex !== order.requestHash)
+    throw Error('Los datos guardados no coinciden con la orden del Backend. Solicita asistencia antes de otro pago.');
+}
+
 async function iniciar() {
   try {
     const pending=transactionsService.current();
-    if(!pending?.result)await ensureTerminalOperation();
+    if (pending?.snapshot?.onlineOrderCreationPending && !pending.snapshot.onlineOrderId) {
+      $('btn-qr-pagado').disabled = true;
+      mostrarModal('Orden conservada','No se recibió el identificador de la orden. Conserva esta operación y solicita asistencia antes de otro pago.','⚠️');
+      return;
+    }
+    const operation = !pending?.result ? await ensureTerminalOperation() : null;
     if(pending?.intervention || (!pending?.payload && pending?.authorizationRequest)){
       Object.assign(state,pending.snapshot||{});
       state.autorizacionId = pending.authorization?.authorization?.id || state.autorizacionId;
@@ -1363,7 +1424,8 @@ async function iniciar() {
       return;
     }
     if(pending?.snapshot?.onlineOrderId && !pending?.payload){
-      Object.assign(state,pending.snapshot);
+      $('btn-qr-pagado').disabled = true;
+      restaurarOrdenSnapshot(pending.snapshot);
       let order;
       try { order=await apiClient('/online-orders/'+state.onlineOrderId); }
       catch(error){mostrarModal('Orden conservada',error.message+' Consulta la misma orden antes de otro pago.','⚠️');return;}
@@ -1371,8 +1433,13 @@ async function iniciar() {
       if(!['PENDING','CREATING'].includes(order.status)){
         mostrarModal('Orden conservada','El pago tiene estado '+order.status+'. Solicita asistencia para continuar con esta misma operación.','⚠️');return;
       }
+      await cargarCatalogoOperacion(operation);
+      await validarOrdenRecuperada(order, pending);
       state.onlineOrderAmount=order.amount;
       state.metodoPago=order.method;
+      $('metodo-monto').textContent='S/ '+Number(order.amount).toFixed(2);
+      document.querySelectorAll('[data-metodo]').forEach(b=>b.classList.toggle('selected',b.dataset.metodo===order.method));
+      ['panel-qr','panel-nfc'].forEach(id=>$(id).classList.add('hidden'));
       mostrarPantalla('pantalla-metodo');
       if(['YAPE','PLIN'].includes(order.method)){
         $('panel-qr').classList.remove('hidden');
@@ -1407,12 +1474,9 @@ async function iniciar() {
       Object.assign(state,pending.snapshot);await mostrarResumen();return;
     }
     limpiarEstadoOperacion();
-    const [fuels,stations]=await Promise.all([catalogService.fuels(),catalogService.stations()]);
-    const station=kioskAuthEnabled()
-      ? stations.find(s=>s.id===kioskStationId()&&s.active)
-      : stations.find(s=>s.code==='PRIMAX-SUR'&&s.active);
-    if(!station)throw Error('La estación no está disponible.');
-    catalog={fuels,station};transactionsService.begin();
+    await cargarCatalogoOperacion(operation);
+    const {fuels}=catalog;
+    transactionsService.begin();
     document.querySelectorAll('.fuel-card').forEach(card=>{const fuel=fuels.find(f=>f.name===card.dataset.fuel&&f.active);card.disabled=!fuel;if(fuel){card.dataset.price=fuel.pricePerGallon;const price=card.querySelector('.price');if(price)price.firstChild.textContent='S/ '+Number(fuel.pricePerGallon).toFixed(2)+' ';}});
   }catch(error){mostrarModal('No pudimos iniciar',error.message,'⚠️');return;}
   hablar(t('voz_bienvenida'));
@@ -2441,6 +2505,7 @@ function cambiarAPrepago(montoPostpago) {
 
 /** Pide la reserva al backend y refleja el estado AUTORIZADO. */
 async function ejecutarReserva(monto, allowDebt = false) {
+  if (!catalog?.station?.id) throw Error('La estación no está disponible. Reintenta el inicio de esta misma operación.');
   const body = {
     mode: state.modalidad,
     ...(state.modalidad === 'PREPAGO' ? {paymentMethod:state.metodoPago} : {}),
@@ -2466,6 +2531,7 @@ async function ejecutarReserva(monto, allowDebt = false) {
 
 // ---------- Pantalla de método de pago ----------
 function ordenAuthorization(method) {
+  if (!catalog?.station?.id) throw Error('La estación no está disponible. Reintenta el inicio de esta misma operación.');
   const pending=transactionsService.begin();
   return {mode:'PREPAGO',paymentMethod:method,unitPrice:state.combustible.precio.toFixed(2),allowDebt:false,plate:state.placa,amount:state.montoPrepago.toFixed(2),...(state.codigoCliente?{membershipCode:state.codigoCliente}:{}),stationId:catalog.station.id,fuelId:state.combustible.id,receiptType:state.tipoComprobante||'BOLETA',operationId:pending.operationId};
 }
@@ -2492,7 +2558,10 @@ async function elegirMetodoPago(metodo) {
     finally { state.changingMethod=false; }
   }
   if(state.onlineOrderId){
-    if(state.metodoPago===metodo)return;
+    if(state.metodoPago===metodo){
+      if(['YAPE','PLIN'].includes(metodo))await crearOrdenQR(metodo);
+      return;
+    }
     state.changingMethod=true;
     try{const authorization=ordenAuthorization(metodo);await apiClient('/online-orders/'+state.onlineOrderId+'/reselect',{method:'POST',body:{operationId:authorization.operationId,method:metodo,authorization}});transactionsService.checkpoint({...state,metodoPago:metodo,despachoTimer:null});}
     catch(error){mostrarModal('Orden conservada',error.message,'⚠️');return;}
@@ -2533,6 +2602,8 @@ async function volverAMetodos() {
 // ---------- Yape / Plin: QR ----------
 /** Dibuja un QR decorativo (21x21 con 3 patrones de localización) según una semilla. */
 async function confirmarPagoQR() {
+  if (state.creatingOrder || $('btn-qr-pagado').disabled) return;
+  if (!catalog?.station?.id) { $('qr-msg').textContent='La estación no está disponible. Reintenta el inicio de esta misma operación.'; return; }
   if (!state.onlineOrderId) { $('qr-msg').textContent='Primero genera la orden de pago.'; return; }
   if(state.confirmingQR)return;state.confirmingQR=true;
   try { const order=await apiClient('/online-orders/'+state.onlineOrderId+'/demo-confirm',{method:'POST',body:{amount:Number(state.onlineOrderAmount).toFixed(2),currency:'PEN'}});
@@ -2868,12 +2939,17 @@ async function crearOrdenQR(method) {
   if(state.onlineOrderId) order=await apiClient('/online-orders/'+state.onlineOrderId);
   else {
     const authorization=ordenAuthorization(method);
+    // A response may be lost on reload. Preserve the in-flight intent, never
+    // automatically issue another order when its server identifier is unknown.
+    transactionsService.checkpoint(snapshotOrden({onlineOrderCreationPending:true}));
     order=await apiClient('/online-orders',{method:'POST',body:{operationId:authorization.operationId,method,authorization}});
   }
   if(order.status==='CREATING')order=await apiClient('/online-orders/'+order.id);
   if(order.operationId!==transactionsService.current()?.operationId)throw Error('La orden no coincide con esta operación. Solicita asistencia.');
   state.onlineOrderId=order.id;state.onlineOrderAmount=order.amount;
-  transactionsService.checkpoint({...state,despachoTimer:null});
+  transactionsService.checkpoint(snapshotOrden({onlineOrderCreationPending:false}));
+  await validarOrdenRecuperada(order, transactionsService.current());
+  if(order.status==='CREATING')throw Error('La orden sigue en creación. Reintenta consultar esta misma orden antes de pagar.');
   if(!order.providerId?.startsWith('demo:'))throw Error('Esta interfaz requiere billetera DEMO local.');
   const img=document.createElement('img');img.src='../assets/img/qr-demo.svg';img.alt='QR de demostración ficticio';img.style.width='100%';$('qr-code').append(img);$('btn-qr-pagado').disabled=false;
   $('qr-msg').textContent='QR de demostración · Pago simulado · S/ '+Number(order.amount).toFixed(2);

@@ -1,0 +1,238 @@
+{
+  "reference": "b6dd92c6b360c31aeec9076e8e323d827c8d814b",
+  "verifiedAt": "2026-11-20T13:38:15.936Z",
+  "authorizedFrontendFixVerified": true,
+  "financialRecoveryImplemented": false,
+  "lot5Complete": false,
+  "frontend": "Identified PENDING/CREATING orders reload with validated context, clean flags and reconstructed controls; confirmation still requires backend authorization",
+  "financial": "CAPTURED without sale remains conserved for assistance; unknown order ID after creation is not automatically replayed",
+  "unitTests": [
+    {
+      "name": "fuelflow",
+      "node": "v22.21.1",
+      "exitCode": 0,
+      "pass": 186,
+      "fail": 0
+    },
+    {
+      "name": "gateway",
+      "node": "v22.21.1",
+      "exitCode": 0,
+      "pass": 24,
+      "fail": 0
+    }
+  ],
+  "newFocusedTests": 14,
+  "global3526NotRepeated": true,
+  "integratedCases": [
+    "new baseline reproduces TypeError",
+    "reload before order retains operation",
+    "reload/legacy busy flag reconstructs pending QR",
+    "catalog/read 503 preserves errors and retry",
+    "altered snapshot rejected before capture",
+    "recovered sale EB01-0001",
+    "same sale replay exact PostgreSQL snapshot",
+    "normal sale EB01-0002",
+    "CAPTURED orphan reload/replay exact PostgreSQL snapshot",
+    "lost creation response conserves one PENDING order",
+    "T01 basic identity/catalog/reload"
+  ],
+  "resources": [
+    {
+      "arm": "baseline",
+      "project": "primax-astra-lot5-t02fix-4c7f866fd5",
+      "stoppedContainers": 17,
+      "retainedVolumes": [
+        "primax-astra-lot5-t02fix-4c7f866fd5_bootstrap_state",
+        "primax-astra-lot5-t02fix-4c7f866fd5_postgres_data",
+        "primax-astra-lot5-t02fix-4c7f866fd5_print_data",
+        "primax-astra-lot5-t02fix-4c7f866fd5_redis_data"
+      ],
+      "scriptSha256": "8aebe71f5c7d52f551c8a5362711df76adab690b65fa3273a7f07bee0e562e91"
+    },
+    {
+      "arm": "flow",
+      "project": "primax-astra-lot5-t02fix-3398208473",
+      "stoppedContainers": 17,
+      "retainedVolumes": [
+        "primax-astra-lot5-t02fix-3398208473_bootstrap_state",
+        "primax-astra-lot5-t02fix-3398208473_postgres_data",
+        "primax-astra-lot5-t02fix-3398208473_print_data",
+        "primax-astra-lot5-t02fix-3398208473_redis_data"
+      ],
+      "scriptSha256": "28e248282a04706afa179b4f9d7059c5cf44e8cce2b7ce844fb18d99763c8b8d"
+    },
+    {
+      "arm": "inflight",
+      "project": "primax-astra-lot5-t02fix-dffe7a2010",
+      "stoppedContainers": 17,
+      "retainedVolumes": [
+        "primax-astra-lot5-t02fix-dffe7a2010_bootstrap_state",
+        "primax-astra-lot5-t02fix-dffe7a2010_postgres_data",
+        "primax-astra-lot5-t02fix-dffe7a2010_print_data",
+        "primax-astra-lot5-t02fix-dffe7a2010_redis_data"
+      ],
+      "scriptSha256": "28e248282a04706afa179b4f9d7059c5cf44e8cce2b7ce844fb18d99763c8b8d"
+    }
+  ],
+  "protectedProjectsUnchanged": true,
+  "historicalFilesUnchangedAndUntracked": 9,
+  "changedPreviouslyTrackedFiles": [
+    "Docs/astra/primax-lot5-demo-guide.md",
+    "Docs/astra/primax-lot5-final-report.md",
+    "Docs/astra/primax-lot5-frontends.md",
+    "Docs/astra/primax-lot5-known-incidents.md",
+    "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md",
+    "Frontend_1_FuelFlow/src/js/script.js",
+    "Frontend_1_FuelFlow/tests/v11-payments.test.js"
+  ],
+  "privateSecretMatches": 0,
+  "limitations": [
+    "CAPTURED orphan financial recovery remains unauthorized and incomplete",
+    "Creation response lost without order identifier requires assistance",
+    "Native Linux/macOS and ARM64 not executed",
+    "Existing original/exhibition containers were not rebuilt or deployed"
+  ],
+  "evidence": [
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/browser.json",
+      "sha256": "475093f09fc55e0386cc401d82f39b76c3037a520415171c14c9ee9ef4fdc900"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/failure.json",
+      "sha256": "bebf33eeb819b8a87a348cfc8b9311ec8c2c3dbe681d7ddf6195887c295fc536"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/failure.png",
+      "sha256": "0ae735dc9154ecc367c08d78cffd539acdfd244532bf7e7479d5442e2728be50"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/isolation.json",
+      "sha256": "f074a38074a12fbbfdfbd998088c272f0dc793959329cc135c552cebc7ba9199"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/order-pending.json",
+      "sha256": "1ceed5ddfbef1da355ba2ef0bcb5f5079ebedf0b18b6f7c1bd36812a6cad969d"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/pending.json",
+      "sha256": "9369a27474827e42e8176b7f6afdf811a9f5ccacb3592a5b3c47f7b6f5d4e4a6"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/startup.json",
+      "sha256": "0a2ecf77d03dfcedcdfe06d11ccdc7cac764638e360286c665a0be1f6ec6d06f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/baseline/stopped.json",
+      "sha256": "2a6c7f81611cce525d9e4053c2e5bd70466c777440883b09c4ff4878203649a4"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/browser.json",
+      "sha256": "11daf5b9e97396f1ff2b7e75eeb396b66cd6ba64aaec67302e84567de0443264"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/captured-preserved.png",
+      "sha256": "571932f252945a2772a63a52317b063602ed1015ee789967bee39b3677ab5ca2"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/first-sale-replayed.json",
+      "sha256": "9479fba7228f3f4640dcecab73bd1394b141c7ae725a9cf599b1e1779847d161"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/first-sale.json",
+      "sha256": "34d93a5d630d24971e356273ec827775d8acb6b202c0ae1f4a28b4c0760bbe57"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/infrastructure.json",
+      "sha256": "1ae259415bdf5188832a0e3e65f555c5dfabfd03ca0eca24455a0fbfdfc1eb55"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/isolation.json",
+      "sha256": "4606c6e146e239f411ab5b1de26edbd2ca50b8fffa9bbe210af6c1378fd038eb"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/orphan-after-replay.json",
+      "sha256": "6fbbcc1739418d524dbe9bf8ce64c86d789da45d5318d0c588b0262babe2da26"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/orphan-captured.json",
+      "sha256": "dbeb98bccb2fc6d6c79920686a075c5f7ce88cc90b8983490ca3ab483e81e546"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/recovered-pending.json",
+      "sha256": "5428696e85306b0e44ea0b9bfe1ca35bc79fe0c2e17e9fe910c6842d5fa5a0e3"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/recovered-qr.png",
+      "sha256": "849ea662efb354e423bf11d1fa68f3f45ed68b02d13e59d07bed1d2b8478690b"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/recovered-ticket.png",
+      "sha256": "1bedc39af4812e5b376594dc65a4263215d795d1debcc218e5f1c22b9f9fc89d"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/startup.json",
+      "sha256": "7834e9c9b02104a5bbcda5063698f6430e365f4f22f44c2352d6a8ef8c41f852"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/stopped.json",
+      "sha256": "8c00c8dfe5a40f0b20f80033aa0bd14a1e143119a03c739916e974860fe23bbe"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/t01-basic.png",
+      "sha256": "12dca04445c8fa5184253b8c1c52a645e60c69b51f204ea64a3882923ca58b1a"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/t01-browser.json",
+      "sha256": "30ac4b0a1c346a1c2f623d6a85e4238982bb552946c82aa8871913aafb530d0d"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/flow/two-sales.json",
+      "sha256": "e7b1fb8aacbf5cf3ecdbb088422f252905b9d759c70c15cadff3d9ee95acb774"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/fuelflow.log",
+      "sha256": "4c4747c64019ff132a56229ff7cad7cd9a45951f82ff3ce3fab9d96330003878"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/gateway.log",
+      "sha256": "420e41fb17167749c1cb023bfc9629e5640d61a7390f8dce7454b049908301e5"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/browser.json",
+      "sha256": "4eda49ceab21403d515144f65510127147efe9f1f544f55b21221cb63ff2290b"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/creation-after-reload.json",
+      "sha256": "ddd7134eadf875f79ad68c38ea58f4aab0a18a55e5a9d3a2d7755fc700191283"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/creation-conserved.png",
+      "sha256": "d779195c1d0ecf8ccc0b99880c63caa99254009eafa0b569efb0ac0f32d540b3"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/creation-held.json",
+      "sha256": "3a188ff3c3132baca13a66da8a4ab1c553c53465601cdcbb0946af892f03fc2c"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/infrastructure.json",
+      "sha256": "8fbf69099f460f7bd434613b483d23caaa52cf748d95bca52f56953c54c10be8"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/isolation.json",
+      "sha256": "6fd8dddee9fe3b5d0f9fc7595159b170201545ce197ea924c894683154eb3d99"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/startup.json",
+      "sha256": "46a54b938a7d2730a25638ef1595d2f2900ad7ee1fe813ddb603f3a83b63a265"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/inflight/stopped.json",
+      "sha256": "b1205c1356d6b5aac3c755bc71dbb0ddb5e2c3051c43a322cc30b6f10cba823d"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-t02-frontend-fix/unit-results.json",
+      "sha256": "55384b94f62514df35e4102f91406215b53756f08a8a5787fed6565053f3617e"
+    }
+  ]
+}

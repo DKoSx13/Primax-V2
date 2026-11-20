@@ -1,0 +1,238 @@
+{
+  "project": "primax-astra-lot5-t02fix-4c7f866fd5",
+  "volumesRetained": true,
+  "containers": [
+    {
+      "id": "a3ce3aa48b2284cf495c95988787031f136513342e65bbb15845ac617b6d597f",
+      "service": "fuelflow-t02",
+      "image": "sha256:0205c3c40151fd2b6155dfc7895d9a64a4db31d251a5d0ed2d90ed3a27fa6c50",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:39.946934443Z",
+      "mounts": []
+    },
+    {
+      "id": "8b50d7aee514cf5e2f97af19feca749d6bdbd5c67a44b71fe16fcb86f6325855",
+      "service": "frontend1",
+      "image": "sha256:7017c3fb979b876e0e8d5661d147fdd016dbd626dcc7d5691488267af1dacb42",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:39.735946208Z",
+      "mounts": []
+    },
+    {
+      "id": "811d1f5f1af58a1c5eb453430cec9e0442f42ee2b46727445aefdfcdb05c4b60",
+      "service": "frontend3",
+      "image": "sha256:f4ad209c9959646d2bbd233d95c01206102af6b511fb316446b9a9551fe5a7ed",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:28.883871367Z",
+      "mounts": []
+    },
+    {
+      "id": "151b2bb6d7ebdee87de12d9afc177acdfeb8868bf3929d508aeea556dcef1354",
+      "service": "frontend2",
+      "image": "sha256:a7db82f503fffc4c0eda3d6beb4e7aea9d726b9858be44d309195a74069ce501",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:29.381686633Z",
+      "mounts": []
+    },
+    {
+      "id": "cc24ab16dca715f5e9a41328cce094b3420fccac10e4b933248f1d64488d8df4",
+      "service": "fuelflow-gateway-t02",
+      "image": "sha256:64cb20966e11891fe9a01cd919a716df418eeeea65e7b9d850512d2602f26f5f",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:29.207866682Z",
+      "mounts": []
+    },
+    {
+      "id": "740568bee6c5f07f01b2ead1f09bfbfca1528d4d1733165cf0a31fdcbdf9606f",
+      "service": "fuelflow-gateway",
+      "image": "sha256:e698f3c831d72d040afec3880cb91abc586ca41e3dd2ec8383d615fb8de1e3ba",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:29.061786057Z",
+      "mounts": []
+    },
+    {
+      "id": "f573857164fa5a876996f2f948b02de8ab422664b4e385216d5d0e44537a5c93",
+      "service": "backend",
+      "image": "sha256:af63eca9d75c0567bc3edb0694795d98cf1737a83aeb31c2135cd9ae46b24092",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:18.154690581Z",
+      "mounts": []
+    },
+    {
+      "id": "52a3c95abbed9ea93b2e450bff39bec9caef2e8a03231cb5602fb609c6793c8d",
+      "service": "identity-service",
+      "image": "sha256:2be3910536b9e778a38d1da291d228ad9eac841850511d0760390aa670d746fa",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:12.01773717Z",
+      "mounts": []
+    },
+    {
+      "id": "9e537b8c743101db3f2a0cd1714d0eda22acca2783077afd9920416d40cb9fac",
+      "service": "commerce-service",
+      "image": "sha256:c5ce1339b0d7e61bf4a483b8bb3ed99c944f0a103fa07396df5c86f5d677257d",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:12.333114185Z",
+      "mounts": []
+    },
+    {
+      "id": "3cfbdf73b302ad113a36de858b087d98d78f6eab45735a717afcb368240a2f39",
+      "service": "catalog-service",
+      "image": "sha256:0ade8a06ce523bc2d3990bb8551bc665e746030e143ceba87d3dd87f3abe2e25",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:12.178441399Z",
+      "mounts": []
+    },
+    {
+      "id": "f136855fb4009d0644983bb626f208b1585d530ee042b72b57f5cbdaef0dda33",
+      "service": "administration-service",
+      "image": "sha256:cc470935cd652b450d9a9febb29b9516fd4a37a6b9d5ebb71ac70c0bea8e3bf0",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:12.477616268Z",
+      "mounts": []
+    },
+    {
+      "id": "fffbb5fa726dde9c0c451f0fc02282fefc0335309142945b0288eec5862653b8",
+      "service": "bootstrap",
+      "image": "sha256:24f9dcaabd78b04b8991c072c939153a38753ed96691811df2980659a161cf49",
+      "state": "exited",
+      "health": null,
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:08.814823045Z",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_bootstrap_state",
+          "destination": "/state"
+        }
+      ]
+    },
+    {
+      "id": "f9f37ab3a5531b3ca96c0e154d9f2641c7ffbc208a70c88a526e3496f5001935",
+      "service": "postgres",
+      "image": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:03.070805516Z",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_postgres_data",
+          "destination": "/var/lib/postgresql/data"
+        }
+      ]
+    },
+    {
+      "id": "98545dd7dcaa13ba4cc4e9ba7639c1cf2d8c36a30bbf1bd2de58e884b5299c15",
+      "service": "redis",
+      "image": "sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:03.569573396Z",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_redis_data",
+          "destination": "/data"
+        }
+      ]
+    },
+    {
+      "id": "c958d2c080be620a922161fdf97b0d92aed635559221271d5193cea29fd07ac2",
+      "service": "print-service",
+      "image": "sha256:9fe2d20a33c51c2ebc4418afc7e27cc03a7fe83d091a12f887dfa81cfd3c4e07",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:03.32506593Z",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_print_data",
+          "destination": "/data"
+        }
+      ]
+    },
+    {
+      "id": "bb983a7417c1b150779a8afa4af22ac35eab3301cb5c81b509d13217f04897d6",
+      "service": "plate-recognition",
+      "image": "sha256:11521e234487be69dcbe4188b1e9aa3d96cbed180e8c6d5c01f64874a78a63e3",
+      "state": "exited",
+      "health": "unhealthy",
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:02.569806258Z",
+      "mounts": []
+    },
+    {
+      "id": "5a84f47f21ba136f817fd3e9670d05d61e3c7a5ffdf5be6d8bfd8a4e49b4a21d",
+      "service": "volume-guard",
+      "image": "sha256:b6c355b58fa2c7603faabefd46214b90a27b57788ea45f52a7c77b4c6790d87d",
+      "state": "exited",
+      "health": null,
+      "exitCode": 0,
+      "restarts": 0,
+      "startedAt": "2026-11-20T13:12:02.395161088Z",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_bootstrap_state",
+          "destination": "/volumes/bootstrap"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_postgres_data",
+          "destination": "/volumes/postgres"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_print_data",
+          "destination": "/volumes/print"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-t02fix-4c7f866fd5_redis_data",
+          "destination": "/volumes/redis"
+        }
+      ]
+    }
+  ]
+}

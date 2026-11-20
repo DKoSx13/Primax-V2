@@ -1,0 +1,373 @@
+{
+  "arm": "inflight",
+  "browser": "158.0.8127.36",
+  "faultInjection": "One real POST committed, HTTP response held then aborted on reload; no financial database mutation by harness",
+  "heldServerResponse": {
+    "id": "6628eeff-faba-4315-932b-09f01e4f6c74",
+    "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+    "paymentId": "2a821055-6762-43db-a985-1ca590039e70",
+    "status": "PENDING"
+  },
+  "requests": [
+    {
+      "phase": "boot",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {}
+    },
+    {
+      "phase": "boot",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200,
+      "body": {
+        "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985",
+        "terminalId": "0f26bfd4-6f08-4c95-baaf-f497ee579945",
+        "prepared": true
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": null
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/operations/c170ccd3-a343-480c-9583-4703e45ad298",
+      "method": "GET",
+      "status": 404,
+      "body": {
+        "statusCode": 404,
+        "message": "Operación no encontrada"
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "88661c3a-0f25-4b2a-9a80-576a4d3adde2"
+        },
+        {
+          "id": "9f2f7d2d-6b2c-4a11-b613-adc45bac87e7"
+        },
+        {
+          "id": "4f85295e-52a0-4cf9-82ff-562898416001"
+        }
+      ]
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+        }
+      ]
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+        },
+        {
+          "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+        },
+        {
+          "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+        }
+      ]
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/vehicles/QRT-504",
+      "method": "GET",
+      "status": 404,
+      "body": {
+        "statusCode": 404,
+        "message": "Vehículo no encontrado"
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/vehicles/QRT-504",
+      "method": "GET",
+      "status": 404,
+      "body": {
+        "statusCode": 404,
+        "message": "Vehículo no encontrado"
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/operations/c170ccd3-a343-480c-9583-4703e45ad298",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "inflight",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "inflight-reload",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+      }
+    },
+    {
+      "phase": "inflight-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "inflight-reload",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298"
+      }
+    },
+    {
+      "phase": "inflight-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "inflight-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "final-inflight-check",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "stationId": "e17b435e-515e-42c8-a0e8-0cc5b0eae985"
+      }
+    },
+    {
+      "phase": "final-inflight-check",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "final-inflight-check",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298"
+      }
+    },
+    {
+      "phase": "final-inflight-check",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "emptyAttention": false
+      }
+    }
+  ],
+  "states": [
+    {
+      "label": "creation-response-held",
+      "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": false,
+      "creationPending": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "S/ 20.00",
+      "qrImages": 0,
+      "qrMessage": "Escanee el código con Yape para pagar S/ 20.00.",
+      "confirmationDisabled": true,
+      "tabId": "c26c1780-b09f-4263-b0da-17c1df190619"
+    },
+    {
+      "label": "inflight-blocked",
+      "message": "No se recibió el identificador de la orden. Conserva esta operación y solicita asistencia antes de otro pago.",
+      "serverOrder": {
+        "id": "6628eeff-faba-4315-932b-09f01e4f6c74",
+        "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+        "paymentId": "2a821055-6762-43db-a985-1ca590039e70",
+        "status": "PENDING"
+      }
+    },
+    {
+      "label": "creation-after-reload",
+      "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": false,
+      "creationPending": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": false,
+      "tabId": "c26c1780-b09f-4263-b0da-17c1df190619"
+    },
+    {
+      "label": "final-inflight-blocked",
+      "operationId": "c170ccd3-a343-480c-9583-4703e45ad298",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": false,
+      "creationPending": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": true,
+      "tabId": "c26c1780-b09f-4263-b0da-17c1df190619"
+    }
+  ],
+  "errors": []
+}

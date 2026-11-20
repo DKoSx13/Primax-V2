@@ -1,0 +1,371 @@
+{
+  "arm": "baseline",
+  "browser": "158.0.8127.36",
+  "requests": [
+    {
+      "phase": "baseline-pending",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {}
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200,
+      "body": {
+        "stationId": "b2608646-36c3-443b-8c15-6ab22674ca5c",
+        "terminalId": "633589b0-13ae-4c5b-a87d-bb4e5f0da48e",
+        "prepared": true
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": null
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/operations/feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "method": "GET",
+      "status": 404,
+      "body": {
+        "statusCode": 404,
+        "message": "Operación no encontrada"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "ba9b245a-b268-40cf-b8e5-ea513d75eea6"
+        },
+        {
+          "id": "8a311a3b-fc87-4585-91af-e8cdd7007e10"
+        },
+        {
+          "id": "4c7763a8-d72b-490e-bec9-99000f9ae57b"
+        }
+      ]
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "b2608646-36c3-443b-8c15-6ab22674ca5c"
+        }
+      ]
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "stationId": "b2608646-36c3-443b-8c15-6ab22674ca5c"
+        },
+        {
+          "stationId": "b2608646-36c3-443b-8c15-6ab22674ca5c"
+        },
+        {
+          "stationId": "b2608646-36c3-443b-8c15-6ab22674ca5c"
+        }
+      ]
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "id": "8c418521-b806-4a97-b9a6-6211f0d64a11"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "id": "8c418521-b806-4a97-b9a6-6211f0d64a11"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/operations/feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/online-orders",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "id": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "transactionId": null,
+        "paymentId": "6bdd127d-7da7-40a2-88c0-5ff0b7bf56af",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "PENDING"
+      }
+    },
+    {
+      "phase": "baseline-pending",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "stationId": "b2608646-36c3-443b-8c15-6ab22674ca5c"
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a"
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/terminal/operations/feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "baseline-reload",
+      "path": "/api/v1/online-orders/d7e8d2dc-789b-436a-bf43-d634f4054d52",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "id": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "transactionId": null,
+        "paymentId": "6bdd127d-7da7-40a2-88c0-5ff0b7bf56af",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "PENDING"
+      }
+    },
+    {
+      "phase": "baseline-confirm",
+      "path": "/api/v1/online-orders/d7e8d2dc-789b-436a-bf43-d634f4054d52/demo-confirm",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "id": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+        "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "transactionId": null,
+        "paymentId": "6bdd127d-7da7-40a2-88c0-5ff0b7bf56af",
+        "method": "YAPE",
+        "amount": "20",
+        "status": "CAPTURED"
+      }
+    },
+    {
+      "phase": "baseline-confirm",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+        "emptyAttention": false
+      }
+    }
+  ],
+  "states": [
+    {
+      "label": "order-pending",
+      "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "orderId": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "S/ 20.00",
+      "qrImages": 1,
+      "qrMessage": "QR de demostración · Pago simulado · S/ 20.00",
+      "confirmationDisabled": false,
+      "tabId": "b1a02b28-d011-4ffe-9702-f081a64253d4"
+    },
+    {
+      "label": "reloaded",
+      "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "orderId": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": false,
+      "tabId": "b1a02b28-d011-4ffe-9702-f081a64253d4"
+    },
+    {
+      "label": "failure",
+      "modal": "Cannot read properties of undefined (reading 'station') No vuelvas a pagar ni iniciar otra operación; puedes reintentar esta misma venta."
+    },
+    {
+      "label": "after-failure",
+      "operationId": "feb250ae-5f71-4295-bbdc-4e5a26e1285a",
+      "orderId": "d7e8d2dc-789b-436a-bf43-d634f4054d52",
+      "amount": 20,
+      "price": 21.3,
+      "savedCreatingOrder": true,
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": false,
+      "tabId": "b1a02b28-d011-4ffe-9702-f081a64253d4"
+    }
+  ],
+  "errors": []
+}

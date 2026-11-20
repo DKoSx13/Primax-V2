@@ -1,0 +1,1129 @@
+TAP version 13
+# Subtest: identity uses the User name returned by Backend rather than Membership number
+ok 1 - identity uses the User name returned by Backend rather than Membership number
+  ---
+  duration_ms: 6.991505
+  type: 'test'
+  ...
+# Subtest: vehicle without Membership shows No afiliado
+ok 2 - vehicle without Membership shows No afiliado
+  ---
+  duration_ms: 0.13613
+  type: 'test'
+  ...
+# Subtest: dashboard has no hardcoded business alerts or simulated totals
+ok 3 - dashboard has no hardcoded business alerts or simulated totals
+  ---
+  duration_ms: 1.315932
+  type: 'test'
+  ...
+# Subtest: empty dashboard renders no pending alerts; resolved history remains visible
+ok 4 - empty dashboard renders no pending alerts; resolved history remains visible
+  ---
+  duration_ms: 23.663242
+  type: 'test'
+  ...
+# Subtest: review button passes the real alert id and renders untrusted names as text
+ok 5 - review button passes the real alert id and renders untrusted names as text
+  ---
+  duration_ms: 0.267971
+  type: 'test'
+  ...
+# Subtest: assistance retains stable payload across timeout/reload, preventing duplicate creation
+ok 6 - assistance retains stable payload across timeout/reload, preventing duplicate creation
+  ---
+  duration_ms: 1.516748
+  type: 'test'
+  ...
+# Subtest: concurrent clicks share creation and terminal states allow another request
+ok 7 - concurrent clicks share creation and terminal states allow another request
+  ---
+  duration_ms: 0.329635
+  type: 'test'
+  ...
+# Subtest: cancellation waits for Backend and keeps request when unavailable
+ok 8 - cancellation waits for Backend and keeps request when unavailable
+  ---
+  duration_ms: 1.348045
+  type: 'test'
+  ...
+# Subtest: assistance page preserves module bootstrap and complete document
+ok 9 - assistance page preserves module bootstrap and complete document
+  ---
+  duration_ms: 7.195134
+  type: 'test'
+  ...
+# Subtest: Vercel static build enables operator login without copying private server configuration
+ok 10 - Vercel static build enables operator login without copying private server configuration
+  ---
+  duration_ms: 65.249531
+  type: 'test'
+  ...
+# Subtest: recovery 401 preserves UUID and classifies failure
+ok 11 - recovery 401 preserves UUID and classifies failure
+  ---
+  duration_ms: 1.793205
+  type: 'test'
+  ...
+# Subtest: recovery 403 preserves UUID and classifies failure
+ok 12 - recovery 403 preserves UUID and classifies failure
+  ---
+  duration_ms: 0.277771
+  type: 'test'
+  ...
+# Subtest: recovery 503 preserves UUID and classifies failure
+ok 13 - recovery 503 preserves UUID and classifies failure
+  ---
+  duration_ms: 0.306884
+  type: 'test'
+  ...
+# Subtest: recovery timeout preserves UUID and classifies failure
+ok 14 - recovery timeout preserves UUID and classifies failure
+  ---
+  duration_ms: 0.175173
+  type: 'test'
+  ...
+# Subtest: recovery 404 preserves UUID and classifies failure
+ok 15 - recovery 404 preserves UUID and classifies failure
+  ---
+  duration_ms: 0.216807
+  type: 'test'
+  ...
+# Subtest: prepayment single flight and lost response retain identical request and operationId
+ok 16 - prepayment single flight and lost response retain identical request and operationId
+  ---
+  duration_ms: 0.399201
+  type: 'test'
+  ...
+# Subtest: cached approval cannot authorize while Backend is unavailable
+ok 17 - cached approval cannot authorize while Backend is unavailable
+  ---
+  duration_ms: 3.6163
+  type: 'test'
+  ...
+# Subtest: frontend cannot authorize from PENDING
+ok 18 - frontend cannot authorize from PENDING
+  ---
+  duration_ms: 0.218837
+  type: 'test'
+  ...
+# Subtest: frontend cannot authorize from REJECTED
+ok 19 - frontend cannot authorize from REJECTED
+  ---
+  duration_ms: 0.350088
+  type: 'test'
+  ...
+# Subtest: frontend cannot authorize from ERROR
+ok 20 - frontend cannot authorize from ERROR
+  ---
+  duration_ms: 0.348618
+  type: 'test'
+  ...
+# Subtest: intervention survives reload and blocks authorization, submit and finish
+ok 21 - intervention survives reload and blocks authorization, submit and finish
+  ---
+  duration_ms: 0.418342
+  type: 'test'
+  ...
+# Subtest: critical dispatch failure stops timer and preserves reached state for intervention
+ok 22 - critical dispatch failure stops timer and preserves reached state for intervention
+  ---
+  duration_ms: 2.264536
+  type: 'test'
+  ...
+# Subtest: audit timer scenario: no Backend response means no dispatch
+ok 23 - audit timer scenario: no Backend response means no dispatch
+  ---
+  duration_ms: 0.755259
+  type: 'test'
+  ...
+# Subtest: ticket and local history reflect PAYMENT_PENDING
+ok 24 - ticket and local history reflect PAYMENT_PENDING
+  ---
+  duration_ms: 15.377236
+  type: 'test'
+  ...
+# Subtest: ticket and local history reflect PARTIAL
+ok 25 - ticket and local history reflect PARTIAL
+  ---
+  duration_ms: 1.193574
+  type: 'test'
+  ...
+# Subtest: ticket and local history reflect PAID
+ok 26 - ticket and local history reflect PAID
+  ---
+  duration_ms: 0.694333
+  type: 'test'
+  ...
+# Subtest: ticket and local history reflect CAPTURED
+ok 27 - ticket and local history reflect CAPTURED
+  ---
+  duration_ms: 0.64498
+  type: 'test'
+  ...
+# Subtest: assertCanFinish validates without clearing; blocks stale other-tab receipt
+ok 28 - assertCanFinish validates without clearing; blocks stale other-tab receipt
+  ---
+  duration_ms: 1.93253
+  type: 'test'
+  ...
+# Subtest: print preflight and finish retain blocked operation {"intervention":"manual"}
+ok 29 - print preflight and finish retain blocked operation {"intervention":"manual"}
+  ---
+  duration_ms: 0.201076
+  type: 'test'
+  ...
+# Subtest: print preflight and finish retain blocked operation {"authorizationRequest":{}}
+ok 30 - print preflight and finish retain blocked operation {"authorizationRequest":{}}
+  ---
+  duration_ms: 0.100768
+  type: 'test'
+  ...
+# Subtest: print preflight and finish retain blocked operation {"payload":{}}
+ok 31 - print preflight and finish retain blocked operation {"payload":{}}
+  ---
+  duration_ms: 0.075966
+  type: 'test'
+  ...
+# Subtest: printing refreshes only the existing transaction with GET and persists its financial state
+ok 32 - printing refreshes only the existing transaction with GET and persists its financial state
+  ---
+  duration_ms: 0.88221
+  type: 'test'
+  ...
+# Subtest: backend disconnect while preparing print keeps operation and identity
+ok 33 - backend disconnect while preparing print keeps operation and identity
+  ---
+  duration_ms: 0.349747
+  type: 'test'
+  ...
+# Subtest: other-tab operation change during refresh cannot print or clear another sale
+ok 34 - other-tab operation change during refresh cannot print or clear another sale
+  ---
+  duration_ms: 0.221877
+  type: 'test'
+  ...
+# Subtest: FuelFlow exports only its signed gateway Function
+ok 35 - FuelFlow exports only its signed gateway Function
+  ---
+  duration_ms: 0.586565
+  type: 'test'
+  ...
+# Subtest: FuelFlow shows the payment review message only after Backend confirms INC-001
+ok 36 - FuelFlow shows the payment review message only after Backend confirms INC-001
+  ---
+  duration_ms: 10.613767
+  type: 'test'
+  ...
+# Subtest: el modal ofrece recargar o cambiar a prepago y nunca sugiere crear deuda
+ok 37 - el modal ofrece recargar o cambiar a prepago y nunca sugiere crear deuda
+  ---
+  duration_ms: 1.971674
+  type: 'test'
+  ...
+# Subtest: Ya recargué habilita despacho solo si la reserva backend termina bien
+ok 38 - Ya recargué habilita despacho solo si la reserva backend termina bien
+  ---
+  duration_ms: 1.54412
+  type: 'test'
+  ...
+# Subtest: si sigue insuficiente el modal actualiza el saldo del backend y mantiene ambas opciones
+ok 39 - si sigue insuficiente el modal actualiza el saldo del backend y mantiene ambas opciones
+  ---
+  duration_ms: 0.378909
+  type: 'test'
+  ...
+# Subtest: doble click de Ya recargué no envía autorizaciones duplicadas
+ok 40 - doble click de Ya recargué no envía autorizaciones duplicadas
+  ---
+  duration_ms: 0.328476
+  type: 'test'
+  ...
+# Subtest: requires same-origin requests, session and CSRF; never calls backend for rejected inputs
+ok 41 - requires same-origin requests, session and CSRF; never calls backend for rejected inputs
+  ---
+  duration_ms: 3.400225
+  type: 'test'
+  ...
+# Subtest: denies admin routes, unexpected methods, queries and arbitrary destinations
+ok 42 - denies admin routes, unexpected methods, queries and arbitrary destinations
+  ---
+  duration_ms: 2.728892
+  type: 'test'
+  ...
+# Subtest: validates resource permission with NestJS before forwarding the signed operation
+ok 43 - validates resource permission with NestJS before forwarding the signed operation
+  ---
+  duration_ms: 23.218282
+  type: 'test'
+  ...
+# Subtest: rejects a client-selected station and never executes a denied resource operation
+ok 44 - rejects a client-selected station and never executes a denied resource operation
+  ---
+  duration_ms: 7.823614
+  type: 'test'
+  ...
+# Subtest: never forwards a new financial sale without a technical cookie
+ok 45 - never forwards a new financial sale without a technical cookie
+  ---
+  duration_ms: 1.088315
+  type: 'test'
+  ...
+# Subtest: session tokens stay in host-only secure cookies and are stripped from JSON
+ok 46 - session tokens stay in host-only secure cookies and are stripped from JSON
+  ---
+  duration_ms: 0.877308
+  type: 'test'
+  ...
+# Subtest: terminal bootstrap keeps technical credentials in HttpOnly cookies
+ok 47 - terminal bootstrap keeps technical credentials in HttpOnly cookies
+  ---
+  duration_ms: 0.77639
+  type: 'test'
+  ...
+# Subtest: loopback Compose mode uses an HttpOnly local cookie and a private backend origin
+ok 48 - loopback Compose mode uses an HttpOnly local cookie and a private backend origin
+  ---
+  duration_ms: 0.956055
+  type: 'test'
+  ...
+# Subtest: T01 and T02 use distinct cookies on the same hostname and bind bootstrap to server codes
+ok 49 - T01 and T02 use distinct cookies on the same hostname and bind bootstrap to server codes
+  ---
+  duration_ms: 2.294179
+  type: 'test'
+  ...
+# Subtest: terminal claim forwards the signed tab identity and never exposes the technical cookie
+ok 50 - terminal claim forwards the signed tab identity and never exposes the technical cookie
+  ---
+  duration_ms: 0.987937
+  type: 'test'
+  ...
+# Subtest: administrative recovery exchanges one ticket for scoped HttpOnly cookies
+ok 51 - administrative recovery exchanges one ticket for scoped HttpOnly cookies
+  ---
+  duration_ms: 0.840975
+  type: 'test'
+  ...
+# Subtest: logout clears the cookie only after shared revocation succeeds
+ok 52 - logout clears the cookie only after shared revocation succeeds
+  ---
+  duration_ms: 0.649021
+  type: 'test'
+  ...
+# Subtest: proxy fails closed on backend/storage errors and expired sessions
+ok 53 - proxy fails closed on backend/storage errors and expired sessions
+  ---
+  duration_ms: 0.51206
+  type: 'test'
+  ...
+# Subtest: route policy is identical in the independent backend and gateway packages
+ok 54 - route policy is identical in the independent backend and gateway packages
+  ---
+  duration_ms: 4.566845
+  type: 'test'
+  ...
+# Subtest: terminal writes require technical cookie and matching CSRF without a human JWT
+ok 55 - terminal writes require technical cookie and matching CSRF without a human JWT
+  ---
+  duration_ms: 0.729507
+  type: 'test'
+  ...
+# Subtest: reselect sends JSON through the strict gateway and unknown methods stay blocked
+ok 56 - reselect sends JSON through the strict gateway and unknown methods stay blocked
+  ---
+  duration_ms: 0.858716
+  type: 'test'
+  ...
+# Subtest: terminal/me restores a fresh same-origin CSRF cookie only after a valid technical session
+ok 57 - terminal/me restores a fresh same-origin CSRF cookie only after a valid technical session
+  ---
+  duration_ms: 0.795182
+  type: 'test'
+  ...
+# Subtest: INICIAR nested Vercel Functions use the signed BFF and preserve operationId
+ok 58 - INICIAR nested Vercel Functions use the signed BFF and preserve operationId
+  ---
+  duration_ms: 1.439042
+  type: 'test'
+  ...
+# Subtest: assistance creation/read/cancel preserve terminal authentication, CSRF and safe response fields
+ok 59 - assistance creation/read/cancel preserve terminal authentication, CSRF and safe response fields
+  ---
+  duration_ms: 1.392539
+  type: 'test'
+  ...
+# Subtest: recovery state is read only, requires the technical cookie and exposes only financial facts
+ok 60 - recovery state is read only, requires the technical cookie and exposes only financial facts
+  ---
+  duration_ms: 0.731297
+  type: 'test'
+  ...
+# (node:69) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: temporary contention retries automatically without requiring an update button
+ok 61 - temporary contention retries automatically without requiring an update button
+  ---
+  duration_ms: 6.041427
+  type: 'test'
+  ...
+# Subtest: canonical and migrated alias match only backend-linked membership codes
+ok 62 - canonical and migrated alias match only backend-linked membership codes
+  ---
+  duration_ms: 0.960645
+  type: 'test'
+  ...
+# Subtest: BOLETA sends the persisted number unchanged to the printer
+ok 63 - BOLETA sends the persisted number unchanged to the printer
+  ---
+  duration_ms: 2.355514
+  type: 'test'
+  ...
+# Subtest: FACTURA sends the persisted number unchanged to the printer
+ok 64 - FACTURA sends the persisted number unchanged to the printer
+  ---
+  duration_ms: 1.514717
+  type: 'test'
+  ...
+# Subtest: only provider-confirmed failed/cancelled orders can close before a new payment
+ok 65 - only provider-confirmed failed/cancelled orders can close before a new payment
+  ---
+  duration_ms: 5.828449
+  type: 'test'
+  ...
+# Subtest: lost close response preserves operation and prevents a new purchase
+ok 66 - lost close response preserves operation and prevents a new purchase
+  ---
+  duration_ms: 0.235098
+  type: 'test'
+  ...
+# Subtest: FuelFlow offers only digital V2 methods and contains no cash handling
+ok 67 - FuelFlow offers only digital V2 methods and contains no cash handling
+  ---
+  duration_ms: 1.557432
+  type: 'test'
+  ...
+# Subtest: invalid or empty plate never starts a vehicle request
+ok 68 - invalid or empty plate never starts a vehicle request
+  ---
+  duration_ms: 0.976856
+  type: 'test'
+  ...
+# Subtest: Ya recargué consulta la membresía real y reserva cuando el saldo actualizado alcanza
+ok 69 - Ya recargué consulta la membresía real y reserva cuando el saldo actualizado alcanza
+  ---
+  duration_ms: 3.403998
+  type: 'test'
+  ...
+# Subtest: Ya recargué mantiene el rechazo backend si todavía falta saldo y no crea autorización local
+ok 70 - Ya recargué mantiene el rechazo backend si todavía falta saldo y no crea autorización local
+  ---
+  duration_ms: 0.459096
+  type: 'test'
+  ...
+# Subtest: fallo al consultar la placa no intenta autorizar ni cambia el saldo mostrado
+ok 71 - fallo al consultar la placa no intenta autorizar ni cambia el saldo mostrado
+  ---
+  duration_ms: 0.170693
+  type: 'test'
+  ...
+# Subtest: doble toque de Ya recargué comparte la misma consulta y autorización
+ok 72 - doble toque de Ya recargué comparte la misma consulta y autorización
+  ---
+  duration_ms: 0.165743
+  type: 'test'
+  ...
+# Subtest: saldo Prime suficiente continúa con una sola autorización postpago
+ok 73 - saldo Prime suficiente continúa con una sola autorización postpago
+  ---
+  duration_ms: 0.26012
+  type: 'test'
+  ...
+# Subtest: Prime rechazado cambia a prepago manteniendo operationId para Yape, Plin y NFC
+    # Subtest: YAPE
+    ok 1 - YAPE
+      ---
+      duration_ms: 0.51827
+      type: 'test'
+      ...
+    # Subtest: PLIN
+    ok 2 - PLIN
+      ---
+      duration_ms: 0.213107
+      type: 'test'
+      ...
+    # Subtest: TARJETA
+    ok 3 - TARJETA
+      ---
+      duration_ms: 0.229518
+      type: 'test'
+      ...
+    1..3
+ok 74 - Prime rechazado cambia a prepago manteniendo operationId para Yape, Plin y NFC
+  ---
+  duration_ms: 2.296899
+  type: 'test'
+  ...
+# Subtest: el cambio a prepago se bloquea después de autorizar o preparar la compra
+ok 75 - el cambio a prepago se bloquea después de autorizar o preparar la compra
+  ---
+  duration_ms: 0.404191
+  type: 'test'
+  ...
+# Subtest: conserva el importe postpago válido para prepago y borra solo montos fuera de rango
+ok 76 - conserva el importe postpago válido para prepago y borra solo montos fuera de rango
+  ---
+  duration_ms: 0.209446
+  type: 'test'
+  ...
+# Subtest: does not finish from an unconfirmed agent identity: {"status":"accepted"}
+ok 77 - does not finish from an unconfirmed agent identity: {"status":"accepted"}
+  ---
+  duration_ms: 22.606762
+  type: 'test'
+  ...
+# Subtest: does not finish from an unconfirmed agent identity: {"id":"receipt-other","status":"accepted"}
+ok 78 - does not finish from an unconfirmed agent identity: {"id":"receipt-other","status":"accepted"}
+  ---
+  duration_ms: 0.434314
+  type: 'test'
+  ...
+# Subtest: does not finish from an unconfirmed agent identity: {"id":"receipt-sale","status":"queued"}
+ok 79 - does not finish from an unconfirmed agent identity: {"id":"receipt-sale","status":"queued"}
+  ---
+  duration_ms: 0.410342
+  type: 'test'
+  ...
+# Subtest: invalid transaction ID fails before contacting localhost
+ok 80 - invalid transaction ID fails before contacting localhost
+  ---
+  duration_ms: 0.245919
+  type: 'test'
+  ...
+# Subtest: malformed reply retains the same ID and never submits blindly
+ok 81 - malformed reply retains the same ID and never submits blindly
+  ---
+  duration_ms: 4.265486
+  type: 'test'
+  ...
+# Subtest: HTTP printing refuses nonlocal page https://fuel.example
+ok 82 - HTTP printing refuses nonlocal page https://fuel.example
+  ---
+  duration_ms: 1.216009
+  type: 'test'
+  ...
+# Subtest: HTTP printing refuses nonlocal page http://192.168.1.2:26081
+ok 83 - HTTP printing refuses nonlocal page http://192.168.1.2:26081
+  ---
+  duration_ms: 0.156872
+  type: 'test'
+  ...
+# Subtest: HTTP printing refuses nonlocal page null
+ok 84 - HTTP printing refuses nonlocal page null
+  ---
+  duration_ms: 0.107898
+  type: 'test'
+  ...
+# Subtest: HTTP printing refuses nonlocal page file://
+ok 85 - HTTP printing refuses nonlocal page file://
+  ---
+  duration_ms: 0.315105
+  type: 'test'
+  ...
+# Subtest: HTTP printing refuses nonlocal page http://localhost.evil:26081
+ok 86 - HTTP printing refuses nonlocal page http://localhost.evil:26081
+  ---
+  duration_ms: 0.603807
+  type: 'test'
+  ...
+# Subtest: both exact local web origins are supported
+ok 87 - both exact local web origins are supported
+  ---
+  duration_ms: 0.205736
+  type: 'test'
+  ...
+# Subtest: double click shares a request, queries first and sends one job
+ok 88 - double click shares a request, queries first and sends one job
+  ---
+  duration_ms: 27.924795
+  type: 'test'
+  ...
+# Subtest: lost POST response reconciles accepted job on retry, without another POST
+ok 89 - lost POST response reconciles accepted job on retry, without another POST
+  ---
+  duration_ms: 1.174707
+  type: 'test'
+  ...
+# Subtest: unknown job is queried but never resent
+ok 90 - unknown job is queried but never resent
+  ---
+  duration_ms: 0.780811
+  type: 'test'
+  ...
+# Subtest: unavailable local agent never posts; safe preflight failure can be retried
+ok 91 - unavailable local agent never posts; safe preflight failure can be retried
+  ---
+  duration_ms: 1.401109
+  type: 'test'
+  ...
+# Subtest: catalog comes from authenticated T01 operation, retaining historical price
+ok 92 - catalog comes from authenticated T01 operation, retaining historical price
+  ---
+  duration_ms: 3.779761
+  type: 'test'
+  ...
+# Subtest: catalog comes from authenticated T02 operation, retaining historical price
+ok 93 - catalog comes from authenticated T02 operation, retaining historical price
+  ---
+  duration_ms: 1.011919
+  type: 'test'
+  ...
+# Subtest: rejects mismatched authenticated terminal code
+ok 94 - rejects mismatched authenticated terminal code
+  ---
+  duration_ms: 1.799904
+  type: 'test'
+  ...
+# Subtest: rejects mismatched authenticated terminal pumpCode
+ok 95 - rejects mismatched authenticated terminal pumpCode
+  ---
+  duration_ms: 0.967244
+  type: 'test'
+  ...
+# Subtest: rejects mismatched authenticated terminal activeOperationId
+ok 96 - rejects mismatched authenticated terminal activeOperationId
+  ---
+  duration_ms: 0.803992
+  type: 'test'
+  ...
+# Subtest: catalog outage retains error and clears stale context
+ok 97 - catalog outage retains error and clears stale context
+  ---
+  duration_ms: 1.692701
+  type: 'test'
+  ...
+# Subtest: restoration never imports busy locks, unknown keys or admin session from old snapshot
+ok 98 - restoration never imports busy locks, unknown keys or admin session from old snapshot
+  ---
+  duration_ms: 0.709385
+  type: 'test'
+  ...
+# Subtest: QR checkpoint persists operation data without in-flight UI flags
+ok 99 - QR checkpoint persists operation data without in-flight UI flags
+  ---
+  duration_ms: 0.654921
+  type: 'test'
+  ...
+# Subtest: server checksum validates exact request without substituting discounted charge or current price
+ok 100 - server checksum validates exact request without substituting discounted charge or current price
+  ---
+  duration_ms: 7.537195
+  type: 'test'
+  ...
+# Subtest: modified saved request is rejected before enabling confirmation
+ok 101 - modified saved request is rejected before enabling confirmation
+  ---
+  duration_ms: 3.101252
+  type: 'test'
+  ...
+# Subtest: incomplete snapshot is rejected and CAPTURED never becomes a completed sale
+ok 102 - incomplete snapshot is rejected and CAPTURED never becomes a completed sale
+  ---
+  duration_ms: 1.015719
+  type: 'test'
+  ...
+# Subtest: authorization cannot dereference an uninitialized catalog
+ok 103 - authorization cannot dereference an uninitialized catalog
+  ---
+  duration_ms: 0.686674
+  type: 'test'
+  ...
+# Subtest: existing CREATING order becomes a QR without another POST
+ok 104 - existing CREATING order becomes a QR without another POST
+  ---
+  duration_ms: 2.226224
+  type: 'test'
+  ...
+# Subtest: existing CREATING order stays blocked without another POST
+ok 105 - existing CREATING order stays blocked without another POST
+  ---
+  duration_ms: 1.439902
+  type: 'test'
+  ...
+# Subtest: continuing validates and retains receipt identity with no separate save action
+ok 106 - continuing validates and retains receipt identity with no separate save action
+  ---
+  duration_ms: 6.906901
+  type: 'test'
+  ...
+# Subtest: returning to the member form preserves edited invoice details
+ok 107 - returning to the member form preserves edited invoice details
+  ---
+  duration_ms: 1.011638
+  type: 'test'
+  ...
+# Subtest: incomplete invoice cannot proceed or request vehicle data
+ok 108 - incomplete invoice cannot proceed or request vehicle data
+  ---
+  duration_ms: 2.07247
+  type: 'test'
+  ...
+# Subtest: starting a new attention clears personal data from a discarded operation
+ok 109 - starting a new attention clears personal data from a discarded operation
+  ---
+  duration_ms: 0.993127
+  type: 'test'
+  ...
+# Subtest: receipt business flow offers only PrintAgent or no printing
+ok 110 - receipt business flow offers only PrintAgent or no printing
+  ---
+  duration_ms: 3.835769
+  type: 'test'
+  ...
+# Subtest: EcoDigital promise is shown only for a numbered Prime transaction and uses the active language
+ok 111 - EcoDigital promise is shown only for a numbered Prime transaction and uses the active language
+  ---
+  duration_ms: 1.649339
+  type: 'test'
+  ...
+# Subtest: PrintAgent unavailable, rejected, unknown or malformed never change financial data
+ok 112 - PrintAgent unavailable, rejected, unknown or malformed never change financial data
+  ---
+  duration_ms: 20.752316
+  type: 'test'
+  ...
+# Subtest: recovery desk permits only pending-order cancellation or financially reconciled closure
+ok 113 - recovery desk permits only pending-order cancellation or financially reconciled closure
+  ---
+  duration_ms: 1.178702
+  type: 'test'
+  ...
+# Subtest: AUTHORIZATION_CLOSED incluye solo los estados terminales
+ok 114 - AUTHORIZATION_CLOSED incluye solo los estados terminales
+  ---
+  duration_ms: 1.564132
+  type: 'test'
+  ...
+# Subtest: reconcile reenvía cuando la reserva sigue abierta
+ok 115 - reconcile reenvía cuando la reserva sigue abierta
+  ---
+  duration_ms: 1.732625
+  type: 'test'
+  ...
+# Subtest: reconcile reenvía con RESERVED
+ok 116 - reconcile reenvía con RESERVED
+  ---
+  duration_ms: 0.280102
+  type: 'test'
+  ...
+# Subtest: reconcile recupera el comprobante cuando el backend ya liquidó
+ok 117 - reconcile recupera el comprobante cuando el backend ya liquidó
+  ---
+  duration_ms: 0.463996
+  type: 'test'
+  ...
+# Subtest: reconcile no crea operación nueva si falta información del payload
+ok 118 - reconcile no crea operación nueva si falta información del payload
+  ---
+  duration_ms: 0.242619
+  type: 'test'
+  ...
+# Subtest: reconcile conserva la operación cuando el reenvío falla
+ok 119 - reconcile conserva la operación cuando el reenvío falla
+  ---
+  duration_ms: 0.281662
+  type: 'test'
+  ...
+# Subtest: reconcile descarta la operación cuando la reserva fue liberada
+ok 120 - reconcile descarta la operación cuando la reserva fue liberada
+  ---
+  duration_ms: 0.270861
+  type: 'test'
+  ...
+# Subtest: reconcile descarta cuando la reserva ya no existe (404)
+ok 121 - reconcile descarta cuando la reserva ya no existe (404)
+  ---
+  duration_ms: 0.157032
+  type: 'test'
+  ...
+# Subtest: reconcile no toca nada sin payload
+ok 122 - reconcile no toca nada sin payload
+  ---
+  duration_ms: 2.037139
+  type: 'test'
+  ...
+# Subtest: reconcile no consulta el backend en prepago
+ok 123 - reconcile no consulta el backend en prepago
+  ---
+  duration_ms: 0.364389
+  type: 'test'
+  ...
+# Subtest: submit es idempotente: un solo envío aunque se llame dos veces
+ok 124 - submit es idempotente: un solo envío aunque se llame dos veces
+  ---
+  duration_ms: 0.208136
+  type: 'test'
+  ...
+# Subtest: un resultado persistido no se reenvía
+ok 125 - un resultado persistido no se reenvía
+  ---
+  duration_ms: 0.156622
+  type: 'test'
+  ...
+# Subtest: discard no puede ejecutarse mientras hay un envío en curso
+ok 126 - discard no puede ejecutarse mientras hay un envío en curso
+  ---
+  duration_ms: 0.474377
+  type: 'test'
+  ...
+# Subtest: finish exige confirmación y limpia solo esa operación
+ok 127 - finish exige confirmación y limpia solo esa operación
+  ---
+  duration_ms: 0.202716
+  type: 'test'
+  ...
+# Subtest: el script reconcilia al iniciar y no reenvía reservas cerradas
+ok 128 - el script reconcilia al iniciar y no reenvía reservas cerradas
+  ---
+  duration_ms: 1.535994
+  type: 'test'
+  ...
+# Subtest: limpiarEstadoOperacion no toca localStorage
+ok 129 - limpiarEstadoOperacion no toca localStorage
+  ---
+  duration_ms: 1.553996
+  type: 'test'
+  ...
+# Subtest: successful close resets the real page without removed cash elements
+ok 130 - successful close resets the real page without removed cash elements
+  ---
+  duration_ms: 4.395952
+  type: 'test'
+  ...
+# Subtest: failed backend closure preserves the receipt and does not clear the operation
+ok 131 - failed backend closure preserves the receipt and does not clear the operation
+  ---
+  duration_ms: 0.957215
+  type: 'test'
+  ...
+# Subtest: concurrent no-print taps close once and never invoke a printer
+ok 132 - concurrent no-print taps close once and never invoke a printer
+  ---
+  duration_ms: 2.340086
+  type: 'test'
+  ...
+# Subtest: printing uses the confirmed receipt before closing
+ok 133 - printing uses the confirmed receipt before closing
+  ---
+  duration_ms: 1.024639
+  type: 'test'
+  ...
+# Subtest: print failure preserves the operation and allows finishing without printing
+ok 134 - print failure preserves the operation and allows finishing without printing
+  ---
+  duration_ms: 1.230725
+  type: 'test'
+  ...
+# Subtest: a failed close after printing never displays a success message
+ok 135 - a failed close after printing never displays a success message
+  ---
+  duration_ms: 0.991008
+  type: 'test'
+  ...
+# Subtest: printing rejects changed or invalid terminal identity {"code":"T02","pumpCode":"02"}
+ok 136 - printing rejects changed or invalid terminal identity {"code":"T02","pumpCode":"02"}
+  ---
+  duration_ms: 1.632217
+  type: 'test'
+  ...
+# Subtest: printing rejects changed or invalid terminal identity {"code":"T01","pumpCode":""}
+ok 137 - printing rejects changed or invalid terminal identity {"code":"T01","pumpCode":""}
+  ---
+  duration_ms: 1.972794
+  type: 'test'
+  ...
+# Subtest: terminal identity outage preserves receipt without printing or closing
+ok 138 - terminal identity outage preserves receipt without printing or closing
+  ---
+  duration_ms: 1.483205
+  type: 'test'
+  ...
+# Subtest: T02 prints using the pump confirmed by the backend
+ok 139 - T02 prints using the pump confirmed by the backend
+  ---
+  duration_ms: 1.048292
+  type: 'test'
+  ...
+# Subtest: terminal and pump identity come from the confirmed Backend assignment in every language
+ok 140 - terminal and pump identity come from the confirmed Backend assignment in every language
+  ---
+  duration_ms: 3.373443
+  type: 'test'
+  ...
+# Subtest: recovery statuses have Spanish labels specific to each financial record
+ok 141 - recovery statuses have Spanish labels specific to each financial record
+  ---
+  duration_ms: 0.173203
+  type: 'test'
+  ...
+# Subtest: recovers the backend empty attention when only the browser operation UUID was lost
+ok 142 - recovers the backend empty attention when only the browser operation UUID was lost
+  ---
+  duration_ms: 1.054452
+  type: 'test'
+  ...
+# Subtest: never replaces local financial evidence to resume another empty attention
+ok 143 - never replaces local financial evidence to resume another empty attention
+  ---
+  duration_ms: 0.433754
+  type: 'test'
+  ...
+# Subtest: never replaces a pending QR order when another attention is observed
+ok 144 - never replaces a pending QR order when another attention is observed
+  ---
+  duration_ms: 0.146682
+  type: 'test'
+  ...
+# Subtest: blocks an active financial attention without a saved QR order even when its UUID matches
+ok 145 - blocks an active financial attention without a saved QR order even when its UUID matches
+  ---
+  duration_ms: 0.211557
+  type: 'test'
+  ...
+# Subtest: financial backend attention without its local recovery snapshot requires assistance
+ok 146 - financial backend attention without its local recovery snapshot requires assistance
+  ---
+  duration_ms: 0.229438
+  type: 'test'
+  ...
+# Subtest: starts with the persisted operationId and recovers it after refresh
+ok 147 - starts with the persisted operationId and recovers it after refresh
+  ---
+  duration_ms: 0.703604
+  type: 'test'
+  ...
+# Subtest: requires a prepared terminal before creating a new operation
+ok 148 - requires a prepared terminal before creating a new operation
+  ---
+  duration_ms: 0.322115
+  type: 'test'
+  ...
+# Subtest: closed persisted operation is discarded and a fresh operation starts; active operation is retained
+ok 149 - closed persisted operation is discarded and a fresh operation starts; active operation is retained
+  ---
+  duration_ms: 0.449385
+  type: 'test'
+  ...
+# Subtest: a second tab waits for the browser lock until a closed recovery releases it
+ok 150 - a second tab waits for the browser lock until a closed recovery releases it
+  ---
+  duration_ms: 5.277682
+  type: 'test'
+  ...
+# Subtest: no quedan referencias a peaje ni toll en el terminal
+ok 151 - no quedan referencias a peaje ni toll en el terminal
+  ---
+  duration_ms: 1.02043
+  type: 'test'
+  ...
+# Subtest: el mensaje de consumo menciona el saldo Primax Prime
+ok 152 - el mensaje de consumo menciona el saldo Primax Prime
+  ---
+  duration_ms: 1.275129
+  type: 'test'
+  ...
+# Subtest: postpago usa SALDO_PRIME y prepago mantiene medios externos
+ok 153 - postpago usa SALDO_PRIME y prepago mantiene medios externos
+  ---
+  duration_ms: 0.115819
+  type: 'test'
+  ...
+# Subtest: el descuento proviene del backend sin recalculo local
+ok 154 - el descuento proviene del backend sin recalculo local
+  ---
+  duration_ms: 1.890328
+  type: 'test'
+  ...
+# Subtest: el postpago reserva saldo antes de abastecer
+ok 155 - el postpago reserva saldo antes de abastecer
+  ---
+  duration_ms: 0.24987
+  type: 'test'
+  ...
+# Subtest: el panel de administración no expone credenciales
+ok 156 - el panel de administración no expone credenciales
+  ---
+  duration_ms: 0.422823
+  type: 'test'
+  ...
+# Subtest: las tres variantes de idioma están presentes
+ok 157 - las tres variantes de idioma están presentes
+  ---
+  duration_ms: 0.416093
+  type: 'test'
+  ...
+# Subtest: el tope del abastecimiento se calcula sobre el importe, no sobre galones
+ok 158 - el tope del abastecimiento se calcula sobre el importe, no sobre galones
+  ---
+  duration_ms: 0.229297
+  type: 'test'
+  ...
+# Subtest: el frontend reporta el avance y consulta el estado de la reserva
+ok 159 - el frontend reporta el avance y consulta el estado de la reserva
+  ---
+  duration_ms: 0.617168
+  type: 'test'
+  ...
+# Subtest: el flujo de la operación pasa por los cinco estados
+ok 160 - el flujo de la operación pasa por los cinco estados
+  ---
+  duration_ms: 0.685123
+  type: 'test'
+  ...
+# Subtest: el postpago viaja con authorizationId, membershipCode y outcome
+ok 161 - el postpago viaja con authorizationId, membershipCode y outcome
+  ---
+  duration_ms: 0.25941
+  type: 'test'
+  ...
+# Subtest: el frontend nunca decide si hay saldo suficiente
+ok 162 - el frontend nunca decide si hay saldo suficiente
+  ---
+  duration_ms: 0.322876
+  type: 'test'
+  ...
+# Subtest: v2 invoice preserves exact confirmed data and validates full agent contract
+ok 163 - v2 invoice preserves exact confirmed data and validates full agent contract
+  ---
+  duration_ms: 3.274976
+  type: 'test'
+  ...
+# Subtest: boleta does not leak invoice identity or another operation
+ok 164 - boleta does not leak invoice identity or another operation
+  ---
+  duration_ms: 0.294773
+  type: 'test'
+  ...
+# Subtest: printed pump is the Backend-confirmed assignment, including T02
+ok 165 - printed pump is the Backend-confirmed assignment, including T02
+  ---
+  duration_ms: 0.304584
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid amount before network
+ok 166 - rejects missing/invalid amount before network
+  ---
+  duration_ms: 0.175114
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid unitPrice before network
+ok 167 - rejects missing/invalid unitPrice before network
+  ---
+  duration_ms: 0.13056
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid gallons before network
+ok 168 - rejects missing/invalid gallons before network
+  ---
+  duration_ms: 0.13557
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid createdAt before network
+ok 169 - rejects missing/invalid createdAt before network
+  ---
+  duration_ms: 0.117579
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid receiptType before network
+ok 170 - rejects missing/invalid receiptType before network
+  ---
+  duration_ms: 0.11916
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid amount before network
+ok 171 - rejects missing/invalid amount before network
+  ---
+  duration_ms: 0.38287
+  type: 'test'
+  ...
+# Subtest: rejects missing/invalid plate before network
+ok 172 - rejects missing/invalid plate before network
+  ---
+  duration_ms: 0.463646
+  type: 'test'
+  ...
+# Subtest: decimal amounts do not round through Number or appear as undefined/null/NaN
+ok 173 - decimal amounts do not round through Number or appear as undefined/null/NaN
+  ---
+  duration_ms: 0.26655
+  type: 'test'
+  ...
+# Subtest: compra usa el payload final y bloquea envíos simultáneos
+ok 174 - compra usa el payload final y bloquea envíos simultáneos
+  ---
+  duration_ms: 3.07445
+  type: 'test'
+  ...
+# Subtest: respuesta perdida y recarga reutilizan UUID y cuerpo exactos
+ok 175 - respuesta perdida y recarga reutilizan UUID y cuerpo exactos
+  ---
+  duration_ms: 0.691844
+  type: 'test'
+  ...
+# Subtest: nuevo UUID solo después de finalizar; refrescar conserva el actual
+ok 176 - nuevo UUID solo después de finalizar; refrescar conserva el actual
+  ---
+  duration_ms: 0.242669
+  type: 'test'
+  ...
+# Subtest: errores de backend no se presentan como compras aprobadas
+ok 177 - errores de backend no se presentan como compras aprobadas
+  ---
+  duration_ms: 22.28679
+  type: 'test'
+  ...
+# Subtest: no decorative QR generator or local wallet approval
+ok 178 - no decorative QR generator or local wallet approval
+  ---
+  duration_ms: 0.962356
+  type: 'test'
+  ...
+# Subtest: QR is selected only for Yape and Plin, including same-order read retry; NFC remains separate and cash is unavailable
+ok 179 - QR is selected only for Yape and Plin, including same-order read retry; NFC remains separate and cash is unavailable
+  ---
+  duration_ms: 0.402782
+  type: 'test'
+  ...
+# Subtest: complete FuelFlow browser matrix is routed through one Vercel Function and the strict gateway policy
+ok 180 - complete FuelFlow browser matrix is routed through one Vercel Function and the strict gateway policy
+  ---
+  duration_ms: 1.596854
+  type: 'test'
+  ...
+# Subtest: all 22 browser paths enter the gateway through Vercel rewrite metadata
+ok 181 - all 22 browser paths enter the gateway through Vercel rewrite metadata
+  ---
+  duration_ms: 32.778135
+  type: 'test'
+  ...
+# Subtest: fuels and stations reach their exact Backend path without a technical cookie and preserve JSON status
+ok 182 - fuels and stations reach their exact Backend path without a technical cookie and preserve JSON status
+  ---
+  duration_ms: 1.597485
+  type: 'test'
+  ...
+# Subtest: rewrite validates path metadata; unknown routes and methods still fail closed
+ok 183 - rewrite validates path metadata; unknown routes and methods still fail closed
+  ---
+  duration_ms: 0.749478
+  type: 'test'
+  ...
+1..183
+# tests 186
+# suites 0
+# pass 186
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 329.531755

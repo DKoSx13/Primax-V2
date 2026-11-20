@@ -1,0 +1,314 @@
+{
+  "arm": "t01",
+  "browser": "158.0.8127.36",
+  "requests": [
+    {
+      "phase": "boot",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {}
+    },
+    {
+      "phase": "boot",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200,
+      "body": {
+        "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b",
+        "terminalId": "ea60817d-d9f4-4d3b-9ea8-876aebc553c4",
+        "prepared": true
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": null
+      }
+    },
+    {
+      "phase": "boot",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": true,
+        "activeOperationId": null,
+        "emptyAttention": false
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/operations/07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+      "method": "GET",
+      "status": 404,
+      "body": {
+        "statusCode": 404,
+        "message": "Operación no encontrada"
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "operationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "b0ae5271-35ea-4be8-9e40-d4cb47e128a4"
+        },
+        {
+          "id": "7c930ea6-6f8a-4703-b759-3e69887c5d76"
+        },
+        {
+          "id": "4a5c68c3-a3fd-478b-a41c-c29f7b5fc5e7"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        },
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        },
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201,
+      "body": {
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136"
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/operations/07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "operationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "status": "ACTIVE"
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "b0ae5271-35ea-4be8-9e40-d4cb47e128a4"
+        },
+        {
+          "id": "7c930ea6-6f8a-4703-b759-3e69887c5d76"
+        },
+        {
+          "id": "4a5c68c3-a3fd-478b-a41c-c29f7b5fc5e7"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "id": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200,
+      "body": [
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        },
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        },
+        {
+          "stationId": "440c1877-e9cf-40c7-b99a-7057c25f369b"
+        }
+      ]
+    },
+    {
+      "phase": "t01-basic",
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200,
+      "body": {
+        "prepared": true,
+        "canStart": false,
+        "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+        "emptyAttention": true
+      }
+    }
+  ],
+  "states": [
+    {
+      "label": "t01-first",
+      "operationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": false,
+      "tabId": "16def6d3-fd50-4d6c-8431-db057fd03800"
+    },
+    {
+      "label": "t01-reloaded",
+      "operationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136",
+      "hasResult": false,
+      "hasPayload": false,
+      "total": "—",
+      "qrImages": 0,
+      "qrMessage": "",
+      "confirmationDisabled": false,
+      "tabId": "16def6d3-fd50-4d6c-8431-db057fd03800"
+    },
+    {
+      "label": "identity",
+      "text": "🎙️ Bienvenido a Primax. Por favor, seleccione su combustible.\n🌐\n🔊\n⚙️\nPASO 1 / 5\nSeleccione su combustible\n\n🎙️ \"Por favor, seleccione su combustible.\"\n\n💧\nRegular\nS/ 21.30 / galón\nDisponible: 4,992.89 L\nECONÓMICO\n💧\nPremium\nS/ 23.50 / galón\nDisponible: 5,000 L\nRECOMENDADO\n🛢️\nDiésel\nS/ 26.20 / galón\nDisponible: 5,000 L\nALTO RENDIMIENTO\n← Volver\n● 📍 Seleccione su combustible\nPENDIENTE\n8:27:57 a. m.\nSurtidor 03 · Precios S/ incluyen impuestos\nAsistente Primax\n🛎️\nSolicitar asistencia"
+    },
+    {
+      "label": "authenticated-t01",
+      "code": "PRIMAX-SUR-T01",
+      "pumpCode": "03",
+      "activeOperationId": "07b1e55d-f326-4eb5-a0d9-f2e8a6ecf136"
+    }
+  ],
+  "errors": []
+}

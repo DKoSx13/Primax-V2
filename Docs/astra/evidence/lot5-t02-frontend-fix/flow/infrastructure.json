@@ -1,0 +1,20 @@
+{
+  "serverVersion": "17.6 (Debian 17.6-2.pgdg12+1)",
+  "migrations": 36,
+  "tables": 41,
+  "unvalidatedForeignKeys": 0,
+  "sequences": [
+    {
+      "sequencename": "receipt_boleta_seq",
+      "last_value": 2
+    },
+    {
+      "sequencename": "receipt_factura_seq",
+      "last_value": null
+    },
+    {
+      "sequencename": "terminal_operation_op01_seq",
+      "last_value": 4
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Lote 5 — resultados reales de los frontends
 
+Actualización vigente: el [parche T02 autorizado](primax-lot5-t02-frontend-fix.md) corrige rehidratación de catálogo, flags y QR/total para orden pendiente identificada; esa recuperación ya completa venta y comprobante en laboratorio nuevo. CAPTURED sin venta sigue bloqueado para asistencia y creación sin ID no se reenvía automáticamente. T01 básica pasó en fixture nuevo, sin tocar su incidencia congelada. La tabla y los 16 casos siguientes corresponden a la ejecución original del Lote 5 y conservan su fallo histórico.
+
 Chromium 158.0.8127.36 en Windows Win64 x64, navegación real mediante Playwright. Evidencia: `evidence/lot5-validation/browser-checks.json`, capturas PNG y estados HTTP saneados, sin cookies ni tokens completos. 16 casos agrupados: 15 aprobados, uno fallido. No equivalen a un caso por cada botón o contrato.
 
 | Aplicación | Comprobado | Limitado/no comprobado |

@@ -933,3 +933,34 @@ con mismos IDs/precio/importe. Recuperar automáticamente CAPTURED no está auto
 **Diagnóstico terminado; corrección funcional pendiente de autorización específica.
 Lote 5 abierto**, Linux nativo/macOS/ARM64 pendientes y criterios de aceptación
 inalterados. Se permite commit local del diagnóstico verificado, sin push/merge.
+
+## 22. Lote 5 — parche frontend T02 limitado y autorizado, 2026-11-20
+
+Referencia: `b6dd92c6b360c31aeec9076e8e323d827c8d814b`. Autorización explícita
+para corregir catálogo/flags/vista, sin nueva recuperación financiera. [Informe](primax-lot5-t02-frontend-fix.md).
+Solo script.js cambia funcionalmente: catálogo por sesión autenticada y contexto
+BFF, snapshots sin locks UI, validación de orden y checksum backend vigente,
+QR/total reconstruidos y reintento de lectura de la misma orden. Sin ID tras
+creación interrumpida se conserva la operación y se solicita asistencia, sin POST
+automático adicional. Guardas previenen catalog.station cuando falta contexto.
+
+Baseline nuevo reproduce TypeError y CAPTURED sin venta. Candidato con PostgreSQL/
+Redis nuevos recupera orden PENDING identificada y completa EB01-0001; otra venta
+normal completa EB01-0002. Replay conserva misma venta/comprobante y snapshot SQL.
+186 pruebas FuelFlow (14 nuevas), Gateway 24, Chromium real, errores 503/snapshot
+alterado, flags antiguos, respuesta perdida durante creación y T01 básica pasan
+dentro de sus resultados esperados. No se repiten las 3526 pruebas globales.
+
+**Recuperación frontend corregida; recuperación financiera pendiente.** Un tercer
+pago CAPTURED sin venta conserva atención/reserva y mensaje de asistencia tras
+recarga; no se autoriza/despacha/contabiliza automáticamente ni se duplica su pago.
+Los snapshots financieros coinciden antes/después de replay. Creación sin ID queda
+PENDING sin reenvío automático. No se interviene en ninguna operación histórica.
+
+Motores, Gateway, AuthCore, políticas, Prisma/migraciones, reservas/secuencias y
+contratos conservan sus implementaciones. Tres laboratorios propios detenidos,
+12 volúmenes retenidos. Original y exposición no se reconstruyen/despliegan;
+nueve evidencias históricas y evidencia anterior intactas. Se admite commit local
+del parche verificado, sin push/merge. **Lote 5 abierto**: CAPTURED incompleto,
+límites históricos y ejecución real Linux/macOS/ARM64 pendientes; criterios 3J
+inalterados. La intervención se detiene tras esta corrección limitada.

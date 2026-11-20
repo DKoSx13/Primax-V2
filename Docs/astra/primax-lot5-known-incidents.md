@@ -1,5 +1,7 @@
 # Lote 5 — incidencias y limitaciones
 
+Estado vigente tras el [parche frontend T02](primax-lot5-t02-frontend-fix.md): catálogo/creatingOrder/vista de orden PENDING con ID corregidos y verificados; el pago CAPTURED sin venta **no** queda resuelto financieramente. La orden sin identificador tras una respuesta perdida conserva su atención y requiere asistencia. La tabla siguiente registra las incidencias originales; su reproducción fallida y evidencias se conservan, sin atribuirles una corrección financiera.
+
 Severidad académica usada: P0 impide el sistema o compromete integridad global en el alcance ejecutado; P1 afecta una función relevante; P2 limita integración/usabilidad/operación. No se detectó un P0 nuevo en los escenarios ejecutados. Esto no prueba su inexistencia universal.
 
 | ID/origen | Severidad/impacto | Reproducibilidad en Lote 5 | Recomendación |
@@ -18,6 +20,6 @@ Severidad académica usada: P0 impide el sistema o compromete integridad global 
 | Docker Desktop Linux Engine no disponible al reanudar | Impedimento de entorno para nueva medición runtime; no regresión de aplicación acreditada | docker version no conecta al canal dockerDesktopLinuxEngine; se conservan pruebas anteriores auditadas | Verificar motor antes de próximas pruebas nuevas; no arrancar automáticamente instalaciones protegidas ni declarar su estado actual |
 | Contraseña Redis en borrador de inventario sin seguimiento | Incidencia de preparación de evidencia, corregida antes del commit; no brecha de aplicación acreditada | Un argumento command del inventario JSON contenía clave del laboratorio sintético | Copia pública saneada y cotejada; original privado/hash preservados. Sin rotación ni cambio de runtime. Escaneo final de entrega sin coincidencias |
 
-No se ha corregido ninguna de estas incidencias. Ninguna modificación funcional se introduce para hacer pasar pruebas. El hallazgo T02 está separado de T01 y de las regresiones del código cambiado (no hubo cambios de aplicación).
+Antes de la autorización del parche frontend no se había corregido ninguna de estas incidencias. La corrección actual es funcional y limitada a script.js, con pruebas antes/después; no cambia políticas o motores para hacer pasar pruebas. El hallazgo T02 está separado de T01 y su componente financiero sigue pendiente.
 
 Actualización tras 945abd: Desktop estaba detenido y se restableció con su CLI; original 15 healthy/dos jobs exit 0. El impedimento Docker queda resuelto en esta intervención. T02 se reprodujo otra vez en recursos nuevos y el depurador confirmó catalog undefined en ejecutarReserva; snapshot persiste creatingOrder=true. La reserva física permanece PENDING_PAYMENT con pago CAPTURED y cero ventas/autorizaciones/comprobantes. Reintentos y replay no duplican el pago, pero tampoco recuperan el recorrido. Diagnóstico P1 confirmado, sin fix; [propuesta y pruebas para autorización específica](primax-lot5-t02-diagnostic.md). Los límites multiplataforma permanecen pendientes.
