@@ -1,0 +1,113 @@
+{
+  "reference": "c1184c1f5a7416830f3e1c281ee14bb0bf40a9ef",
+  "diagnosisOnly": true,
+  "financialFixImplemented": false,
+  "lot5Complete": false,
+  "severity": "P1",
+  "newPureTestsPassed": 4,
+  "reusedHistoricalCheckpoints": 756,
+  "oneNewSyntheticCapture": true,
+  "repeatedCaptureExecuted": false,
+  "authorizations": 0,
+  "sales": 0,
+  "receipts": 0,
+  "financialSnapshotsUnchangedAfterCapture": true,
+  "readOnlyAdmissionStatus": 409,
+  "controlActions": [
+    "ESCALATE"
+  ],
+  "historicalFilesIntact": 9,
+  "applicationAndPreviousEvidenceUnchanged": true,
+  "changedPreviouslyTrackedFiles": [
+    "Docs/astra/primax-lot5-final-report.md",
+    "Docs/astra/primax-lot5-known-incidents.md",
+    "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md"
+  ],
+  "protectedProjects": [
+    {
+      "project": "primax-astra-original",
+      "containers": 17,
+      "unchanged": true
+    },
+    {
+      "project": "primax-v2-avance-5c50b4a9",
+      "containers": 20,
+      "unchanged": true
+    }
+  ],
+  "newLaboratoryStopped": 17,
+  "newVolumesRetained": [
+    "primax-astra-lot5-captured-225b19f745_bootstrap_state",
+    "primax-astra-lot5-captured-225b19f745_postgres_data",
+    "primax-astra-lot5-captured-225b19f745_print_data",
+    "primax-astra-lot5-captured-225b19f745_redis_data"
+  ],
+  "secretScanPassed": true,
+  "sourceFilesHashed": 643,
+  "artifactHashes": [
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/environment.json",
+      "sha256": "45a646650807be9c5bd4475c8d1fc0085673c71edd7dc87643e94f9e2b1f4936"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/after-concurrent-reads.json",
+      "sha256": "aefff99d8cf72e3b1345a00dda07f27739382f16ee75e3f40279621503e8fe67"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/after-lost-id.json",
+      "sha256": "17cd90b949f432bea3564014cca2e4b1cb094616b5d6b175072d84291d8adcc0"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/browser.json",
+      "sha256": "6b73285f879268b7fab5892a1994dd0031302b02e39145e3e0a597a6901cbd80"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/captured-block.png",
+      "sha256": "e865db0ff4932158edf5ae16f0c32eac25b8914f0ab82846d5e0490c1795fbb1"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/captured-result-unknown.json",
+      "sha256": "3d37ede4fc0472b8586b1fe4e5f6667273dd9eec642344629084047a21c1ad81"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/control-readonly.json",
+      "sha256": "7bd4d2e642722a70eddac33d8d5673cc671b16ca050dcc459eaf257a1207cc53"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/final-before-stop.json",
+      "sha256": "df1c7d73e0940278d39484ebf6f6a5f7ef0d924312ced666c109bc32c2641ac3"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/isolation.json",
+      "sha256": "523fd2de18e7ea3ffe517b7566314c57133224ee81e3d1e9a360e7d550e721a4"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/order-request.json",
+      "sha256": "0cf01af20f227166a33652d67d7dd1b71ae3815ccc7918d4ff632d47738b009f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/pending.json",
+      "sha256": "199c0c2d3a290d92ff63aa53730882604860f40925bc780b34d1e933697ad304"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/readonly-admission.json",
+      "sha256": "9f7ab940824cbee840771d2455820a4890ac8d535549b5557d56fc8487b21c32"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/startup.json",
+      "sha256": "8a7428d2063f2d893b4db52801424d02fc79e60eb2a3005eca59df342cd9cca7"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/new/stopped.json",
+      "sha256": "83ff88f38392c16481086e74baeba23c0eac43b8de3414025b9af6459b9be00a"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/predicates.log",
+      "sha256": "4c82d267a7b8f4d73e6bf4da0b3e73b513218e03442a1d7cba0ecf1f66374637"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-captured-diagnostic/reused-evidence.json",
+      "sha256": "6ebc0042def2d815eb78808405c625c3ffef0bbd68455ef1ff5b838f2e2136e4"
+    }
+  ]
+}

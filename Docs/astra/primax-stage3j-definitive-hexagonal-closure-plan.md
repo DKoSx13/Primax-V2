@@ -964,3 +964,29 @@ nueve evidencias históricas y evidencia anterior intactas. Se admite commit loc
 del parche verificado, sin push/merge. **Lote 5 abierto**: CAPTURED incompleto,
 límites históricos y ejecución real Linux/macOS/ARM64 pendientes; criterios 3J
 inalterados. La intervención se detiene tras esta corrección limitada.
+
+## 23. Lote 5 — diagnóstico financiero CAPTURED, 2026-11-20
+
+Referencia c1184c1; alcance exclusivamente diagnóstico, pruebas y documentación.
+El corte se sitúa entre captura y autorización: CAPTURED no equivale a venta.
+Nueva reproducción aislada descarta una única respuesta demo-confirm ya
+confirmada por backend y conserva un pago de S/ 20, cero autorizaciones/ventas/
+comprobantes y reserva PENDING_PAYMENT. Recarga, pérdida de ID y tres GET
+concurrentes no alteran SQL. Predicado de recuperación real en READ ONLY rechaza
+409; Control ofrece solo ESCALATE. Cuatro pruebas puras pasan; 756 checkpoints
+históricos pertinentes reutilizados sin repetir acciones financieras.
+
+Existe una ruta ordinaria de autorización que reutiliza el pago; admitir su
+continuación explícita requeriría autorización futura, contexto original íntegro
+y revalidación de las reglas vigentes. No se ejecuta ni implementa esa propuesta,
+no se amplían scopes y no se repara manualmente ningún estado financiero.
+P1 operativo/financiero abierto; no se acreditó un P0 nuevo en este alcance.
+T01, nueve evidencias históricas y fuentes de aplicación permanecen intactos.
+Se detuvo solo el laboratorio nuevo, reteniendo cuatro volúmenes; original y
+exposición sin cambios de identidad/inicios/reinicios/montajes.
+
+**Lote 5 y cierre integral siguen abiertos**: falta la resolución autorizada del
+P1, ejecución real Linux nativo/macOS/ARM64 y aceptación académica pertinente.
+No cambian los criterios de §7/§8/§10, ni se declara autonomía productiva.
+Se detiene el trabajo después del diagnóstico, sin push ni merge.
+Informe: [causa, evidencias, alternativa y pruebas futuras](primax-lot5-captured-financial-diagnostic.md).

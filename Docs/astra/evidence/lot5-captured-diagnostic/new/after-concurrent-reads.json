@@ -1,0 +1,159 @@
+{
+  "label": "after-concurrent-reads",
+  "recordedAt": "2026-11-20T13:48:31.601Z",
+  "project": "primax-astra-lot5-captured-225b19f745",
+  "postgres": {
+    "payments": [
+      {
+        "id": "0826268c-afb2-4b80-9314-eeba85a0f0e7",
+        "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+        "status": "CAPTURED",
+        "method": "YAPE",
+        "amount": 20,
+        "provider": "DEMO",
+        "transactionId": null
+      }
+    ],
+    "orders": [
+      {
+        "id": "05981005-2522-4b87-bc70-9a10929c014e",
+        "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+        "status": "CAPTURED",
+        "amount": 20,
+        "method": "YAPE",
+        "paymentId": "0826268c-afb2-4b80-9314-eeba85a0f0e7",
+        "transactionId": null
+      }
+    ],
+    "transactions": [],
+    "receipts": [],
+    "authorizations": [],
+    "operations": [
+      {
+        "id": "d2716d90-d87d-4f8e-afef-79a0b4fb8746",
+        "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+        "status": "ACTIVE",
+        "terminalId": "95a8b51f-deb8-4890-8aac-c9986ad600d8",
+        "number": "OP01-0001"
+      }
+    ],
+    "inventory": [
+      {
+        "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b",
+        "fuelId": "14612e5e-8aec-4699-966d-d916e81c8583",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T13:45:34.182+00:00",
+        "reservedLiters": 3.554972
+      },
+      {
+        "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b",
+        "fuelId": "177dc90f-7033-48d9-a3f0-9c218d890926",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T13:44:11.527+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b",
+        "fuelId": "aaf25490-7fd7-4fcf-9c50-eb30a4b94a61",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T13:44:11.533+00:00",
+        "reservedLiters": 0
+      }
+    ],
+    "reservations": [
+      {
+        "id": "517196c7-a72b-4a0d-b01a-ab7ec477eee3",
+        "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+        "status": "PENDING_PAYMENT",
+        "authorizationId": null,
+        "transactionId": null,
+        "remainingLiters": 3.554972,
+        "consumedLiters": 0,
+        "releasedLiters": 0
+      }
+    ],
+    "paymentEvents": [
+      {
+        "id": "1f1ccae8-f74b-42fd-bacd-2a02c21502dd",
+        "kind": "DEMO_PENDING",
+        "paymentId": null,
+        "orderId": "05981005-2522-4b87-bc70-9a10929c014e"
+      },
+      {
+        "id": "2d2c8bc8-8e78-483a-ad81-fff81ef9683e",
+        "kind": "CAPTURED",
+        "paymentId": "0826268c-afb2-4b80-9314-eeba85a0f0e7",
+        "orderId": "05981005-2522-4b87-bc70-9a10929c014e"
+      },
+      {
+        "id": "f8d6b36b-8398-4e3f-87e9-0835e5043ab2",
+        "kind": "DEMO_PAID",
+        "paymentId": null,
+        "orderId": "05981005-2522-4b87-bc70-9a10929c014e"
+      }
+    ]
+  },
+  "redis": {
+    "ping": "PONG",
+    "keyCount": 6,
+    "keys": [
+      {
+        "keyClass": "other",
+        "keySha256": "e14241d243b299296f43769563c66f98bedbc08d46bbd5aee68a74308a39b7c7",
+        "type": "string",
+        "ttl": 58,
+        "valueSha256": "2c624232cdd221771294dfbb310aca000a0df6ac8b66b696d90ef06fdefb64a3",
+        "safeFields": {}
+      },
+      {
+        "keyClass": "other",
+        "keySha256": "70fecc225947d4167a2636553286727df9310b491af0db6be66bca50f21bbda1",
+        "type": "string",
+        "ttl": 1,
+        "valueSha256": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+        "safeFields": {}
+      },
+      {
+        "keyClass": "other",
+        "keySha256": "0d65c46e61cc83fc73042f0ac82187b632814799db4986d736845a316347687e",
+        "type": "string",
+        "ttl": 604624,
+        "valueSha256": "3c755c5f78652d60f1723d034ed4d6d926728e46180d8ef112bb2d5d189316a4",
+        "safeFields": null
+      },
+      {
+        "keyClass": "session",
+        "keySha256": "877cdba857836c02bf649901bf5356f76e1c736178a185a1ef2fbf1b782624f5",
+        "type": "string",
+        "ttl": 1601,
+        "valueSha256": "521bea86d737fe7317d7e36a8b70c158478dbc242593373f9a5ecd4294e00736",
+        "safeFields": {
+          "authenticated": true,
+          "expiresAt": 1795184111252,
+          "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b"
+        }
+      },
+      {
+        "keyClass": "session",
+        "keySha256": "d54d7138915514fa1c5f449a4da38b09f6801dbdebe938f3a53b7ccaf600b573",
+        "type": "string",
+        "ttl": 100,
+        "valueSha256": "69282cde75bbc43845e219991b7cf0806d4d4d9f4fef4414b03c6fb270ccafd5",
+        "safeFields": {
+          "authenticated": false,
+          "expiresAt": 1795182611218,
+          "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b"
+        }
+      },
+      {
+        "keyClass": "terminal-owner",
+        "keySha256": "21405c184b07ee37732242446d745e66c0aa487fac08e48765913498c45bfd8f",
+        "type": "string",
+        "ttl": 116,
+        "valueSha256": "4ceb022b1110dd53e83e5153a72986615fff1686db21d6f55156ca29ed896e31",
+        "safeFields": null
+      }
+    ],
+    "credentialsExcluded": true
+  }
+}

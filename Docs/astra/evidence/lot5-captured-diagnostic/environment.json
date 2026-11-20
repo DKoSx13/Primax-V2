@@ -1,0 +1,13 @@
+{
+  "host": "Windows 11 (provided environment)",
+  "serverVersion": "29.9.2",
+  "osType": "linux",
+  "architecture": "x86_64",
+  "operatingSystem": "Docker Desktop",
+  "context": "desktop-linux",
+  "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+  "nativeLinuxExecuted": false,
+  "macOSExecuted": false,
+  "arm64Executed": false,
+  "existingStacksChanged": false
+}

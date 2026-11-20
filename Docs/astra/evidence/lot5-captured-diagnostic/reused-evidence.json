@@ -1,0 +1,1008 @@
+{
+  "countsAreReusedNotNew": true,
+  "pairedCheckpoints": 756,
+  "families": [
+    {
+      "family": "orders",
+      "checksPerArm": 95,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/comparison-data.json",
+          "sha256": "f5a7a2cac8841db24aed564e0f53e4017a950c8a33fa5067919e1e05b0397cec"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/comparison-data.json",
+          "sha256": "f5a7a2cac8841db24aed564e0f53e4017a950c8a33fa5067919e1e05b0397cec"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "callback replay after response loss",
+          "status": 201
+        },
+        {
+          "label": "callback response lost",
+          "status": 503
+        },
+        {
+          "label": "callback retry after rollback",
+          "status": 201
+        },
+        {
+          "label": "capture retry after rollback",
+          "status": 200
+        },
+        {
+          "label": "captured cannot cancel",
+          "status": 409
+        },
+        {
+          "label": "concurrent callback A",
+          "status": 201
+        },
+        {
+          "label": "concurrent callback B",
+          "status": 201
+        },
+        {
+          "label": "concurrent capture A",
+          "status": 200
+        },
+        {
+          "label": "concurrent capture B",
+          "status": 200
+        },
+        {
+          "label": "concurrent create A",
+          "status": 201
+        },
+        {
+          "label": "concurrent create B",
+          "status": 201
+        },
+        {
+          "label": "create replay",
+          "status": 201
+        },
+        {
+          "label": "create response lost",
+          "status": 503
+        },
+        {
+          "label": "demo cancel replay",
+          "status": 201
+        },
+        {
+          "label": "demo refund replay",
+          "status": 201
+        },
+        {
+          "label": "event rollback prerequisite capture",
+          "status": 200
+        },
+        {
+          "label": "ext-get-unknown create",
+          "status": 201
+        },
+        {
+          "label": "ext-rollback-event create",
+          "status": 201
+        },
+        {
+          "label": "external refund response unknown",
+          "status": 500
+        },
+        {
+          "label": "member debt confirmation replay",
+          "status": 201
+        },
+        {
+          "label": "no reference remains unknown",
+          "status": 200
+        },
+        {
+          "label": "paid callback replay",
+          "status": 201
+        },
+        {
+          "label": "provider create response unknown",
+          "status": 500
+        },
+        {
+          "label": "provider read unknown",
+          "status": 500
+        },
+        {
+          "label": "recover create replay",
+          "status": 201
+        },
+        {
+          "label": "refund callback replay",
+          "status": 201
+        },
+        {
+          "label": "refund prerequisite capture",
+          "status": 201
+        },
+        {
+          "label": "repeated reconcile captured",
+          "status": 200
+        },
+        {
+          "label": "rollback callback event",
+          "status": 500
+        },
+        {
+          "label": "rollback financial capture",
+          "status": 500
+        },
+        {
+          "label": "rollback intent before provider",
+          "status": 500
+        },
+        {
+          "label": "rollback-capture create",
+          "status": 201
+        },
+        {
+          "label": "rollback-create create",
+          "status": 201
+        },
+        {
+          "label": "status response lost",
+          "status": 503
+        },
+        {
+          "label": "unknown create retry returns intent",
+          "status": 201
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "checks": 95,
+        "syntheticCases": 20,
+        "engineCalls": {
+          "demo:create": 17,
+          "demo:status": 29,
+          "demo:confirmDemo": 5,
+          "demo:webhook": 9,
+          "demo:cancel": 4,
+          "demo:reselect": 2,
+          "demo:refund": 3,
+          "commercial:create": 10,
+          "commercial:status": 19,
+          "commercial:webhook": 9,
+          "commercial:refund": 1
+        },
+        "externalHttpAttempts": 0,
+        "migrations": 36,
+        "providerCalls": 74,
+        "realDemoProvider": true,
+        "commercialProviderSimulated": true,
+        "rollbackIntentCaptureAndCallbackVerified": true,
+        "unknownCreateAndRefundPreserved": true,
+        "lostResponseCreateStatusCallbackVerified": true,
+        "concurrencyCreateCaptureCallbackVerified": true,
+        "memberDebtSettlementAndRefundVerified": true,
+        "financialRows": 1,
+        "receiptRows": 1,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": "1"
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "20"
+          }
+        ],
+        "uuidMappingEntries": 171,
+        "limits": [
+          "Commercial provider contract simulation only; no Culqi certification",
+          "Original internal retries/unknown semantics retained",
+          "Not all crash/interleaving/provider paths proven"
+        ]
+      }
+    },
+    {
+      "family": "authorizations",
+      "checksPerArm": 107,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/comparison-data.json",
+          "sha256": "a24071ccc0656d98e51e3766c9465575dfa42320e7f4b8c0f71d97cf5aa96634"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/comparison-data.json",
+          "sha256": "079d1f9276279ae0821425cab8673fd2dd8249d4b81ccce4901c5b84d62ffc3b"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "concurrent create A",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "concurrent create B",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "concurrent intervention A",
+          "method": "intervention",
+          "status": 201
+        },
+        {
+          "label": "concurrent intervention B",
+          "method": "intervention",
+          "status": 201
+        },
+        {
+          "label": "concurrent prepaid create A",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "concurrent prepaid create B",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "concurrent progress A",
+          "method": "progress",
+          "status": 200
+        },
+        {
+          "label": "concurrent progress B",
+          "method": "progress",
+          "status": 200
+        },
+        {
+          "label": "concurrent release A",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "concurrent release B",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "lost response create",
+          "method": "create",
+          "status": 503
+        },
+        {
+          "label": "lost response intervention",
+          "method": "intervention",
+          "status": 503
+        },
+        {
+          "label": "lost response progress",
+          "method": "progress",
+          "status": 503
+        },
+        {
+          "label": "lost response release",
+          "method": "release",
+          "status": 503
+        },
+        {
+          "label": "lost-intervention create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "lost-progress create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "lost-release create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "post create replay",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "post intervention replay",
+          "method": "intervention",
+          "status": 201
+        },
+        {
+          "label": "post release replay",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "post release with consumption replay",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "prepay incident replay",
+          "method": "intervention",
+          "status": 201
+        },
+        {
+          "label": "prepay partial release replay",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "prepay zero refund replay",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "retry after rollback create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "retry after rollback intervention",
+          "method": "intervention",
+          "status": 201
+        },
+        {
+          "label": "retry after rollback progress",
+          "method": "progress",
+          "status": 200
+        },
+        {
+          "label": "retry after rollback release",
+          "method": "release",
+          "status": 200
+        },
+        {
+          "label": "rollback create",
+          "method": "create",
+          "status": 500
+        },
+        {
+          "label": "rollback intervention",
+          "method": "intervention",
+          "status": 500
+        },
+        {
+          "label": "rollback progress",
+          "method": "progress",
+          "status": 500
+        },
+        {
+          "label": "rollback release",
+          "method": "release",
+          "status": 500
+        },
+        {
+          "label": "rollback-intervention create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "rollback-progress create",
+          "method": "create",
+          "status": 201
+        },
+        {
+          "label": "rollback-release create",
+          "method": "create",
+          "status": 201
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "checks": 107,
+        "calls": {
+          "create": 33,
+          "progress": 16,
+          "release": 18,
+          "intervention": 12
+        },
+        "paymentCalls": 12,
+        "syntheticCases": 24,
+        "migrations": 36,
+        "rollbackFourCommandsVerified": true,
+        "lostResponseFourCommandsVerified": true,
+        "concurrencyFourCommandsVerified": true,
+        "prepaidSinglePaymentInFlightVerified": true,
+        "noExtraPaymentAttemptOnUnknown": true,
+        "preAlertOutsideTransactionVerified": true,
+        "transactionRows": 2,
+        "receiptRows": 2,
+        "uuidMappingEntries": 140,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": "2"
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "24"
+          }
+        ],
+        "normalization": [
+          "Generated UUID correlation by table/natural key; seeded IDs literal",
+          "Lifecycle timestamps excluded",
+          "Concurrent response labels compared as a multiset",
+          "All financial amounts, states, relationships, hashes and sequence values retained"
+        ],
+        "legacyLimitation": "Signed kiosk station scope preserved; legacy key for existing by-ID commands remains unscoped outside academic mode"
+      }
+    },
+    {
+      "family": "sale-regression",
+      "checksPerArm": 38,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/comparison-data.json",
+          "sha256": "a1ba6ccf1bbb1c9f42eda2eaf84b9bea8bf8854e87f3073e911b3ae955c7c2af"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/comparison-data.json",
+          "sha256": "689dbabc2dd9a508aab8c628d221aa438da675763d6792b227ea54b94c1650b0"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "concurrent A",
+          "status": 201
+        },
+        {
+          "label": "concurrent B",
+          "status": 201
+        },
+        {
+          "label": "discount replay",
+          "status": 201
+        },
+        {
+          "label": "partial-demo replay",
+          "status": 201
+        },
+        {
+          "label": "partial-external replay",
+          "status": 201
+        },
+        {
+          "label": "post replay",
+          "status": 201
+        },
+        {
+          "label": "pre replay",
+          "status": 201
+        },
+        {
+          "label": "prepaid payment not captured",
+          "status": 400
+        },
+        {
+          "label": "response lost after commit",
+          "status": 503
+        },
+        {
+          "label": "retry after definite rollback",
+          "status": 201
+        },
+        {
+          "label": "round replay",
+          "status": 201
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "checks": 38,
+        "engineCalls": 28,
+        "baselineOrCandidateRealModule": true,
+        "syntheticFixtureCases": 11,
+        "migrationCount": 36,
+        "rollbackVerified": true,
+        "lostResponseReplayVerified": true,
+        "concurrentSingleSaleVerified": true,
+        "profileAndInventoryVerified": true,
+        "preAlertOutsideTransactionVerified": true,
+        "financialRows": 9,
+        "receiptRows": 9,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": "10"
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "11"
+          }
+        ],
+        "uuidMappingEntries": 90,
+        "comparisonRules": [
+          "Original generated UUIDs correlated by table/natural identity; seeded business IDs remain fixed",
+          "Only lifecycle timestamps excluded",
+          "All financial fields, hashes, sequence values and relationships retained",
+          "Concurrent request labels may swap winner; evaluate exactly one fresh response and one replay"
+        ]
+      }
+    },
+    {
+      "family": "recovery",
+      "checksPerArm": 41,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/comparison-data.json",
+          "sha256": "73c5f200ccad62c9750c034bec7b1cac9c0d2b09b26d9387b231160780e5413e"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/comparison-data.json",
+          "sha256": "73c5f200ccad62c9750c034bec7b1cac9c0d2b09b26d9387b231160780e5413e"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "cancel replay",
+          "status": 201
+        },
+        {
+          "label": "cancel retry definite rollback",
+          "status": 201
+        },
+        {
+          "label": "cancel rollback",
+          "status": 500
+        },
+        {
+          "label": "concurrent recovery ticket",
+          "status": 201
+        },
+        {
+          "label": "concurrent recovery ticket",
+          "status": 409
+        },
+        {
+          "label": "existing pending ticket conflict",
+          "status": 409
+        },
+        {
+          "label": "issue authorized pending payment ticket",
+          "status": 201
+        },
+        {
+          "label": "manager cannot issue exceptional ticket",
+          "status": 403
+        },
+        {
+          "label": "recovery-ticket denies anonymous",
+          "status": 401
+        },
+        {
+          "label": "recovery-ticket denies expired",
+          "status": 401
+        },
+        {
+          "label": "recovery-ticket denies invalid",
+          "status": 401
+        },
+        {
+          "label": "recovery-ticket denies legacy",
+          "status": 401
+        },
+        {
+          "label": "recovery-ticket denies member",
+          "status": 403
+        },
+        {
+          "label": "recovery-ticket denies terminal",
+          "status": 403
+        },
+        {
+          "label": "resolve replay",
+          "status": 201
+        },
+        {
+          "label": "resolve rollback",
+          "status": 500
+        },
+        {
+          "label": "ticket reason DTO rejected",
+          "status": 400
+        },
+        {
+          "label": "ticket response unknown after commit",
+          "status": 503
+        },
+        {
+          "label": "ticket retry does not mint another grant",
+          "status": 409
+        },
+        {
+          "label": "ticket SQL rollback leaves technical grant",
+          "status": 500
+        },
+        {
+          "label": "unknown ticket retry preserves pending conflict",
+          "status": 409
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "family": "recovery",
+        "checks": 41,
+        "dispatch": {
+          "operations.terminalMe": 0,
+          "operations.startOperation": 0,
+          "operations.operation": 0,
+          "operations.recoveryState": 0,
+          "operations.closeOperation": 5,
+          "operations.cancelUnpaidOperation": 7,
+          "operations.resolveOperation": 4,
+          "operations.grantAdmin": 0,
+          "operations.revokeAdminGrant": 0,
+          "operations.createPump": 0,
+          "operations.createTerminal": 0,
+          "operations.assignTerminal": 0,
+          "operations.endTerminalAssignment": 0,
+          "operations.revokeTerminal": 0,
+          "assistance.create": 0,
+          "assistance.terminalStatus": 0,
+          "assistance.cancel": 0,
+          "assistance.list": 0,
+          "assistance.detail": 0,
+          "assistance.act": 0,
+          "payments.detail": 0,
+          "payments.act": 0,
+          "kiosk.claimTerminal": 0,
+          "kiosk.issueRecoveryTicket": 10
+        },
+        "flags": {
+          "threeContracts": true,
+          "permissionsAndStations": true,
+          "rollbackCancelResolve": true,
+          "replayCancelResolve": true,
+          "ticketSqlRedisPartialOutcomePreserved": true,
+          "singleConcurrentTicket": true,
+          "noNewPaymentAttempt": true,
+          "T01Untouched": true
+        },
+        "externalHttpAttempts": 0,
+        "migrations": 36,
+        "financialRows": 0,
+        "receipts": 0,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "8"
+          }
+        ],
+        "uuidMappingEntries": 55,
+        "redisKeys": 8,
+        "realModules": true,
+        "comparisonRules": [
+          "Seeded IDs literal; generated IDs by table/natural key",
+          "Audit random keys by action/target/outcome/actor/ordinal",
+          "Lifecycle times excluded; state, financial fields, links and sequences retained",
+          "Redis TTL checked positive instead of equal elapsed seconds"
+        ]
+      }
+    },
+    {
+      "family": "terminal",
+      "checksPerArm": 61,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/comparison-data.json",
+          "sha256": "3dbf619aa660fdaf55990489cc2b45cb1f44782e12f1c36acab19d9fa2b9d124"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/comparison-data.json",
+          "sha256": "3dbf619aa660fdaf55990489cc2b45cb1f44782e12f1c36acab19d9fa2b9d124"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "claim lost",
+          "status": 201
+        },
+        {
+          "label": "claim rollback",
+          "status": 201
+        },
+        {
+          "label": "close replay no duplicate audit",
+          "status": 201
+        },
+        {
+          "label": "close rollback after writes",
+          "status": 500
+        },
+        {
+          "label": "concurrent close A",
+          "status": 201
+        },
+        {
+          "label": "concurrent close B",
+          "status": 201
+        },
+        {
+          "label": "concurrent open A",
+          "status": 201
+        },
+        {
+          "label": "concurrent open B",
+          "status": 201
+        },
+        {
+          "label": "lost owner cannot claim active without operation",
+          "status": 409
+        },
+        {
+          "label": "open replay same UUID",
+          "status": 201
+        },
+        {
+          "label": "open response unknown",
+          "status": 503
+        },
+        {
+          "label": "open rollback after writes",
+          "status": 500
+        },
+        {
+          "label": "retry close rollback",
+          "status": 201
+        },
+        {
+          "label": "retry definite open rollback",
+          "status": 201
+        },
+        {
+          "label": "same owner claim replay",
+          "status": 201
+        },
+        {
+          "label": "unknown pending payment prevents close",
+          "status": 409
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "family": "terminal",
+        "checks": 61,
+        "dispatch": {
+          "operations.terminalMe": 1,
+          "operations.startOperation": 9,
+          "operations.operation": 3,
+          "operations.recoveryState": 1,
+          "operations.closeOperation": 8,
+          "operations.cancelUnpaidOperation": 0,
+          "operations.resolveOperation": 0,
+          "operations.grantAdmin": 0,
+          "operations.revokeAdminGrant": 0,
+          "operations.createPump": 0,
+          "operations.createTerminal": 0,
+          "operations.assignTerminal": 0,
+          "operations.endTerminalAssignment": 0,
+          "operations.revokeTerminal": 0,
+          "assistance.create": 0,
+          "assistance.terminalStatus": 0,
+          "assistance.cancel": 0,
+          "assistance.list": 0,
+          "assistance.detail": 0,
+          "assistance.act": 0,
+          "payments.detail": 0,
+          "payments.act": 0,
+          "kiosk.claimTerminal": 11,
+          "kiosk.issueRecoveryTicket": 0
+        },
+        "flags": {
+          "sixContracts": true,
+          "ownerAndTerminalIsolation": true,
+          "technicalEffectsPreserved": true,
+          "rollbackOpenClose": true,
+          "redisNotRolledBackWithSql": true,
+          "concurrentSingleOpenClose": true,
+          "explicitUnknownRecovery": true,
+          "limitedRecoveryCredentialFixture": true
+        },
+        "externalHttpAttempts": 0,
+        "migrations": 36,
+        "financialRows": 0,
+        "receipts": 0,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "6"
+          }
+        ],
+        "uuidMappingEntries": 21,
+        "redisKeys": 13,
+        "realModules": true,
+        "comparisonRules": [
+          "Seeded IDs literal; generated IDs by table/natural key",
+          "Audit random keys by action/target/outcome/actor/ordinal",
+          "Lifecycle times excluded; state, financial fields, links and sequences retained",
+          "Redis TTL checked positive instead of equal elapsed seconds"
+        ]
+      }
+    },
+    {
+      "family": "control-payments",
+      "checksPerArm": 36,
+      "originalReference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+      "backendSourceUnchanged": true,
+      "recomparedCanonicalSnapshots": true,
+      "notReexecuted": true,
+      "artifacts": [
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/comparison-data.json",
+          "sha256": "bae941a9817bbc32750b179684e2521384921969d06b372c24b262cf9b2802fe"
+        },
+        {
+          "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/comparison-data.json",
+          "sha256": "bae941a9817bbc32750b179684e2521384921969d06b372c24b262cf9b2802fe"
+        }
+      ],
+      "relevantChecks": [
+        {
+          "label": "active authorization forbids unsafe cancel",
+          "status": 409
+        },
+        {
+          "label": "cancel replay retains legitimate control audit",
+          "status": 201
+        },
+        {
+          "label": "cancel response unknown after original workflow",
+          "status": 503
+        },
+        {
+          "label": "concurrent payment retry A",
+          "status": 201
+        },
+        {
+          "label": "concurrent payment retry B",
+          "status": 201
+        },
+        {
+          "label": "escalation audit and incident rollback",
+          "status": 500
+        },
+        {
+          "label": "escalation response unknown",
+          "status": 503
+        },
+        {
+          "label": "repeated escalation keeps append-only observation",
+          "status": 201
+        }
+      ],
+      "originalResult": {
+        "arm": "candidate",
+        "family": "control-payments",
+        "checks": 36,
+        "dispatch": {
+          "operations.terminalMe": 0,
+          "operations.startOperation": 0,
+          "operations.operation": 0,
+          "operations.recoveryState": 0,
+          "operations.closeOperation": 4,
+          "operations.cancelUnpaidOperation": 4,
+          "operations.resolveOperation": 0,
+          "operations.grantAdmin": 0,
+          "operations.revokeAdminGrant": 0,
+          "operations.createPump": 0,
+          "operations.createTerminal": 0,
+          "operations.assignTerminal": 0,
+          "operations.endTerminalAssignment": 0,
+          "operations.revokeTerminal": 0,
+          "assistance.create": 0,
+          "assistance.terminalStatus": 0,
+          "assistance.cancel": 0,
+          "assistance.list": 0,
+          "assistance.detail": 0,
+          "assistance.act": 0,
+          "payments.detail": 34,
+          "payments.act": 18,
+          "kiosk.claimTerminal": 0,
+          "kiosk.issueRecoveryTicket": 0
+        },
+        "flags": {
+          "twoContracts": true,
+          "permissionStationIsolation": true,
+          "readOnlyDetail": true,
+          "auditRollback": true,
+          "appendOnlyRepeatedActionPreserved": true,
+          "pendingRetryDoesNotCapture": true,
+          "cancelUnknownDoesNotDuplicateProvider": true,
+          "activeAuthorizationBlocksCancel": true
+        },
+        "externalHttpAttempts": 0,
+        "migrations": 36,
+        "financialRows": 0,
+        "receipts": 0,
+        "sequences": [
+          {
+            "sequencename": "receipt_boleta_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "receipt_factura_seq",
+            "last_value": null
+          },
+          {
+            "sequencename": "terminal_operation_op01_seq",
+            "last_value": "4"
+          }
+        ],
+        "uuidMappingEntries": 54,
+        "redisKeys": 0,
+        "realModules": true,
+        "comparisonRules": [
+          "Seeded IDs literal; generated IDs by table/natural key",
+          "Audit random keys by action/target/outcome/actor/ordinal",
+          "Lifecycle times excluded; state, financial fields, links and sequences retained",
+          "Redis TTL checked positive instead of equal elapsed seconds"
+        ]
+      }
+    }
+  ],
+  "previousCapturedReplay": {
+    "sourceFiles": [
+      "Docs/astra/evidence/lot5-t02-frontend-fix/flow/orphan-captured.json",
+      "Docs/astra/evidence/lot5-t02-frontend-fix/flow/orphan-after-replay.json",
+      "Docs/astra/evidence/lot5-t02-frontend-fix/flow/browser.json"
+    ],
+    "sameFinancialSnapshot": true,
+    "originalSourceReference": "c1184c1f5a7416830f3e1c281ee14bb0bf40a9ef",
+    "notRepeatedNow": true
+  }
+}

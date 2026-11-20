@@ -1,0 +1,28 @@
+{
+  "project": "primax-astra-lot5-captured-225b19f745",
+  "loginStatus": 200,
+  "role": "SUPER_ADMIN",
+  "hasIncidentManagePermission": true,
+  "detailStatus": 200,
+  "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+  "allowedActions": [
+    "ESCALATE"
+  ],
+  "payment": {
+    "id": "0826268c-afb2-4b80-9314-eeba85a0f0e7",
+    "method": "YAPE",
+    "status": "CAPTURED",
+    "provider": "DEMO",
+    "amount": "20",
+    "refundedAmount": "0"
+  },
+  "authorization": null,
+  "order": {
+    "id": "05981005-2522-4b87-bc70-9a10929c014e",
+    "status": "CAPTURED",
+    "method": "YAPE",
+    "updatedAt": "2026-11-20T13:45:39.365Z"
+  },
+  "actionsExecuted": [],
+  "cookieAndTokenValuesExcluded": true
+}

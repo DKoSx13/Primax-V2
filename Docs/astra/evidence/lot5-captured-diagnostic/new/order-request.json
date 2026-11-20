@@ -1,0 +1,16 @@
+{
+  "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+  "method": "YAPE",
+  "authorization": {
+    "mode": "PREPAGO",
+    "paymentMethod": "YAPE",
+    "unitPrice": "21.30",
+    "allowDebt": false,
+    "plate": "DGN-601",
+    "amount": "20.00",
+    "stationId": "cc50a0df-e7c7-4934-afea-6c72685f9e9b",
+    "fuelId": "14612e5e-8aec-4699-966d-d916e81c8583",
+    "receiptType": "BOLETA",
+    "operationId": "1481803d-95fd-43e6-8cac-bb5777246226"
+  }
+}

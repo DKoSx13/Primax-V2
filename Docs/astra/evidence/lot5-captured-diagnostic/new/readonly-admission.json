@@ -1,0 +1,58 @@
+{
+  "transactionReadOnly": true,
+  "project": "primax-astra-lot5-captured-225b19f745",
+  "operationId": "1481803d-95fd-43e6-8cac-bb5777246226",
+  "orderId": "05981005-2522-4b87-bc70-9a10929c014e",
+  "paymentId": "0826268c-afb2-4b80-9314-eeba85a0f0e7",
+  "admission": {
+    "accepted": false,
+    "httpStatus": 409,
+    "message": "Estado financiero no apto para recuperación"
+  },
+  "checks": {
+    "orderRequestHashMatches": true,
+    "authorizationHashMatchesPersistedPayment": true,
+    "reservationHashMatchesPayment": true,
+    "orderPaymentLink": true,
+    "matchingOperation": true,
+    "matchingStationAndFuel": true,
+    "currentPriceMatchesOriginal": true,
+    "providerEvidencePaid": true,
+    "noDispense": true,
+    "noAuthorization": true,
+    "noSale": true
+  },
+  "liveOrdinaryTerminalCredential": true,
+  "counts": {
+    "orders": 1,
+    "payments": 1,
+    "authorizations": 0,
+    "sales": 0,
+    "receipts": 0
+  },
+  "reservation": {
+    "status": "PENDING_PAYMENT",
+    "remainingLiters": "3.554972",
+    "consumedLiters": "0.000000"
+  },
+  "infrastructure": {
+    "serverVersion": "17.6 (Debian 17.6-2.pgdg12+1)",
+    "migrations": 36,
+    "unvalidatedForeignKeys": 0,
+    "sequences": [
+      {
+        "sequencename": "receipt_boleta_seq",
+        "last_value": null
+      },
+      {
+        "sequencename": "receipt_factura_seq",
+        "last_value": null
+      },
+      {
+        "sequencename": "terminal_operation_op01_seq",
+        "last_value": "1"
+      }
+    ]
+  },
+  "limits": "Predicate invocation only: public exceptional ticket issuance has additional authorization/live-credential gates; no ticket or financial action was requested"
+}
