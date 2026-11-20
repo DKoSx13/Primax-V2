@@ -16,6 +16,10 @@ COPY services/commerce/src ./services/commerce/src
 COPY scripts ./scripts
 RUN npm run build
 
+FROM build AS compose-init
+USER node
+CMD ["node", "scripts/compose-bootstrap.cjs"]
+
 FROM build AS test
 COPY test ./test
 COPY gateway ./gateway

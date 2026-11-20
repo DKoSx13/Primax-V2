@@ -1,0 +1,1392 @@
+{
+  "reference": "27edae7d68a19e62d0b65682f84cf049928fb64d",
+  "branch": "feat/dezkz-identity-a4-core",
+  "scope": "Lote 4 only; reproducible original Compose; no productive autonomy; lot 5 not started",
+  "initialIntegrity": {
+    "trackedTreeAndIndexClean": true,
+    "trackedFilesHashed": 1498,
+    "historicalEvidence": [
+      {
+        "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+        "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7"
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/control.png",
+        "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287"
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/prime.png",
+        "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f"
+      },
+      {
+        "file": "Docs/astra/evidence/stage2b/results.json",
+        "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30"
+      },
+      {
+        "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+        "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561"
+      },
+      {
+        "file": "tools/astra/stage2b-browser.cjs",
+        "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269"
+      },
+      {
+        "file": "tools/astra/stage2b-checks.cjs",
+        "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f"
+      },
+      {
+        "file": "tools/astra/stage2b-lab.cjs",
+        "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6"
+      },
+      {
+        "file": "tools/stage2b-smoke.cjs",
+        "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7"
+      }
+    ]
+  },
+  "sourceIntegrity": {
+    "reference": "27edae7d68a19e62d0b65682f84cf049928fb64d",
+    "initialTrackedFiles": 1498,
+    "changedPreviouslyTrackedFiles": [
+      ".env.example",
+      "Backend/Dockerfile",
+      "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md",
+      "README.md",
+      "compose.yaml"
+    ],
+    "allBusinessSourcesAuthCorePasswordResetPrismaMigrationsAndFrontendsPreserved": true,
+    "gatewayRoutingAndServerPreserved": true,
+    "historicalEvidencePreserved": true,
+    "demoContainerIdentityImageStartTimeRestartCountsAndMountsUnchanged": true,
+    "independentNetworksVolumesAndLoopbackPorts": true,
+    "hostEnvAndBackendNodeModulesAbsent": true,
+    "bindMounts": 0,
+    "healthy": 15,
+    "completedJobs": 2,
+    "actualDefaultContainers": 17,
+    "ancestorsVerified": true
+  },
+  "cleanStartPreflight": {
+    "project": "primax-astra-original",
+    "volumesAllAbsent": true,
+    "projectEmpty": true,
+    "envFileAbsent": true,
+    "configuredDomains": [
+      "identity",
+      "catalog",
+      "administration",
+      "commerce"
+    ],
+    "explicitImages": [
+      {
+        "image": "primax-astra-original-administration:lot4",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-domain:demo",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-init:lot4",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-catalog:lot4",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-commerce:lot4",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-identity:lot4",
+        "existed": false
+      },
+      {
+        "image": "primax-astra-original-volume-guard:lot4",
+        "existed": false
+      }
+    ],
+    "ports": [
+      {
+        "published": "27200",
+        "hostIp": "127.0.0.1"
+      },
+      {
+        "published": "27281",
+        "hostIp": "127.0.0.1"
+      },
+      {
+        "published": "27282",
+        "hostIp": "127.0.0.1"
+      },
+      {
+        "published": "27283",
+        "hostIp": "127.0.0.1"
+      },
+      {
+        "published": "27284",
+        "hostIp": "127.0.0.1"
+      }
+    ]
+  },
+  "commands": {
+    "configQuiet": {
+      "exitCode": 0
+    },
+    "rootUp": {
+      "command": "docker compose up -d",
+      "fromRoot": true,
+      "envFileAbsent": true,
+      "exitCode": 0
+    },
+    "repeatUpAfterRestart": {
+      "command": "docker compose up -d",
+      "afterDataContainerRestart": true,
+      "exitCode": 0
+    },
+    "optionalComposeTestProfile": {
+      "command": "docker compose --profile test run --rm --no-deps backend-tests node --test gateway/routes.test.cjs scripts/build-domain.test.cjs scripts/compose-init.test.cjs scripts/seed-local-demo.test.mjs",
+      "exitCode": 0,
+      "noNewDatabases": true
+    }
+  },
+  "composition": {
+    "name": "primax-astra-original",
+    "defaultServices": [
+      "administration-service",
+      "backend",
+      "bootstrap",
+      "catalog-service",
+      "commerce-service",
+      "frontend1",
+      "frontend2",
+      "frontend3",
+      "fuelflow-gateway",
+      "fuelflow-gateway-t02",
+      "fuelflow-t02",
+      "identity-service",
+      "plate-recognition",
+      "postgres",
+      "print-service",
+      "redis",
+      "volume-guard"
+    ],
+    "networks": {
+      "data": {
+        "name": "primax-astra-original_data",
+        "internal": true,
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.249.240.0/24"
+            }
+          ]
+        }
+      },
+      "web": {
+        "name": "primax-astra-original_web",
+        "internal": false,
+        "ipam": {
+          "config": [
+            {
+              "subnet": "10.249.241.0/24"
+            }
+          ]
+        }
+      }
+    },
+    "volumes": {
+      "bootstrap_state": {
+        "name": "primax-astra-original_bootstrap_state",
+        "labels": {
+          "io.primax.purpose": "original-synthetic-lot4"
+        }
+      },
+      "postgres_data": {
+        "name": "primax-astra-original_postgres_data",
+        "labels": {
+          "io.primax.purpose": "original-synthetic-lot4"
+        }
+      },
+      "print_data": {
+        "name": "primax-astra-original_print_data",
+        "labels": {
+          "io.primax.purpose": "original-synthetic-lot4"
+        }
+      },
+      "redis_data": {
+        "name": "primax-astra-original_redis_data",
+        "labels": {
+          "io.primax.purpose": "original-synthetic-lot4"
+        }
+      }
+    },
+    "publishedPorts": {
+      "backend": [
+        {
+          "hostIp": "127.0.0.1",
+          "published": "27200",
+          "target": 3000
+        }
+      ],
+      "frontend1": [
+        {
+          "hostIp": "127.0.0.1",
+          "published": "27281",
+          "target": 80
+        }
+      ],
+      "frontend2": [
+        {
+          "hostIp": "127.0.0.1",
+          "published": "27282",
+          "target": 80
+        }
+      ],
+      "frontend3": [
+        {
+          "hostIp": "127.0.0.1",
+          "published": "27283",
+          "target": 80
+        }
+      ],
+      "fuelflow-t02": [
+        {
+          "hostIp": "127.0.0.1",
+          "published": "27284",
+          "target": 80
+        }
+      ]
+    },
+    "runtime": {
+      "healthy": 15,
+      "completedJobs": 2,
+      "acceptedLot3CompiledFilesMatchAllFour": true,
+      "images": [
+        {
+          "service": "administration-service",
+          "image": "primax-astra-original-administration:lot4",
+          "containerImageId": "sha256:657bcff232647fde2aab73d00765b51df82c0a6331b4106027610cf7f83bfff6",
+          "tagImageId": "sha256:0affe003326c111a10185f265ae8abaa0cfc80242fa4e0cf60791f18d1262dc0",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "services/administration/dist/src/apps/administration/main.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "backend",
+          "image": "primax-astra-original-gateway:lot4",
+          "containerImageId": "sha256:91f01b65605749aa9bd62087d074bdfd7c2277c7bc80b39609af1b40855e6e49",
+          "tagImageId": "sha256:91f01b65605749aa9bd62087d074bdfd7c2277c7bc80b39609af1b40855e6e49",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "gateway/server.cjs"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data",
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "bootstrap",
+          "image": "primax-astra-original-init:lot4",
+          "containerImageId": "sha256:446b51256e19082314e586ad7623c5d3e05d188b5da6ea8aa51706fcf14dfe6c",
+          "tagImageId": "sha256:4f035a54c831d05c146d96caae75ef7523e5ecc1f66130f8b36df2ea475f9004",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "scripts/compose-bootstrap.cjs"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "primax-astra-original_bootstrap_state",
+              "destination": "/state"
+            }
+          ],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "exited",
+          "exitCode": 0
+        },
+        {
+          "service": "catalog-service",
+          "image": "primax-astra-original-catalog:lot4",
+          "containerImageId": "sha256:8b187ea26ac9a36c4f8ae795a549800722aabe250c1cd261418ca5ef83ca8eee",
+          "tagImageId": "sha256:41bca8b0ad99ca20b0a126d7a2dba3953b1eb31b0bd1ef7513dcf6ffdfd7d298",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "services/catalog/dist/src/apps/catalog/main.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "commerce-service",
+          "image": "primax-astra-original-commerce:lot4",
+          "containerImageId": "sha256:d77b83e7c8a633170daa8feccba1263de7ad073b84ca83d523e83e8724229f60",
+          "tagImageId": "sha256:c277916e57e7040896ae9bcc45e8cd7c8b37b172a6464cbe4b13c4ae7181a003",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "services/commerce/dist/src/apps/commerce/main.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "frontend1",
+          "image": "primax-astra-original-frontend1",
+          "containerImageId": "sha256:2d9c09798458c040af5419ed322b6ffe54bee8f4f30875711b5a5ab61c703e13",
+          "tagImageId": "sha256:f01bdcfad972bf7678fdd81ab7e4f8dc6d475b5697a1159cdb7e5a79e341047d",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "entrypoint": [
+            "/docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "frontend2",
+          "image": "primax-astra-original-frontend2",
+          "containerImageId": "sha256:4fa6828f36c0ff122d54c5b98a980b05f369a3d83b0613dc86642c9bc14922ba",
+          "tagImageId": "sha256:d0f4f4a137bf302c2bac4249c7d3bb8d631e1209a12bfa20a477f41c02b533f9",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "entrypoint": [
+            "/docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "frontend3",
+          "image": "primax-astra-original-frontend3",
+          "containerImageId": "sha256:a48c8758a20cd881ddb47028e05579e7d52f6c9c289e6de3dcdc3378db438d07",
+          "tagImageId": "sha256:770f26bc8a382119d9bf44cc037df9d78f3d8fff0b786518f631cc4b99171405",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "entrypoint": [
+            "/docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "fuelflow-gateway",
+          "image": "primax-astra-original-fuelflow-gateway",
+          "containerImageId": "sha256:9d1525e79ceec6c2f8e6d5567f6471202f6e5c5623a2a019520a454e3ebfb5fa",
+          "tagImageId": "sha256:b4eafb6ee9c653a28543127e631283d8b89ca90f40a507fcecbdbd128777a3c0",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "server/local.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "fuelflow-gateway-t02",
+          "image": "primax-astra-original-fuelflow-gateway-t02",
+          "containerImageId": "sha256:091028647a8145b07042051c1cadabf0cbf20db1c082edfbb9d11ca889d093c0",
+          "tagImageId": "sha256:dc7b62ab25beca8ebc5d7b127c344bf07a197313e967fd946912c400cd82e524",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "server/local.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "fuelflow-t02",
+          "image": "primax-astra-original-fuelflow-t02",
+          "containerImageId": "sha256:d7b74a989ea5872990a01535ea71037fbd33f9ef327898b52f98b1ff979111a3",
+          "tagImageId": "sha256:d131245a7b71564fc93cc999f6df15b0980b300ea9a5e5126ecf2493ccab1488",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "entrypoint": [
+            "/docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_web"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "identity-service",
+          "image": "primax-astra-original-identity:lot4",
+          "containerImageId": "sha256:cb6f98190fc8bf0f353a2fca27b4b5deca89ab2d17a27cf317c828b9af171f96",
+          "tagImageId": "sha256:0f4c7f7ce56221971a29ee9532a3a1afe0545f4eedc2846d831495892063310b",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "services/identity/dist/src/apps/identity/main.js"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "plate-recognition",
+          "image": "primax-astra-original-plate-recognition",
+          "containerImageId": "sha256:f48e089e71ca906ee9132ab1be2f11d425105724ed329c6337ba408f1750113c",
+          "tagImageId": "sha256:44942844352fef58feaac235ff8b828a513ec48a071756d441824a8660fb15ee",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "ocr",
+          "command": [
+            "gunicorn",
+            "--bind",
+            "0.0.0.0:8000",
+            "--workers",
+            "2",
+            "--timeout",
+            "20",
+            "app:app"
+          ],
+          "entrypoint": null,
+          "mounts": [],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "postgres",
+          "image": "postgres:17.6-bookworm",
+          "containerImageId": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+          "tagImageId": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "postgres"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "primax-astra-original_postgres_data",
+              "destination": "/var/lib/postgresql/data"
+            }
+          ],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "print-service",
+          "image": "primax-astra-original-print-service",
+          "containerImageId": "sha256:56ad0e3a8acf699768caaa73a8e8dd47c84178ab9b8af5a3a059c9828f1c8a01",
+          "tagImageId": "sha256:a9af84ce45ae3200a75c02e4f34569546376b0245ce5bd84eb6cbe3b965e5f64",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "node",
+          "command": [
+            "node",
+            "demo-server.mjs"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "primax-astra-original_print_data",
+              "destination": "/data"
+            }
+          ],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "redis",
+          "image": "redis:7.4-alpine",
+          "containerImageId": "sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b",
+          "tagImageId": "sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "",
+          "command": [
+            "redis-server",
+            "--appendonly",
+            "yes",
+            "--requirepass",
+            "LOCAL_DEMO_ASTRA_ORIGINAL_redis_password_at_least_32_characters"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "primax-astra-original_redis_data",
+              "destination": "/data"
+            }
+          ],
+          "networks": [
+            "primax-astra-original_data"
+          ],
+          "state": "running",
+          "exitCode": 0,
+          "health": "healthy"
+        },
+        {
+          "service": "volume-guard",
+          "image": "primax-astra-original-volume-guard:lot4",
+          "containerImageId": "sha256:0daa10bd36a35b1e68a5607a76527c65e4298170b5e70f3eaff149f83f618ecd",
+          "tagImageId": "sha256:43e1757a90f673522df868e0c479ec2bb60d14af6742d2869dc15c3e7ef8a025",
+          "architecture": "amd64",
+          "os": "linux",
+          "user": "0:0",
+          "command": [
+            "node",
+            "scripts/compose-volume-guard.cjs"
+          ],
+          "entrypoint": [
+            "docker-entrypoint.sh"
+          ],
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "primax-astra-original_bootstrap_state",
+              "destination": "/volumes/bootstrap"
+            },
+            {
+              "type": "volume",
+              "name": "primax-astra-original_postgres_data",
+              "destination": "/volumes/postgres"
+            },
+            {
+              "type": "volume",
+              "name": "primax-astra-original_print_data",
+              "destination": "/volumes/print"
+            },
+            {
+              "type": "volume",
+              "name": "primax-astra-original_redis_data",
+              "destination": "/volumes/redis"
+            }
+          ],
+          "networks": [
+            "none"
+          ],
+          "state": "exited",
+          "exitCode": 0
+        }
+      ]
+    }
+  },
+  "offlineValidation": {
+    "node": "v22.21.1",
+    "network": "none",
+    "dataVolumes": 0,
+    "databaseCommands": 0,
+    "tests": {
+      "suites": 60,
+      "passed": 576,
+      "failed": 0
+    },
+    "results": [
+      {
+        "name": "identity-catalog-contracts",
+        "exitCode": 0,
+        "elapsedMs": 30917,
+        "log": "identity-catalog-contracts.log"
+      },
+      {
+        "name": "compose-init-safety",
+        "exitCode": 0,
+        "elapsedMs": 101,
+        "log": "compose-init-safety.log"
+      },
+      {
+        "name": "gateway-contracts",
+        "exitCode": 0,
+        "elapsedMs": 60,
+        "log": "gateway-contracts.log"
+      },
+      {
+        "name": "packaging-contracts",
+        "exitCode": 0,
+        "elapsedMs": 114,
+        "log": "packaging-contracts.log"
+      },
+      {
+        "name": "build-catalog",
+        "exitCode": 0,
+        "elapsedMs": 4780,
+        "log": "build-catalog.log"
+      },
+      {
+        "name": "build-identity",
+        "exitCode": 0,
+        "elapsedMs": 4955,
+        "log": "build-identity.log"
+      },
+      {
+        "name": "build-administration",
+        "exitCode": 0,
+        "elapsedMs": 5297,
+        "log": "build-administration.log"
+      },
+      {
+        "name": "build-commerce",
+        "exitCode": 0,
+        "elapsedMs": 5494,
+        "log": "build-commerce.log"
+      },
+      {
+        "name": "build-legacy",
+        "exitCode": 0,
+        "elapsedMs": 6428,
+        "log": "build-legacy.log"
+      }
+    ]
+  },
+  "gatewayContracts": 24,
+  "packagingChecks": 9,
+  "initializationAndSeedChecks": 8,
+  "optionalProfileRepeatedChecks": 41,
+  "realUnknownVolumeRefusal": {
+    "unknownVolumeRefused": true,
+    "noMarkersWritten": true,
+    "network": "none",
+    "storage": "ephemeral-tmpfs"
+  },
+  "journey": {
+    "passed": true,
+    "requests": [
+      {
+        "service": "frontend1",
+        "method": "GET",
+        "route": "/",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "GET",
+        "route": "/",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "frontend2",
+        "method": "GET",
+        "route": "/",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "backend",
+        "method": "GET",
+        "route": "/api/v1/health",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "frontend2",
+        "method": "GET",
+        "route": "/api/v1/stations",
+        "status": 200,
+        "upstream": "catalog-service"
+      },
+      {
+        "service": "frontend2",
+        "method": "GET",
+        "route": "/api/v1/fuels",
+        "status": 200,
+        "upstream": "catalog-service"
+      },
+      {
+        "service": "frontend2",
+        "method": "POST",
+        "route": "/api/v1/auth/login",
+        "status": 200,
+        "upstream": "identity-service"
+      },
+      {
+        "service": "frontend2",
+        "method": "GET",
+        "route": "/api/v1/memberships/me",
+        "status": 200,
+        "upstream": "identity-service"
+      },
+      {
+        "service": "frontend2",
+        "method": "GET",
+        "route": "/api/v1/control/dashboard",
+        "status": 403,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "POST",
+        "route": "/api/v1/control/login",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/control/dashboard",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/control/catalog/inventory",
+        "status": 200,
+        "upstream": "catalog-service"
+      },
+      {
+        "service": "frontend1",
+        "method": "POST",
+        "route": "/api/v1/terminal/claim",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "frontend1",
+        "method": "GET",
+        "route": "/api/v1/terminal/me",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/terminal/claim",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "GET",
+        "route": "/api/v1/terminal/me",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/plate-recognition",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/terminal/operations",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/online-orders",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/online-orders/e126f6ca-fb57-49d7-9b38-617e58e86542/demo-confirm",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/authorizations",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/authorizations/79447a31-8285-4f17-b67c-7bfb4a0df966/progress",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/transactions",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/transactions",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/terminal/operations/1c976981-ee64-4cae-b37a-13aa8c536b2b/close",
+        "status": 201,
+        "upstream": null
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/control/transactions/8fd4cc91-8acb-492e-9ee1-210af7c07f3b",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/control/receipts/8fd4cc91-8acb-492e-9ee1-210af7c07f3b",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/demo-print/jobs/receipt-f18aa789-c984-4436-ae54-a36d340f5602",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "fuelflow-t02",
+        "method": "POST",
+        "route": "/api/v1/demo-print/jobs/receipt-f18aa789-c984-4436-ae54-a36d340f5602",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/demo-print/jobs/receipt-f18aa789-c984-4436-ae54-a36d340f5602",
+        "status": 200,
+        "upstream": null
+      }
+    ],
+    "operationId": "1c976981-ee64-4cae-b37a-13aa8c536b2b",
+    "transactionId": "8fd4cc91-8acb-492e-9ee1-210af7c07f3b",
+    "receiptId": "f18aa789-c984-4436-ae54-a36d340f5602",
+    "receiptNumber": "EB01-0002",
+    "stationId": "e8743da5-5742-4af1-81ee-3d3d12f5f91b",
+    "amount": "21.30",
+    "method": "YAPE",
+    "provider": "DEMO",
+    "terminal": "PRIMAX-SUR-T02",
+    "ocr": {
+      "plate": "ABC-123",
+      "recognized": true
+    },
+    "print": {
+      "id": "receipt-f18aa789-c984-4436-ae54-a36d340f5602",
+      "status": "accepted",
+      "simulation": true,
+      "physicalConfirmed": false,
+      "message": "Simulación local: comprobante guardado; no se imprimió papel."
+    },
+    "t01RecoveryAttempted": false,
+    "externalPayments": false
+  },
+  "postgresEffects": {
+    "tables": 41,
+    "migrations": 36,
+    "transactions": 2,
+    "duplicateOperationIds": 0,
+    "payments": 2,
+    "externalPayments": 0,
+    "receipts": 2,
+    "openOperations": 0,
+    "openReservations": 0,
+    "incidents": 0,
+    "inventory": [
+      {
+        "stationId": "e8743da5-5742-4af1-81ee-3d3d12f5f91b",
+        "fuelId": "25aef63d-d259-413b-acb6-1f6096ef066f",
+        "liters": "5000.000000",
+        "reservedLiters": "0.000000"
+      },
+      {
+        "stationId": "e8743da5-5742-4af1-81ee-3d3d12f5f91b",
+        "fuelId": "309d904a-290f-4533-aa35-6b71569ff11e",
+        "liters": "4992.429176",
+        "reservedLiters": "0.000000"
+      },
+      {
+        "stationId": "e8743da5-5742-4af1-81ee-3d3d12f5f91b",
+        "fuelId": "9370ce16-5698-4b11-8686-bd6125a659bf",
+        "liters": "5000.000000",
+        "reservedLiters": "0.000000"
+      }
+    ]
+  },
+  "applicationDatabases": [
+    "primax_astra_original_local"
+  ],
+  "persistence": {
+    "allRuntimeAndDataServicesRestarted": true,
+    "healthyAfterRestart": 15,
+    "completedJobs": 2,
+    "postgresDataAndSequencesIdentical": true,
+    "databaseDumpSha256": "d29b1a940b6ea95656248b1b7b840f45f85a90e96a940b9c85cebf0796c96e60",
+    "redis": {
+      "pong": "PONG",
+      "longLivedValuesPreserved": 5,
+      "probePreserved": true
+    },
+    "printJobPreserved": true,
+    "bootstrapRerunSkippedMigrationsAndSeeds": true
+  },
+  "baseImagePlatforms": {
+    "node": [
+      {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v7"
+      },
+      {
+        "architecture": "arm64",
+        "os": "linux",
+        "variant": "v8"
+      },
+      {
+        "architecture": "ppc64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "s390x",
+        "os": "linux"
+      }
+    ],
+    "postgres": [
+      {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v5"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v7"
+      },
+      {
+        "architecture": "arm64",
+        "os": "linux",
+        "variant": "v8"
+      },
+      {
+        "architecture": "386",
+        "os": "linux"
+      },
+      {
+        "architecture": "mips64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "ppc64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "s390x",
+        "os": "linux"
+      }
+    ],
+    "redis": [
+      {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v6"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v7"
+      },
+      {
+        "architecture": "arm64",
+        "os": "linux",
+        "variant": "v8"
+      },
+      {
+        "architecture": "386",
+        "os": "linux"
+      },
+      {
+        "architecture": "ppc64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "riscv64",
+        "os": "linux"
+      },
+      {
+        "architecture": "s390x",
+        "os": "linux"
+      }
+    ],
+    "python": [
+      {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v5"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v7"
+      },
+      {
+        "architecture": "arm64",
+        "os": "linux",
+        "variant": "v8"
+      },
+      {
+        "architecture": "386",
+        "os": "linux"
+      },
+      {
+        "architecture": "ppc64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "s390x",
+        "os": "linux"
+      }
+    ],
+    "nginx": [
+      {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v6"
+      },
+      {
+        "architecture": "arm",
+        "os": "linux",
+        "variant": "v7"
+      },
+      {
+        "architecture": "arm64",
+        "os": "linux",
+        "variant": "v8"
+      },
+      {
+        "architecture": "386",
+        "os": "linux"
+      },
+      {
+        "architecture": "ppc64le",
+        "os": "linux"
+      },
+      {
+        "architecture": "riscv64",
+        "os": "linux"
+      },
+      {
+        "architecture": "s390x",
+        "os": "linux"
+      }
+    ]
+  },
+  "executedPlatform": {
+    "host": "Windows",
+    "runtime": "Docker Desktop Linux x86_64",
+    "images": "linux/amd64",
+    "compose": "v5.6.1",
+    "linuxHostValidated": false,
+    "macosHostValidated": false,
+    "fullArm64BuildValidated": false
+  },
+  "comparison": {
+    "previousDefaultServices": 19,
+    "previousRuntimeServices": 15,
+    "previousJobs": [
+      "migrate",
+      "seed",
+      "seed-control-admin",
+      "seed-operations"
+    ],
+    "finalDefaultServices": 17,
+    "finalHealthyRuntimeServices": 15,
+    "finalCompletedJobs": [
+      "volume-guard",
+      "bootstrap"
+    ],
+    "previousSharedLegacyRuntimeReplacedByFourIndependentImages": true,
+    "gatewayProxyCodeAndRoutesUnchanged": true,
+    "frontendsBusinessAndSecurityCodeUnchanged": true
+  },
+  "resolvedIssues": [
+    "Automatic Docker subnet pool exhausted; explicit non-overlapping project CIDRs configured without deleting networks",
+    "Checker originally assumed root authorization/sale IDs; original nested envelopes preserved and checker corrected",
+    "First synthetic purchase closed normally; later closed replay retained original 403; a new normal purchase passed active replay and full end-to-end flow",
+    "Volume guard unit fixture normalized platform separators; Linux runtime guard also passed real unknown-volume refusal"
+  ],
+  "limitations": [
+    "Only Windows host with Docker Desktop Linux amd64 executed",
+    "Base ARM64 availability does not certify complete ARM64 application dependencies or runtime",
+    "Physical printer/camera and commercial payment/SMTP providers not validated",
+    "T01 recovery, TARJETA, x-kiosk-key, external providers and academic Identity A.4 unchanged",
+    "AuthCore/Prisma/bootstrap/shared PostgreSQL/Redis and legacy engines remain dependencies",
+    "Default explicit CIDRs may require overrides on hosts with overlapping private networks",
+    "Historical LAN/managed overrides not part of the certified default startup",
+    "No universal equivalence, exhaustive fault coverage or productive autonomy claim"
+  ],
+  "sourceManifest": [
+    {
+      "file": ".env.example",
+      "sha256": "a3f6bed9f8c64ef9138e0c28e907fa4c73c44b14a66c5b20413550e99cd9d781"
+    },
+    {
+      "file": "Backend/Dockerfile",
+      "sha256": "b86c3783f3f123c435124379d6af288d86c333c8ac814da6515fe95869d4b992"
+    },
+    {
+      "file": "Backend/gateway/Dockerfile",
+      "sha256": "18a3da64b18bf90ea51b107127dcc6790397fea80512b3271da76d89cdc025d1"
+    },
+    {
+      "file": "Backend/scripts/compose-bootstrap.cjs",
+      "sha256": "c4e0c52c77d5926515a0071a42621a447c8885a2310ab9ac2bfd96b01275537b"
+    },
+    {
+      "file": "Backend/scripts/compose-init.test.cjs",
+      "sha256": "f507c34e05ec8f731627762e222c34a26baebc6236c1dcc57bb2308e45636696"
+    },
+    {
+      "file": "Backend/scripts/compose-volume-guard.cjs",
+      "sha256": "a3784855aa4ca892e714616a321c9d2434ed0cf3a29e1b47e21d2c6bec162565"
+    },
+    {
+      "file": "Docs/astra/primax-lot4-compose-results.md",
+      "sha256": "1e979c45668af1380d5a2664e610fbaf9f4e1197f5d25d72869039463bb6fc74"
+    },
+    {
+      "file": "Docs/astra/primax-lot4-compose-runbook.md",
+      "sha256": "b90de928416fb824932df7329a552236545886c3b9a364c97d340be8abbd1579"
+    },
+    {
+      "file": "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md",
+      "sha256": "53350163c02464352886d6c1b8e67cf26e534ceb2f4a20d3044694af73397054"
+    },
+    {
+      "file": "README.md",
+      "sha256": "f712179345f9eea85f84d71fe196367a92db50948e1694bc0f2d2161891482ab"
+    },
+    {
+      "file": "compose.yaml",
+      "sha256": "6eb93dda286c2c7b602daf36fe07157613983bfdab32ca039ae79f9dc11fb266"
+    },
+    {
+      "file": "tools/astra/lot4-compose-integrity.cjs",
+      "sha256": "28b90bb0cd3d5d4de128ca2a749cb941f8569bda7146e08323658f658249020f"
+    },
+    {
+      "file": "tools/astra/lot4-compose-journey.cjs",
+      "sha256": "f9a968f3a7352951e0a0e162e73e5b4890e937f7da40f22095b89ccb2a8b1f83"
+    },
+    {
+      "file": "tools/astra/lot4-compose-validation.cjs",
+      "sha256": "2abe8c1ced3d0d522466675a3758afccf09e20b58bb2bc83f8667a6c5ae4e77c"
+    }
+  ],
+  "completedJourneyRecheck": {
+    "passed": true,
+    "completedPurchaseReused": true,
+    "financialWrites": 0,
+    "requests": [
+      {
+        "service": "backend",
+        "method": "GET",
+        "route": "/api/v1/health",
+        "status": 200,
+        "upstream": null
+      },
+      {
+        "service": "frontend3",
+        "method": "POST",
+        "route": "/api/v1/control/login",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/control/receipts/8fd4cc91-8acb-492e-9ee1-210af7c07f3b",
+        "status": 200,
+        "upstream": "administration-service"
+      },
+      {
+        "service": "frontend3",
+        "method": "GET",
+        "route": "/api/v1/demo-print/jobs/receipt-f18aa789-c984-4436-ae54-a36d340f5602",
+        "status": 200,
+        "upstream": null
+      }
+    ]
+  }
+}

@@ -18,16 +18,19 @@ docker compose up -d
 
 No hay que copiar `.env.example`. Compose incluye valores públicos **solo para
 demostración local**, construye las aplicaciones, espera PostgreSQL, aplica
-migraciones y ejecuta seeds idempotentes. El primer inicio puede tardar varios
-minutos. `docker compose ps` muestra los servicios permanentes saludables;
-`migrate` y los tres seeds terminan con código 0.
+migraciones y ejecuta los tres seeds originales sobre volúmenes nuevos propios.
+El primer inicio puede tardar varios minutos. `docker compose ps -a` muestra
+15 servicios saludables y dos jobs con código 0: `volume-guard` y `bootstrap`.
+El guard rechaza volúmenes desconocidos; los siguientes arranques verifican el
+estado y omiten migraciones/seeds. [Guía vigente del Lote 4](Docs/astra/primax-lot4-compose-runbook.md).
 
 | Aplicación | Directorio real | URL |
 | --- | --- | --- |
-| FuelFlow: venta y abastecimiento | `Frontend_1_FuelFlow/` | http://127.0.0.1:26081 |
-| Prime: membresía, vehículos, saldo e historial | `Frontend_2_PrimaxPrime/` | http://127.0.0.1:26082 |
-| Control: operación, inventario y permisos | `Frontend_3_PrimaxControl/` | http://127.0.0.1:26083 |
-| API Gateway y salud agregada | `Backend/gateway/` | http://127.0.0.1:26000/api/v1/health |
+| FuelFlow T01 | `Frontend_1_FuelFlow/` | http://127.0.0.1:27281 |
+| FuelFlow T02 | `Frontend_1_FuelFlow/` | http://127.0.0.1:27284 |
+| Prime: membresía, vehículos, saldo e historial | `Frontend_2_PrimaxPrime/` | http://127.0.0.1:27282 |
+| Control: operación, inventario y permisos | `Frontend_3_PrimaxControl/` | http://127.0.0.1:27283 |
+| API Gateway y salud agregada | `Backend/gateway/` | http://127.0.0.1:27200/api/v1/health |
 
 Prime conserva su proyecto Android/Capacitor; no se necesita una APK. Todos los
 frontends usan `/api/v1` en su propio origen. FuelFlow conserva además su gateway
@@ -37,17 +40,18 @@ de sesiones, firma HMAC y protección CSRF.
 
 | Cuenta | Usuario | Contraseña demo |
 | --- | --- | --- |
-| Cliente Prime | `demo@primaxprime.pe` | `PrimaxDemo123!` |
-| Administrador del sistema | `control-admin@primax.local` | `AdminDemoLocal123!` |
-| Encargado | `encargado@primax.local` | `EncargadoDemo123!` |
-| Operador compatible con login anterior | `operador` | `OperadorDemo123!` |
+| Cliente Prime | `demo@primaxprime.pe` | `OriginalPrimeDemo2026!` |
+| Administrador del sistema | `control-original@primax.local` | `OriginalControlDemo2026!` |
+| Encargado | `encargado-original@primax.local` | `OriginalEncargadoDemo2026!` |
+| Operador compatible con login anterior | `operador-original` | `OriginalOperadorDemo2026!` |
 
 1. Abrir FuelFlow directamente: `PRIMAX-SUR-T01` está disponible automáticamente,
    sin iniciar sesión ni habilitarla desde Control. El dashboard muestra su estado
    en modo de solo lectura. Se conservan los bloqueos por fallos reales de seguridad.
 2. Abrir FuelFlow, seleccionar idioma e iniciar. Usar `ABC-123` para el cliente
    demo o introducir manualmente otra placa válida. OCR acepta imágenes.
-3. Elegir combustible y prepago con tarjeta simulada, Yape o Plin demo. Los pagos
+3. Elegir combustible y prepago con Yape o Plin demo. TARJETA conserva su
+   restricción preexistente y no se certifica como recorrido válido. Los pagos
    digitales deben confirmarse en su flujo demo antes de autorizar el despacho.
 4. Finalizar con boleta o factura demo. **No imprimir y finalizar** cierra normalmente;
    **Imprimir y finalizar** guarda un trabajo simulado e informa que no se imprimió papel.
@@ -89,9 +93,12 @@ HTML/CSS, Nginx, Flask, OpenCV y Tesseract.
 | `fuelflow-gateway` | Frontera de seguridad específica del kiosco, conservada |
 
 Los cuatro servicios NestJS tienen entradas distintas en `Backend/src/apps/` y
-contenedores separados. Comparten imagen para reutilizar dependencias; cada
-entrada carga sus módulos y guardas comunes. `Backend/src/main.ts` y `AppModule`
-se conservan para herramientas y pruebas anteriores; Compose no los ejecuta.
+contenedores e imágenes independientes, construidas con sus cuatro Dockerfiles
+de `Backend/services/`. Cada entrada carga sus módulos y guardas comunes.
+Gateway tiene una imagen ligera con solo su proxy. `Backend/src/main.ts` y
+`AppModule` se conservan para herramientas anteriores; Compose no los ejecuta
+como proceso de negocio. La imagen de inicialización puede compilar legacy para
+reutilizar el seed existente, pero ejecuta únicamente el job de preparación.
 
 La separación es gradual: un esquema PostgreSQL compartido, consultas cruzadas y
 escrituras administrativas controladas por reglas existentes. Pagos, puntos,
@@ -120,28 +127,30 @@ tools/                       # auditoría y pruebas transversales
 Contratos públicos: [rutas del gateway](Backend/gateway/routes.cjs).
 Swagger por dominio, disponible en modo local:
 
-- http://127.0.0.1:26000/docs/identity/api/docs/
-- http://127.0.0.1:26000/docs/catalog/api/docs/
-- http://127.0.0.1:26000/docs/commerce/api/docs/
-- http://127.0.0.1:26000/docs/administration/api/docs/
+- http://127.0.0.1:27200/docs/identity/api/docs/
+- http://127.0.0.1:27200/docs/catalog/api/docs/
+- http://127.0.0.1:27200/docs/commerce/api/docs/
+- http://127.0.0.1:27200/docs/administration/api/docs/
 
 JSON: `/docs/<dominio>/api/docs-json`. Cada servicio valida JWT, sesiones, roles y
 permisos independientemente; el gateway no sustituye esas validaciones.
 
 ## Persistencia y configuración
 
-Volúmenes `postgres_data`, `redis_data` y `print_data`. Migraciones con
-`prisma migrate deploy`; seeds con upsert sin reponer saldos, inventario ni
-sobrescribir contraseñas. Reiniciar o detener conserva datos. No usar `down -v`
-si se desea conservarlos.
+Volúmenes `postgres_data`, `redis_data`, `print_data` y `bootstrap_state`, bajo el
+proyecto `primax-astra-original`. Se verifican propiedad y estado antes de usar
+datos. PostgreSQL usa el subdirectorio `pgdata`; el marcador de propiedad queda
+fuera de él. Migraciones con `prisma migrate deploy` y tres seeds originales
+solo en la inicialización propia. Reiniciar conserva datos y no repone stock,
+saldos ni contraseñas. No borrar volúmenes para resolver un error de arranque.
 
-El proyecto Compose se llama `primax-fuelflow-demo`. Los volúmenes previos
-`primax-v12-1_*` permanecen intactos y no se importan automáticamente al demo.
-Para reutilizar una instalación anterior, conservar su nombre de proyecto y sus
-variables/credenciales originales; revisar y respaldar esa base antes de migrarla.
+Los volúmenes antiguos y los de la copia de exposición permanecen fuera de esta
+composición. No se importan ni migran automáticamente. Cambiar configuración de
+seed o migraciones sobre una instalación ya inicializada provoca un rechazo
+explícito para revisión, en lugar de modificarla silenciosamente.
 
 `.env.example` contiene overrides opcionales. Puertos: `FRONTEND1_PORT`,
-`FRONTEND2_PORT`, `FRONTEND3_PORT`, `BACKEND_PORT`. Los servicios internos usan
+`FRONTEND1_T02_PORT`, `FRONTEND2_PORT`, `FRONTEND3_PORT`, `BACKEND_PORT`. Los servicios internos usan
 DNS Docker y puertos del contenedor; PostgreSQL, Redis, OCR y dominios no publican
 puertos. Se pueden cambiar las contraseñas demo antes del primer seed; una base
 existente no recibe contraseñas nuevas automáticamente.
@@ -164,7 +173,7 @@ al USB de Windows.
 docker compose ps -a
 docker compose logs --tail 100
 docker compose logs -f backend commerce-service
-docker compose restart
+docker compose restart postgres redis
 docker compose stop
 docker compose down
 ```
@@ -184,16 +193,16 @@ docker compose --profile test run --rm backend-tests
 docker compose exec plate-recognition python -m unittest test_ocr test_v11
 ```
 
-El runner de integración usa bases separadas y esquemas temporales, sin eliminar
-volúmenes demo. Ejecuta también las suites históricas en sus perfiles/bases
-específicos; ver [resultados reales](Docs/architecture/integracion-frontends-comprobantes.md).
+El perfil `test` ejecuta Jest de src por defecto y no crea bases adicionales.
+El runner histórico `scripts/test-compose.cjs`, que crea bases de prueba, no forma
+parte del arranque ni de la validación del Lote 4. La evidencia vigente está en
+[el informe del lote](Docs/astra/primax-lot4-compose-results.md).
 
 Con Node para desarrollo: `npm test` en cada frontend y PrintAgent; en Backend,
 `npm ci`, `npm run prisma:generate`, `npm run build`, `npm test`.
-`node tools/smoke-microservices.cjs` verifica APIs y escribe ventas demo: usar un
-stack aislado. `node tools/validate-clean-compose.cjs` crea una copia de fuentes
-sin dependencias locales, construye sin caché y levanta otro proyecto en puertos
-26100/26181/26182/26183. Estos scripts son validación, no pasos de instalación.
+Los scripts históricos de smoke escriben datos demo y conservan sus perfiles
+anteriores; no son pasos de instalación del original. El procedimiento vigente
+de arranque, pruebas y persistencia está en la guía del Lote 4 enlazada arriba.
 
 ## Extensión y limitaciones
 

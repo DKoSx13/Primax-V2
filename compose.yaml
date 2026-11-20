@@ -1,22 +1,25 @@
-name: primax-fuelflow-demo
+name: primax-astra-original
 
 x-backend-env: &backend-env
+  COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-primax-astra-original}
+  POSTGRES_DB: ${POSTGRES_DB:-primax_astra_original_local}
+  POSTGRES_USER: ${POSTGRES_USER:-astra_original}
   NODE_ENV: production
   APP_MODE: local
   PORT: 3000
-  DATABASE_URL: postgresql://${POSTGRES_USER:-primax_v12_1}:${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_v12_1_local}?schema=public
-  DATABASE_URL_UNPOOLED: postgresql://${POSTGRES_USER:-primax_v12_1}:${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_v12_1_local}?schema=public
+  DATABASE_URL: postgresql://${POSTGRES_USER:-astra_original}:${POSTGRES_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_astra_original_local}?schema=public
+  DATABASE_URL_UNPOOLED: postgresql://${POSTGRES_USER:-astra_original}:${POSTGRES_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_postgres_password_2026}@postgres:5432/${POSTGRES_DB:-primax_astra_original_local}?schema=public
   DATABASE_PURPOSE: local-v12.1-demo
-  JWT_SECRET: ${JWT_SECRET:-LOCAL_DEMO_jwt_secret_at_least_32_characters}
-  KIOSK_API_KEY: ${KIOSK_API_KEY:-LOCAL_DEMO_kiosk_key_at_least_32_characters}
-  KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_gateway_secret_at_least_32_characters}
-  KIOSK_OPERATOR_USER: ${KIOSK_OPERATOR_USER:-operador}
-  KIOSK_OPERATOR_PASSWORD_HASH: ${KIOSK_OPERATOR_PASSWORD_HASH:-$$2b$$12$$IamN03DAQD6hpm9KTb.2DeLK0z57RQzHc7Iy27t33yL3iNpEwgH.e}
+  JWT_SECRET: ${JWT_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_jwt_secret_at_least_32_characters}
+  KIOSK_API_KEY: ${KIOSK_API_KEY:-LOCAL_DEMO_ASTRA_ORIGINAL_kiosk_key_at_least_32_characters}
+  KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_gateway_secret_at_least_32_characters}
+  KIOSK_OPERATOR_USER: ${KIOSK_OPERATOR_USER:-operador-original}
+  KIOSK_OPERATOR_PASSWORD_HASH: ${KIOSK_OPERATOR_PASSWORD_HASH:-$$2b$$12$$2Sdfa9QqcTZu7F/b8L/ezOEsx8n8YkQntBmIQP3a8c6F8OYZFdPr.}
   KIOSK_STATION_ID: ${KIOSK_STATION_ID:-}
-  KIOSK_REDIS_URL: redis://:${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}@redis:6379/0
-  KIOSK_SESSION_NAMESPACE: local-v12-1
+  KIOSK_REDIS_URL: redis://:${REDIS_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_redis_password_at_least_32_characters}@redis:6379/0
+  KIOSK_SESSION_NAMESPACE: astra-original-local
   PRIME_DEBT_LIMIT: ${PRIME_DEBT_LIMIT:-200}
-  OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ocr_secret_at_least_32_characters}
+  OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_ocr_secret_at_least_32_characters}
   KIOSK_STATION_CODE: PRIMAX-SUR
   PLATE_CONFIDENCE_THRESHOLD: ${PLATE_CONFIDENCE_THRESHOLD:-0.75}
   PLATE_RECOGNITION_URL: ${PLATE_RECOGNITION_URL:-http://plate-recognition:8000}
@@ -24,30 +27,33 @@ x-backend-env: &backend-env
   PASSWORD_RESET_DELIVERY: disabled
   PASSWORD_RESET_TTL_MINUTES: 10
   PASSWORD_RESET_MAX_ATTEMPTS: 5
-  PRIMAX_CONTROL_PUBLIC_URL: ${PRIMAX_CONTROL_PUBLIC_URL:-http://localhost:${FRONTEND3_PORT:-26083}}
+  PRIMAX_CONTROL_PUBLIC_URL: ${PRIMAX_CONTROL_PUBLIC_URL:-http://localhost:${FRONTEND3_PORT:-27283}}
   PAYMENT_ENV: demo
   DEMO_WALLET_ENABLED: "true"
-  DEMO_PASSWORD: ${DEMO_PASSWORD:-PrimaxDemo123!}
+  DEMO_PASSWORD: ${DEMO_PASSWORD:-OriginalPrimeDemo2026!}
   DEMO_CONTROL_ADMIN_ENABLED: ${DEMO_CONTROL_ADMIN_ENABLED:-true}
-  DEMO_CONTROL_ADMIN_EMAIL: ${DEMO_CONTROL_ADMIN_EMAIL:-control-admin@primax.local}
-  DEMO_CONTROL_ADMIN_PASSWORD: ${DEMO_CONTROL_ADMIN_PASSWORD:-AdminDemoLocal123!}
+  DEMO_CONTROL_ADMIN_EMAIL: ${DEMO_CONTROL_ADMIN_EMAIL:-control-original@primax.local}
+  DEMO_CONTROL_ADMIN_PASSWORD: ${DEMO_CONTROL_ADMIN_PASSWORD:-OriginalControlDemo2026!}
   DEMO_OPERATIONS_ENABLED: ${DEMO_OPERATIONS_ENABLED:-true}
-  DEMO_ENCARGADO_EMAIL: ${DEMO_ENCARGADO_EMAIL:-encargado@primax.local}
-  DEMO_ENCARGADO_PASSWORD: ${DEMO_ENCARGADO_PASSWORD:-EncargadoDemo123!}
+  DEMO_ENCARGADO_EMAIL: ${DEMO_ENCARGADO_EMAIL:-encargado-original@primax.local}
+  DEMO_ENCARGADO_PASSWORD: ${DEMO_ENCARGADO_PASSWORD:-OriginalEncargadoDemo2026!}
   SHOW_DEMO_ADMIN_CREDENTIALS: "false"
   SOLES_PER_POINT: ${SOLES_PER_POINT:-9}
-  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:26081,http://127.0.0.1:26081,http://localhost:26082,http://127.0.0.1:26082,http://localhost:26083,http://127.0.0.1:26083}
+  CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:27281,http://127.0.0.1:27281,http://localhost:27282,http://127.0.0.1:27282,http://localhost:27283,http://127.0.0.1:27283}
 
 services:
   postgres:
     image: postgres:17.6-bookworm
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-primax_v12_1_local}
-      POSTGRES_USER: ${POSTGRES_USER:-primax_v12_1}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-LOCAL_DEMO_postgres_password_2026}
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DB:-primax_astra_original_local}
+      POSTGRES_USER: ${POSTGRES_USER:-astra_original}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_postgres_password_2026}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks: [data]
+    depends_on:
+      volume-guard: { condition: service_completed_successfully }
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\""]
       interval: 5s
@@ -58,9 +64,11 @@ services:
 
   redis:
     image: redis:7.4-alpine
-    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}"]
+    depends_on:
+      volume-guard: { condition: service_completed_successfully }
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_redis_password_at_least_32_characters}"]
     environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD:-LOCAL_DEMO_redis_password_at_least_32_characters}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-LOCAL_DEMO_ASTRA_ORIGINAL_redis_password_at_least_32_characters}
     volumes:
       - redis_data:/data
     networks: [data]
@@ -76,7 +84,7 @@ services:
     pull_policy: build
     build: ./PlateRecognition
     environment:
-      OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ocr_secret_at_least_32_characters}
+      OCR_SERVICE_SECRET: ${OCR_SERVICE_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_ocr_secret_at_least_32_characters}
     networks: [data]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
@@ -89,68 +97,56 @@ services:
     restart: unless-stopped
     security_opt: [no-new-privileges:true]
 
-  migrate:
+  volume-guard:
     pull_policy: build
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-volume-guard:lot4
     build:
       context: ./Backend
-      target: build
+      target: compose-init
+    user: "0:0"
+    environment:
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME:-primax-astra-original}
+    command: ["node", "scripts/compose-volume-guard.cjs"]
+    volumes:
+      - postgres_data:/volumes/postgres
+      - redis_data:/volumes/redis
+      - print_data:/volumes/print
+      - bootstrap_state:/volumes/bootstrap
+    network_mode: none
+    restart: "no"
+    security_opt: [no-new-privileges:true]
+
+  bootstrap:
+    pull_policy: build
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-init:lot4
+    build:
+      context: ./Backend
+      target: compose-init
     environment: *backend-env
-    command: ["npm", "run", "prisma:migrate"]
+    command: ["node", "scripts/compose-bootstrap.cjs"]
+    volumes:
+      - bootstrap_state:/state
     depends_on:
       postgres: { condition: service_healthy }
+      volume-guard: { condition: service_completed_successfully }
     networks: [data]
     restart: "no"
-
-  seed:
-    pull_policy: build
-    build:
-      context: ./Backend
-      target: build
-    environment: *backend-env
-    command: ["node", "scripts/seed-local-demo.cjs"]
-    depends_on:
-      migrate: { condition: service_completed_successfully }
-    networks: [data]
-    restart: "no"
-
-  seed-control-admin:
-    pull_policy: build
-    build:
-      context: ./Backend
-      target: build
-    environment: *backend-env
-    command: ["node", "scripts/seed-control-admin.cjs"]
-    depends_on:
-      seed: { condition: service_completed_successfully }
-    networks: [data]
-    restart: "no"
-
-  seed-operations:
-    pull_policy: build
-    build:
-      context: ./Backend
-      target: build
-    environment: *backend-env
-    command: ["node", "scripts/seed-local-operations.cjs"]
-    depends_on:
-      seed: { condition: service_completed_successfully }
-    networks: [data]
-    restart: "no"
+    security_opt: [no-new-privileges:true]
 
   identity-service: &domain-service
     pull_policy: build
     build:
       context: ./Backend
+      dockerfile: services/identity/Dockerfile
       target: runtime
-    image: ${COMPOSE_PROJECT_NAME:-primax-fuelflow-demo}-domain:demo
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-identity:lot4
     environment: *backend-env
-    command: ["node", "dist/src/apps/identity/main.js"]
     networks: [data]
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
-      seed-control-admin: { condition: service_completed_successfully }
-      seed-operations: { condition: service_completed_successfully }
+      bootstrap: { condition: service_completed_successfully }
+      plate-recognition: { condition: service_healthy }
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 10s
@@ -162,28 +158,40 @@ services:
 
   catalog-service:
     <<: *domain-service
-    command: ["node", "dist/src/apps/catalog/main.js"]
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-catalog:lot4
+    build:
+      context: ./Backend
+      dockerfile: services/catalog/Dockerfile
+      target: runtime
 
   commerce-service:
     <<: *domain-service
-    command: ["node", "dist/src/apps/commerce/main.js"]
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-commerce:lot4
+    build:
+      context: ./Backend
+      dockerfile: services/commerce/Dockerfile
+      target: runtime
 
   administration-service:
     <<: *domain-service
-    command: ["node", "dist/src/apps/administration/main.js"]
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-administration:lot4
+    build:
+      context: ./Backend
+      dockerfile: services/administration/Dockerfile
+      target: runtime
 
   backend:
     pull_policy: build
     build:
       context: ./Backend
-      target: runtime
-    image: ${COMPOSE_PROJECT_NAME:-primax-fuelflow-demo}-domain:demo
+      dockerfile: gateway/Dockerfile
+    image: ${COMPOSE_PROJECT_NAME:-primax-astra-original}-gateway:lot4
     command: ["node", "gateway/server.cjs"]
     environment:
       PORT: 3000
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:26081,http://127.0.0.1:26081,http://localhost:26082,http://127.0.0.1:26082,http://localhost:26083,http://127.0.0.1:26083}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:27281,http://127.0.0.1:27281,http://localhost:27282,http://127.0.0.1:27282,http://localhost:27283,http://127.0.0.1:27283}
     ports:
-      - "127.0.0.1:${BACKEND_PORT:-26000}:3000"
+      - "127.0.0.1:${BACKEND_PORT:-27200}:3000"
     networks: [web, data]
     depends_on:
       identity-service: { condition: service_healthy }
@@ -205,12 +213,12 @@ services:
       context: ./Frontend_1_FuelFlow
       target: gateway
     environment:
-      FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-26081}
-      FUELFLOW_COOKIE_SCOPE: ${FRONTEND1_PORT:-26081}
+      FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-27281}
+      FUELFLOW_COOKIE_SCOPE: ${FRONTEND1_PORT:-27281}
       FUELFLOW_TERMINAL_CODE: PRIMAX-SUR-T01
       BACKEND_ORIGIN: http://backend:3000
       FUELFLOW_LOCAL_HTTP: "true"
-      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_gateway_secret_at_least_32_characters}
+      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_gateway_secret_at_least_32_characters}
     networks: [web]
     depends_on:
       backend: { condition: service_healthy }
@@ -232,9 +240,9 @@ services:
         FUELFLOW_PRINT_DEMO: ${FUELFLOW_PRINT_DEMO:-true}
     environment:
       FUELFLOW_GATEWAY_UPSTREAM: http://fuelflow-gateway:3001
-      PRIME_WEB_PORT: ${FRONTEND2_PORT:-26082}
+      PRIME_WEB_PORT: ${FRONTEND2_PORT:-27282}
     ports:
-      - "127.0.0.1:${FRONTEND1_PORT:-26081}:80"
+      - "127.0.0.1:${FRONTEND1_PORT:-27281}:80"
     networks: [web]
     depends_on:
       fuelflow-gateway: { condition: service_healthy }
@@ -252,12 +260,12 @@ services:
       context: ./Frontend_1_FuelFlow
       target: gateway
     environment:
-      FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_T02_PORT:-27184}
-      FUELFLOW_COOKIE_SCOPE: ${FRONTEND1_T02_PORT:-27184}
+      FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_T02_PORT:-27284}
+      FUELFLOW_COOKIE_SCOPE: ${FRONTEND1_T02_PORT:-27284}
       FUELFLOW_TERMINAL_CODE: PRIMAX-SUR-T02
       BACKEND_ORIGIN: http://backend:3000
       FUELFLOW_LOCAL_HTTP: "true"
-      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_gateway_secret_at_least_32_characters}
+      KIOSK_GATEWAY_SECRET: ${KIOSK_GATEWAY_SECRET:-LOCAL_DEMO_ASTRA_ORIGINAL_gateway_secret_at_least_32_characters}
     networks: [web]
     depends_on:
       backend: { condition: service_healthy }
@@ -279,9 +287,9 @@ services:
         FUELFLOW_PRINT_DEMO: ${FUELFLOW_PRINT_DEMO:-true}
     environment:
       FUELFLOW_GATEWAY_UPSTREAM: http://fuelflow-gateway-t02:3001
-      PRIME_WEB_PORT: ${FRONTEND2_PORT:-26082}
+      PRIME_WEB_PORT: ${FRONTEND2_PORT:-27282}
     ports:
-      - "127.0.0.1:${FRONTEND1_T02_PORT:-27184}:80"
+      - "127.0.0.1:${FRONTEND1_T02_PORT:-27284}:80"
     networks: [web]
     depends_on:
       fuelflow-gateway-t02: { condition: service_healthy }
@@ -302,7 +310,7 @@ services:
     environment:
       BACKEND_UPSTREAM: http://backend:3000
     ports:
-      - "127.0.0.1:${FRONTEND2_PORT:-26082}:80"
+      - "127.0.0.1:${FRONTEND2_PORT:-27282}:80"
     networks: [web]
     depends_on:
       backend: { condition: service_healthy }
@@ -319,12 +327,12 @@ services:
     build:
       context: ./Frontend_3_PrimaxControl
       args:
-        FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-26081}
-        FUELFLOW_T02_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_T02_PORT:-26084}
+        FUELFLOW_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_PORT:-27281}
+        FUELFLOW_T02_PUBLIC_ORIGIN: http://127.0.0.1:${FRONTEND1_T02_PORT:-27284}
     environment:
       BACKEND_UPSTREAM: http://backend:3000
     ports:
-      - "127.0.0.1:${FRONTEND3_PORT:-26083}:80"
+      - "127.0.0.1:${FRONTEND3_PORT:-27283}:80"
     networks: [web]
     depends_on:
       backend: { condition: service_healthy }
@@ -339,6 +347,8 @@ services:
   print-service:
     pull_policy: build
     build: ./PrintAgent
+    depends_on:
+      volume-guard: { condition: service_completed_successfully }
     volumes: ["print_data:/data"]
     networks: [data]
     healthcheck:
@@ -356,7 +366,7 @@ services:
       context: ./Backend
       target: test
     environment: *backend-env
-    command: ["node", "scripts/test-compose.cjs"]
+    command: ["npm", "test", "--", "--silent"]
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
@@ -364,10 +374,22 @@ services:
     restart: "no"
 
 volumes:
+  bootstrap_state:
+    labels: { io.primax.purpose: original-synthetic-lot4 }
   print_data:
+    labels: { io.primax.purpose: original-synthetic-lot4 }
   postgres_data:
+    labels: { io.primax.purpose: original-synthetic-lot4 }
   redis_data:
+    labels: { io.primax.purpose: original-synthetic-lot4 }
 
 networks:
   web:
+    ipam:
+      config:
+        - subnet: ${ASTRA_WEB_SUBNET:-10.249.241.0/24}
   data:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${ASTRA_DATA_SUBNET:-10.249.240.0/24}

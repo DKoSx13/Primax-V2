@@ -788,3 +788,62 @@ validación global de frontends y hosts reales Windows/Linux/macOS.
 Un commit local después de las validaciones, sin push/merge. Nueve evidencias
 históricas intactas y sin seguimiento. **Trabajo detenido al terminar Lote 3;
 Lotes 4 y 5 no iniciados.**
+
+## 19. Lote 4 — Compose final del original, 2026-11-20
+
+Referencia: `27edae7d68a19e62d0b65682f84cf049928fb64d`. Se conserva la historia
+anterior y se actualiza solo el alcance autorizado de composición/ejecución.
+[Guía reproducible](primax-lot4-compose-runbook.md),
+[informe](primax-lot4-compose-results.md) y
+[evidencia saneada](evidence/lot4-compose/review-summary.json).
+
+El original arranca desde la raíz con `docker compose up -d`, sin .env ni Node,
+PostgreSQL, Redis o dependencias backend instaladas en el anfitrión. Cuatro
+Dockerfiles/artefactos de dominio independientes reemplazan la selección del
+runtime legacy común. Gateway usa una imagen ligera de Node con solo el proxy;
+sus rutas y código permanecen intactos. No se ejecuta main legacy como servidor.
+La compilación legacy se reutiliza solo en la imagen del job de inicialización
+para mantener el seed y las herramientas originales.
+
+Proyecto primax-astra-original; puertos loopback 27200 y 27281–27284; redes propias
+10.249.240.0/24 y 10.249.241.0/24; volúmenes postgres_data, redis_data, print_data
+y bootstrap_state propios. La base única es PostgreSQL 17.6, sin cambios a las
+36 migraciones ni las 40 tablas de aplicación más metadata Prisma. Los volúmenes
+anteriores/desconocidos y los de exposición no se montan ni migran. Marcadores
+de propiedad y estado rechazan datos desconocidos y drift de seed/migraciones.
+
+Orden real: guard de volúmenes → PostgreSQL healthy → validación del entorno e
+identidad de base → migrate deploy → tres seeds originales secuenciales → cuatro
+dominios → Gateway/BFF/frontends. En ready, bootstrap verifica y omite migraciones
+y seeds; se conservan datos, stock, contraseñas y secuencias. Hay **17 contenedores
+predeterminados: 15 saludables y dos jobs con exit 0**, no un conteo impuesto por
+la copia. El perfil test es opcional y ejecuta Jest por defecto, sin crear bases.
+
+El primer arranque detectó un pool Docker automático agotado, antes de inicializar
+datos. Se resolvió solo con CIDR explícitos verificados libres, sin limpiar redes.
+El comando exacto up -d pasó con exit 0 y se repitió tras reiniciar infraestructura.
+31 solicitudes del recorrido final cubren los frontends, cuatro dominios, sesiones
+de terminal, OCR real del fixture ABC-123, YAPE demo en T02, autorización/avance/
+venta/replay/cierre, lectura de comprobante e impresión simulada. Los intentos de
+preparación del checker y sus límites están declarados; no se recuperó T01.
+
+576 Jest, ocho pruebas de inicialización/seed, Gateway 24/24, packaging 9/9 y cinco
+compilaciones pasan. Los cuatro contenedores de negocio contienen exactamente
+los archivos compilados aceptados de Lote 3. Reinicios de los quince procesos y
+up posterior mantienen idéntico el volcado SQL de datos/secuencias, cinco valores
+Redis con TTL positivo y el trabajo de impresión. Ningún bind mount reemplaza
+fuentes/dist. La copia conserva IDs/imágenes/inicios/reinicios/montajes.
+
+**Cierre técnico del Lote 4 en Windows con Docker Desktop, contenedores Linux
+amd64 y Compose 5.6.1.** No se certifican hosts Linux/macOS ni builds completos
+ARM64 por disponibilidad de variantes base. Sin autonomía productiva ni cierre
+integral del proyecto: la validación multiplataforma y global permanece en Lote 5.
+T01, TARJETA, x-kiosk-key, proveedores/hardware, AuthCore/Prisma/bootstrap/motores
+compartidos y alcance académico Identity A.4 conservan sus observaciones.
+
+Se recomienda Lote 5 tras nueva autorización: matriz maestra de 115 contratos,
+recorridos reales de navegador, persistencia/fallos, hardware disponible y hosts
+reales Windows/Linux/macOS/ARM según acceso. La instalación original queda
+funcionando; no se inicia esa validación ni se modifica la exposición.
+Un commit local verificado, sin push/merge y con las nueve evidencias históricas
+intactas y excluidas. **Trabajo detenido al terminar Lote 4; Lote 5 no iniciado.**
