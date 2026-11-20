@@ -1,3 +1,7 @@
+import { composeControlSessionTransport } from '../../services/administration/src/bootstrap/control-session-transport.composition';
+import { composeAdministrativeSupervision } from '../../services/administration/src/bootstrap/administrative-supervision.composition';
+import { composeAccountAdministration } from '../../services/administration/src/bootstrap/account-administration.composition';
+import { composeAccountAccess } from '../../services/administration/src/bootstrap/account-access.composition';
 import {
   Body,
   Controller,
@@ -82,17 +86,24 @@ class ListControlIncidentsQuery {
 
 @Controller('control')
 export class ControlController {
+  private readonly supervisionBoundary: ReturnType<typeof composeAdministrativeSupervision>;
+  private readonly accountBoundary: ReturnType<typeof composeAccountAdministration>;
+  private readonly accessBoundary: ReturnType<typeof composeAccountAccess>;
   constructor(
     private readonly service: ControlService,
     private readonly config: ConfigService,
-  ) {}
+  ) {
+    this.accessBoundary = composeAccountAccess(this.service);
+    this.accountBoundary = composeAccountAdministration(this.service);
+    this.supervisionBoundary = composeAdministrativeSupervision(this.service);
+  }
 
   @Public()
   @Post('access-requests')
   @HttpCode(201)
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   requestAccess(@Body() dto: AccessRequestDto) {
-    return this.service.requestAccess(dto);
+    return this.accessBoundary.requestAccess(dto);
   }
 
   @Public()
@@ -100,7 +111,7 @@ export class ControlController {
   @HttpCode(200)
   @Throttle({ default: { limit: 10, ttl: 60000 } })
   verifyEmail(@Body() dto: VerifyDto) {
-    return this.service.verifyEmail(dto.token);
+    return this.accessBoundary.verifyEmail(dto.token);
   }
 
   @Public()
@@ -108,7 +119,7 @@ export class ControlController {
   @HttpCode(200)
   @Throttle({ default: { limit: 3, ttl: 60000 } })
   resendVerification(@Body() dto: ResendDto) {
-    return this.service.resendVerification(dto.email);
+    return this.accessBoundary.resendVerification(dto.email);
   }
 
   @Public()
@@ -119,7 +130,7 @@ export class ControlController {
     @Body() dto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const result = await this.service.login(dto.email, dto.password);
+    const result = await this.accessBoundary.login(dto.email, dto.password);
     response.cookie('primax_control', result.token, {
       httpOnly: true,
       secure: this.config.get('APP_MODE') !== 'local',
@@ -134,36 +145,30 @@ export class ControlController {
   @SetMetadata('access', 'control')
   @HttpCode(200)
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('primax_control', {
-      httpOnly: true,
-      secure: this.config.get('APP_MODE') !== 'local',
-      sameSite: 'strict',
-      path: '/api/v1/control',
-    });
-    return { message: 'Sesión cerrada' };
+    return composeControlSessionTransport(this.config, response).logout();
   }
 
   @Get('session') @SetMetadata('access', 'control') session(
     @CurrentActor() actor: Actor,
   ) {
-    return this.service.session(actor as Extract<Actor, { kind: 'control' }>);
+    return this.accessBoundary.session(actor as Extract<Actor, { kind: 'control' }>);
   }
 
   @Get('accounts') @SetMetadata('access', 'control') accounts(
     @CurrentActor() actor: Actor,
   ) {
-    return this.service.pending(actor as Extract<Actor, { kind: 'control' }>);
+    return this.accountBoundary.pending(actor as Extract<Actor, { kind: 'control' }>);
   }
   @Post('accounts') @SetMetadata('access', 'control') @HttpCode(201)
   createAccount(@CurrentActor() actor: Actor, @Body() dto: CreateAdministrativeAccountDto) {
-    return this.service.createAdministrativeAccount(actor as Extract<Actor, { kind: 'control' }>, dto);
+    return this.accountBoundary.createAdministrativeAccount(actor as Extract<Actor, { kind: 'control' }>, dto);
   }
   @Post('accounts/:userId/approve') @SetMetadata('access', 'control') approve(
     @CurrentActor() actor: Actor,
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() dto: ApprovalDto,
   ) {
-    return this.service.approve(
+    return this.accountBoundary.approve(
       actor as Extract<Actor, { kind: 'control' }>,
       userId,
       dto,
@@ -176,7 +181,7 @@ export class ControlController {
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() dto: ApprovalDto,
   ) {
-    return this.service.approve(
+    return this.accountBoundary.approve(
       actor as Extract<Actor, { kind: 'control' }>,
       userId,
       dto,
@@ -188,7 +193,7 @@ export class ControlController {
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() dto: StatusDto,
   ) {
-    return this.service.setStatus(
+    return this.accountBoundary.setStatus(
       actor as Extract<Actor, { kind: 'control' }>,
       userId,
       'REJECTED',
@@ -200,7 +205,7 @@ export class ControlController {
     @Param('userId', ParseUUIDPipe) userId: string,
     @Body() dto: DisableAccountDto,
   ) {
-    return this.service.setStatus(
+    return this.accountBoundary.setStatus(
       actor as Extract<Actor, { kind: 'control' }>,
       userId,
       'DISABLED',
@@ -213,7 +218,7 @@ export class ControlController {
     @CurrentActor() actor: Actor,
     @Query('stationId') stationId?: string,
   ) {
-    return this.service.dashboard(
+    return this.supervisionBoundary.dashboard(
       actor as Extract<Actor, { kind: 'control' }>,
       stationId,
     );
@@ -222,7 +227,7 @@ export class ControlController {
     @CurrentActor() actor: Actor,
     @Query() query: ListControlIncidentsQuery,
   ) {
-    return this.service.incidents(
+    return this.supervisionBoundary.incidents(
       actor as Extract<Actor, { kind: 'control' }>,
       query.stationId,
       query.status,
@@ -232,7 +237,7 @@ export class ControlController {
     @CurrentActor() actor: Actor,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.service.incident(
+    return this.supervisionBoundary.incident(
       actor as Extract<Actor, { kind: 'control' }>,
       id,
     );
@@ -244,7 +249,7 @@ export class ControlController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: IncidentStatusDto,
   ) {
-    return this.service.incidentStatus(
+    return this.supervisionBoundary.incidentStatus(
       actor as Extract<Actor, { kind: 'control' }>,
       id,
       dto.status,

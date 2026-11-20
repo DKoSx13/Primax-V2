@@ -1,3 +1,4 @@
+import { composeAdministrativeTransactions } from '../../services/administration/src/bootstrap/administrative-transactions.composition';
 import { Controller, Get, Param, ParseUUIDPipe, Query, SetMetadata } from '@nestjs/common';
 import { PurchaseMode } from '@prisma/client';
 import { IsDateString, IsEnum, IsIn, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
@@ -30,7 +31,8 @@ const controlActor = (actor: Actor) => actor as Extract<Actor, { kind: 'control'
 @Controller('control')
 @SetMetadata('access', 'control')
 export class ControlCustomersController {
-  constructor(private readonly service: ControlCustomersService) {}
+  private readonly transactionBoundary: ReturnType<typeof composeAdministrativeTransactions>;
+  constructor(private readonly service: ControlCustomersService) { this.transactionBoundary = composeAdministrativeTransactions(this.service); }
 
   @Get('customers') customers(@CurrentActor() actor: Actor, @Query() query: CustomerFilters) {
     return this.service.customers(controlActor(actor), query);
@@ -48,7 +50,7 @@ export class ControlCustomersController {
     return this.service.vehicles(controlActor(actor), query);
   }
   @Get('transactions') transactions(@CurrentActor() actor: Actor, @Query() query: TransactionFilters) {
-    return this.service.transactions(controlActor(actor), { ...query, from: date(query.from), to: date(query.to, true) });
+    return this.transactionBoundary.transactions(controlActor(actor), { ...query, from: date(query.from), to: date(query.to, true) });
   }
   @Get('transactions/:transactionId') transaction(@CurrentActor() actor: Actor, @Param('transactionId', ParseUUIDPipe) transactionId: string) {
     return this.service.transaction(controlActor(actor), transactionId);

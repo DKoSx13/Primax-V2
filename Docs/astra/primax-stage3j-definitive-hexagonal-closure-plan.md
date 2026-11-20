@@ -727,3 +727,64 @@ se certifican. La copia de exposición permanece fuera de todas las mutaciones.
 Un commit local del lote verificado; nueve evidencias históricas intactas y sin
 seguimiento. Sin push/merge. **Trabajo detenido al finalizar 2D; Administration
 y Lotes 3, 4 y 5 no iniciados.**
+
+## 18. Lote 3 — Administration 37/37, 2026-11-20
+
+Referencia: `d1aa04072f3f71d72f9313e03066c3a663738f56`. Se conserva la historia
+anterior y se actualiza únicamente el alcance de Administration autorizado.
+[Informe](primax-lot3-administration-results.md),
+[matriz definitiva](primax-lot3-administration37-matrix.md),
+[clasificación previa](evidence/lot3-administration/classification.json) y
+[evidencia](evidence/lot3-administration/review-summary.json).
+
+Las treinta pendientes fueron clasificadas antes de implementar: 13 A de
+adaptación directa y 17 B de compatibilidad con el motor completo; cero C/D.
+Se agrupan en acceso/sesión (6), cuentas (6), supervisión administrativa (4),
+supervisión operativa (5), inventario (8) y listado de transacciones (1). No se
+inventan CRUD de clientes, vehículos o maestros ni se reasignan rutas Commerce
+por llamarse operational-admin. Las siete lecturas 3G/3H permanecen consolidadas.
+
+Ocho composiciones técnicas bajo services/administration/src aportan puertos,
+casos de uso y adaptadores de entrada/salida: AccountAccess, AccountAdministration,
+AdministrativeSupervision, OperationalSupervision, InventoryAdministration,
+InventoryReconciliation, AdministrativeTransactions y ControlSessionTransport.
+Cada comando delega una vez a su motor original. Logout conserva literalmente
+su efecto HTTP; terminal-status mantiene su 409. Control y admin conservan sus
+políticas distintas para las inspecciones/conciliaciones de inventario.
+
+No se modifica ningún cuerpo de motor, transacción, mapper, guard o política.
+TX10 y TX11 mantienen sus ejecutores/locks/eventKey y PostgreSQL única compartida.
+AuthCore, PasswordReset, authVersion, frontends, Gateway y Prisma/migraciones
+permanecen intactos. La transformación cerrada de cuatro controladores conserva
+DTOs/decoradores/errores/contratos y el motor InventoryReconciliationService.
+Los imports de ejecución revisados no introducen ciclos.
+
+576 Jest en 60 suites, Gateway 24/24 y empaquetado 9/9 pasan. Cuatro servicios y
+legacy compilan; diez builds de contexto no presentan TS2307 y los artefactos
+Identity/Catalog/Commerce coinciden por archivos y hashes con baseline. Cinco
+imágenes nuevas arrancan con Nest real y otra PostgreSQL/Redis nuevos, sin cambiar
+datos/secuencias. Administration ejecuta 324 checks por brazo (648 solicitudes)
+con snapshots SQL/Redis, permisos/estaciones, cookies, revocación compartida,
+rollback, concurrencia e idempotencia. Se repiten además los escenarios integrados
+Identity/Catalog y las once familias Commerce con datos y recursos nuevos.
+
+**Administration 37/37: cierre técnico académico del Lote 3 con compatibilidad
+legacy explícita, sin bloqueos P0 de este alcance.** Los cuatro servicios suman
+115 contratos inventariados con las fronteras de sus lotes, sin que ello cierre
+los P0 globales de Compose definitivo o portabilidad. No se declara autonomía
+productiva ni dominio legacy completamente separado de Nest/Prisma.
+
+Se conservan AuthCore/Prisma/bootstrap compartidos, Redis/KioskStore, proveedores,
+repositorios/mappers/motores originales y funciones/triggers SQL. T01, x-kiosk-key,
+TARJETA/OnlineOrder_method_check y alcance académico A.4 siguen documentados.
+La conciliación mantiene fases confirmadas y auditoría externa; SMTP conserva su
+fase posterior al commit. No se inventa atomicidad global SQL/Redis/proveedores.
+
+Se recomienda Lote 4 tras aceptación y nueva autorización: cuatro imágenes reales
+en Compose del original, init único ordenado, health/redes/volúmenes/env y arranque
+desde recursos nuevos. La copia de exposición queda fuera. Lote 5 mantiene la
+validación global de frontends y hosts reales Windows/Linux/macOS.
+
+Un commit local después de las validaciones, sin push/merge. Nueve evidencias
+históricas intactas y sin seguimiento. **Trabajo detenido al terminar Lote 3;
+Lotes 4 y 5 no iniciados.**

@@ -1,3 +1,5 @@
+import { composeInventoryAdministration } from '../../services/administration/src/bootstrap/inventory-administration.composition';
+import { composeOperationalSupervision } from '../../services/administration/src/bootstrap/operational-supervision.composition';
 import {
   Body,
   Controller,
@@ -75,13 +77,15 @@ const controlActor = (actor: Actor) =>
 @Controller('control')
 @SetMetadata('access', 'control')
 export class ControlOperationsController {
-  constructor(private readonly service: ControlOperationsService) {}
+  private readonly inventoryBoundary: ReturnType<typeof composeInventoryAdministration>;
+  private readonly supervisionBoundary: ReturnType<typeof composeOperationalSupervision>;
+  constructor(private readonly service: ControlOperationsService) { this.supervisionBoundary = composeOperationalSupervision(this.service); this.inventoryBoundary = composeInventoryAdministration(this.service); }
 
   @Get('operations') operations(
     @CurrentActor() actor: Actor,
     @Query() query: ControlOperationFilters,
   ) {
-    return this.service.operations(controlActor(actor), {
+    return this.supervisionBoundary.operations(controlActor(actor), {
       stationId: query.stationId,
       terminalId: query.terminalId,
       pumpId: query.pumpId,
@@ -96,14 +100,14 @@ export class ControlOperationsController {
     @CurrentActor() actor: Actor,
     @Param('operationId', ParseUUIDPipe) operationId: string,
   ) {
-    return this.service.operationDetail(controlActor(actor), operationId);
+    return this.supervisionBoundary.operationDetail(controlActor(actor), operationId);
   }
 
   @Get('terminals') terminals(
     @CurrentActor() actor: Actor,
     @Query() query: ControlStationFilter,
   ) {
-    return this.service.terminals(controlActor(actor), query.stationId);
+    return this.supervisionBoundary.terminals(controlActor(actor), query.stationId);
   }
 
   @Post('terminals/:id/status') terminalStatus(
@@ -111,21 +115,21 @@ export class ControlOperationsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: TerminalStatusDto,
   ) {
-    return this.service.terminalStatus(controlActor(actor), id, dto.action, dto.reason);
+    return this.supervisionBoundary.terminalStatus(controlActor(actor), id, dto.action, dto.reason);
   }
 
   @Get('inventory') inventory(
     @CurrentActor() actor: Actor,
     @Query() query: ControlStationFilter,
   ) {
-    return this.service.inventory(controlActor(actor), query.stationId);
+    return this.inventoryBoundary.inventory(controlActor(actor), query.stationId);
   }
 
   @Get('inventory/movements') movements(
     @CurrentActor() actor: Actor,
     @Query() query: ControlMovementFilters,
   ) {
-    return this.service.movements(controlActor(actor), {
+    return this.inventoryBoundary.movements(controlActor(actor), {
       ...query,
       from: date(query.from),
       to: date(query.to),
@@ -136,7 +140,7 @@ export class ControlOperationsController {
     @CurrentActor() actor: Actor,
     @Body() dto: InventoryReceiptDto,
   ) {
-    return this.service.receiveInventory(controlActor(actor), dto);
+    return this.inventoryBoundary.receiveInventory(controlActor(actor), dto);
   }
 
   @Get('inventory/:stationId/:fuelId/reconciliation') reconciliation(
@@ -144,7 +148,7 @@ export class ControlOperationsController {
     @Param('stationId', ParseUUIDPipe) stationId: string,
     @Param('fuelId', ParseUUIDPipe) fuelId: string,
   ) {
-    return this.service.reconciliation(controlActor(actor), stationId, fuelId);
+    return this.inventoryBoundary.reconciliation(controlActor(actor), stationId, fuelId);
   }
 
   @Post('inventory/:stationId/:fuelId/reconcile') reconcile(
@@ -152,14 +156,14 @@ export class ControlOperationsController {
     @Param('stationId', ParseUUIDPipe) stationId: string,
     @Param('fuelId', ParseUUIDPipe) fuelId: string,
   ) {
-    return this.service.reconcile(controlActor(actor), stationId, fuelId);
+    return this.inventoryBoundary.reconcile(controlActor(actor), stationId, fuelId);
   }
 
   @Get('audit') audit(
     @CurrentActor() actor: Actor,
     @Query() query: AuditFilters,
   ) {
-    return this.service.audit(controlActor(actor), {
+    return this.supervisionBoundary.audit(controlActor(actor), {
       stationId: query.stationId,
       actorUserId: query.actorUserId,
       action: query.action,

@@ -1,0 +1,346 @@
+{
+  "reference": "d1aa04072f3f71d72f9313e03066c3a663738f56",
+  "classificationBeforeImplementation": true,
+  "counts": {
+    "previous": 7,
+    "A": 13,
+    "B": 17,
+    "C": 0,
+    "D": 0
+  },
+  "contracts": [
+    {
+      "number": 1,
+      "contract": "/api/v1 GET /control/customers",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 2,
+      "contract": "/api/v1 GET /control/memberships",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 3,
+      "contract": "/api/v1 GET /control/vehicles",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 4,
+      "contract": "/api/v1 GET /control/customers/:userId",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 5,
+      "contract": "/api/v1 GET /control/memberships/:membershipId",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 6,
+      "contract": "/api/v1 GET /control/transactions/:transactionId",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 7,
+      "contract": "/api/v1 GET /control/receipts/:transactionId",
+      "previousClass": "A",
+      "family": "existing-lists-details",
+      "classification": "previous-H",
+      "state": "previous-H",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 8,
+      "contract": "/api/v1 GET /control/transactions",
+      "previousClass": "B",
+      "family": "administrative-transactions",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 9,
+      "contract": "/api/v1 GET /control/session",
+      "previousClass": "B",
+      "family": "account-access",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 10,
+      "contract": "/api/v1 GET /control/accounts",
+      "previousClass": "B",
+      "family": "account-administration",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 11,
+      "contract": "/api/v1 GET /control/dashboard",
+      "previousClass": "B",
+      "family": "administrative-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 12,
+      "contract": "/api/v1 GET /control/incidents",
+      "previousClass": "B",
+      "family": "administrative-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 13,
+      "contract": "/api/v1 GET /control/incidents/:id",
+      "previousClass": "B",
+      "family": "administrative-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 14,
+      "contract": "/api/v1 GET /control/operations",
+      "previousClass": "B",
+      "family": "operational-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 15,
+      "contract": "/api/v1 GET /control/operations/:operationId",
+      "previousClass": "B",
+      "family": "operational-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 16,
+      "contract": "/api/v1 GET /control/terminals",
+      "previousClass": "B",
+      "family": "operational-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 17,
+      "contract": "/api/v1 GET /control/inventory",
+      "previousClass": "B",
+      "family": "inventory-administration",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 18,
+      "contract": "/api/v1 GET /control/inventory/movements",
+      "previousClass": "B",
+      "family": "inventory-administration",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 19,
+      "contract": "/api/v1 GET /control/audit",
+      "previousClass": "B",
+      "family": "operational-supervision",
+      "classification": "A",
+      "state": "planned",
+      "reason": "Direct local reader; original security/filter/mapper retained"
+    },
+    {
+      "number": 20,
+      "contract": "/api/v1 GET /control/inventory/:stationId/:fuelId/reconciliation",
+      "previousClass": "D",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 21,
+      "contract": "/api/v1 GET /inventory/:stationId/:fuelId/reconciliation",
+      "previousClass": "D",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 22,
+      "contract": "/api/v1 POST /control/access-requests",
+      "previousClass": "C",
+      "family": "account-access",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 23,
+      "contract": "/api/v1 POST /control/verify-email",
+      "previousClass": "C",
+      "family": "account-access",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 24,
+      "contract": "/api/v1 POST /control/resend-verification",
+      "previousClass": "C",
+      "family": "account-access",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 25,
+      "contract": "/api/v1 POST /control/login",
+      "previousClass": "C",
+      "family": "account-access",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 26,
+      "contract": "/api/v1 POST /control/logout",
+      "previousClass": "C",
+      "family": "account-access",
+      "classification": "A",
+      "state": "planned",
+      "reason": "HTTP-only cookie clearing; literal local transport adapter"
+    },
+    {
+      "number": 27,
+      "contract": "/api/v1 POST /control/accounts",
+      "previousClass": "C",
+      "family": "account-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 28,
+      "contract": "/api/v1 POST /control/accounts/:userId/approve",
+      "previousClass": "C",
+      "family": "account-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 29,
+      "contract": "/api/v1 POST /control/accounts/:userId/access",
+      "previousClass": "C",
+      "family": "account-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 30,
+      "contract": "/api/v1 POST /control/accounts/:userId/reject",
+      "previousClass": "C",
+      "family": "account-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 31,
+      "contract": "/api/v1 POST /control/accounts/:userId/disable",
+      "previousClass": "C",
+      "family": "account-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 32,
+      "contract": "/api/v1 POST /control/incidents/:id/status",
+      "previousClass": "C",
+      "family": "administrative-supervision",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 33,
+      "contract": "/api/v1 POST /control/terminals/:id/status",
+      "previousClass": "C",
+      "family": "operational-supervision",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Original permission and 409 rejection retained; no writer activated"
+    },
+    {
+      "number": 34,
+      "contract": "/api/v1 POST /control/inventory/receipts",
+      "previousClass": "C",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 35,
+      "contract": "/api/v1 POST /control/inventory/:stationId/:fuelId/reconcile",
+      "previousClass": "C",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 36,
+      "contract": "/api/v1 POST /inventory/:stationId/:fuelId/reconcile",
+      "previousClass": "C",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    },
+    {
+      "number": 37,
+      "contract": "/api/v1 POST /inventory/:stationId/:fuelId/activate",
+      "previousClass": "C",
+      "family": "inventory-administration",
+      "classification": "B",
+      "state": "planned",
+      "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer"
+    }
+  ]
+}

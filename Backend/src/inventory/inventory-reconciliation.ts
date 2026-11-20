@@ -1,3 +1,4 @@
+import { composeInventoryReconciliation } from '../../services/administration/src/bootstrap/inventory-reconciliation.composition';
 import {
   ConflictException,
   Controller,
@@ -223,7 +224,8 @@ export class InventoryReconciliationService {
 
 @Controller('inventory')
 export class InventoryReconciliationController {
-  constructor(private readonly service: InventoryReconciliationService) {}
+  private readonly boundary: ReturnType<typeof composeInventoryReconciliation>;
+  constructor(private readonly service: InventoryReconciliationService) { this.boundary = composeInventoryReconciliation(this.service); }
 
   @Get(':stationId/:fuelId/reconciliation')
   @SetMetadata('access', 'admin')
@@ -231,7 +233,7 @@ export class InventoryReconciliationController {
     @Param('stationId', new ParseUUIDPipe()) stationId: string,
     @Param('fuelId', new ParseUUIDPipe()) fuelId: string,
   ) {
-    return this.service.inspect(stationId, fuelId);
+    return this.boundary.inspect(stationId, fuelId);
   }
 
   @Post(':stationId/:fuelId/reconcile')
@@ -240,7 +242,7 @@ export class InventoryReconciliationController {
     @Param('stationId', new ParseUUIDPipe()) stationId: string,
     @Param('fuelId', new ParseUUIDPipe()) fuelId: string,
   ) {
-    return this.service.reconcile(stationId, fuelId);
+    return this.boundary.reconcile(stationId, fuelId);
   }
 
   @Post(':stationId/:fuelId/activate')
@@ -249,6 +251,6 @@ export class InventoryReconciliationController {
     @Param('stationId', new ParseUUIDPipe()) stationId: string,
     @Param('fuelId', new ParseUUIDPipe()) fuelId: string,
   ) {
-    return this.service.activate(stationId, fuelId);
+    return this.boundary.activate(stationId, fuelId);
   }
 }
