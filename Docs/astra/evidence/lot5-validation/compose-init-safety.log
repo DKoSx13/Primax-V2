@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: claims four empty volumes before any application initialization
+ok 1 - claims four empty volumes before any application initialization
+  ---
+  duration_ms: 1.393079
+  type: 'test'
+  ...
+# Subtest: unknown nonempty PostgreSQL volume refuses all claims
+ok 2 - unknown nonempty PostgreSQL volume refuses all claims
+  ---
+  duration_ms: 1.010087
+  type: 'test'
+  ...
+# Subtest: unknown print data refuses claims even if the first volumes are empty
+ok 3 - unknown print data refuses claims even if the first volumes are empty
+  ---
+  duration_ms: 0.593954
+  type: 'test'
+  ...
+# Subtest: marker from a different project is never accepted
+ok 4 - marker from a different project is never accepted
+  ---
+  duration_ms: 1.009847
+  type: 'test'
+  ...
+# Subtest: owned persistent volumes are checked without recreating markers
+ok 5 - owned persistent volumes are checked without recreating markers
+  ---
+  duration_ms: 0.473776
+  type: 'test'
+  ...
+# Subtest: publication seed skipped outside explicitly enabled local DEMO {"APP_MODE":"production","PAYMENT_ENV":"production","DEMO_WALLET_ENABLED":"false"}
+ok 6 - publication seed skipped outside explicitly enabled local DEMO {"APP_MODE":"production","PAYMENT_ENV":"production","DEMO_WALLET_ENABLED":"false"}
+  ---
+  duration_ms: 17.654257
+  type: 'test'
+  ...
+# Subtest: publication seed skipped outside explicitly enabled local DEMO {"APP_MODE":"local","PAYMENT_ENV":"demo","DEMO_WALLET_ENABLED":"false"}
+ok 7 - publication seed skipped outside explicitly enabled local DEMO {"APP_MODE":"local","PAYMENT_ENV":"demo","DEMO_WALLET_ENABLED":"false"}
+  ---
+  duration_ms: 15.243446
+  type: 'test'
+  ...
+# Subtest: publication never resynchronizes passwords on automatic startup
+ok 8 - publication never resynchronizes passwords on automatic startup
+  ---
+  duration_ms: 14.227291
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80.979335

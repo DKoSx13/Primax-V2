@@ -1,0 +1,165 @@
+{
+  "project": "primax-astra-lot5-main-39e19f7d",
+  "nonDestructive": true,
+  "checks": [
+    {
+      "name": "Anonymous member profile rejected",
+      "path": "/api/v1/memberships/me",
+      "status": 401,
+      "expected": [
+        401
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Malformed JWT rejected",
+      "path": "/api/v1/memberships/me",
+      "status": 401,
+      "expected": [
+        401
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Anonymous control rejected",
+      "path": "/api/v1/control/customers",
+      "status": 401,
+      "expected": [
+        401
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Unsigned kiosk session rejected",
+      "path": "/api/v1/kiosk/session",
+      "status": 401,
+      "expected": [
+        401
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Missing receipt remains 404",
+      "path": "/api/v1/transactions/00000000-0000-4000-8000-000000000000/receipt",
+      "status": 404,
+      "expected": [
+        401,
+        404
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Cross-site BFF mutation rejected",
+      "path": "/api/kiosk/terminal-bootstrap",
+      "status": 403,
+      "expected": [
+        403
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Demo credential disclosure disabled",
+      "path": "/api/v1/admin/demo-credentials",
+      "status": 200,
+      "expected": [
+        200
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Frontend serves HTTP without private keys",
+      "path": "/",
+      "status": 200,
+      "expected": [
+        200
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Environment-file probe reveals no lab secret",
+      "path": "/.env",
+      "status": 404,
+      "expected": [
+        200,
+        403,
+        404
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Frontend serves HTTP without private keys",
+      "path": "/",
+      "status": 200,
+      "expected": [
+        200
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Environment-file probe reveals no lab secret",
+      "path": "/.env",
+      "status": 404,
+      "expected": [
+        200,
+        403,
+        404
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Frontend serves HTTP without private keys",
+      "path": "/",
+      "status": 200,
+      "expected": [
+        200
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Environment-file probe reveals no lab secret",
+      "path": "/.env",
+      "status": 404,
+      "expected": [
+        200,
+        403,
+        404
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Frontend serves HTTP without private keys",
+      "path": "/",
+      "status": 200,
+      "expected": [
+        200
+      ],
+      "pass": true,
+      "secretExposed": false
+    },
+    {
+      "name": "Environment-file probe reveals no lab secret",
+      "path": "/.env",
+      "status": 404,
+      "expected": [
+        200,
+        403,
+        404
+      ],
+      "pass": true,
+      "secretExposed": false
+    }
+  ]
+}

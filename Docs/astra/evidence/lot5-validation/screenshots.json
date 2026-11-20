@@ -1,0 +1,38 @@
+[
+  {
+    "file": "control-audit.png",
+    "sha256": "4726da14f79fa55b4781a6bb8d4f9b5f93f5ac174a151c66eb00b9d19a8ad119"
+  },
+  {
+    "file": "control-scoped.png",
+    "sha256": "3dc633161d65f8cad5800a4699c0e0f5be52817b915f392f2498d8639e9de5b5"
+  },
+  {
+    "file": "fuelflow-ocr.png",
+    "sha256": "56c8b10121b3a71fde0d8f610f72ef4e9b90e345e35c4e63b466b82cfe23d024"
+  },
+  {
+    "file": "fuelflow-t01.png",
+    "sha256": "6459b16e089b70c65e7366ff0ca666b945915a6e0230c1fc8304539664ab8f98"
+  },
+  {
+    "file": "fuelflow-yape-demo.png",
+    "sha256": "3c8a2a9a9227b198641d9b6f8b10823ac9ba72bc9935b7b96ef1ab381f1b019f"
+  },
+  {
+    "file": "prime-home.png",
+    "sha256": "f31da690e632c23ccaa0b999bbb46f6e4ac34491fbbacf220277ddb153a770a0"
+  },
+  {
+    "file": "t02-demo-print-finalized.png",
+    "sha256": "dd3d3d4300602921e47067e9293e0c071271191cc3be4482a0c95690d25a1377"
+  },
+  {
+    "file": "t02-normal-receipt.png",
+    "sha256": "d65ff17f8bcae34e8bb4793796f32252b7179753270233f69a1f874bf6f397a4"
+  },
+  {
+    "file": "t02-reload-failure.png",
+    "sha256": "bf84fb7ff51f7ccbd83468688e0d3a8f6aedee18dafd95c8527c588dfadf044f"
+  }
+]

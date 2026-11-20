@@ -1,0 +1,67 @@
+{
+  "node": "v22.21.1",
+  "network": "none",
+  "dataVolumes": 0,
+  "databaseCommands": 0,
+  "tests": {
+    "suites": 60,
+    "passed": 576,
+    "failed": 0
+  },
+  "results": [
+    {
+      "name": "identity-catalog-contracts",
+      "exitCode": 0,
+      "elapsedMs": 30596,
+      "log": "identity-catalog-contracts.log"
+    },
+    {
+      "name": "compose-init-safety",
+      "exitCode": 0,
+      "elapsedMs": 105,
+      "log": "compose-init-safety.log"
+    },
+    {
+      "name": "gateway-contracts",
+      "exitCode": 0,
+      "elapsedMs": 62,
+      "log": "gateway-contracts.log"
+    },
+    {
+      "name": "packaging-contracts",
+      "exitCode": 0,
+      "elapsedMs": 114,
+      "log": "packaging-contracts.log"
+    },
+    {
+      "name": "build-catalog",
+      "exitCode": 0,
+      "elapsedMs": 4975,
+      "log": "build-catalog.log"
+    },
+    {
+      "name": "build-identity",
+      "exitCode": 0,
+      "elapsedMs": 5219,
+      "log": "build-identity.log"
+    },
+    {
+      "name": "build-administration",
+      "exitCode": 0,
+      "elapsedMs": 10225,
+      "log": "build-administration.log"
+    },
+    {
+      "name": "build-commerce",
+      "exitCode": 0,
+      "elapsedMs": 10868,
+      "log": "build-commerce.log"
+    },
+    {
+      "name": "build-legacy",
+      "exitCode": 0,
+      "elapsedMs": 14543,
+      "log": "build-legacy.log"
+    }
+  ]
+}

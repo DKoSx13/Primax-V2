@@ -1,0 +1,33 @@
+{
+  "reference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "steps": [
+    "Fresh synthetic T02: Regular, PREPAGO 20, BOLETA, ABC-123 recognized through real OCR",
+    "YAPE demo pending: reload browser, INICIAR resumes QR with total dash",
+    "Click Simular confirmación del pago once"
+  ],
+  "expected": "Authorization, dispatch, receipt and finalize",
+  "actual": "Cannot read properties of undefined (reading 'station')",
+  "database": {
+    "payments": [
+      {
+        "status": "CAPTURED",
+        "method": "YAPE",
+        "amount": 20,
+        "provider": "DEMO"
+      }
+    ],
+    "transactions": 0,
+    "tables": 41
+  },
+  "classification": "P1; newly observed, source unchanged at reference; not introduced by Lote 5",
+  "protectedEvidenceProject": "primax-astra-lot5-63bb6fca",
+  "projectStopped": true,
+  "volumesPreserved": true,
+  "forcedRecovery": false,
+  "sourceLocations": [
+    "Frontend_1_FuelFlow/src/js/script.js:1410",
+    "Frontend_1_FuelFlow/src/js/script.js:2452",
+    "Frontend_1_FuelFlow/src/js/script.js:2470"
+  ],
+  "causeAssessment": "Normal startup loads catalog; pending recovery reaches authorization with catalog undefined. Source-level inference consistent with visible station error; no code correction attempted."
+}

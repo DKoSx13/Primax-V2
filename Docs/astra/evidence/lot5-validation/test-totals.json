@@ -1,0 +1,20 @@
+{
+  "counts": {
+    "backendJest": 576,
+    "composeInit": 8,
+    "gateway": 24,
+    "packaging": 9,
+    "clients": 297,
+    "ocr": 12,
+    "pairedHttp": 2570,
+    "securityHttp": 15,
+    "browserPassed": 15,
+    "browserFailed": 1
+  },
+  "passed": 3526,
+  "failed": 1,
+  "structuralRoutesSeparate": 115,
+  "pairedComparisonsSeparate": 22,
+  "buildsSeparate": 5,
+  "method": "Assertions/checkpoints across suites, not unique endpoints; each baseline/candidate HTTP checkpoint counted. Browser case grouping explicitly listed. Initial harness-only failures excluded after corrected rerun, documented in report."
+}

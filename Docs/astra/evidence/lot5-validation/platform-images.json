@@ -1,0 +1,102 @@
+{
+  "host": "Microsoft Windows NT 10.0.26200.0",
+  "docker": "linux x86_64 Docker Desktop",
+  "compose": "Docker Compose version v5.6.1",
+  "browser": "Chromium 158.0.8127.36 Windows Win64 x64",
+  "images": [
+    {
+      "id": "sha256:c45a5ea3a8cb600737b96d02681075942c94e3052b3298959365a98237cbc706",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:8e6091b8b77d6acf84be9d7ff7606cbec93220483b39b0639a614664a242d249",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:e55e2c65afd057a217b5fe8f52c8ba8e960582096550e5ec8afa9c46e4096f26",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:e58e8a354f0a4bc847a18f51167e61a4ebe8028c065ed1d4037e9524b298cf79",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:0423de805ec6a7bc8d75f09f0f902d6b52b15b6ee236975076a04a471b3dc549",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:c51823143d2fd41a153e856d28ecd7788e7cbefa0bdc45bf745e188344ffb4db",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:596291ad021a3bda3245a83b0ce0c0a4653583787410ffffd92f5ae06c230078",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:4345a9f569168d3c68a737caf6aac7bc96de83bf01585977510300611333f9f8",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:258b2c4cd11962a8fe2349db51062075315a5ea24b5720aacfd485fbb4aa57f6",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:a15b58c4cc8eea30eae3fe67a92456fd67e675c42ac2bad8a0569fc003a7c3c4",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:9feb7bacc1b673d26c95503607ec83766caaeaa10ccf3215363c707b6fcb8ac0",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:ebb4841bdb18bd1bf0457cdc910445756e110d726c68820bdbbd6dd179b5f10b",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:41541a55ea8dcb1ee111e6efad7513459ec9d992d719717071cdfa876352f6e8",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:1115efc3e71572e997384fb4d91756a54bdb8f996300e5a4f1b5a0988b2320e3",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b",
+      "os": "linux",
+      "architecture": "amd64"
+    },
+    {
+      "id": "sha256:945811ade2cd0b7b8778e130fba806be7a51a3dcbfba7d9650f8db8821582136",
+      "os": "linux",
+      "architecture": "amd64"
+    }
+  ],
+  "levels": {
+    "A": "Windows host actually tested",
+    "B": "Linux amd64 containers actually tested",
+    "C": [
+      "Native Linux host not executed",
+      "macOS host not executed",
+      "ARM64 not built or executed; static evaluation only"
+    ]
+  }
+}

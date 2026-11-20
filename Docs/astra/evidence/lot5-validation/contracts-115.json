@@ -1,0 +1,2178 @@
+[
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/admin/alerts",
+    "family": "AdminIdentityWorkflows",
+    "engine": "AlertsService.list",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-identity-workflows.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-identity-workflows.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/admin/alerts/:id/resolve",
+    "family": "AdminIdentityWorkflows",
+    "engine": "AlertsService.resolve",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-identity-workflows.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-identity-workflows.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/admin/check-plate",
+    "family": "AdminIdentityWorkflows",
+    "engine": "AlertsService.checkPlate",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-identity-workflows.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-identity-workflows.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/admin/dashboard",
+    "family": "AdminIdentityWorkflows",
+    "engine": "AlertsService.dashboard",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-identity-workflows.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-identity-workflows.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/admin/demo-credentials",
+    "family": "AdminAccessOperations",
+    "engine": "AdminAccessEngine.demo (original extraído)",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-access-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-access-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/admin/login",
+    "family": "AdminAccessOperations",
+    "engine": "AdminAccessEngine.login (original extraído)",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/admin-access-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-admin-access-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/auth/forgot-password",
+    "family": "IdentitySecurityOperations",
+    "engine": "PasswordResetService.forgot",
+    "evidence": "security",
+    "portFile": "Backend/services/identity/src/application/ports/identity-security-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-identity-security-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "security",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/auth/login",
+    "family": "IdentitySecurityOperations",
+    "engine": "AuthService.login",
+    "evidence": "security",
+    "portFile": "Backend/services/identity/src/application/ports/identity-security-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-identity-security-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "security",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/auth/register",
+    "family": "IdentitySecurityOperations",
+    "engine": "AuthService.register",
+    "evidence": "security",
+    "portFile": "Backend/services/identity/src/application/ports/identity-security-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-identity-security-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "security",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/auth/reset-password",
+    "family": "IdentitySecurityOperations",
+    "engine": "PasswordResetService.reset",
+    "evidence": "security",
+    "portFile": "Backend/services/identity/src/application/ports/identity-security-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-identity-security-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "security",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/auth/verify-reset-code",
+    "family": "IdentitySecurityOperations",
+    "engine": "PasswordResetService.verify",
+    "evidence": "security",
+    "portFile": "Backend/services/identity/src/application/ports/identity-security-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-identity-security-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "security",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/kiosk/session",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.status",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/kiosk/session/authorize",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.authorize",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/kiosk/session/login",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.login",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/kiosk/session/logout",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.logout",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/kiosk/session/terminal-bootstrap",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.bootstrapTerminal",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/kiosk/session/terminal-recovery",
+    "family": "KioskSessionOperations",
+    "engine": "KioskService.exchangeRecoveryTicket",
+    "evidence": "kiosk",
+    "portFile": "Backend/services/identity/src/application/ports/kiosk-session-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-kiosk-session-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "kiosk",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/memberships/me",
+    "family": "MembershipReads",
+    "engine": "LegacyMembershipReads / original repositories",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/membership-reads.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/legacy-membership-reads.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "PATCH /api/v1/memberships/me/profile",
+    "family": "ProfileOperations",
+    "engine": "MembershipsService.updateProfile",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/profile-operations.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-profile-operations.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/memberships/me/redemptions",
+    "family": "MembershipReads",
+    "engine": "LegacyMembershipReads / original repositories",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/membership-reads.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/legacy-membership-reads.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/memberships/me/rewards",
+    "family": "MembershipReads",
+    "engine": "LegacyMembershipReads / original repositories",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/membership-reads.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/legacy-membership-reads.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/memberships/me/transactions",
+    "family": "MembershipReads",
+    "engine": "LegacyMembershipReads / original repositories",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/membership-reads.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/legacy-membership-reads.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/plate-recognition",
+    "family": "PlateRecognition",
+    "engine": "RecognitionService.recognize",
+    "evidence": "admin-ocr",
+    "portFile": "Backend/services/identity/src/application/ports/plate-recognition.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-plate-recognition.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "admin-ocr",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/vehicles",
+    "family": "ListVehicles",
+    "engine": "Existing vehicle readers / VehiclesRepository",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/list-vehicles-query.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-vehicle-list.reader.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "POST /api/v1/vehicles",
+    "family": "VehicleLinking",
+    "engine": "VehiclesService.create",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/vehicle-linking.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/existing-vehicle-linking.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "identity",
+    "contract": "GET /api/v1/vehicles/:plate",
+    "family": "LookupVehicle",
+    "engine": "Existing vehicle readers / VehiclesRepository",
+    "evidence": "profile",
+    "portFile": "Backend/services/identity/src/application/ports/vehicle-lookup.ts",
+    "adapterFiles": [
+      "Backend/services/identity/src/adapters/outbound/legacy-vehicle-lookup.ts"
+    ],
+    "gatewayService": "identity",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "profile",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/benefits",
+    "family": "ListBenefits",
+    "engine": "BenefitsRepository.list",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/list-benefits-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-benefit-list.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/control/catalog/inventory",
+    "family": "ReadInventory",
+    "engine": "FuelsRepository.inventory",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/inventory-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-inventory.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/control/catalog/stations",
+    "family": "ListStations",
+    "engine": "StationsRepository.list",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/list-stations-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-station-list.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/fuels",
+    "family": "ListFuels",
+    "engine": "FuelsRepository.list",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/list-fuels-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-fuel-list.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/fuels/inventory",
+    "family": "ReadInventory",
+    "engine": "FuelsRepository.inventory",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/inventory-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-inventory.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "catalog",
+    "contract": "GET /api/v1/stations",
+    "family": "ListStations",
+    "engine": "StationsRepository.list",
+    "evidence": "catalog",
+    "portFile": "Backend/services/catalog/src/application/ports/list-stations-query.ts",
+    "adapterFiles": [
+      "Backend/services/catalog/src/adapters/outbound/existing-station-list.reader.ts"
+    ],
+    "gatewayService": "catalog",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "catalog",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 1,
+    "contract": "GET /api/v1/control/customers",
+    "previousClass": "A",
+    "family": "administrative-lists",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeListSource",
+    "adapter": "LegacyAdministrativeLists",
+    "engine": "ControlCustomersService / original 3G readers",
+    "method": "customers",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-lists.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-lists.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 2,
+    "contract": "GET /api/v1/control/memberships",
+    "previousClass": "A",
+    "family": "administrative-lists",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeListSource",
+    "adapter": "LegacyAdministrativeLists",
+    "engine": "ControlCustomersService / original 3G readers",
+    "method": "memberships",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-lists.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-lists.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 3,
+    "contract": "GET /api/v1/control/vehicles",
+    "previousClass": "A",
+    "family": "administrative-lists",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeListSource",
+    "adapter": "LegacyAdministrativeLists",
+    "engine": "ControlCustomersService / original 3G readers",
+    "method": "vehicles",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-lists.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-lists.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 4,
+    "contract": "GET /api/v1/control/customers/:userId",
+    "previousClass": "A",
+    "family": "administrative-details",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeDetailSource",
+    "adapter": "LegacyAdministrativeDetails",
+    "engine": "ControlCustomersService / original 3H readers",
+    "method": "customer",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-details.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-details.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 5,
+    "contract": "GET /api/v1/control/memberships/:membershipId",
+    "previousClass": "A",
+    "family": "administrative-details",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeDetailSource",
+    "adapter": "LegacyAdministrativeDetails",
+    "engine": "ControlCustomersService / original 3H readers",
+    "method": "membership",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-details.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-details.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 6,
+    "contract": "GET /api/v1/control/transactions/:transactionId",
+    "previousClass": "A",
+    "family": "administrative-details",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeDetailSource",
+    "adapter": "LegacyAdministrativeDetails",
+    "engine": "ControlCustomersService / original 3H readers",
+    "method": "transaction",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-details.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-details.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 7,
+    "contract": "GET /api/v1/control/receipts/:transactionId",
+    "previousClass": "A",
+    "family": "administrative-details",
+    "classification": "previous-H",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeDetailSource",
+    "adapter": "LegacyAdministrativeDetails",
+    "engine": "ControlCustomersService / original 3H readers",
+    "method": "receipt",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce read",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-details.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/legacy-administrative-details.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 8,
+    "contract": "GET /api/v1/control/transactions",
+    "previousClass": "B",
+    "family": "administrative-transactions",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeTransactionsPort",
+    "adapter": "ExistingAdministrativeTransactions",
+    "engine": "ControlCustomersService",
+    "method": "transactions",
+    "evidence": "customers",
+    "dependencies": "PG/Core; Identity/Commerce projections only",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-transactions.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-administrative-transactions.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "customers",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 9,
+    "contract": "GET /api/v1/control/session",
+    "previousClass": "B",
+    "family": "account-access",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AccountAccessPort",
+    "adapter": "ExistingAccountAccess",
+    "engine": "ControlService",
+    "method": "session",
+    "evidence": "access",
+    "dependencies": "PG/Core/JWT/RecoveryDelivery",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-access.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-access.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 10,
+    "contract": "GET /api/v1/control/accounts",
+    "previousClass": "B",
+    "family": "account-administration",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "pending",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 11,
+    "contract": "GET /api/v1/control/dashboard",
+    "previousClass": "B",
+    "family": "administrative-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeSupervisionPort",
+    "adapter": "ExistingAdministrativeSupervision",
+    "engine": "ControlService",
+    "method": "dashboard",
+    "evidence": "supervision",
+    "dependencies": "PG/Core; Commerce projections/incidents/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-administrative-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "supervision",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 12,
+    "contract": "GET /api/v1/control/incidents",
+    "previousClass": "B",
+    "family": "administrative-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeSupervisionPort",
+    "adapter": "ExistingAdministrativeSupervision",
+    "engine": "ControlService",
+    "method": "incidents",
+    "evidence": "supervision",
+    "dependencies": "PG/Core; Commerce projections/incidents/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-administrative-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "supervision",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 13,
+    "contract": "GET /api/v1/control/incidents/:id",
+    "previousClass": "B",
+    "family": "administrative-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "AdministrativeSupervisionPort",
+    "adapter": "ExistingAdministrativeSupervision",
+    "engine": "ControlService",
+    "method": "incident",
+    "evidence": "supervision",
+    "dependencies": "PG/Core; Commerce projections/incidents/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-administrative-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "supervision",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 14,
+    "contract": "GET /api/v1/control/operations",
+    "previousClass": "B",
+    "family": "operational-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "OperationalSupervisionPort",
+    "adapter": "ExistingOperationalSupervision",
+    "engine": "ControlOperationsService",
+    "method": "operations",
+    "evidence": "operations",
+    "dependencies": "PG/Core; Commerce terminal/sales/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/operational-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-operational-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "operations",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 15,
+    "contract": "GET /api/v1/control/operations/:operationId",
+    "previousClass": "B",
+    "family": "operational-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "OperationalSupervisionPort",
+    "adapter": "ExistingOperationalSupervision",
+    "engine": "ControlOperationsService",
+    "method": "operationDetail",
+    "evidence": "operations",
+    "dependencies": "PG/Core; Commerce terminal/sales/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/operational-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-operational-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "operations",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 16,
+    "contract": "GET /api/v1/control/terminals",
+    "previousClass": "B",
+    "family": "operational-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "OperationalSupervisionPort",
+    "adapter": "ExistingOperationalSupervision",
+    "engine": "ControlOperationsService",
+    "method": "terminals",
+    "evidence": "operations",
+    "dependencies": "PG/Core; Commerce terminal/sales/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/operational-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-operational-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "operations",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 17,
+    "contract": "GET /api/v1/control/inventory",
+    "previousClass": "B",
+    "family": "inventory-administration",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "InventoryAdministrationPort",
+    "adapter": "ExistingInventoryAdministration",
+    "engine": "ControlOperationsService",
+    "method": "inventory",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/ledger/locks/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 18,
+    "contract": "GET /api/v1/control/inventory/movements",
+    "previousClass": "B",
+    "family": "inventory-administration",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "InventoryAdministrationPort",
+    "adapter": "ExistingInventoryAdministration",
+    "engine": "ControlOperationsService",
+    "method": "movements",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/ledger/locks/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 19,
+    "contract": "GET /api/v1/control/audit",
+    "previousClass": "B",
+    "family": "operational-supervision",
+    "classification": "A",
+    "state": "H",
+    "reason": "Direct local reader; original security/filter/mapper retained",
+    "port": "OperationalSupervisionPort",
+    "adapter": "ExistingOperationalSupervision",
+    "engine": "ControlOperationsService",
+    "method": "audit",
+    "evidence": "operations",
+    "dependencies": "PG/Core; Commerce terminal/sales/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/operational-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-operational-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "operations",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 20,
+    "contract": "GET /api/v1/control/inventory/:stationId/:fuelId/reconciliation",
+    "previousClass": "D",
+    "family": "inventory-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryAdministrationPort",
+    "adapter": "ExistingInventoryAdministration",
+    "engine": "ControlOperationsService",
+    "method": "reconciliation",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/ledger/locks/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 21,
+    "contract": "GET /api/v1/inventory/:stationId/:fuelId/reconciliation",
+    "previousClass": "D",
+    "family": "inventory-reconciliation",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryReconciliationPort",
+    "adapter": "ExistingInventoryReconciliation",
+    "engine": "InventoryReconciliationService",
+    "method": "inspect",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/functions/atomic",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-reconciliation.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-reconciliation.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 22,
+    "contract": "POST /api/v1/control/access-requests",
+    "previousClass": "C",
+    "family": "account-access",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAccessPort",
+    "adapter": "ExistingAccountAccess",
+    "engine": "ControlService",
+    "method": "requestAccess",
+    "evidence": "access",
+    "dependencies": "PG/Core/JWT/RecoveryDelivery",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-access.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-access.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 23,
+    "contract": "POST /api/v1/control/verify-email",
+    "previousClass": "C",
+    "family": "account-access",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAccessPort",
+    "adapter": "ExistingAccountAccess",
+    "engine": "ControlService",
+    "method": "verifyEmail",
+    "evidence": "access",
+    "dependencies": "PG/Core/JWT/RecoveryDelivery",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-access.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-access.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 24,
+    "contract": "POST /api/v1/control/resend-verification",
+    "previousClass": "C",
+    "family": "account-access",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAccessPort",
+    "adapter": "ExistingAccountAccess",
+    "engine": "ControlService",
+    "method": "resendVerification",
+    "evidence": "access",
+    "dependencies": "PG/Core/JWT/RecoveryDelivery",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-access.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-access.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 25,
+    "contract": "POST /api/v1/control/login",
+    "previousClass": "C",
+    "family": "account-access",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAccessPort",
+    "adapter": "ExistingAccountAccess",
+    "engine": "ControlService",
+    "method": "login",
+    "evidence": "access",
+    "dependencies": "PG/Core/JWT/RecoveryDelivery",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-access.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-access.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 26,
+    "contract": "POST /api/v1/control/logout",
+    "previousClass": "C",
+    "family": "control-session-transport",
+    "classification": "A",
+    "state": "H",
+    "reason": "HTTP-only cookie clearing; literal local transport adapter",
+    "port": "ControlSessionTransportPort",
+    "adapter": "ExistingControlSessionTransport",
+    "engine": "ControlController.logout original body",
+    "method": "logout",
+    "evidence": "access",
+    "dependencies": "HTTP/Config; no SQL writer",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/control-session-transport.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-control-session-transport.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "access",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 27,
+    "contract": "POST /api/v1/control/accounts",
+    "previousClass": "C",
+    "family": "account-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "createAdministrativeAccount",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 28,
+    "contract": "POST /api/v1/control/accounts/:userId/approve",
+    "previousClass": "C",
+    "family": "account-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "approve",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 29,
+    "contract": "POST /api/v1/control/accounts/:userId/access",
+    "previousClass": "C",
+    "family": "account-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "approve",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 30,
+    "contract": "POST /api/v1/control/accounts/:userId/reject",
+    "previousClass": "C",
+    "family": "account-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "setStatus",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 31,
+    "contract": "POST /api/v1/control/accounts/:userId/disable",
+    "previousClass": "C",
+    "family": "account-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AccountAdministrationPort",
+    "adapter": "ExistingAccountAdministration",
+    "engine": "ControlService",
+    "method": "setStatus",
+    "evidence": "accounts",
+    "dependencies": "PG/Core; User/authVersion/grants/assignments/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/account-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-account-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "accounts",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 32,
+    "contract": "POST /api/v1/control/incidents/:id/status",
+    "previousClass": "C",
+    "family": "administrative-supervision",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "AdministrativeSupervisionPort",
+    "adapter": "ExistingAdministrativeSupervision",
+    "engine": "ControlService",
+    "method": "incidentStatus",
+    "evidence": "supervision",
+    "dependencies": "PG/Core; Commerce projections/incidents/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/administrative-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-administrative-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "supervision",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 33,
+    "contract": "POST /api/v1/control/terminals/:id/status",
+    "previousClass": "C",
+    "family": "operational-supervision",
+    "classification": "B",
+    "state": "H",
+    "reason": "Original permission and 409 rejection retained; no writer activated",
+    "port": "OperationalSupervisionPort",
+    "adapter": "ExistingOperationalSupervision",
+    "engine": "ControlOperationsService",
+    "method": "terminalStatus",
+    "evidence": "operations",
+    "dependencies": "PG/Core; Commerce terminal/sales/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/operational-supervision.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-operational-supervision.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "operations",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 34,
+    "contract": "POST /api/v1/control/inventory/receipts",
+    "previousClass": "C",
+    "family": "inventory-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryAdministrationPort",
+    "adapter": "ExistingInventoryAdministration",
+    "engine": "ControlOperationsService",
+    "method": "receiveInventory",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/ledger/locks/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 35,
+    "contract": "POST /api/v1/control/inventory/:stationId/:fuelId/reconcile",
+    "previousClass": "C",
+    "family": "inventory-administration",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryAdministrationPort",
+    "adapter": "ExistingInventoryAdministration",
+    "engine": "ControlOperationsService",
+    "method": "reconcile",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/ledger/locks/audit",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-administration.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-administration.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 36,
+    "contract": "POST /api/v1/inventory/:stationId/:fuelId/reconcile",
+    "previousClass": "C",
+    "family": "inventory-reconciliation",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryReconciliationPort",
+    "adapter": "ExistingInventoryReconciliation",
+    "engine": "InventoryReconciliationService",
+    "method": "reconcile",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/functions/atomic",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-reconciliation.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-reconciliation.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "number": 37,
+    "contract": "POST /api/v1/inventory/:stationId/:fuelId/activate",
+    "previousClass": "C",
+    "family": "inventory-reconciliation",
+    "classification": "B",
+    "state": "H",
+    "reason": "Whole original workflow retained, including transaction/security/side effects; no authority transfer",
+    "port": "InventoryReconciliationPort",
+    "adapter": "ExistingInventoryReconciliation",
+    "engine": "InventoryReconciliationService",
+    "method": "activate",
+    "evidence": "inventory",
+    "dependencies": "PG/Core; shared inventory/functions/atomic",
+    "exceptions": "none",
+    "service": "administration",
+    "portFile": "Backend/services/administration/src/application/ports/inventory-reconciliation.ts",
+    "adapterFiles": [
+      "Backend/services/administration/src/adapters/outbound/existing-inventory-reconciliation.ts"
+    ],
+    "gatewayService": "administration",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "inventory",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/authorizations",
+    "family": "AuthorizationReads",
+    "engine": "AuthorizationsService.pendingBefore",
+    "evidence": "finance",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-reads.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-reads.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "finance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/authorizations",
+    "family": "AuthorizationCommands",
+    "engine": "AuthorizationsService.create",
+    "evidence": "authorizations",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-commands.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-commands.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "authorizations",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/authorizations/:id",
+    "family": "AuthorizationReads",
+    "engine": "AuthorizationsService.status",
+    "evidence": "finance",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-reads.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-reads.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "finance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/authorizations/:id/intervention",
+    "family": "AuthorizationCommands",
+    "engine": "AuthorizationsService.intervention",
+    "evidence": "authorizations",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-commands.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-commands.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "authorizations",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/authorizations/:id/progress",
+    "family": "AuthorizationCommands",
+    "engine": "AuthorizationsService.progress",
+    "evidence": "authorizations",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-commands.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-commands.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "authorizations",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/authorizations/:id/release",
+    "family": "AuthorizationCommands",
+    "engine": "AuthorizationsService.release",
+    "evidence": "authorizations",
+    "portFile": "Backend/services/commerce/src/application/ports/authorization-commands.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-authorization-commands.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "authorizations",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/control/assistance",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.list",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/control/assistance/:id",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.detail",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/control/assistance/:id/actions",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.act",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/control/payments/:id",
+    "family": "ControlPaymentWorkflow",
+    "engine": "ControlPaymentsService.detail",
+    "evidence": "control-payments",
+    "portFile": "Backend/services/commerce/src/application/ports/control-payment-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-payment-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "control-payments",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/control/payments/:id/actions",
+    "family": "ControlPaymentWorkflow",
+    "engine": "ControlPaymentsService.act",
+    "evidence": "control-payments",
+    "portFile": "Backend/services/commerce/src/application/ports/control-payment-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-payment-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "control-payments",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/control/terminal-operations/:id/cancel-unpaid",
+    "family": "ControlOperationRecovery",
+    "engine": "OperationsService.cancelUnpaidOperation",
+    "evidence": "recovery",
+    "portFile": "Backend/services/commerce/src/application/ports/control-operation-recovery.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-operation-recovery.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "recovery",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/control/terminal-operations/:id/recovery-ticket",
+    "family": "ControlOperationRecovery",
+    "engine": "KioskService.issueRecoveryTicket",
+    "evidence": "recovery",
+    "portFile": "Backend/services/commerce/src/application/ports/control-operation-recovery.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-operation-recovery.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "recovery",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/control/terminal-operations/:id/resolve",
+    "family": "ControlOperationRecovery",
+    "engine": "OperationsService.resolveOperation",
+    "evidence": "recovery",
+    "portFile": "Backend/services/commerce/src/application/ports/control-operation-recovery.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-operation-recovery.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "recovery",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/memberships/me/recharges",
+    "family": "WalletOperations",
+    "engine": "WalletService.recharge",
+    "evidence": "finance",
+    "portFile": "Backend/services/commerce/src/application/ports/wallet-operations.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-wallet-operations.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "finance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/memberships/me/wallet",
+    "family": "WalletOperations",
+    "engine": "WalletService.history",
+    "evidence": "finance",
+    "portFile": "Backend/services/commerce/src/application/ports/wallet-operations.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-wallet-operations.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "finance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.create",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/online-orders/:id",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.status",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders/:id/cancel",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.cancel",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders/:id/demo-confirm",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.confirmDemo",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders/:id/notify",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.status (notify)",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders/:id/refund",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.refund",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/online-orders/:id/reselect",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.reselect",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/permissions/admin",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.grantAdmin",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/permissions/admin/:id/revoke",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.revokeAdminGrant",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/pumps",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.createPump",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/terminal-pump-assignments/:id/end",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.endTerminalAssignment",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/terminals",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.createTerminal",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/terminals/:id/assign-pump",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.assignTerminal",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/operational-admin/terminals/:id/revoke",
+    "family": "OperationalAdministration",
+    "engine": "OperationsService.revokeTerminal",
+    "evidence": "administration",
+    "portFile": "Backend/services/commerce/src/application/ports/operational-administration.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-operational-administration.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "administration",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/payments/:id/partial-refund",
+    "family": "PaymentWorkflow",
+    "engine": "PartialRefundService.get",
+    "evidence": "payments",
+    "portFile": "Backend/services/commerce/src/application/ports/payment-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-payment-workflow.ts",
+      "Backend/services/commerce/src/adapters/outbound/existing-payment-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "payments",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/payments/:id/partial-refund",
+    "family": "PaymentWorkflow",
+    "engine": "PartialRefundService.report",
+    "evidence": "payments",
+    "portFile": "Backend/services/commerce/src/application/ports/payment-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-payment-workflow.ts",
+      "Backend/services/commerce/src/adapters/outbound/existing-payment-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "payments",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/payments/:id/refund",
+    "family": "PaymentWorkflow",
+    "engine": "PaymentLifecycleService.refund",
+    "evidence": "payments",
+    "portFile": "Backend/services/commerce/src/application/ports/payment-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-control-payment-workflow.ts",
+      "Backend/services/commerce/src/adapters/outbound/existing-payment-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "payments",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/payments/webhook",
+    "family": "OrderWorkflow",
+    "engine": "OnlineOrdersService.webhook",
+    "evidence": "orders",
+    "portFile": "Backend/services/commerce/src/application/ports/order-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-order-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "orders",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/rewards/redeem",
+    "family": "RewardRedemption",
+    "engine": "RewardsService.redeem",
+    "evidence": "finance",
+    "portFile": "Backend/services/commerce/src/application/ports/reward-redemption.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-reward-redemption.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "finance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/terminal/assistance",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.create",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/terminal/assistance/:id",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.terminalStatus",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/terminal/assistance/:id/cancel",
+    "family": "AssistanceWorkflow",
+    "engine": "AssistanceService.cancel",
+    "evidence": "assistance",
+    "portFile": "Backend/services/commerce/src/application/ports/assistance-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-assistance-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "assistance",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/terminal/claim",
+    "family": "TerminalWorkflow",
+    "engine": "KioskService.claimTerminal",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/terminal/me",
+    "family": "TerminalWorkflow",
+    "engine": "OperationsService.terminalMe",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/terminal/operations",
+    "family": "TerminalWorkflow",
+    "engine": "OperationsService.startOperation",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/terminal/operations/:id",
+    "family": "TerminalWorkflow",
+    "engine": "OperationsService.operation",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/terminal/operations/:id/close",
+    "family": "TerminalWorkflow",
+    "engine": "OperationsService.closeOperation",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/terminal/operations/:id/recovery-state",
+    "family": "TerminalWorkflow",
+    "engine": "OperationsService.recoveryState",
+    "evidence": "terminal",
+    "portFile": "Backend/services/commerce/src/application/ports/terminal-workflow.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-terminal-workflow.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "terminal",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "POST /api/v1/transactions",
+    "family": "CreateTransaction",
+    "engine": "TransactionsService.create",
+    "evidence": "sale-regression",
+    "portFile": "Backend/services/commerce/src/application/ports/transaction-creation.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/existing-transaction-creation.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "sale-regression",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  },
+  {
+    "service": "commerce",
+    "contract": "GET /api/v1/transactions/:id",
+    "family": "ReadTransaction",
+    "engine": "TransactionsRepository.byId + transactionResponse",
+    "evidence": "reads-regression",
+    "portFile": "Backend/services/commerce/src/application/ports/transaction-read.ts",
+    "adapterFiles": [
+      "Backend/services/commerce/src/adapters/outbound/legacy-transaction-read.ts"
+    ],
+    "gatewayService": "commerce",
+    "boundary": "H; accepted boundary unchanged and family regression rerun",
+    "lot5EvidenceFamily": "reads-regression",
+    "dependencies": "Original local engine; shared AuthCore/Prisma/PostgreSQL/bootstrap; Redis where applicable",
+    "limitations": "Scenario-based evidence; no universal equivalence; see known incidents"
+  }
+]

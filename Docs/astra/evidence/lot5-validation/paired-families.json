@@ -1,0 +1,3896 @@
+[
+  {
+    "family": "access",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff",
+    "checksPerArm": 36,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "access",
+      "checks": 36,
+      "dispatch": {
+        "control.requestAccess": 5,
+        "control.verifyEmail": 6,
+        "control.resendVerification": 4,
+        "control.login": 7,
+        "control.session": 3,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "originalAccessCookieAndVerification": true,
+        "noMembershipWriterCreated": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 13,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "access",
+      "checks": 36,
+      "dispatch": {
+        "control.requestAccess": 5,
+        "control.verifyEmail": 6,
+        "control.resendVerification": 4,
+        "control.login": 7,
+        "control.session": 3,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "originalAccessCookieAndVerification": true,
+        "noMembershipWriterCreated": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 13,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-4f2c6965e6ff",
+      "volume": "primax-astra-lot5-administration-4f2c6965e6ff-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-4f2c6965e6ff-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.20.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "access",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff",
+      "checksPerArm": 36,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "accounts",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234",
+    "checksPerArm": 39,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "accounts",
+      "checks": 39,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 2,
+        "control.pending": 2,
+        "control.createAdministrativeAccount": 9,
+        "control.approve": 7,
+        "control.setStatus": 7,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "accountAtomicitySharedIdentityRevocation": true,
+        "concurrentAccountCreationSingleWriter": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 36,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "accounts",
+      "checks": 39,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 2,
+        "control.pending": 2,
+        "control.createAdministrativeAccount": 9,
+        "control.approve": 7,
+        "control.setStatus": 7,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "accountAtomicitySharedIdentityRevocation": true,
+        "concurrentAccountCreationSingleWriter": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 36,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-a5efb5344234",
+      "volume": "primax-astra-lot5-administration-a5efb5344234-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-a5efb5344234-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.20.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "accounts",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234",
+      "checksPerArm": 39,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "supervision",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5",
+    "checksPerArm": 43,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "supervision",
+      "checks": 43,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 4,
+        "control.incidents": 4,
+        "control.incident": 4,
+        "control.incidentStatus": 9,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "incidentTransitionsAtomicAuditAndScope": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 8,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "supervision",
+      "checks": 43,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 4,
+        "control.incidents": 4,
+        "control.incident": 4,
+        "control.incidentStatus": 9,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "incidentTransitionsAtomicAuditAndScope": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 8,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-b9f76f4d26c5",
+      "volume": "primax-astra-lot5-administration-b9f76f4d26c5-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-b9f76f4d26c5-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.20.192/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "supervision",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5",
+      "checksPerArm": 43,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "operations",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8",
+    "checksPerArm": 55,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "operations",
+      "checks": 55,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 6,
+        "controlOperations.operationDetail": 5,
+        "controlOperations.terminals": 4,
+        "controlOperations.terminalStatus": 3,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 5,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "operationsFinancialProjectionsUnchanged": true,
+        "terminalStatusRemainsReadOnly409": true,
+        "readsHaveNoWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 6,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "operations",
+      "checks": 55,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 6,
+        "controlOperations.operationDetail": 5,
+        "controlOperations.terminals": 4,
+        "controlOperations.terminalStatus": 3,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 5,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "operationsFinancialProjectionsUnchanged": true,
+        "terminalStatusRemainsReadOnly409": true,
+        "readsHaveNoWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 6,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-773a0bc193e8",
+      "volume": "primax-astra-lot5-administration-773a0bc193e8-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-773a0bc193e8-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.21.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "operations",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8",
+      "checksPerArm": 55,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "inventory",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256",
+    "checksPerArm": 61,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "inventory",
+      "checks": 61,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 4,
+        "controlOperations.movements": 5,
+        "controlOperations.receiveInventory": 11,
+        "controlOperations.reconciliation": 5,
+        "controlOperations.reconcile": 3,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 7,
+        "inventory.reconcile": 4,
+        "inventory.activate": 4,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "inventorySingleWriterRollbackReplayAndConcurrency": true,
+        "adminAndControlPoliciesDistinct": true,
+        "reconciliationPhasesAndExternalAuditPreserved": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 16,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "inventory",
+      "checks": 61,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 4,
+        "controlOperations.movements": 5,
+        "controlOperations.receiveInventory": 11,
+        "controlOperations.reconciliation": 5,
+        "controlOperations.reconcile": 3,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 7,
+        "inventory.reconcile": 4,
+        "inventory.activate": 4,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "inventorySingleWriterRollbackReplayAndConcurrency": true,
+        "adminAndControlPoliciesDistinct": true,
+        "reconciliationPhasesAndExternalAuditPreserved": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 16,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-116ac6d71256",
+      "volume": "primax-astra-lot5-administration-116ac6d71256-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-116ac6d71256-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.21.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "inventory",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256",
+      "checksPerArm": 61,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "customers",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9",
+    "checksPerArm": 90,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "customers",
+      "checks": 90,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 3,
+        "customers.customer": 4,
+        "customers.memberships": 3,
+        "customers.membership": 4,
+        "customers.vehicles": 3,
+        "customers.transactions": 6,
+        "customers.transaction": 5,
+        "customers.receipt": 4,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "previousSevenAndRemainingTransactionRead": true,
+        "noFinancialOrIdentityWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 4,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "customers",
+      "checks": 90,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 3,
+        "customers.customer": 4,
+        "customers.memberships": 3,
+        "customers.membership": 4,
+        "customers.vehicles": 3,
+        "customers.transactions": 6,
+        "customers.transaction": 5,
+        "customers.receipt": 4,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "previousSevenAndRemainingTransactionRead": true,
+        "noFinancialOrIdentityWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 4,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-4f9035c5ede9",
+      "volume": "primax-astra-lot5-administration-4f9035c5ede9-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-4f9035c5ede9-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.21.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "customers",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9",
+      "checksPerArm": 90,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "profile",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11",
+    "checksPerArm": 42,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "profile",
+      "checks": 42,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 6,
+        "vehicle.create": 8,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "profileAndVehicle": true,
+        "rollback": true,
+        "replayAndConcurrentStableUuid": true,
+        "ownerIsolation": true,
+        "sixReadRegressions": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 4,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "profile",
+      "checks": 42,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 6,
+        "vehicle.create": 8,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "profileAndVehicle": true,
+        "rollback": true,
+        "replayAndConcurrentStableUuid": true,
+        "ownerIsolation": true,
+        "sixReadRegressions": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 4,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-1e79af63cb11",
+      "volume": "primax-astra-lot5-administration-1e79af63cb11-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-1e79af63cb11-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.21.192/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "profile",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11",
+      "checksPerArm": 42,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "security",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc",
+    "checksPerArm": 31,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "security",
+      "checks": 31,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 7,
+        "auth.login": 8,
+        "reset.forgot": 5,
+        "reset.verify": 4,
+        "reset.reset": 5,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "fiveContracts": true,
+        "originalRevocation": true,
+        "passwordPolicy": true,
+        "nestedRegistrationRollback": true,
+        "resetAtomicRollback": true,
+        "deliverySimulated": true,
+        "concurrentUniqueAccount": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 21,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "security",
+      "checks": 31,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 7,
+        "auth.login": 8,
+        "reset.forgot": 5,
+        "reset.verify": 4,
+        "reset.reset": 5,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "fiveContracts": true,
+        "originalRevocation": true,
+        "passwordPolicy": true,
+        "nestedRegistrationRollback": true,
+        "resetAtomicRollback": true,
+        "deliverySimulated": true,
+        "concurrentUniqueAccount": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 21,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-d2810d22b2cc",
+      "volume": "primax-astra-lot5-administration-d2810d22b2cc-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-d2810d22b2cc-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.22.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "security",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc",
+      "checksPerArm": 31,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "kiosk",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44",
+    "checksPerArm": 26,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "kiosk",
+      "checks": 26,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 5,
+        "kiosk.login": 3,
+        "kiosk.bootstrapTerminal": 3,
+        "kiosk.exchangeRecoveryTicket": 8,
+        "kiosk.logout": 2,
+        "kiosk.authorize": 4
+      },
+      "flags": {
+        "originalKioskSixContracts": true,
+        "hmacCsrfSessionAndStation": true,
+        "originalCredentialReuse": true,
+        "realSqlRedisRecoveryExchange": true,
+        "originalCrossStoreRollbackLimitationPreserved": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "3"
+        }
+      ],
+      "uuidMappingEntries": 40,
+      "redisKeys": 16,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "kiosk",
+      "checks": 26,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 5,
+        "kiosk.login": 3,
+        "kiosk.bootstrapTerminal": 3,
+        "kiosk.exchangeRecoveryTicket": 8,
+        "kiosk.logout": 2,
+        "kiosk.authorize": 4
+      },
+      "flags": {
+        "originalKioskSixContracts": true,
+        "hmacCsrfSessionAndStation": true,
+        "originalCredentialReuse": true,
+        "realSqlRedisRecoveryExchange": true,
+        "originalCrossStoreRollbackLimitationPreserved": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "3"
+        }
+      ],
+      "uuidMappingEntries": 40,
+      "redisKeys": 16,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-75df5c015a44",
+      "volume": "primax-astra-lot5-administration-75df5c015a44-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-75df5c015a44-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.22.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "kiosk",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44",
+      "checksPerArm": 26,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "admin-ocr",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682",
+    "checksPerArm": 46,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "admin-ocr",
+      "checks": 46,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 1,
+        "alerts.dashboard": 1,
+        "alerts.resolve": 2,
+        "alerts.checkPlate": 2,
+        "recognition.recognize": 10,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "adminAccessHasNoSqlOrRedisWrites": true,
+        "recognitionContract": true,
+        "ocrTransportSimulated": true,
+        "originalAdminRegressionsOnly": false,
+        "demoLoginTechnicalExceptionsTested": true,
+        "adminAccessBoundary": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 8,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 5,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "admin-ocr",
+      "checks": 46,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 1,
+        "alerts.dashboard": 1,
+        "alerts.resolve": 2,
+        "alerts.checkPlate": 2,
+        "recognition.recognize": 10,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "adminAccessHasNoSqlOrRedisWrites": true,
+        "recognitionContract": true,
+        "ocrTransportSimulated": true,
+        "originalAdminRegressionsOnly": false,
+        "demoLoginTechnicalExceptionsTested": true,
+        "adminAccessBoundary": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 8,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 5,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-236c6f0ac682",
+      "volume": "primax-astra-lot5-administration-236c6f0ac682-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-236c6f0ac682-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.22.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "admin-ocr",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682",
+      "checksPerArm": 46,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "catalog",
+    "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee",
+    "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8",
+    "checksPerArm": 29,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "administration",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "catalog",
+      "checks": 29,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "sixCatalogContracts": true,
+        "stationAndPermissionFilters": true,
+        "activeMasterFiltering": true,
+        "publicInventoryLimitationPreserved": true,
+        "noSqlWrites": true,
+        "noSequenceChanges": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 3,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "catalog",
+      "checks": 29,
+      "dispatch": {
+        "control.requestAccess": 0,
+        "control.verifyEmail": 0,
+        "control.resendVerification": 0,
+        "control.login": 0,
+        "control.session": 0,
+        "control.pending": 0,
+        "control.createAdministrativeAccount": 0,
+        "control.approve": 0,
+        "control.setStatus": 0,
+        "control.dashboard": 0,
+        "control.incidents": 0,
+        "control.incident": 0,
+        "control.incidentStatus": 0,
+        "controlOperations.operations": 0,
+        "controlOperations.operationDetail": 0,
+        "controlOperations.terminals": 0,
+        "controlOperations.terminalStatus": 0,
+        "controlOperations.inventory": 0,
+        "controlOperations.movements": 0,
+        "controlOperations.receiveInventory": 0,
+        "controlOperations.reconciliation": 0,
+        "controlOperations.reconcile": 0,
+        "controlOperations.audit": 0,
+        "customers.customers": 0,
+        "customers.customer": 0,
+        "customers.memberships": 0,
+        "customers.membership": 0,
+        "customers.vehicles": 0,
+        "customers.transactions": 0,
+        "customers.transaction": 0,
+        "customers.receipt": 0,
+        "inventory.inspect": 0,
+        "inventory.reconcile": 0,
+        "inventory.activate": 0,
+        "auth.register": 0,
+        "auth.login": 0,
+        "reset.forgot": 0,
+        "reset.verify": 0,
+        "reset.reset": 0,
+        "profile.updateProfile": 0,
+        "vehicle.create": 0,
+        "alerts.list": 0,
+        "alerts.dashboard": 0,
+        "alerts.resolve": 0,
+        "alerts.checkPlate": 0,
+        "recognition.recognize": 0,
+        "kiosk.status": 0,
+        "kiosk.login": 0,
+        "kiosk.bootstrapTerminal": 0,
+        "kiosk.exchangeRecoveryTicket": 0,
+        "kiosk.logout": 0,
+        "kiosk.authorize": 0
+      },
+      "flags": {
+        "sixCatalogContracts": true,
+        "stationAndPermissionFilters": true,
+        "activeMasterFiltering": true,
+        "publicInventoryLimitationPreserved": true,
+        "noSqlWrites": true,
+        "noSequenceChanges": true
+      },
+      "externalHttpAttempts": 0,
+      "ocrCalls": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 3,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-administration-766b884858e8",
+      "volume": "primax-astra-lot5-administration-766b884858e8-pgdata",
+      "redisVolume": "primax-astra-lot5-administration-766b884858e8-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.22.192/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "catalog",
+      "baseline": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee",
+      "candidate": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8",
+      "checksPerArm": 29,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "assistance",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a",
+    "checksPerArm": 65,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "assistance",
+      "checks": 65,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 17,
+        "assistance.terminalStatus": 2,
+        "assistance.cancel": 8,
+        "assistance.list": 4,
+        "assistance.detail": 3,
+        "assistance.act": 16,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sixContracts": true,
+        "rollbackThreeCommands": true,
+        "replayCreateAndCancel": true,
+        "concurrentSingleCreateCancel": true,
+        "stationAndStaffIsolation": true,
+        "noFinancialWriters": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 54,
+      "redisKeys": 3,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "assistance",
+      "checks": 65,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 17,
+        "assistance.terminalStatus": 2,
+        "assistance.cancel": 8,
+        "assistance.list": 4,
+        "assistance.detail": 3,
+        "assistance.act": 16,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sixContracts": true,
+        "rollbackThreeCommands": true,
+        "replayCreateAndCancel": true,
+        "concurrentSingleCreateCancel": true,
+        "stationAndStaffIsolation": true,
+        "noFinancialWriters": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 54,
+      "redisKeys": 3,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-fec2fb763c5a",
+      "volume": "primax-astra-lot5-commerce-fec2fb763c5a-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-fec2fb763c5a-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.23.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "assistance",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a",
+      "checksPerArm": 65,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "administration",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f",
+    "checksPerArm": 94,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "administration",
+      "checks": 94,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 6,
+        "operations.revokeAdminGrant": 4,
+        "operations.createPump": 10,
+        "operations.createTerminal": 5,
+        "operations.assignTerminal": 5,
+        "operations.endTerminalAssignment": 5,
+        "operations.revokeTerminal": 7,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sevenContracts": true,
+        "rollbackSevenCommands": true,
+        "rootOnlyAndCrossStationRules": true,
+        "activeRevokePreservesOperation": true,
+        "nonIdempotentCreationUnknownPreserved": true,
+        "noFinancialEffects": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "1"
+        }
+      ],
+      "uuidMappingEntries": 48,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "administration",
+      "checks": 94,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 6,
+        "operations.revokeAdminGrant": 4,
+        "operations.createPump": 10,
+        "operations.createTerminal": 5,
+        "operations.assignTerminal": 5,
+        "operations.endTerminalAssignment": 5,
+        "operations.revokeTerminal": 7,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sevenContracts": true,
+        "rollbackSevenCommands": true,
+        "rootOnlyAndCrossStationRules": true,
+        "activeRevokePreservesOperation": true,
+        "nonIdempotentCreationUnknownPreserved": true,
+        "noFinancialEffects": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "1"
+        }
+      ],
+      "uuidMappingEntries": 48,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-fcc5f9c65d5f",
+      "volume": "primax-astra-lot5-commerce-fcc5f9c65d5f-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-fcc5f9c65d5f-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.23.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "administration",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f",
+      "checksPerArm": 94,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "terminal",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea",
+    "checksPerArm": 61,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "terminal",
+      "checks": 61,
+      "dispatch": {
+        "operations.terminalMe": 1,
+        "operations.startOperation": 9,
+        "operations.operation": 3,
+        "operations.recoveryState": 1,
+        "operations.closeOperation": 8,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 11,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sixContracts": true,
+        "ownerAndTerminalIsolation": true,
+        "technicalEffectsPreserved": true,
+        "rollbackOpenClose": true,
+        "redisNotRolledBackWithSql": true,
+        "concurrentSingleOpenClose": true,
+        "explicitUnknownRecovery": true,
+        "limitedRecoveryCredentialFixture": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "6"
+        }
+      ],
+      "uuidMappingEntries": 21,
+      "redisKeys": 13,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "terminal",
+      "checks": 61,
+      "dispatch": {
+        "operations.terminalMe": 1,
+        "operations.startOperation": 9,
+        "operations.operation": 3,
+        "operations.recoveryState": 1,
+        "operations.closeOperation": 8,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 11,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "sixContracts": true,
+        "ownerAndTerminalIsolation": true,
+        "technicalEffectsPreserved": true,
+        "rollbackOpenClose": true,
+        "redisNotRolledBackWithSql": true,
+        "concurrentSingleOpenClose": true,
+        "explicitUnknownRecovery": true,
+        "limitedRecoveryCredentialFixture": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "6"
+        }
+      ],
+      "uuidMappingEntries": 21,
+      "redisKeys": 13,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-8ba7074edcea",
+      "volume": "primax-astra-lot5-commerce-8ba7074edcea-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-8ba7074edcea-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.23.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "terminal",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea",
+      "checksPerArm": 61,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "recovery",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0",
+    "checksPerArm": 41,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "recovery",
+      "checks": 41,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 5,
+        "operations.cancelUnpaidOperation": 7,
+        "operations.resolveOperation": 4,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 10
+      },
+      "flags": {
+        "threeContracts": true,
+        "permissionsAndStations": true,
+        "rollbackCancelResolve": true,
+        "replayCancelResolve": true,
+        "ticketSqlRedisPartialOutcomePreserved": true,
+        "singleConcurrentTicket": true,
+        "noNewPaymentAttempt": true,
+        "T01Untouched": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "8"
+        }
+      ],
+      "uuidMappingEntries": 55,
+      "redisKeys": 8,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "recovery",
+      "checks": 41,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 5,
+        "operations.cancelUnpaidOperation": 7,
+        "operations.resolveOperation": 4,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 10
+      },
+      "flags": {
+        "threeContracts": true,
+        "permissionsAndStations": true,
+        "rollbackCancelResolve": true,
+        "replayCancelResolve": true,
+        "ticketSqlRedisPartialOutcomePreserved": true,
+        "singleConcurrentTicket": true,
+        "noNewPaymentAttempt": true,
+        "T01Untouched": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "8"
+        }
+      ],
+      "uuidMappingEntries": 55,
+      "redisKeys": 8,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-7307718919f0",
+      "volume": "primax-astra-lot5-commerce-7307718919f0-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-7307718919f0-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.23.192/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "recovery",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0",
+      "checksPerArm": 41,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "control-payments",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64",
+    "checksPerArm": 36,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "control-payments",
+      "checks": 36,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 4,
+        "operations.cancelUnpaidOperation": 4,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 34,
+        "payments.act": 18,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "twoContracts": true,
+        "permissionStationIsolation": true,
+        "readOnlyDetail": true,
+        "auditRollback": true,
+        "appendOnlyRepeatedActionPreserved": true,
+        "pendingRetryDoesNotCapture": true,
+        "cancelUnknownDoesNotDuplicateProvider": true,
+        "activeAuthorizationBlocksCancel": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "4"
+        }
+      ],
+      "uuidMappingEntries": 54,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "control-payments",
+      "checks": 36,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 4,
+        "operations.cancelUnpaidOperation": 4,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 34,
+        "payments.act": 18,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "twoContracts": true,
+        "permissionStationIsolation": true,
+        "readOnlyDetail": true,
+        "auditRollback": true,
+        "appendOnlyRepeatedActionPreserved": true,
+        "pendingRetryDoesNotCapture": true,
+        "cancelUnknownDoesNotDuplicateProvider": true,
+        "activeAuthorizationBlocksCancel": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 0,
+      "receipts": 0,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "4"
+        }
+      ],
+      "uuidMappingEntries": 54,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-df79a75cdd64",
+      "volume": "primax-astra-lot5-commerce-df79a75cdd64-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-df79a75cdd64-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.24.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "control-payments",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64",
+      "checksPerArm": 36,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "reads-regression",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99",
+    "checksPerArm": 13,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "family": "reads-regression",
+      "checks": 13,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "transactionReadOwnerContracts": true,
+        "readNoFinancialWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 3,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "family": "reads-regression",
+      "checks": 13,
+      "dispatch": {
+        "operations.terminalMe": 0,
+        "operations.startOperation": 0,
+        "operations.operation": 0,
+        "operations.recoveryState": 0,
+        "operations.closeOperation": 0,
+        "operations.cancelUnpaidOperation": 0,
+        "operations.resolveOperation": 0,
+        "operations.grantAdmin": 0,
+        "operations.revokeAdminGrant": 0,
+        "operations.createPump": 0,
+        "operations.createTerminal": 0,
+        "operations.assignTerminal": 0,
+        "operations.endTerminalAssignment": 0,
+        "operations.revokeTerminal": 0,
+        "assistance.create": 0,
+        "assistance.terminalStatus": 0,
+        "assistance.cancel": 0,
+        "assistance.list": 0,
+        "assistance.detail": 0,
+        "assistance.act": 0,
+        "payments.detail": 0,
+        "payments.act": 0,
+        "kiosk.claimTerminal": 0,
+        "kiosk.issueRecoveryTicket": 0
+      },
+      "flags": {
+        "transactionReadOwnerContracts": true,
+        "readNoFinancialWrites": true
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "financialRows": 2,
+      "receipts": 2,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 3,
+      "redisKeys": 0,
+      "realModules": true,
+      "comparisonRules": [
+        "Seeded IDs literal; generated IDs by table/natural key",
+        "Audit random keys by action/target/outcome/actor/ordinal",
+        "Lifecycle times excluded; state, financial fields, links and sequences retained",
+        "Redis TTL checked positive instead of equal elapsed seconds"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-2f95f377bc99",
+      "volume": "primax-astra-lot5-commerce-2f95f377bc99-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-2f95f377bc99-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.24.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "reads-regression",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99",
+      "checksPerArm": 13,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "finance",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce",
+    "checksPerArm": 110,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "checks": 110,
+      "calls": {
+        "recharge": 16,
+        "history": 8,
+        "redeem": 18,
+        "status": 7,
+        "pendingBefore": 3
+      },
+      "externalHttpAttempts": 0,
+      "migrationCount": 36,
+      "financialRows": 10,
+      "receiptRows": 10,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "10"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 28,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleEffectVerified": true,
+      "FIFOSettlementVerified": true,
+      "readOnlyVerified": true,
+      "ownerAndStationVerified": true,
+      "legacyStationLimitationPreserved": true,
+      "originalHistoryOrderingVerified": true,
+      "comparisonRules": [
+        "All seeded IDs fixed; coordinated competing redemptions use the same interleaving",
+        "Generated IDs by table and natural identity; all balances, points, hashes and links retained",
+        "Lifecycle timestamps only excluded",
+        "Concurrent labels can swap replay winner; no financial fields removed"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "checks": 110,
+      "calls": {
+        "recharge": 16,
+        "history": 8,
+        "redeem": 18,
+        "status": 7,
+        "pendingBefore": 3
+      },
+      "externalHttpAttempts": 0,
+      "migrationCount": 36,
+      "financialRows": 10,
+      "receiptRows": 10,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "10"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": null
+        }
+      ],
+      "uuidMappingEntries": 28,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleEffectVerified": true,
+      "FIFOSettlementVerified": true,
+      "readOnlyVerified": true,
+      "ownerAndStationVerified": true,
+      "legacyStationLimitationPreserved": true,
+      "originalHistoryOrderingVerified": true,
+      "comparisonRules": [
+        "All seeded IDs fixed; coordinated competing redemptions use the same interleaving",
+        "Generated IDs by table and natural identity; all balances, points, hashes and links retained",
+        "Lifecycle timestamps only excluded",
+        "Concurrent labels can swap replay winner; no financial fields removed"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-7325819624ce",
+      "volume": "primax-astra-lot5-commerce-7325819624ce-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-7325819624ce-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.24.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "finance",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce",
+      "checksPerArm": 110,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "orders",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591",
+    "checksPerArm": 95,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "checks": 95,
+      "syntheticCases": 20,
+      "engineCalls": {
+        "demo:create": 17,
+        "demo:status": 29,
+        "demo:confirmDemo": 5,
+        "demo:webhook": 9,
+        "demo:cancel": 4,
+        "demo:reselect": 2,
+        "demo:refund": 3,
+        "commercial:create": 10,
+        "commercial:status": 19,
+        "commercial:webhook": 9,
+        "commercial:refund": 1
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "providerCalls": 74,
+      "realDemoProvider": true,
+      "commercialProviderSimulated": true,
+      "rollbackIntentCaptureAndCallbackVerified": true,
+      "unknownCreateAndRefundPreserved": true,
+      "lostResponseCreateStatusCallbackVerified": true,
+      "concurrencyCreateCaptureCallbackVerified": true,
+      "memberDebtSettlementAndRefundVerified": true,
+      "financialRows": 1,
+      "receiptRows": 1,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "1"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "20"
+        }
+      ],
+      "uuidMappingEntries": 171,
+      "limits": [
+        "Commercial provider contract simulation only; no Culqi certification",
+        "Original internal retries/unknown semantics retained",
+        "Not all crash/interleaving/provider paths proven"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "checks": 95,
+      "syntheticCases": 20,
+      "engineCalls": {
+        "demo:create": 17,
+        "demo:status": 29,
+        "demo:confirmDemo": 5,
+        "demo:webhook": 9,
+        "demo:cancel": 4,
+        "demo:reselect": 2,
+        "demo:refund": 3,
+        "commercial:create": 10,
+        "commercial:status": 19,
+        "commercial:webhook": 9,
+        "commercial:refund": 1
+      },
+      "externalHttpAttempts": 0,
+      "migrations": 36,
+      "providerCalls": 74,
+      "realDemoProvider": true,
+      "commercialProviderSimulated": true,
+      "rollbackIntentCaptureAndCallbackVerified": true,
+      "unknownCreateAndRefundPreserved": true,
+      "lostResponseCreateStatusCallbackVerified": true,
+      "concurrencyCreateCaptureCallbackVerified": true,
+      "memberDebtSettlementAndRefundVerified": true,
+      "financialRows": 1,
+      "receiptRows": 1,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "1"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "20"
+        }
+      ],
+      "uuidMappingEntries": 171,
+      "limits": [
+        "Commercial provider contract simulation only; no Culqi certification",
+        "Original internal retries/unknown semantics retained",
+        "Not all crash/interleaving/provider paths proven"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-f6fd3418a591",
+      "volume": "primax-astra-lot5-commerce-f6fd3418a591-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-f6fd3418a591-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.24.192/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "orders",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591",
+      "checksPerArm": 95,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "payments",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab",
+    "checksPerArm": 127,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "checks": 127,
+      "engineCalls": 55,
+      "baselineOrCandidateRealModule": true,
+      "paymentWorkflow": true,
+      "paymentCalls": {
+        "refund": 10,
+        "inspect": 5,
+        "report": 16
+      },
+      "externalHttpAttempts": 0,
+      "rollbackPaymentVerified": true,
+      "lostPaymentResponseVerified": true,
+      "concurrentPaymentReplayVerified": true,
+      "inspectWithoutBusinessWritesVerified": true,
+      "syntheticFixtureCases": 20,
+      "migrationCount": 36,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleSaleVerified": true,
+      "profileAndInventoryVerified": true,
+      "preAlertOutsideTransactionVerified": true,
+      "financialRows": 18,
+      "receiptRows": 18,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "19"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "20"
+        }
+      ],
+      "uuidMappingEntries": 174,
+      "comparisonRules": [
+        "Original generated UUIDs correlated by table/natural identity; seeded business IDs remain fixed",
+        "Only lifecycle timestamps excluded",
+        "All financial fields, hashes, sequence values and relationships retained",
+        "Concurrent request labels may swap winner; evaluate exactly one fresh response and one replay"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "checks": 127,
+      "engineCalls": 55,
+      "baselineOrCandidateRealModule": true,
+      "paymentWorkflow": true,
+      "paymentCalls": {
+        "refund": 10,
+        "inspect": 5,
+        "report": 16
+      },
+      "externalHttpAttempts": 0,
+      "rollbackPaymentVerified": true,
+      "lostPaymentResponseVerified": true,
+      "concurrentPaymentReplayVerified": true,
+      "inspectWithoutBusinessWritesVerified": true,
+      "syntheticFixtureCases": 20,
+      "migrationCount": 36,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleSaleVerified": true,
+      "profileAndInventoryVerified": true,
+      "preAlertOutsideTransactionVerified": true,
+      "financialRows": 18,
+      "receiptRows": 18,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "19"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "20"
+        }
+      ],
+      "uuidMappingEntries": 174,
+      "comparisonRules": [
+        "Original generated UUIDs correlated by table/natural identity; seeded business IDs remain fixed",
+        "Only lifecycle timestamps excluded",
+        "All financial fields, hashes, sequence values and relationships retained",
+        "Concurrent request labels may swap winner; evaluate exactly one fresh response and one replay"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-841f739f4cab",
+      "volume": "primax-astra-lot5-commerce-841f739f4cab-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-841f739f4cab-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.25.0/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "payments",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab",
+      "checksPerArm": 127,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "authorizations",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188",
+    "checksPerArm": 107,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "checks": 107,
+      "calls": {
+        "create": 33,
+        "progress": 16,
+        "release": 18,
+        "intervention": 12
+      },
+      "paymentCalls": 12,
+      "syntheticCases": 24,
+      "migrations": 36,
+      "rollbackFourCommandsVerified": true,
+      "lostResponseFourCommandsVerified": true,
+      "concurrencyFourCommandsVerified": true,
+      "prepaidSinglePaymentInFlightVerified": true,
+      "noExtraPaymentAttemptOnUnknown": true,
+      "preAlertOutsideTransactionVerified": true,
+      "transactionRows": 2,
+      "receiptRows": 2,
+      "uuidMappingEntries": 140,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "24"
+        }
+      ],
+      "normalization": [
+        "Generated UUID correlation by table/natural key; seeded IDs literal",
+        "Lifecycle timestamps excluded",
+        "Concurrent response labels compared as a multiset",
+        "All financial amounts, states, relationships, hashes and sequence values retained"
+      ],
+      "legacyLimitation": "Signed kiosk station scope preserved; legacy key for existing by-ID commands remains unscoped outside academic mode"
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "checks": 107,
+      "calls": {
+        "create": 33,
+        "progress": 16,
+        "release": 18,
+        "intervention": 12
+      },
+      "paymentCalls": 12,
+      "syntheticCases": 24,
+      "migrations": 36,
+      "rollbackFourCommandsVerified": true,
+      "lostResponseFourCommandsVerified": true,
+      "concurrencyFourCommandsVerified": true,
+      "prepaidSinglePaymentInFlightVerified": true,
+      "noExtraPaymentAttemptOnUnknown": true,
+      "preAlertOutsideTransactionVerified": true,
+      "transactionRows": 2,
+      "receiptRows": 2,
+      "uuidMappingEntries": 140,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "2"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "24"
+        }
+      ],
+      "normalization": [
+        "Generated UUID correlation by table/natural key; seeded IDs literal",
+        "Lifecycle timestamps excluded",
+        "Concurrent response labels compared as a multiset",
+        "All financial amounts, states, relationships, hashes and sequence values retained"
+      ],
+      "legacyLimitation": "Signed kiosk station scope preserved; legacy key for existing by-ID commands remains unscoped outside academic mode"
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-1cb987925188",
+      "volume": "primax-astra-lot5-commerce-1cb987925188-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-1cb987925188-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.25.64/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "authorizations",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188",
+      "checksPerArm": 107,
+      "exactCanonicalComparisonPassed": true
+    }
+  },
+  {
+    "family": "sale-regression",
+    "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1",
+    "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f",
+    "checksPerArm": 38,
+    "exactCanonicalComparisonPassed": true,
+    "runner": "commerce",
+    "baselineResults": {
+      "arm": "baseline",
+      "checks": 38,
+      "engineCalls": 28,
+      "baselineOrCandidateRealModule": true,
+      "syntheticFixtureCases": 11,
+      "migrationCount": 36,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleSaleVerified": true,
+      "profileAndInventoryVerified": true,
+      "preAlertOutsideTransactionVerified": true,
+      "financialRows": 9,
+      "receiptRows": 9,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "10"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "11"
+        }
+      ],
+      "uuidMappingEntries": 90,
+      "comparisonRules": [
+        "Original generated UUIDs correlated by table/natural identity; seeded business IDs remain fixed",
+        "Only lifecycle timestamps excluded",
+        "All financial fields, hashes, sequence values and relationships retained",
+        "Concurrent request labels may swap winner; evaluate exactly one fresh response and one replay"
+      ]
+    },
+    "candidateResults": {
+      "arm": "candidate",
+      "checks": 38,
+      "engineCalls": 28,
+      "baselineOrCandidateRealModule": true,
+      "syntheticFixtureCases": 11,
+      "migrationCount": 36,
+      "rollbackVerified": true,
+      "lostResponseReplayVerified": true,
+      "concurrentSingleSaleVerified": true,
+      "profileAndInventoryVerified": true,
+      "preAlertOutsideTransactionVerified": true,
+      "financialRows": 9,
+      "receiptRows": 9,
+      "sequences": [
+        {
+          "sequencename": "receipt_boleta_seq",
+          "last_value": "10"
+        },
+        {
+          "sequencename": "receipt_factura_seq",
+          "last_value": null
+        },
+        {
+          "sequencename": "terminal_operation_op01_seq",
+          "last_value": "11"
+        }
+      ],
+      "uuidMappingEntries": 90,
+      "comparisonRules": [
+        "Original generated UUIDs correlated by table/natural identity; seeded business IDs remain fixed",
+        "Only lifecycle timestamps excluded",
+        "All financial fields, hashes, sequence values and relationships retained",
+        "Concurrent request labels may swap winner; evaluate exactly one fresh response and one replay"
+      ]
+    },
+    "isolation": {
+      "project": "primax-astra-lot5-commerce-ea5b22f4c51f",
+      "volume": "primax-astra-lot5-commerce-ea5b22f4c51f-pgdata",
+      "redisVolume": "primax-astra-lot5-commerce-ea5b22f4c51f-redisdata",
+      "newVolumesVerifiedEmpty": true,
+      "volumeOwned": true,
+      "expectedMountVerified": true,
+      "internalNetwork": true,
+      "subnet": "10.251.25.128/27",
+      "publishedPorts": 0,
+      "databases": 1,
+      "migrationsTargetVerifiedBeforeExecution": true
+    },
+    "comparison": {
+      "family": "sale-regression",
+      "baseline": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1",
+      "candidate": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f",
+      "checksPerArm": 38,
+      "exactCanonicalComparisonPassed": true
+    }
+  }
+]

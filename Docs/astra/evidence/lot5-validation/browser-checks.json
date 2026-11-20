@@ -1,0 +1,1980 @@
+{
+  "checks": [
+    {
+      "case": "Prime login, membership and profile save",
+      "pass": true
+    },
+    {
+      "case": "Prime add own synthetic vehicle",
+      "pass": true
+    },
+    {
+      "case": "Prime benefits with insufficient points rejects redemption",
+      "pass": true
+    },
+    {
+      "case": "Prime demo recharge 50 soles",
+      "pass": true
+    },
+    {
+      "case": "Prime logout returns login form",
+      "pass": true
+    },
+    {
+      "case": "Control invalid login remains unauthenticated (generic UI message)",
+      "pass": true
+    },
+    {
+      "case": "Control root station selection and nine administrative views",
+      "pass": true,
+      "views": [
+        {
+          "name": "Clientes",
+          "url": "http://127.0.0.1:27383/#customers",
+          "heading": "Clientes"
+        },
+        {
+          "name": "Membresías Prime",
+          "url": "http://127.0.0.1:27383/#memberships",
+          "heading": "Membresías Prime"
+        },
+        {
+          "name": "Vehículos / placas",
+          "url": "http://127.0.0.1:27383/#vehicles",
+          "heading": "Vehículos"
+        },
+        {
+          "name": "Inventario",
+          "url": "http://127.0.0.1:27383/#inventory",
+          "heading": "Inventario"
+        },
+        {
+          "name": "Movimientos",
+          "url": "http://127.0.0.1:27383/#movements",
+          "heading": "Movimientos de inventario"
+        },
+        {
+          "name": "Operaciones",
+          "url": "http://127.0.0.1:27383/#operations",
+          "heading": "Operaciones"
+        },
+        {
+          "name": "Terminales",
+          "url": "http://127.0.0.1:27383/#terminals",
+          "heading": "Terminales y surtidores"
+        },
+        {
+          "name": "Personal / accesos",
+          "url": "http://127.0.0.1:27383/#accounts",
+          "heading": "Personal y accesos"
+        },
+        {
+          "name": "Auditoría",
+          "url": "http://127.0.0.1:27383/#audit",
+          "heading": "Auditoría"
+        }
+      ]
+    },
+    {
+      "case": "Control logout",
+      "pass": true
+    },
+    {
+      "case": "Control Encargado has reduced menus and assigned-station options",
+      "pass": true,
+      "stations": [
+        "Todas las asignadas",
+        "Primax Sur · PRIMAX-SUR"
+      ]
+    },
+    {
+      "case": "Fresh T01 UI and identity only; no sale or recovery",
+      "pass": true
+    },
+    {
+      "case": "FuelFlow real OCR fixture upload returns ABC-123",
+      "pass": true
+    },
+    {
+      "case": "FuelFlow T02 fuel, amount, receipt identity and YAPE demo QR",
+      "pass": true
+    },
+    {
+      "case": "T02 original-session reload resumes pending YAPE view",
+      "pass": true,
+      "limitation": "Recovered view initially displays total as em dash"
+    },
+    {
+      "case": "T02 reload pending demo payment then confirm completes dispatch",
+      "pass": false,
+      "classification": "newly observed on unchanged reference frontend",
+      "error": "Cannot read properties of undefined (reading 'station')",
+      "paymentEvidencePreserved": true
+    },
+    {
+      "case": "Fresh T02 normal YAPE demo sale without reload reaches ticket EB01-0001",
+      "pass": true,
+      "amount": "20.00",
+      "plate": "XYZ-999",
+      "points": 0
+    },
+    {
+      "case": "T02 print demo and finalize returns welcome",
+      "pass": true,
+      "physicalPrint": false
+    }
+  ],
+  "errors": [],
+  "responses": [
+    {
+      "path": "/api/v1/auth/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/profile",
+      "method": "PATCH",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/vehicles",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/rewards/redeem",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/recharges",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/benefits",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/transactions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/rewards",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/redemptions",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/memberships/me/wallet",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/Logotipo%20corporativo%20PRIMAX%20PRIME.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/styles/control.css",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/app.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/config.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/control-state.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/recovery-origin.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/control-api.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/payment-recovery.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/assistance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/print-agent.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/control-presentation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/date-input.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/movement-presentation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/js/operation-labels.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/Logotivo%20V2.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/session",
+      "method": "GET",
+      "status": 401
+    },
+    {
+      "path": "/assets/Logotipo%20Primax%20Control%20en%20azul%20y%20naranja.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/login",
+      "method": "POST",
+      "status": 401
+    },
+    {
+      "path": "/api/v1/control/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/assets/Logotivo%20V2.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/dashboard",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/dashboard",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/dashboard",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/customers",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/memberships",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/vehicles",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/inventory",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/inventory/movements",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/operations",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/terminals",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/accounts",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/audit",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/logout",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/assets/Logotipo%20Primax%20Control%20en%20azul%20y%20naranja.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/login",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/assets/Logotivo%20V2.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/dashboard",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/dashboard",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/control/assistance",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/index.html",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/styles/styles.css",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Yape.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/runtime-config.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Plin.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/script.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/membershipCode.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentRecovery.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/kioskSession.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryDesk.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalTab.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/printReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentState.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/inventory.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/primeBalance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/thermalReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/customerIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/plateCamera.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/adminService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalOperation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/apiClient.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/assistance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/transactionsService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryLabels.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/index.html",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/styles/styles.css",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Yape.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/runtime-config.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Plin.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/script.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/membershipCode.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentRecovery.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryDesk.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/kioskSession.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalTab.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/printReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/thermalReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentState.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/inventory.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/primeBalance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/plateCamera.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/customerIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/adminService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalOperation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/transactionsService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/apiClient.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/assistance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryLabels.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8740b6bd-05b6-4c7e-9808-717618f9a0b3",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/plate-recognition",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/vehicles/ABC-123",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8740b6bd-05b6-4c7e-9808-717618f9a0b3",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/online-orders",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/assets/img/qr-demo.svg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/index.html",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Yape.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/styles/styles.css",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Plin.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/runtime-config.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/script.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/membershipCode.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/kioskSession.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentRecovery.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/printReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/inventory.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalTab.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryDesk.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/primeBalance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/thermalReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/plateCamera.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/adminService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/customerIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentState.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/apiClient.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/transactionsService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalOperation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/assistance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryLabels.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8740b6bd-05b6-4c7e-9808-717618f9a0b3",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/online-orders/3de8a7fe-48b5-415f-9b77-1eae62db1418",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/online-orders/3de8a7fe-48b5-415f-9b77-1eae62db1418/demo-confirm",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/",
+      "method": "GET",
+      "status": 301
+    },
+    {
+      "path": "/src/index.html",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/styles/styles.css",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Yape.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/runtime-config.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/Logo_Plin.png",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_abiertos_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_cerrada.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/ojos_cerrrados_boca%20_abierta.jpeg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/script.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/membershipCode.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/kioskSession.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentRecovery.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalTab.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/thermalReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/printReceipt.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryDesk.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/inventory.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/primeBalance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/customerIdentity.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/paymentState.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/plateCamera.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/adminService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/apiClient.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/transactionsService.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/terminalOperation.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/assistance.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/src/js/recoveryLabels.js",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/assets/img/logo-primax-horizontal.jpg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/session",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/kiosk/terminal-bootstrap",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/claim",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "path": "/api/v1/terminal/operations",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/fuels",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/stations",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/fuels/inventory",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/vehicles/XYZ-999",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/vehicles/XYZ-999",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/online-orders",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/assets/img/qr-demo.svg",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/online-orders/0f4f5058-96a0-47bb-8769-7a9518b818b9/demo-confirm",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/authorizations/e2422828-5633-4b54-9267-eaccd3372e51/progress",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/transactions",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/transactions/4aaeb11f-1a92-4199-87f5-a46d127df281",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/demo-print/jobs/receipt-8ef538e4-e884-4f63-9965-47a1290a0086",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "path": "/api/v1/demo-print/jobs/receipt-8ef538e4-e884-4f63-9965-47a1290a0086",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/terminal/operations/8bd84753-a7df-4b49-9a53-f7438e9cbc6e/close",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "path": "/api/v1/terminal/me",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "cookies": [
+    {
+      "name": "primax-kiosk-local-27381",
+      "httpOnly": true,
+      "sameSite": "Strict",
+      "secure": false
+    },
+    {
+      "name": "primax-terminal-local-27381",
+      "httpOnly": true,
+      "sameSite": "Strict",
+      "secure": false
+    },
+    {
+      "name": "primax-terminal-csrf-local-27381",
+      "httpOnly": false,
+      "sameSite": "Strict",
+      "secure": false
+    }
+  ]
+}

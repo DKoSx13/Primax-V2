@@ -847,3 +847,51 @@ reales Windows/Linux/macOS/ARM según acceso. La instalación original queda
 funcionando; no se inicia esa validación ni se modifica la exposición.
 Un commit local verificado, sin push/merge y con las nueve evidencias históricas
 intactas y excluidas. **Trabajo detenido al terminar Lote 4; Lote 5 no iniciado.**
+
+## 20. Lote 5 — recuperación de evidencia y validación disponible, 2026-11-20
+
+Referencia de ejecución: `9d57edea9bf047ac8e5d05833ec752bb82572591`, misma rama.
+La indicación histórica anterior de Lote 5 no iniciado queda reemplazada por esta
+actualización. La sesión interrumpida ya dejó siete documentos, cinco runners y
+evidencia funcional; se revisaron antes de modificar. [Informe final de evaluación](primax-lot5-final-report.md),
+[matriz maestra 115](primax-lot5-contracts-115.md), [inventario](primax-lot5-inventory.md),
+[portabilidad/protocolo pendiente](primax-lot5-portability.md) y
+[auditoría de reanudación](evidence/lot5-validation/resume-audit.json).
+
+Ejecutado antes de reanudar y ahora auditado: 576 Jest/60 suites, 8 init, 24 Gateway,
+9 packaging, 297 clientes/PrintAgent, 12 OCR, cinco compilaciones, 22 pares HTTP con
+2570 checkpoints y 15 sondas de seguridad. Navegador Windows: 15 casos agrupados
+aprobados y uno fallido. Total reutilizado: 3526 aprobados y un fallo, sin sumarle
+otra vez los 115 enrutamientos ni las auditorías. Dos instalaciones sintéticas
+nuevas, 15 healthy/2 jobs, reinicio con SQL/Redis/print conservados y dump probado
+por tamaño/hash corresponden a la sesión anterior, no a una nueva ejecución.
+
+Terminado al reanudar: contraste de logs/Jest/TAP y capturas, recomparación de los
+22 snapshots, 24 376 comparaciones de fuentes de los 44 brazos (solo diferencias
+CRLF/LF registradas), matriz maestra/trazabilidad, inventario y correcciones del
+dictamen documental. Los 1508 archivos iniciales permanecen iguales salvo este
+plan; aplicaciones, AuthCore, Prisma, migraciones, motores y políticas sin cambios.
+Las nueve evidencias históricas conservan SHA-256 y estado sin seguimiento.
+Docker Desktop Linux Engine no estaba disponible al reanudar; no se inició ni se
+tocaron recursos anteriores. Integridad runtime protegida actual sin revalidar.
+
+**Resultado Windows: aprobado con limitaciones por escenarios, recuperación T02
+fallida; no aprobación funcional integral.** En fuente idéntica a la referencia,
+recargar una orden YAPE pendiente y confirmar deja un pago DEMO CAPTURED de 20 sin
+venta, con error catalog.station. La causa de rehidratación es inferencia, no fix
+verificado. Se conserva instalación/evidencia sin recaptura ni recuperación forzada.
+El recorrido normal en otra instalación sí concluye venta/boleta/impresión demo;
+no valida la recuperación. T01 y demás excepciones históricas permanecen abiertas.
+
+**Resultado multiplataforma: pendiente.** Windows host y contenedores Linux amd64
+están acreditados; hosts Linux nativo/macOS y ARM64 no. El usuario confirmó falta
+de infraestructura. No se cambia §7, §8.10 ni §10.6: la ejecución real sigue siendo
+requisito de aceptación pendiente. El análisis estático y protocolo posterior no
+la sustituyen. Tampoco consta aceptación final de rúbrica/excepciones de §10.1/3.
+
+**Lote 5 no terminado; cierre académico integral no aceptado.** No se inicia otro
+lote, migración o refactorización. El usuario autorizó un commit local exclusivamente
+de las verificaciones y documentación completadas, indicando estos pendientes;
+no equivale a commit de cierre. Sin push/merge y sin incorporar evidencia histórica,
+secretos, dumps o configuraciones privadas. La ausencia de hosts no es el único
+impedimento: la recuperación T02 continúa fallida y exige decisión/validación propia.

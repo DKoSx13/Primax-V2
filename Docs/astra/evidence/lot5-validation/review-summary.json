@@ -1,0 +1,57 @@
+{
+  "reference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "branch": "feat/dezkz-identity-a4-core",
+  "scope": "Lote 5 only; recovered previous work, audited saved executions, completed local documentation",
+  "lot5Complete": false,
+  "academicClosureAccepted": false,
+  "windowsValidation": "Scenario-based approval with limitations; T02 recovery failed",
+  "multiplatformValidation": "Pending native Linux/macOS hosts; ARM64 not built or executed",
+  "priorExecutionsReused": {
+    "passedCheckpoints": 3526,
+    "failedBrowserCases": 1,
+    "backendJestSuites": 60,
+    "pairedFamilies": 22,
+    "pairedHttpCheckpoints": 2570,
+    "browserCases": 16,
+    "builds": 5
+  },
+  "completedOnResume": [
+    "Reconciled saved summaries with raw Jest, TAP and OCR logs",
+    "Recompared 22 canonical baseline/candidate snapshots without repeating HTTP calls",
+    "Compared 24376 source snapshot files; recorded CRLF/LF-only baseline differences",
+    "Checked 115 routes, service assignments, ports/adapters and extended traceability",
+    "Verified screenshot hashes; visually inspected T02 failure and demo-finalization screenshots",
+    "Checked backup hash/size without restoring or accessing a database",
+    "Preserved nine historical evidence files and checked tracked source integrity",
+    "Redacted one synthetic Redis password from untracked public inventory before commit",
+    "Completed master matrix, artifact inventory, seven recovered documents and plan 3J update"
+  ],
+  "mandatoryAcceptancePending": [
+    "T02 pending-payment recovery after reload remains failed; no fix or acceptance inferred",
+    "Native Linux host execution required by 3J sections 7, 8.10 and 10.6",
+    "macOS host execution required by 3J sections 7, 8.10 and 10.6",
+    "Native ARM64 validation if applicable to the target Mac",
+    "Final responsible-person acceptance of rubric and declared exceptions"
+  ],
+  "runtimeOnResume": {
+    "dockerLinuxEngineAvailable": false,
+    "startedDocker": false,
+    "startedOrStoppedContainers": false,
+    "protectedRuntimeStateRevalidated": false,
+    "newFunctionalHttpOrBrowserTests": 0
+  },
+  "sourceChanges": "Verification scripts and documentation only; application, financial algorithms, security policies, AuthCore, Prisma, migrations and Compose unchanged",
+  "historicalEvidenceAddedToGit": false,
+  "commitMeaning": "Local verified documentation and evidence checkpoint, explicitly not academic closure",
+  "pushOrMerge": false,
+  "evidence": [
+    "resume-audit.json",
+    "test-totals.json",
+    "contracts-115.json",
+    "contracts-115-traceability.json",
+    "paired-families.json",
+    "browser-checks.json",
+    "persistence-inventory.json",
+    "t02-recovery-failure.json"
+  ]
+}

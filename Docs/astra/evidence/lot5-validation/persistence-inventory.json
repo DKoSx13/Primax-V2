@@ -1,0 +1,433 @@
+{
+  "project": "primax-astra-lot5-main-39e19f7d",
+  "postgres": {
+    "version": "17.6 (Debian 17.6-2.pgdg12+1)",
+    "tables": 41,
+    "migrations": 36,
+    "transactions": [
+      {
+        "id": "4aaeb11f-1a92-4199-87f5-a46d127df281",
+        "operationId": "8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+        "status": "PAID",
+        "amount": 20,
+        "pointsEarned": 0,
+        "authorizationId": "e2422828-5633-4b54-9267-eaccd3372e51"
+      }
+    ],
+    "payments": [
+      {
+        "id": "bc3f0bd2-c17d-4d3d-8a4d-54c0edb8d1a8",
+        "status": "CAPTURED",
+        "amount": 20,
+        "method": "YAPE",
+        "provider": "DEMO",
+        "transactionId": "4aaeb11f-1a92-4199-87f5-a46d127df281"
+      }
+    ],
+    "receipts": [
+      {
+        "transactionId": "4aaeb11f-1a92-4199-87f5-a46d127df281",
+        "number": "EB01-0001",
+        "correlative": 1
+      }
+    ],
+    "inventory": [
+      {
+        "stationId": "1c124f57-d192-4f0c-90ee-7e1a50c7258d",
+        "fuelId": "4824938d-5a6a-46da-bf82-6e6feae2881e",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T05:56:49.349+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "1c124f57-d192-4f0c-90ee-7e1a50c7258d",
+        "fuelId": "7682f508-a85a-4601-a287-151df80a67f8",
+        "liters": 4996.445495,
+        "updatedAt": "2026-11-20T05:59:43.184+00:00",
+        "reservedLiters": 0
+      },
+      {
+        "stationId": "1c124f57-d192-4f0c-90ee-7e1a50c7258d",
+        "fuelId": "94f944b8-0fdc-4108-88e1-8a0e1338b735",
+        "liters": 5000,
+        "updatedAt": "2026-11-20T05:56:49.346+00:00",
+        "reservedLiters": 0
+      }
+    ],
+    "reservations": [
+      {
+        "operationId": "8bd84753-a7df-4b49-9a53-f7438e9cbc6e",
+        "status": "CLOSED"
+      }
+    ],
+    "sequences": [
+      {
+        "sequencename": "receipt_boleta_seq",
+        "last_value": 1
+      },
+      {
+        "sequencename": "receipt_factura_seq",
+        "last_value": null
+      },
+      {
+        "sequencename": "terminal_operation_op01_seq",
+        "last_value": 1
+      }
+    ],
+    "unvalidatedForeignKeys": 0
+  },
+  "redis": "PONG; synthetic probe persisted",
+  "databaseExactAfterRestart": true,
+  "printExactAfterRestart": true,
+  "printJobs": [
+    {
+      "id": "receipt-8ef538e4-e884-4f63-9965-47a1290a0086",
+      "status": "accepted",
+      "simulation": true,
+      "physicalConfirmed": false,
+      "message": "Simulación local: comprobante guardado; no se imprimió papel."
+    }
+  ],
+  "healthy": 15,
+  "jobsExit0": 2,
+  "backup": {
+    "bytes": 238936,
+    "sha256": "4b4d20a4f57a241410568393be4a9b95b08eeedba14c0c4cced2bced61b79f55",
+    "restorationTested": false
+  },
+  "inventory": [
+    {
+      "service": "administration-service",
+      "imageId": "sha256:e7d6c1bd7b6ff823f1263c7146ceb6ea5bd7835c54c40a4e3b5a9a100ebc07c5",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "services/administration/dist/src/apps/administration/main.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "service": "backend",
+      "imageId": "sha256:505db95d5c13ff8988b8f0dcfb7d3b83d2ea1a6c4cb80281129731f60156f24f",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "gateway/server.cjs"
+      ],
+      "mounts": [],
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "27400"
+          }
+        ]
+      }
+    },
+    {
+      "service": "bootstrap",
+      "imageId": "sha256:e257119e62e7c8e684e51ff4f91c21b34b831cd055e57fc734415f892881a543",
+      "state": "exited",
+      "health": null,
+      "exitCode": 0,
+      "command": [
+        "node",
+        "scripts/compose-bootstrap.cjs"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_bootstrap_state",
+          "destination": "/state"
+        }
+      ],
+      "ports": {}
+    },
+    {
+      "service": "catalog-service",
+      "imageId": "sha256:709005b833b468c0955b2cfd04d9a744c24cd1dc075a680079817e152f26a57d",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "services/catalog/dist/src/apps/catalog/main.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "service": "commerce-service",
+      "imageId": "sha256:7e2b22e6a0a9663c631aa6ab76195aaed9600c0abf65b8203ce9c3c36fb3a7a0",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "services/commerce/dist/src/apps/commerce/main.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "service": "frontend1",
+      "imageId": "sha256:3d8d00fa1bf4eca5a135a4e6c29f6622c91dc778f80c486218af38ae6aefa360",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "nginx",
+        "-g",
+        "daemon off;"
+      ],
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "27481"
+          }
+        ]
+      }
+    },
+    {
+      "service": "frontend2",
+      "imageId": "sha256:84e6e4f76fa78cbadd0bd6a0b64ea14100a8b30eef5403b66758e9586ecf5e59",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "nginx",
+        "-g",
+        "daemon off;"
+      ],
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "27482"
+          }
+        ]
+      }
+    },
+    {
+      "service": "frontend3",
+      "imageId": "sha256:993f0fc84bfe93dbb5bc5c3ea1f2a22fba8624ebafbf1ea97dffb788ae621c79",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "nginx",
+        "-g",
+        "daemon off;"
+      ],
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "27483"
+          }
+        ]
+      }
+    },
+    {
+      "service": "fuelflow-gateway",
+      "imageId": "sha256:7313ed68b6758abaf975fc7f08cca09ed51212d87c18b3561ea31a6219a6b8ba",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "server/local.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3001/tcp": null
+      }
+    },
+    {
+      "service": "fuelflow-gateway-t02",
+      "imageId": "sha256:e867fca58fdd8a1d9214b5ba7e1fc6dfc7cff2be17ff47d0ebbc1fc8a41a969a",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "server/local.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3001/tcp": null
+      }
+    },
+    {
+      "service": "fuelflow-t02",
+      "imageId": "sha256:dad352ec6815f0d24d373f801a689cf67e969b70b2e68055e0e9354b858c337b",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "nginx",
+        "-g",
+        "daemon off;"
+      ],
+      "mounts": [],
+      "ports": {
+        "80/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "27484"
+          }
+        ]
+      }
+    },
+    {
+      "service": "identity-service",
+      "imageId": "sha256:e747b486c2690caf5d8e81059c44c5651bee12e4556d64544eed137f164a0e54",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "services/identity/dist/src/apps/identity/main.js"
+      ],
+      "mounts": [],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "service": "plate-recognition",
+      "imageId": "sha256:b98c7e16872db124dc418f34ef813cca272f6299757fa5bbd7eaf2bb66833fd1",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "gunicorn",
+        "--bind",
+        "0.0.0.0:8000",
+        "--workers",
+        "2",
+        "--timeout",
+        "20",
+        "app:app"
+      ],
+      "mounts": [],
+      "ports": {
+        "8000/tcp": null
+      }
+    },
+    {
+      "service": "postgres",
+      "imageId": "sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "postgres"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_postgres_data",
+          "destination": "/var/lib/postgresql/data"
+        }
+      ],
+      "ports": {
+        "5432/tcp": null
+      }
+    },
+    {
+      "service": "print-service",
+      "imageId": "sha256:e04e7cfe9071dd060591b083dbe9d9d4c6e438d0e4d6073469a0d3899860451d",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "demo-server.mjs"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_print_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "service": "redis",
+      "imageId": "sha256:c5d34a98396a4775e223c74e929162c35c5a2182901ba26b50ade939941ce14b",
+      "state": "running",
+      "health": "healthy",
+      "exitCode": 0,
+      "command": [
+        "redis-server",
+        "--appendonly",
+        "yes",
+        "--requirepass",
+        "<redacted:REDIS_PASSWORD>"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_redis_data",
+          "destination": "/data"
+        }
+      ],
+      "ports": {
+        "6379/tcp": null
+      }
+    },
+    {
+      "service": "volume-guard",
+      "imageId": "sha256:1dee6e5c0f3bad5f4645ec0e589a8ff852016728f52a99c6eebc60a692a50cc9",
+      "state": "exited",
+      "health": null,
+      "exitCode": 0,
+      "command": [
+        "node",
+        "scripts/compose-volume-guard.cjs"
+      ],
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_bootstrap_state",
+          "destination": "/volumes/bootstrap"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_postgres_data",
+          "destination": "/volumes/postgres"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_print_data",
+          "destination": "/volumes/print"
+        },
+        {
+          "type": "volume",
+          "name": "primax-astra-lot5-main-39e19f7d_redis_data",
+          "destination": "/volumes/redis"
+        }
+      ],
+      "ports": {}
+    }
+  ]
+}

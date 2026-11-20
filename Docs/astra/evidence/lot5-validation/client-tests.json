@@ -1,0 +1,26 @@
+[
+  {
+    "app": "Frontend_1_FuelFlow",
+    "exitCode": 0,
+    "passed": 172,
+    "failed": 0
+  },
+  {
+    "app": "Frontend_2_PrimaxPrime",
+    "exitCode": 0,
+    "passed": 31,
+    "failed": 0
+  },
+  {
+    "app": "Frontend_3_PrimaxControl",
+    "exitCode": 0,
+    "passed": 38,
+    "failed": 0
+  },
+  {
+    "app": "PrintAgent",
+    "exitCode": 0,
+    "passed": 56,
+    "failed": 0
+  }
+]

@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: /auth/login preserves its owner
+ok 1 - /auth/login preserves its owner
+  ---
+  duration_ms: 0.751032
+  type: 'test'
+  ...
+# Subtest: /kiosk/session/authorize preserves its owner
+ok 2 - /kiosk/session/authorize preserves its owner
+  ---
+  duration_ms: 0.651936
+  type: 'test'
+  ...
+# Subtest: /vehicles/ABC-123 preserves its owner
+ok 3 - /vehicles/ABC-123 preserves its owner
+  ---
+  duration_ms: 0.057263
+  type: 'test'
+  ...
+# Subtest: /memberships/me preserves its owner
+ok 4 - /memberships/me preserves its owner
+  ---
+  duration_ms: 0.071524
+  type: 'test'
+  ...
+# Subtest: /memberships/me/transactions preserves its owner
+ok 5 - /memberships/me/transactions preserves its owner
+  ---
+  duration_ms: 0.076814
+  type: 'test'
+  ...
+# Subtest: /plate-recognition preserves its owner
+ok 6 - /plate-recognition preserves its owner
+  ---
+  duration_ms: 0.039542
+  type: 'test'
+  ...
+# Subtest: /memberships/me/recharges preserves its owner
+ok 7 - /memberships/me/recharges preserves its owner
+  ---
+  duration_ms: 0.067084
+  type: 'test'
+  ...
+# Subtest: /memberships/me/wallet preserves its owner
+ok 8 - /memberships/me/wallet preserves its owner
+  ---
+  duration_ms: 0.031011
+  type: 'test'
+  ...
+# Subtest: /fuels/inventory preserves its owner
+ok 9 - /fuels/inventory preserves its owner
+  ---
+  duration_ms: 0.17174
+  type: 'test'
+  ...
+# Subtest: /stations preserves its owner
+ok 10 - /stations preserves its owner
+  ---
+  duration_ms: 0.656766
+  type: 'test'
+  ...
+# Subtest: /benefits preserves its owner
+ok 11 - /benefits preserves its owner
+  ---
+  duration_ms: 0.103256
+  type: 'test'
+  ...
+# Subtest: /transactions/123 preserves its owner
+ok 12 - /transactions/123 preserves its owner
+  ---
+  duration_ms: 0.250754
+  type: 'test'
+  ...
+# Subtest: /authorizations/123/progress preserves its owner
+ok 13 - /authorizations/123/progress preserves its owner
+  ---
+  duration_ms: 0.200151
+  type: 'test'
+  ...
+# Subtest: /online-orders/123/demo-confirm preserves its owner
+ok 14 - /online-orders/123/demo-confirm preserves its owner
+  ---
+  duration_ms: 0.037312
+  type: 'test'
+  ...
+# Subtest: /rewards/redeem preserves its owner
+ok 15 - /rewards/redeem preserves its owner
+  ---
+  duration_ms: 0.021961
+  type: 'test'
+  ...
+# Subtest: /control/payments/123/actions preserves its owner
+ok 16 - /control/payments/123/actions preserves its owner
+  ---
+  duration_ms: 0.020512
+  type: 'test'
+  ...
+# Subtest: /control/assistance preserves its owner
+ok 17 - /control/assistance preserves its owner
+  ---
+  duration_ms: 0.020991
+  type: 'test'
+  ...
+# Subtest: /control/terminal-operations/123/resolve preserves its owner
+ok 18 - /control/terminal-operations/123/resolve preserves its owner
+  ---
+  duration_ms: 0.113646
+  type: 'test'
+  ...
+# Subtest: /control/login preserves its owner
+ok 19 - /control/login preserves its owner
+  ---
+  duration_ms: 0.206932
+  type: 'test'
+  ...
+# Subtest: /control/receipts/123 preserves its owner
+ok 20 - /control/receipts/123 preserves its owner
+  ---
+  duration_ms: 0.053983
+  type: 'test'
+  ...
+# Subtest: /control/inventory/receipts preserves its owner
+ok 21 - /control/inventory/receipts preserves its owner
+  ---
+  duration_ms: 0.024692
+  type: 'test'
+  ...
+# Subtest: /inventory/123/456/reconcile preserves its owner
+ok 22 - /inventory/123/456/reconcile preserves its owner
+  ---
+  duration_ms: 0.021441
+  type: 'test'
+  ...
+# Subtest: unknown namespaces and prefix collisions fail closed
+ok 23 - unknown namespaces and prefix collisions fail closed
+  ---
+  duration_ms: 0.056503
+  type: 'test'
+  ...
+# Subtest: private Catalog inventory routes preserve the authentication facade owner
+ok 24 - private Catalog inventory routes preserve the authentication facade owner
+  ---
+  duration_ms: 0.033602
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38.853311

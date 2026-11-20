@@ -1,0 +1,1273 @@
+{
+  "auditedAt": "2026-11-20T12:42:32.778Z",
+  "reference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "head": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "kind": "OFFLINE_AUDIT_OF_PREVIOUS_EXECUTIONS_NOT_NEW_FUNCTIONAL_TESTS",
+  "passed": true,
+  "unchangedTrackedFiles": 1507,
+  "allowedDocumentChanges": [
+    "Docs/astra/primax-stage3j-definitive-hexagonal-closure-plan.md"
+  ],
+  "historicalEvidence": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30"
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561"
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269"
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f"
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6"
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7"
+    }
+  ],
+  "historicalEvidenceStillUntracked": true,
+  "originalIntegrityManifestSha256": "2694f5b14d5073fa7a1dc4b513ba931bb00596b60e1c1d87eec3b635b8629eb1",
+  "pairedFamiliesRecompared": 22,
+  "backendSnapshotFileHashChecks": 24376,
+  "sourceComparisonRule": "Exact bytes, except recorded CRLF/LF-only differences in git-show baseline copies",
+  "sourceLineEndingDifferences": [
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/source-backend/src/wallet/wallet.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/assistance/assistance.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/assistance/assistance.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/operations/control-payments.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/operations/operations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/operations/operations.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/payments/online-orders.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/payments/partial-refund.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/payments/payment-lifecycle.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/payments/payments.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/payments/webhook.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/rewards/rewards.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/rewards/rewards.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/transactions/authorizations.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/transactions/transactions.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/transactions/transactions.module.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/wallet/wallet.controller.ts",
+    ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/source-backend/src/wallet/wallet.module.ts"
+  ],
+  "rawArtifacts": [
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256/comparison-data.json",
+      "sha256": "dc9e7c834d8949d8bdcdfd93771e4cf58e3c6ffabe9968ef2b2c3785bb37c57c"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256/comparison-results.json",
+      "sha256": "d7c8f708faeed247eea59da1d14c7590e86837441ea24040b9f981de7620f31d"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256/integration-results.json",
+      "sha256": "750e9699eae2c261fd5b220586c5c32a0834fb0a0eafe58e610a8fae0169677c"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-116ac6d71256/isolation.json",
+      "sha256": "866f69f480c9f50e4a6b026c28981a276e53102e231d3e12328cffb3cace61c4"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11/comparison-data.json",
+      "sha256": "d46c9e18ae990ebf412c042e9e0585128c0315fe4f6de0bd31faf4cc7d23ee46"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11/comparison-results.json",
+      "sha256": "81247eb1d678176b292f1eaabdaf34aabf4e08daaa30f20746bcf86ca9fce490"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11/integration-results.json",
+      "sha256": "7e7c398b8c5101096f9291f05ec4b2d8a7ca945911d883d23e3d59f445ec91ca"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-1e79af63cb11/isolation.json",
+      "sha256": "ec39f73253e719de9fe611d7d732713afb5f9d13abf7d571aecd787c8f10bd92"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682/comparison-data.json",
+      "sha256": "79b51b54e83150af1be14ff1184fac883ec86175c667ac4d8639bab0ca35a829"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682/comparison-results.json",
+      "sha256": "5caddea37a177db1d7e78dc6e927cf086e3bd5942d3816684c914fd19283c970"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682/integration-results.json",
+      "sha256": "ab5f34a6e8023dbecb3667e3ae0a70d04e881a1e7b1e80a5dd7641705ef5d015"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-236c6f0ac682/isolation.json",
+      "sha256": "e7e372c44e132a7d7e413ebae4109acfac6458c8b906b11aeeb8a98ac4ac36e0"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc/comparison-data.json",
+      "sha256": "ec2ece15bbad3ec1f096d8e0d1a290e45a86d157f5dc9d7116ba67838b259725"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc/integration-results.json",
+      "sha256": "c66c3fbcdd3c1283b2cfc01ed3f4e9e3e06fd82df12b519d6f6467a21f401d77"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-39bdf3ecf7fc/isolation.json",
+      "sha256": "6ef626fc9469e7b0f548f6e0b09d3a283189c9d7ba65e45ca9014f1cd3e3e3fe"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5/comparison-data.json",
+      "sha256": "e3293b47d77e7e7e936788eeb2a8b403f4982b0cab91f8367bd1dbb15e48af8e"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5/integration-results.json",
+      "sha256": "78b398deb6c729019318640f0db70a924cf5343ff37dbde8d47f0dd781d58011"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-3bc5e33b83d5/isolation.json",
+      "sha256": "2ea7ad0e23821a2a9d70b0ab37ae906d05ebe8bdc8a1f2952c39a818691f5ac2"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee/comparison-data.json",
+      "sha256": "4ccd3cf63b8aacb3e5a307172dbbdffbac138673b5613a9c08d033bfc568ca9f"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee/integration-results.json",
+      "sha256": "0fc68c8025ed57cb588224a21f42a666bb544dc697fbe03319627e92b381e9b4"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-421a56dbaeee/isolation.json",
+      "sha256": "b6b2ea5070074fc976d2b4db29c5a85b1b4800bc2891ed39df340c77adb537f3"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff/comparison-data.json",
+      "sha256": "f5561425ac0f9436225bc9deb6d010277ecd6e231ff319e89d9b78d464a416df"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff/comparison-results.json",
+      "sha256": "3a3b533a1db9183ac92c5c7cc72664ef3aea8ef30c28ab8066aeea1aab65892c"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff/integration-results.json",
+      "sha256": "235f58640bb34f208775a1fda17c452459789115600502d3e2a2e0aaddafa7e7"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f2c6965e6ff/isolation.json",
+      "sha256": "360cbcc431fda414a47a527d2c92a03da49b0841340661094ba3f80390f6883a"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9/comparison-data.json",
+      "sha256": "ec2ece15bbad3ec1f096d8e0d1a290e45a86d157f5dc9d7116ba67838b259725"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9/comparison-results.json",
+      "sha256": "8bce7915087949aa002d54f51d042f52a0e42bd7a146392775629b98c64bd2db"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9/integration-results.json",
+      "sha256": "1d11b4da555aaaa07305f67bc362516149ec3c4cd12cf594fe412203bba9a320"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-4f9035c5ede9/isolation.json",
+      "sha256": "ee78ffbee72256f2ee7bdc254cc3560069846a1b03106b0fa32884df288e520e"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d/comparison-data.json",
+      "sha256": "79b51b54e83150af1be14ff1184fac883ec86175c667ac4d8639bab0ca35a829"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d/integration-results.json",
+      "sha256": "9b3bf2d4ffa26fbf7324f1b29421d7e23b0fea23b0215ac243847074919a6602"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-652188860e5d/isolation.json",
+      "sha256": "dbcb93f6c13d6fb426c9c7b6aac2a706f9b7e9fd9e12edfc0d4c4dcc2bb9554a"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395/comparison-data.json",
+      "sha256": "d46c9e18ae990ebf412c042e9e0585128c0315fe4f6de0bd31faf4cc7d23ee46"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395/integration-results.json",
+      "sha256": "675ecd08e63c7aa14f633068158fc7003ef706b1fbac916ab33f455535ae8dcb"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6814aa4f7395/isolation.json",
+      "sha256": "f65db21d95a3bff79d73ff79b8c5f9e64edbaf9014894c58cc18f46fe1055e97"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a/comparison-data.json",
+      "sha256": "63ca0cdccc48d756ec2dea39b58808438e5b3ded7609655581e9860707fdc0f9"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a/integration-results.json",
+      "sha256": "1533d310847b9f571afe5e7e67ec3aa61493be0ef3dea787a984dfa548cffd51"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-6e16ad571a3a/isolation.json",
+      "sha256": "e645f22bfd2414a3d71add91069831abd4a8a9c3c2e67662868b2b9db8e26b6b"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44/comparison-data.json",
+      "sha256": "3b8f4a4eb525d91e8070c7560635a7eba6a4a3d733a559598eaac4727d98e5b9"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44/comparison-results.json",
+      "sha256": "0e58a9ef3925c79c40b64034c83b715714f92fc8185d4c177d9880a48edb9ee5"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44/integration-results.json",
+      "sha256": "3411b0dd0c3c269f6fe3f3a4ba463e2904d43975f339f984ec3187f39a9bd1fd"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-75df5c015a44/isolation.json",
+      "sha256": "4f7a38ba3ca49c96ea17db506f5f5537e57f01311d711ccaa16b3f11387ea369"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8/comparison-data.json",
+      "sha256": "4ccd3cf63b8aacb3e5a307172dbbdffbac138673b5613a9c08d033bfc568ca9f"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8/comparison-results.json",
+      "sha256": "d5e23ed9e198709e5dcedce651263a6d745e2218092bed42b81d7adf8dc33f71"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8/integration-results.json",
+      "sha256": "6b2d86c136b9ef83d1cb2b3fc1068fe54466f1cb1bbe0e8242bd2922a02ce9f3"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-766b884858e8/isolation.json",
+      "sha256": "a4b7264fd8f9cc14560e07a0b74518b5b5de259ec5d9c9c76a4de219cbe424a2"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8/comparison-data.json",
+      "sha256": "e3293b47d77e7e7e936788eeb2a8b403f4982b0cab91f8367bd1dbb15e48af8e"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8/comparison-results.json",
+      "sha256": "39372df55e6c5500e1e1d2f5d4b02008f68fab29e91fca1aaecb74fd34792a4d"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8/integration-results.json",
+      "sha256": "ea7ec97b109783782f4ff74cc1e933e440b10433758f7d6321cd00ccdb6e12d2"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-773a0bc193e8/isolation.json",
+      "sha256": "88a7fca93e981328872179426b63633bbb916922c3dcb8ef3a038a2ff6cd3333"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a/comparison-data.json",
+      "sha256": "54ad556fa99ce8966c6b4e18a6ec36ced6b83555ee5c7d26b79e9b09824294af"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a/integration-results.json",
+      "sha256": "47a1d32228fe10fce2234329a054eef37f9669374658a5c8b4a71d4ab5e0d448"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-94b60b52c93a/isolation.json",
+      "sha256": "8eb2ff34853363791ea831b06c7cbfa3bd34103c62990aa223488a860e2e3e16"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05/comparison-data.json",
+      "sha256": "aa641709861b32f5bd43785b0f943c51820f4631f1547441da15db97b93ff111"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05/integration-results.json",
+      "sha256": "573910c48f1a5faddc9ec921a5516d7b555704ff8f681e47fdb93ce324204d1a"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-974ddcf86c05/isolation.json",
+      "sha256": "62b2ec5a1b630db2d917c21dd30901539723caf3459feca31b62a99fdb89f0c0"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234/comparison-data.json",
+      "sha256": "63ca0cdccc48d756ec2dea39b58808438e5b3ded7609655581e9860707fdc0f9"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234/comparison-results.json",
+      "sha256": "6c31719fb5bc704ee0402b442371f1ff2c781c776f80c33d4e7d3df92f3d12d3"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234/integration-results.json",
+      "sha256": "678635090674d11f07ee6ef16510f52ee136a6665eb1d67ec4a9c2cb1176458b"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-a5efb5344234/isolation.json",
+      "sha256": "7b9f7073949fb67c82a229e71918e1fd842d3e624abf835595be928326637312"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9/comparison-data.json",
+      "sha256": "f5561425ac0f9436225bc9deb6d010277ecd6e231ff319e89d9b78d464a416df"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9/integration-results.json",
+      "sha256": "86c51bbfa629389bf60f25fd015baa2a296bff9e8b2f808e20dcccd7c1c3e352"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b74e43ce79e9/isolation.json",
+      "sha256": "42a7a42ae8a09700f7b70d4fe27b773d9cc1ac6468e2549840c6f000be9eba94"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5/comparison-data.json",
+      "sha256": "54ad556fa99ce8966c6b4e18a6ec36ced6b83555ee5c7d26b79e9b09824294af"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5/comparison-results.json",
+      "sha256": "26a85ac462025c028ad691955d483045137730fe4a471cf1d6ac2790c79b61ce"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5/integration-results.json",
+      "sha256": "a1f780632f3e68593b542a9831be14edc9d766c44bb3523df04a57f61554fb66"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-b9f76f4d26c5/isolation.json",
+      "sha256": "fd59cab27ebfd658421ac30dfe50f100cccb58c3962f5d7f9df78ca08cca75d9"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58/comparison-data.json",
+      "sha256": "3b8f4a4eb525d91e8070c7560635a7eba6a4a3d733a559598eaac4727d98e5b9"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58/integration-results.json",
+      "sha256": "305baa6d3eb5bf2ca9fe17f319db463280e0a57a7df2a866e55175b7edbeb6c2"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-bbd32dedae58/isolation.json",
+      "sha256": "8b5ca68141ef049de574b0d2cbc17b75ec37f4217eb212f3f40d8979978bda13"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b/comparison-data.json",
+      "sha256": "dc9e7c834d8949d8bdcdfd93771e4cf58e3c6ffabe9968ef2b2c3785bb37c57c"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b/integration-results.json",
+      "sha256": "22bf32806e3c18fc5fdc485640862637e008857e430980d750229cfbd2669fd4"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-c63efcded59b/isolation.json",
+      "sha256": "311e11db8804500650fb286a1219adfa43c34b6311f7224d174a8235412eabdb"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc/comparison-data.json",
+      "sha256": "aa641709861b32f5bd43785b0f943c51820f4631f1547441da15db97b93ff111"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc/comparison-results.json",
+      "sha256": "e44d4709a3320b5aadfe8e9fd6d368c3cebdf2b9d4efc1dc242781f4dd2bc2a3"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc/integration-results.json",
+      "sha256": "b9cd70feb9c242aeabf440371dfc1000e2ba5f1b4abc903ef89199040739fddf"
+    },
+    {
+      "file": ".cache/astra-lot5-administration/primax-astra-lot5-administration-d2810d22b2cc/isolation.json",
+      "sha256": "455b9c8734b9141d621b5fafad86d4d1daa8b97f38c694e6e571f355a0b71cdf"
+    },
+    {
+      "file": ".cache/astra-lot5-clients/run-e4133e8dd9/Frontend_1_FuelFlow.log",
+      "sha256": "a2350f5c406aea6a760da32c96ea0005e6a23d2e3b37952498114a0c1b706f16"
+    },
+    {
+      "file": ".cache/astra-lot5-clients/run-e4133e8dd9/Frontend_2_PrimaxPrime.log",
+      "sha256": "1635a28b7153d6818413fa6112a8614eca414283180850329c5be87f51ac013c"
+    },
+    {
+      "file": ".cache/astra-lot5-clients/run-e4133e8dd9/Frontend_3_PrimaxControl.log",
+      "sha256": "60cadc836d74d1512ca0530e559b59df1ff6a3b8602a4a016430daf9fa7e8ac1"
+    },
+    {
+      "file": ".cache/astra-lot5-clients/run-e4133e8dd9/PrintAgent.log",
+      "sha256": "78c639dd8651d8ef8b1e597a08fa25bd82417103705fc1ffb0e55b91a1bd44d7"
+    },
+    {
+      "file": ".cache/astra-lot5-clients/run-e4133e8dd9/results.json",
+      "sha256": "150b5b494465ade8eef8ac06c4349ed94a80d2ce4b636b1f9dbf577812ddd2a2"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/comparison-data.json",
+      "sha256": "079d1f9276279ae0821425cab8673fd2dd8249d4b81ccce4901c5b84d62ffc3b"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/comparison-results.json",
+      "sha256": "f7c29b7afa257f9ccc979f06c6e57eb78d6bf15cd340f8c73e98f0fb7938847c"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/integration-results.json",
+      "sha256": "7bc7637813dd8d6e65e8d50c783fe4c0911a1da77c59e1bcfe33b581af499ba4"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-1cb987925188/isolation.json",
+      "sha256": "4722612794f52cef539a993895660413c8a2d10898cdb1a7a934aabde5d6ebf5"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99/comparison-data.json",
+      "sha256": "0479e17f99216311e96f6a94dbd9d20292d9bc3ebd6b4d69dda7272a42a93016"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99/comparison-results.json",
+      "sha256": "53354ee4a378105690747b7388d732686c0927ee053ba9e14fb106e6514e54fb"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99/integration-results.json",
+      "sha256": "2be0b722c6f2b695975709e69b6fd641300a024f6412516e8b846c081b0cf102"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-2f95f377bc99/isolation.json",
+      "sha256": "ff7d7201c221e946db1aaedbd33db634e59aa2cd25ba90dc442a08b505ae448d"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/comparison-data.json",
+      "sha256": "a24071ccc0656d98e51e3766c9465575dfa42320e7f4b8c0f71d97cf5aa96634"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/integration-results.json",
+      "sha256": "beae7ef62eb0bb671602502296debac7bb30a27e5934a4d57ac4c5b056cc3737"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-50b7befb3bdf/isolation.json",
+      "sha256": "31a33ab7e4b439c95ac68918ceab3290bc963a3faade03d6ea16599f6a4ec4d2"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/comparison-data.json",
+      "sha256": "f5a7a2cac8841db24aed564e0f53e4017a950c8a33fa5067919e1e05b0397cec"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/integration-results.json",
+      "sha256": "223d54c5794b08a7f5ed0319ac7aa6769a9ff675fdfcd1331d4d1abc3217b6a0"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-5193be8954f6/isolation.json",
+      "sha256": "5bad0e6400808c3f2a3f7556e90a8fae43d999232c53a1d26ed2980abe5ed196"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/comparison-data.json",
+      "sha256": "5154dced9874b6aeacdf3e39a59931b98050a57e59307db0d67e36466d11d9de"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/integration-results.json",
+      "sha256": "c3f27611c5c6cb3627e8984fd91598308351baab735c3c495a489726f3602060"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-544167b90bd2/isolation.json",
+      "sha256": "50007cc909b4b664102a5d04689b66626cf472d2cc30ea7146a9eec604ccb6a1"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/comparison-data.json",
+      "sha256": "f45720e626d8470ee7216ddc21a0c2b64c09bd4419406badbf1c9fca6cb253ea"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/integration-results.json",
+      "sha256": "ec4705dd3c0d95b7bb8f889442321b0d512d620735b1f8237956fe400fb64772"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-60000c2f5236/isolation.json",
+      "sha256": "4853527bf9f4543212cdbeccb1ccc7be325fa730c6cc0dcc3b00be74b5b05303"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/comparison-data.json",
+      "sha256": "43ff2864bcc1fd4dd2811617fc374a59dab187ab15a0555096dd6c3021945077"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/integration-results.json",
+      "sha256": "2770e4dfb22e75b9067fcd65f17bdda0b004470395e8c1b6daffc3cf3d1788fc"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-6876400abb2a/isolation.json",
+      "sha256": "69b95284c582f307c99eae351275ea442a5d1ad21298ddc454a9625365ab5b2e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/comparison-data.json",
+      "sha256": "73c5f200ccad62c9750c034bec7b1cac9c0d2b09b26d9387b231160780e5413e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/comparison-results.json",
+      "sha256": "af229b823eda4eb2ee61101a0e574bb792618a8e5c07717bb0247f59135f99f5"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/integration-results.json",
+      "sha256": "2b5d00ba440fa1025aad7be314efbc85dd22ff2f22e7893e73ea8358ac3269d2"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7307718919f0/isolation.json",
+      "sha256": "bd11ef919a105cf85f392a05b2b9f2327a8219a20feafd81ef0e4ef5ba4895b2"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce/comparison-data.json",
+      "sha256": "43ff2864bcc1fd4dd2811617fc374a59dab187ab15a0555096dd6c3021945077"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce/comparison-results.json",
+      "sha256": "3aba6a009d5fb1bcc3c0a64e10e996fb6c48b91f25ea28577f95f8f48add4113"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce/integration-results.json",
+      "sha256": "3969d1370e56654218aff49358e78264583f48dce2379405eb1c5a4467acf42c"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-7325819624ce/isolation.json",
+      "sha256": "1c2a65f7a126113a942c9bf95ec2a715a0895f1b4e9ede0f787731fa03d396e2"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/comparison-data.json",
+      "sha256": "a6d6beb0e220cf14bdcc45f8eac1b197685641b8f390a8986e3c049440389878"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/integration-results.json",
+      "sha256": "e15340862fedd363efbae08549acc0e510ef37cf8ef05a32aff57493791ef82e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-766f5ac44f4b/isolation.json",
+      "sha256": "a6e618f08ee855c3a9f45d99a0cdc53910838ad23c37350714339fdd72336157"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab/comparison-data.json",
+      "sha256": "a6d6beb0e220cf14bdcc45f8eac1b197685641b8f390a8986e3c049440389878"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab/comparison-results.json",
+      "sha256": "7f38f938a8b671ad512c362effad4520f7e5ad345c3af3b12fdf810f3dc5f2cd"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab/integration-results.json",
+      "sha256": "3a1ee5b37eba57c61cab6666c186caf511dabbc1b5f26c4f6a56004f3454ef74"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-841f739f4cab/isolation.json",
+      "sha256": "14b5edbd1b70fb0c8f047836df488026505929a23f67464ceeb5275a4c0e0157"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/comparison-data.json",
+      "sha256": "3dbf619aa660fdaf55990489cc2b45cb1f44782e12f1c36acab19d9fa2b9d124"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/comparison-results.json",
+      "sha256": "546575c19cc79ee86804ad3bfc1fb47b7743a7a004d029f272e3590ce8709126"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/integration-results.json",
+      "sha256": "c725579f3cbe7e6e4c6f79ca556e9cd600e17ed9c858d55d14bfaf12ed29611d"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-8ba7074edcea/isolation.json",
+      "sha256": "e243556267ed8bfc132574853b00c638db84984f87cb6106e0283cedde669e88"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/comparison-data.json",
+      "sha256": "a1ba6ccf1bbb1c9f42eda2eaf84b9bea8bf8854e87f3073e911b3ae955c7c2af"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/integration-results.json",
+      "sha256": "3d427f626d348f1f0f573aa46427c5f310a6b4efe1338d9e13d2971a46cd9b13"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-af6e7f4afdd1/isolation.json",
+      "sha256": "34d52e0f4bcdc6b3dae722662bc60dca54eb19301659bd05905ac26aa685c7a5"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/comparison-data.json",
+      "sha256": "0479e17f99216311e96f6a94dbd9d20292d9bc3ebd6b4d69dda7272a42a93016"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/integration-results.json",
+      "sha256": "ed8eb8227902d105a0fc956e10a46a5a47f4e4b27e80bd01696c0376e5f97c3c"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-d3ca7aa709d4/isolation.json",
+      "sha256": "a6e8ae8b0b1831441c309b9ce3b39c0fa7bc14c96f98a63e485a71cb6100e8de"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/comparison-data.json",
+      "sha256": "bae941a9817bbc32750b179684e2521384921969d06b372c24b262cf9b2802fe"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/integration-results.json",
+      "sha256": "7aa64fb00de9fa20c0a2c9b7ddfb9e3f099e03a852a5772dfd9a59ab2891a78e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dba37b5c470f/isolation.json",
+      "sha256": "86a3f394e3ea5518977ae4700774d798751f2e6c06bd88f01de4ac0a5708d57e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/comparison-data.json",
+      "sha256": "73c5f200ccad62c9750c034bec7b1cac9c0d2b09b26d9387b231160780e5413e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/integration-results.json",
+      "sha256": "fb61035ac1df472f2febd589bcb7c151bc52c85856d83097d9a7d5bbebe3ab57"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-dcdbfd88f151/isolation.json",
+      "sha256": "0cde76f3ca1f2870a59bd5a719e355eb871601a6744b543cbc69f50167a20610"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/comparison-data.json",
+      "sha256": "bae941a9817bbc32750b179684e2521384921969d06b372c24b262cf9b2802fe"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/comparison-results.json",
+      "sha256": "0f0100fdcc5c438b711a81c69f52a71031aefca032c8e2ad2a1c4b55597d6779"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/integration-results.json",
+      "sha256": "0c862c3d477560c008525f1851052b5e7a016015d2f9c3b73042a411011eb6a7"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-df79a75cdd64/isolation.json",
+      "sha256": "732b8a99c97b6b6b475adf80e64696afb38cf211b52a34c03950eb4b145c77f1"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/comparison-data.json",
+      "sha256": "689dbabc2dd9a508aab8c628d221aa438da675763d6792b227ea54b94c1650b0"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/comparison-results.json",
+      "sha256": "2dc60d7d9594232c20bd036711bac10f988d1ce40e2f82e238a2eeb351b26d2e"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/integration-results.json",
+      "sha256": "85074caf277bdd694c1530df1d466fb47fec48f75f93e24b9b0431482eb17f4b"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-ea5b22f4c51f/isolation.json",
+      "sha256": "3f1a439e502c13f51e58a403896f3f6ccaed1a5efeefe3a7780586110645408d"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/comparison-data.json",
+      "sha256": "3dbf619aa660fdaf55990489cc2b45cb1f44782e12f1c36acab19d9fa2b9d124"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/integration-results.json",
+      "sha256": "d7badb88ea0f57c764d42d8c5ea8413baa87da0770ab139961bee340e49631a8"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-edaa707df27b/isolation.json",
+      "sha256": "c485f6e793e021cc54aeb51afcc0e76efc9c659aa9beb98c4f5182c4158b176f"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/comparison-data.json",
+      "sha256": "f5a7a2cac8841db24aed564e0f53e4017a950c8a33fa5067919e1e05b0397cec"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/comparison-results.json",
+      "sha256": "73596a747692cb03c0b466407e078b7f93b8289a1c00601999759ec06795eb12"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/integration-results.json",
+      "sha256": "450a068e12232514f544c1f801cf385aec867cc5e01e30003666147e1672a0d5"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-f6fd3418a591/isolation.json",
+      "sha256": "8e2548ba263344e6106b484575c570fffda012e06384ef6f54e7fd785b3036f6"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f/comparison-data.json",
+      "sha256": "5154dced9874b6aeacdf3e39a59931b98050a57e59307db0d67e36466d11d9de"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f/comparison-results.json",
+      "sha256": "0b1d4772331420e80279c568298bb5dce2d3a0db4377c042fafc0f3923bb4e87"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f/integration-results.json",
+      "sha256": "e01bce864361796d3d1b1b2c150420b1dc1af158b0fa1853017ef04346d5d753"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fcc5f9c65d5f/isolation.json",
+      "sha256": "62ddbd21bd699d489b7a9e2c426bbb42a7bdbdb5d2bc19fef401d99d0dbddc28"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a/comparison-data.json",
+      "sha256": "f45720e626d8470ee7216ddc21a0c2b64c09bd4419406badbf1c9fca6cb253ea"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a/comparison-results.json",
+      "sha256": "d1fde19f9bda075054595c2846bd638a8397d2c1ea59ad31e49bf45d3a0bb2b8"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a/final-states.json",
+      "sha256": "c554167bee0c9af36e38c502e6db19ccab0709ed102b3289c7ec64ec3d4f6066"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a/integration-results.json",
+      "sha256": "6a52618d74c4121271754effafb1e5b0a4e6abac4e61655441c7952d19fdfc34"
+    },
+    {
+      "file": ".cache/astra-lot5-commerce/primax-astra-lot5-commerce-fec2fb763c5a/isolation.json",
+      "sha256": "a0753a54daed1abb0111c56c1fddc79edf946f8082108aac36482190c2cab095"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/build-administration.log",
+      "sha256": "d631a3df61c5ec35ea5f74152b5b8bc0bc0df414c96a70a999e384ef4bc5c61c"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/build-catalog.log",
+      "sha256": "9db11f90d7150daa7e6e8f45251de1230d0893556ea1f0997ed60fc888f5ab1b"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/build-commerce.log",
+      "sha256": "9e354d32366d9b08a564a97ca2486ba19a50f4824b3873bee44a7a165b793c7f"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/build-identity.log",
+      "sha256": "10a62d23aaf6ad3f38fd02008064188e239cc5dabb0425b2d20b54f03b313466"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/build-legacy.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/compose-init-safety.log",
+      "sha256": "b7fafd5ea9eee380b3dc35934c5f4d69195a379215e8e84a9734953e63ab38ac"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/gateway-contracts.log",
+      "sha256": "91d44804dddc51e7c8b245744ef89bf0bb1e29aaa3859805ca9ed0edf30b1b26"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/identity-catalog-contracts.log",
+      "sha256": "b467cd4c63b9ada890f1eae79eef5ca2796c3ed66a13f7bc48e1546fa33d3b40"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/jest-results.json",
+      "sha256": "c0ee3fe09f4118870b3ebc106920450b4553a669145fc744fb3023a267837ca9"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/packaging-contracts.log",
+      "sha256": "6f7c1b02e09ca86748eb48adbe99030fea51fa73746cd85c69199cd1040ae084"
+    },
+    {
+      "file": ".cache/astra-lot5-offline/run-01fb7d191352/results.json",
+      "sha256": "cb0de268306bab7163d2c406eb44b46259aca0ea9cc8c3253bab7c26147c9c08"
+    },
+    {
+      "file": ".cache/astra-lot5/browser-final.json",
+      "sha256": "f88bf726fa4999d8d833f5bb08bf1b98abd6721b2a1fa7abc46809b03147f355"
+    },
+    {
+      "file": ".cache/astra-lot5/http-security.json",
+      "sha256": "3a4982318b8a02c2ce5b312921693fe274c5b3f293b5e10e41ed9b5ab4f5e0c5"
+    },
+    {
+      "file": ".cache/astra-lot5/lifecycle-results.json",
+      "sha256": "e3e875b47e2361bce207c37f5011cc6b7c8bc8652efb19dcabe89f2993a4e2a8"
+    },
+    {
+      "file": ".cache/astra-lot5/ocr-tests.log",
+      "sha256": "6972d691ba284a8c9a34e4e0cce132666966168bb723085ccd73367a810793d1"
+    }
+  ],
+  "preservedPublicEvidence": [
+    {
+      "file": "Docs/astra/evidence/lot5-validation/backend-tests.json",
+      "sha256": "cb0de268306bab7163d2c406eb44b46259aca0ea9cc8c3253bab7c26147c9c08"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/browser-checks.json",
+      "sha256": "08b4b0cdfb8e59b191bc111d08861c221457d53c9fa9c289d0d254105ad05e79"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/client-tests.json",
+      "sha256": "6d83bed6c800a8a9dda4b74b1d1068aa83b8adbbfda6c1dd2b0ba0b0f482908d"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/compose-init-safety.log",
+      "sha256": "b7fafd5ea9eee380b3dc35934c5f4d69195a379215e8e84a9734953e63ab38ac"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/contracts-115-traceability.json",
+      "sha256": "c323f0fea8297e9adc912be3acae580a66f17660acae2e84a72ec138d07df3fc"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/contracts-115.json",
+      "sha256": "84229b944a5e066cf1c38eae8f0549369becac26dbaf88d41e17eee4a525f3a7"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/control-audit.png",
+      "sha256": "4726da14f79fa55b4781a6bb8d4f9b5f93f5ac174a151c66eb00b9d19a8ad119"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/control-scoped.png",
+      "sha256": "3dc633161d65f8cad5800a4699c0e0f5be52817b915f392f2498d8639e9de5b5"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/fuelflow-ocr.png",
+      "sha256": "56c8b10121b3a71fde0d8f610f72ef4e9b90e345e35c4e63b466b82cfe23d024"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/fuelflow-t01.png",
+      "sha256": "6459b16e089b70c65e7366ff0ca666b945915a6e0230c1fc8304539664ab8f98"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/fuelflow-yape-demo.png",
+      "sha256": "3c8a2a9a9227b198641d9b6f8b10823ac9ba72bc9935b7b96ef1ab381f1b019f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/gateway-contracts.log",
+      "sha256": "91d44804dddc51e7c8b245744ef89bf0bb1e29aaa3859805ca9ed0edf30b1b26"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/http-security.json",
+      "sha256": "246e7c771bde6cd1a677095cfdd089f815c41f598ff1f9bc3c5bb9fdee590cfa"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/integrity.json",
+      "sha256": "d02b72e800127a4438b0a59ebbe29a358df5b089b3b7f839545a7319e0897d79"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/ocr-tests.log",
+      "sha256": "6972d691ba284a8c9a34e4e0cce132666966168bb723085ccd73367a810793d1"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/packaging-contracts.log",
+      "sha256": "6f7c1b02e09ca86748eb48adbe99030fea51fa73746cd85c69199cd1040ae084"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/paired-families.json",
+      "sha256": "8ce1d19f52fc7299b61c5d692ef9ba9a48b719cd2b2aa9f2d83551b6ba29f1a0"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/persistence-inventory.json",
+      "sha256": "7690e628ff67433d71bab371864ae936455757ff8fadfc83e35152b4907de57c"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/platform-images.json",
+      "sha256": "8173a42fd07939a9be4dca4ff6ea68f8df7d06394a801828a363983af43d179e"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/prime-home.png",
+      "sha256": "f31da690e632c23ccaa0b999bbb46f6e4ac34491fbbacf220277ddb153a770a0"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/review-summary.json",
+      "sha256": "ac5002074664db8a3557f4b47a694e3e54d64bb016b4eba57673f6cfddabab4a"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/screenshots.json",
+      "sha256": "39ae4a2ab3a624fe60e20a9975743a038290577d242f0b3a81f5d2b99664bf4f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/t02-demo-print-finalized.png",
+      "sha256": "dd3d3d4300602921e47067e9293e0c071271191cc3be4482a0c95690d25a1377"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/t02-normal-receipt.png",
+      "sha256": "d65ff17f8bcae34e8bb4793796f32252b7179753270233f69a1f874bf6f397a4"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/t02-recovery-failure.json",
+      "sha256": "b600510f6eff2939a5c020d3b53766a64d85337b528c98152dacec82bd1c4264"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/t02-reload-failure.png",
+      "sha256": "bf84fb7ff51f7ccbd83468688e0d3a8f6aedee18dafd95c8527c588dfadf044f"
+    },
+    {
+      "file": "Docs/astra/evidence/lot5-validation/test-totals.json",
+      "sha256": "451089544a82c82c4b5787f5edc216e59449f3995451376406f1baf3030ab7c1"
+    }
+  ],
+  "routesChecked": 115,
+  "screenshotsChecked": 9,
+  "extendedTraceabilityChecked": 115,
+  "checkedDocumentLinks": 17,
+  "publicSecretScan": {
+    "files": 35,
+    "distinctPrivateKeysChecked": 12,
+    "exactMatches": 0,
+    "privateKeyBlocks": 0
+  },
+  "evidenceSanitization": {
+    "file": "persistence-inventory.json",
+    "field": "inventory[service=redis].command[after --requirepass]",
+    "replacement": "<redacted:REDIS_PASSWORD>",
+    "privateOriginalRetained": true,
+    "otherFieldsExact": true
+  },
+  "reusedFunctionalResults": {
+    "counts": {
+      "backendJest": 576,
+      "composeInit": 8,
+      "gateway": 24,
+      "packaging": 9,
+      "clients": 297,
+      "ocr": 12,
+      "pairedHttp": 2570,
+      "securityHttp": 15,
+      "browserPassed": 15,
+      "browserFailed": 1
+    },
+    "passed": 3526,
+    "failed": 1,
+    "structuralRoutesSeparate": 115,
+    "pairedComparisonsSeparate": 22,
+    "buildsSeparate": 5,
+    "method": "Assertions/checkpoints across suites, not unique endpoints; each baseline/candidate HTTP checkpoint counted. Browser case grouping explicitly listed. Initial harness-only failures excluded after corrected rerun, documented in report."
+  },
+  "fsckExit": 0,
+  "currentDockerAvailable": false,
+  "currentProtectedContainerState": "NOT_REVALIDATED; saved integrity.json describes previous session only",
+  "blockers": [
+    "T02 recovery functional test failed on unchanged reference",
+    "Native Linux and macOS host protocol required by 3J not executed"
+  ],
+  "lot5Complete": false,
+  "academicClosureAccepted": false
+}

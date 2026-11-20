@@ -1,0 +1,63 @@
+{
+  "reference": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "head": "9d57edea9bf047ac8e5d05833ec752bb82572591",
+  "branch": "feat/dezkz-identity-a4-core",
+  "referencesAreAncestors": [
+    "efcbdc9bc7f68944f0c72c6bbff125f55793f4e4",
+    "d1aa04072f3f71d72f9313e03066c3a663738f56",
+    "27edae7d68a19e62d0b65682f84cf049928fb64d",
+    "9d57edea9bf047ac8e5d05833ec752bb82572591"
+  ],
+  "fsckExit": 0,
+  "trackedFilesHashed": 1508,
+  "changedTrackedFiles": [],
+  "enginesFrontendsGatewaySchemaMigrationsUnchanged": true,
+  "historicalEvidence": [
+    {
+      "file": "Docs/astra/evidence/stage2b/compose-isolated-redacted.json",
+      "sha256": "e11deb809b31f145d8e4e212d3bec5f4df107ca6d6b6f9987106c2b59e9b40f7"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/control.png",
+      "sha256": "b2a5a86cf03fc513a3ac9a16511177b3b4071f7575d7d891afbc56e7d176d287"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/prime.png",
+      "sha256": "b84269540aae58323a038bd6aab26fef1019c0678fa1e5b1268fce429a1cc19f"
+    },
+    {
+      "file": "Docs/astra/evidence/stage2b/results.json",
+      "sha256": "b5bfe4c892f11d8373e5ec15edf71271f041ca4bfe381357ee7db19abfe75b30"
+    },
+    {
+      "file": "Docs/astra/primax-stage2b-isolated-integration-results.md",
+      "sha256": "3b48cb4dd1180aee6453274d50ddadb5273406125dc1da41b28edd6302601561"
+    },
+    {
+      "file": "tools/astra/stage2b-browser.cjs",
+      "sha256": "6ff5485ba1555f3d72b8d9f00f67c1005f72d19b94af0cb604a3e73eefcca269"
+    },
+    {
+      "file": "tools/astra/stage2b-checks.cjs",
+      "sha256": "96782594db2f7cf510a69efc0ead906fefa14f00583d13c6d174185a96f0b72f"
+    },
+    {
+      "file": "tools/astra/stage2b-lab.cjs",
+      "sha256": "609f7c60243c3240ae4bde9b6e0579f2ac84a37c8d862adb4bf35bd39bb1b5d6"
+    },
+    {
+      "file": "tools/stage2b-smoke.cjs",
+      "sha256": "47e6912ee0f01993375b44388b28d01ab8e4fbca5846720f9c27f31308c2f7b7"
+    }
+  ],
+  "protectedProjects": {
+    "primax-v2-avance-5c50b4a9": {
+      "containers": 20,
+      "idsImagesStartsRestartsMountsUnchanged": true
+    },
+    "primax-astra-original": {
+      "containers": 17,
+      "idsImagesStartsRestartsMountsUnchanged": true
+    }
+  }
+}
