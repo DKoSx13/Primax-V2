@@ -9,7 +9,12 @@ function keepSessionAlive() {
   if (heartbeat) return;
   heartbeat = setInterval(async () => {
     if (!kioskAuthEnabled() || !current?.authenticated || document.hidden) return;
-    try { if (!await terminalReady()) { current = null; void ensureKioskSession(); } }
+    try {
+      if (current.expiresAt <= Date.now() || !await terminalReady()) {
+        current = null;
+        void ensureKioskSession();
+      }
+    }
     catch { /* Temporary network failure never cancels a financial operation. */ }
   }, 30000);
   heartbeat.unref?.();
@@ -47,6 +52,10 @@ export async function refreshKioskSession() {
     current = null;
     await ensureKioskSession();
   }
+}
+export async function renewKioskSessionIfExpired() {
+  if (kioskAuthEnabled() && (!current?.authenticated || current.expiresAt <= Date.now()))
+    await ensureKioskSession();
 }
 export function terminalRecovery() {
   current = null;

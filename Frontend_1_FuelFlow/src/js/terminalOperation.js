@@ -31,6 +31,9 @@ export async function ensureTerminalOperation({ terminal = terminalService, tran
     if (kioskAuthEnabled()) terminalRecovery();
     throw Error('Terminal temporalmente no disponible. Solicita asistencia al personal de la estación.');
   }
+  // A hidden tab can outlive its Redis lease. Reclaim only on the new-attention
+  // path. The server rejects another owner or an intervening financial operation.
+  if (kioskAuthEnabled()) await terminal.claim(operationId);
   let created;
   try { created = await terminal.start(operationId); }
   catch (error) {

@@ -70,13 +70,14 @@ suite('final terminal operation on isolated local PostgreSQL', () => {
     await expect(control.login((await db.user.findUniqueOrThrow({ where: { id: clientId } })).email, password)).rejects.toBeInstanceOf(ForbiddenException);
   });
 
-  it('starts automatically and rejects the obsolete administrative switch',async()=>{
+  it('starts automatically and keeps maintenance separate from an active operation',async()=>{
     await expect(terminals.terminals(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_VIEW'],[otherStationId]),stationId)).rejects.toBeInstanceOf(ForbiddenException);
     await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',[]),terminalId,'ENABLE')).rejects.toBeInstanceOf(ForbiddenException);
-    await expect(terminals.terminalStatus(actor(encargadoId,'ENCARGADO',['ADMIN_TERMINAL_MANAGE']),terminalId,'SUSPEND','Reason')).rejects.toThrow('solo lectura');
+    const manager = actor(encargadoId, 'ENCARGADO', ['ADMIN_TERMINAL_MANAGE']);
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
     const id=randomUUID();expect((await operations.startOperation(terminalId,id)).enablementId).toBeNull();
     await expect(operations.startOperation(terminalId,randomUUID())).rejects.toThrow('Terminal no disponible');
+    await expect(terminals.terminalStatus(manager, terminalId, 'SUSPEND', 'Falla técnica')).rejects.toThrow('operación activa');
     await operations.closeOperation(terminalId,id);
     expect((await operations.terminalMe(terminalId)).canStart).toBe(true);
   });

@@ -190,6 +190,20 @@ describe('operator security across independent function instances', () => {
     store.data.delete(store.key(`terminal-owner:${terminalId}`));
     await expect(b.claimTerminal(tab(second), terminalId, operationId)).rejects.toThrow('Operación activa');
   });
+  it('requires a new claim once the idle lease has expired', async () => {
+    const { a, db, store } = fixture();
+    const terminalId = '44444444-4444-4444-8444-444444444444';
+    const owner = '66666666-6666-4666-8666-666666666666';
+    const req = { header: () => owner } as unknown as Request;
+    const tx = { $queryRaw: jest.fn(), terminalOperation: { findFirst: jest.fn().mockResolvedValue(null) } };
+    Object.assign(db, { atomic: (work: (client: typeof tx) => unknown) => work(tx) });
+    await a.claimTerminal(req, terminalId);
+    store.data.delete(store.key('terminal-owner:' + terminalId)); // Redis GET after natural expiration
+    await a.touchTerminalOwner(terminalId, owner);
+    await expect(a.assertTerminalOwner(terminalId, owner, true)).rejects.toThrow('ocupada');
+    await a.claimTerminal(req, terminalId);
+    await expect(a.assertTerminalOwner(terminalId, owner, true)).resolves.toBeUndefined();
+  });
   it('reclaims only a closed recovery owner, never an active financial operation', async () => {
     const { a, db, store } = fixture();
     const terminalId = '44444444-4444-4444-8444-444444444444';

@@ -5,7 +5,7 @@ export async function apiClient(path, { method = 'GET', body, authenticated = tr
   let response;
   try {
     response = await fetch(API_BASE_URL + path, {
-      method, headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(token ? { Authorization: 'Bearer ' + token } : {}) },
+      method, headers: { 'ngrok-skip-browser-warning': 'true', ...(body ? { 'Content-Type': 'application/json' } : {}), ...(token ? { Authorization: 'Bearer ' + token } : {}) },
       ...(body ? { body: JSON.stringify(body) } : {}), signal: AbortSignal.timeout(15000), cache: 'no-store',
     });
   } catch { throw Error('No pudimos conectar. Revisa tu conexión y vuelve a intentarlo.'); }

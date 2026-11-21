@@ -6,19 +6,20 @@ import { normalizePlate } from '../vehicles/plate.dto';
 export class AlertsService {
   constructor(private readonly db: PrismaService) {}
 
-  async checkPlate(plateInput: string, code: string, operationId: string) {
+  async checkPlate(plateInput: string, code: string, operationId: string, verifyMembership = false) {
     const plate = normalizePlate(plateInput) as string;
-    let membership = await this.db.membership.findUnique({
-      where: { number: code.trim().toUpperCase() },
-      include: { vehicles: true, user: { select: { name: true } } },
-    });
-    if (!membership) {
-      const alias=await this.db.membershipCodeAlias.findUnique({where:{code:code.trim().toUpperCase()},include:{membership:{include:{vehicles:true,user:{select:{name:true}}}}}});
-      membership=alias?.membership??null;
-    }
+    const number = code.trim().toUpperCase();
+    const include = { vehicles: true, user: { select: { name: true, active: true } } } as const;
+    const membership = await this.db.membership.findUnique({ where: { number }, include })
+      ?? (await this.db.membershipCodeAlias.findUnique({ where: { code: number }, include: { membership: { include } } }))?.membership;
     // A typo in an unknown membership is not evidence of a plate mismatch.
-    if (!membership || membership.vehicles.some((v) => v.plate === plate))
-      return { mismatch: false };
+    if (!membership) return { mismatch: false };
+    if (membership.vehicles.some((v) => v.plate === plate)) {
+      if (!verifyMembership || membership.status !== 'ACTIVE' || !membership.user.active) return { mismatch: false };
+      return { mismatch: false, membership: {
+        name: membership.user.name, dni: membership.dni, ruc: membership.ruc, businessName: membership.businessName,
+      } };
+    }
     const expectedPlates = membership.vehicles.map((v) => v.plate).sort((a, b) => a.localeCompare(b));
     await this.db.businessAlert.upsert({
       where: { eventKey: `plate:${operationId}:${membership.id}:${plate}` },

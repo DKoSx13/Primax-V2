@@ -19,11 +19,11 @@ module.exports=async c=>{
   for(const actor of ['anonymous','member','cookie'])await recognize(401,'recognition denies '+actor,{actor,noEngine:true});
   await recognize(400,'invalid image payload',{body:{image:'@'.repeat(16)}});await recognize(400,'unknown recognition kind',{body:{image:'QUFBQUFBQUFBQUFB',kind:'other'},noEngine:true});
   config.set('PLATE_RECOGNITION_ENABLED','false');await recognize(503,'OCR disabled');config.set('PLATE_RECOGNITION_ENABLED','true');
-  let before=await snapshot();ocr({plate:'AAA-001',confidence:0.99});const found=await recognize(201,'recognized plate with original lookup');assert.equal(found.recognized,true);assert.equal(found.vehicle.id,id('member-vehicle'));assert.deepEqual(await snapshot(),before);
+  let before=await snapshot();ocr({plate:'AAA-001',confidence:0.99});const found=await recognize(201,'recognized plate with original lookup');assert.equal(found.recognized,true);assert.deepEqual(found.vehicle,{plate:'AAA-001'});assert.deepEqual(await snapshot(),before);
   ocr({plate:'ZZZ-999',confidence:0.99});const missing=await recognize(201,'recognized unknown vehicle');assert.equal(missing.vehicle,null);assert.equal(missing.recognized,true);
   ocr({plate:'AAA-001',confidence:0.1});const low=await recognize(201,'low confidence unchanged');assert.equal(low.recognized,false);
   ocr({plate:'INVALID',confidence:0.99});const invalid=await recognize(201,'malformed provider plate');assert.equal(invalid.plate,null);
-  ocr({plate:'PRIME-111',confidence:0.99});const membership=await recognize(201,'membership alias recognition',{body:{image:'QUFBQUFBQUFBQUFB',kind:'membership'}});assert.equal(membership.recognized,true);assert.equal(membership.membership.number,'PRIM000111');
+  ocr({plate:'PRIME-111',confidence:0.99});const membership=await recognize(201,'membership alias recognition',{body:{image:'QUFBQUFBQUFBQUFB',kind:'membership'}});assert.equal(membership.recognized,true);assert.equal(membership.number,'PRIME-111');assert.equal(membership.membership,undefined);
   ocr({},true);await recognize(503,'OCR transport unavailable');ocr({plate:'AAA-001',confidence:0.99});
   await Promise.all(['A','B'].map(k=>recognize(201,'concurrent recognition '+k,{concurrent:true})));assert.deepEqual(await snapshot(),before);
   flags.recognitionContract=true;flags.ocrTransportSimulated=true;flags.originalAdminRegressionsOnly=true;flags.demoLoginTechnicalExceptionsTested=true;flags.noNewAdminBoundary=true;

@@ -82,7 +82,7 @@ function stationsOptions(selected = selectedStation) {
 
 const dateLabel = (value) => value ? new Date(value).toLocaleDateString('es-PE') : '—';
 const paymentLabel = (value) => ({ CAPTURED: 'Pago confirmado', PAID: 'Pagado', PENDING: 'Pendiente', PAYMENT_PENDING: 'Pago pendiente', PARTIAL: 'Parcial', REJECTED: 'Rechazado', REFUNDED: 'Reembolsado', CANCELLED: 'Cancelado', ERROR: 'Error', REVIEW: 'En revisión', INTERVENTION_REQUIRED: 'Intervención requerida', SETTLED: 'Liquidado', CLOSED: 'Cerrado', ACTIVE: 'Activo' })[value] || value || '—';
-const statusLabel = (value) => ({ OPEN: 'Abierta', IN_REVIEW: 'En revisión', RESOLVED: 'Resuelta', DISMISSED: 'Descartada', ACTIVE: 'Activa', INACTIVE: 'Inactiva', PENDING: 'Pendiente', PENDING_APPROVAL: 'Pendiente de aprobación', APPROVED: 'Aprobada', DISABLED: 'Deshabilitada', ABIERTO: 'Abierto', CERRADO: 'Cerrado', READY: 'Lista', EN_ATENCION: 'En atención', FUERA_DE_SERVICIO: 'Fuera de servicio', ASISTENCIA: 'Requiere asistencia', INTERVENTION_REQUIRED: 'Requiere intervención' })[value] || paymentLabel(value);
+const statusLabel = (value) => ({ OPEN: 'Abierta', IN_REVIEW: 'En revisión', RESOLVED: 'Resuelta', DISMISSED: 'Descartada', ACTIVE: 'Activa', INACTIVE: 'Inactiva', PENDING: 'Pendiente', PENDING_APPROVAL: 'Pendiente de aprobación', APPROVED: 'Aprobada', DISABLED: 'Deshabilitada', DISPONIBLE: 'Disponible', EN_USO: 'En uso', BLOQUEADA: 'Bloqueada', ABIERTO: 'Abierto', CERRADO: 'Cerrado', READY: 'Lista', EN_ATENCION: 'En atención', FUERA_DE_SERVICIO: 'Fuera de servicio', ASISTENCIA: 'Requiere asistencia', INTERVENTION_REQUIRED: 'Requiere intervención' })[value] || paymentLabel(value);
 const roleLabel = (value) => ({ SYSTEM_ADMIN: 'Administrador del sistema', SUPER_ADMIN: 'Administrador del sistema', ADMIN: 'Administrador', ENCARGADO: 'Encargado' })[value] || value || '—';
 const permissionMask = (value) => value == null ? '—' : esc(value);
 
@@ -148,8 +148,9 @@ async function renderDashboard() {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const data = await api(`/control/dashboard${suffix}`);
     const unavailable = data.terminals.filter((entry) => ['ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(entry.status)).reduce((sum, entry) => sum + entry.count, 0);
-    document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control', 'Indicadores consultados en tiempo real desde Primax V2.')}<section class="metrics"><article class="metric"><span>Operaciones hoy</span><strong>${data.operationsToday}</strong><small>Transacciones registradas</small></article><article class="metric"><span>Operaciones activas</span><strong>${data.activeOperations}</strong><small>Despachos en curso</small></article><article class="metric"><span>Ingresos confirmados hoy</span><strong>S/ ${fmt(data.capturedRevenueToday)}</strong><small>Pagos confirmados</small></article><article class="metric"><span>Clientes activos</span><strong>${data.activeCustomers ?? '—'}</strong><small>Usuarios activos con actividad en alcance</small></article><article class="metric"><span>Membresías activas</span><strong>${data.activeMemberships ?? '—'}</strong><small>Membresías en estado activo</small></article><article class="metric"><span>Incidencias abiertas</span><strong>${data.openIncidents}</strong><small>Abiertas o en revisión</small></article><article class="metric"><span>Terminales en atención</span><strong>${unavailable}</strong><small>Asistencia o fuera de servicio</small></article></section><div class="grid dashboard-grid"><section class="panel"><div class="panel-head"><h2>Combustible disponible</h2><span>${data.reviewPairs} pares en revisión</span></div>${fuelSummaryMarkup(data, { esc, fmt, statusLabel })}</section><section class="panel"><div class="panel-head"><h2>Estado de terminales</h2><span>${data.stations.length} estaciones visibles</span></div><div class="terminal-stats">${data.terminals.map((item) => `<div><span class="status-dot ${['ASISTENCIA','FUERA_DE_SERVICIO'].includes(item.status) ? 'red' : ''}"></span>${esc(statusLabel(item.status))}<strong>${item.count}</strong></div>`).join('') || '<p class="muted">Sin terminales registradas.</p>'}</div></section></div>`;
-    document.querySelector('#content .metrics').insertAdjacentHTML('beforeend', ecoDigitalMetricMarkup(data.receiptsAvailableToday));
+    document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control', 'Indicadores consultados en tiempo real desde Primax.')}<section class="metrics"><article class="metric"><span>Operaciones hoy</span><strong>${data.operationsToday}</strong><small>Transacciones registradas</small></article><article class="metric"><span>Operaciones activas</span><strong>${data.activeOperations}</strong><small>Atenciones abiertas</small></article><article class="metric"><span>Ingresos confirmados hoy</span><strong>S/ ${fmt(data.capturedRevenueToday)}</strong><small>Pagos confirmados</small></article><article class="metric"><span>Clientes activos</span><strong>${data.activeCustomers ?? '—'}</strong><small>Usuarios activos con actividad en alcance</small></article><article class="metric"><span>Membresías activas</span><strong>${data.activeMemberships ?? '—'}</strong><small>Membresías en estado activo</small></article><article class="metric"><span>Incidencias abiertas</span><strong>${data.openIncidents}</strong><small>Abiertas o en revisión</small></article><article class="metric"><span>Terminales no disponibles</span><strong>${unavailable}</strong><small>Asistencia o fuera de servicio</small></article></section><div class="grid dashboard-grid"><section class="panel"><div class="panel-head"><h2>Combustible disponible</h2><span>${data.reviewPairs} pares en revisión</span></div>${fuelSummaryMarkup(data, { esc, fmt, statusLabel })}</section><section class="panel"><div class="panel-head"><h2>Estado de terminales</h2><span>${data.stations.length} ${data.stations.length === 1 ? 'estación visible' : 'estaciones visibles'}</span></div><div class="terminal-stats">${data.terminals.map((item) => `<div><span class="status-dot ${['ASISTENCIA','FUERA_DE_SERVICIO'].includes(item.status) ? 'red' : ''}"></span>${esc(statusLabel(item.status))}<strong>${item.count}</strong></div>`).join('') || '<p class="muted">Sin terminales registradas.</p>'}</div></section></div>`;
+    document.querySelector('#content .metrics').insertAdjacentHTML('beforeend', ecoDigitalMetricMarkup(data.receiptsAvailableToday) +
+      '<article class="metric metric-eco"><span>Impacto ambiental</span><strong>Menos papel</strong><small>Elige «No imprimir» en FuelFlow y conserva tu comprobante digital.</small></article>');
   } catch (error) { document.querySelector('#content').innerHTML = `${heading('RESUMEN OPERATIVO', 'Panel de control')}${panel(incidentMessage(error), 'denied')}`; }
 }
 
@@ -174,16 +175,18 @@ async function renderTerminals() {
   try {
     const suffix = selectedStation ? `?stationId=${encodeURIComponent(selectedStation)}` : '';
     const { terminals, pumps } = await api(`/control/terminals${suffix}`);
-    const status = { DISPONIBLE: 'Disponible', EN_USO: 'En uso', BLOQUEADA: 'Disponibilidad autom?tica', ASISTENCIA: 'Suspendida · operación activa', FUERA_DE_SERVICIO: 'Fuera de servicio' };
-    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'Estado de solo lectura. FuelFlow inicia automáticamente; se conservan las intervenciones de seguridad.')}
+    document.querySelector('#content').innerHTML = `${heading('EQUIPOS', 'Terminales y surtidores', 'Consulta la disponibilidad y administra el mantenimiento de terminales autorizadas.')}
       <section class="panel table-wrap" tabindex="0"><div class="panel-head"><h2>Terminales</h2></div><table><thead><tr><th>Estación</th><th>Terminal</th><th>Estado actual</th><th>Surtidor</th><th>Operación</th><th>Última actividad</th><th>Cambio por</th><th>Motivo de suspensión</th><th>Acción</th></tr></thead><tbody>${terminals.map((terminal) => {
         const operation = terminal.operations[0];
         const enabled = ['DISPONIBLE', 'EN_USO'].includes(terminal.operationalStatus);
-        const action = '<span class="muted">Disponibilidad automática</span>';
+        const maintenance = terminal.lifecycle === 'REGISTRADA' && terminal.operationalStatus === 'FUERA_DE_SERVICIO' && terminal.suspensionReason;
+        const canManage = has('ADMIN_TERMINAL_MANAGE') && terminal.lifecycle === 'REGISTRADA' && !operation;
+        const action = canManage && (terminal.operationalStatus === 'DISPONIBLE' || terminal.operationalStatus === 'BLOQUEADA' || maintenance)
+          ? `<button class="text-button" data-terminal-id="${esc(terminal.id)}" data-terminal-action="${maintenance ? 'ENABLE' : 'SUSPEND'}" data-terminal-code="${esc(terminal.code)}">${maintenance ? 'Habilitar' : 'Poner en mantenimiento'}</button>` : '—';
         const needsRecovery = operation && (operation.status === 'INTERVENTION_REQUIRED' || ['ASISTENCIA', 'FUERA_DE_SERVICIO'].includes(terminal.operationalStatus));
         const recovery = needsRecovery && has('ADMIN_INCIDENT_MANAGE')
           ? `<button class="text-button" data-operation-resolve="${esc(operation.operationId)}">Resolver operación</button>` : '';
-        return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${enabled ? '' : 'warning'}">${esc(status[terminal.operationalStatus] || terminal.operationalStatus)}</span></td><td>${esc(terminal.assignments[0]?.pump?.code || 'Sin asignar')}</td><td>${operation ? `${esc(operation.number || "Sin correlativo")}` : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt || terminal.statusChangedAt)}</td><td>${esc(terminal.statusChangedBy || '—')}</td><td>${esc(terminal.suspensionReason || '—')}</td><td>${action}${recovery}</td></tr>`;
+        return `<tr><td>${esc(terminal.station.name)}</td><td>${esc(terminal.code)}</td><td><span class="badge ${enabled ? '' : 'warning'}">${esc(maintenance ? 'En mantenimiento' : statusLabel(terminal.operationalStatus))}</span></td><td>${esc(terminal.assignments[0]?.pump?.code || 'Sin asignar')}</td><td>${operation ? `${esc(operation.number || "Sin correlativo")}` : '—'}</td><td>${stamp(terminal.credentials[0]?.lastUsedAt || terminal.statusChangedAt)}</td><td>${esc(terminal.statusChangedBy || '—')}</td><td>${esc(terminal.suspensionReason || '—')}</td><td>${action}${recovery}</td></tr>`;
       }).join('') || '<tr><td colspan="9">No hay terminales para este alcance.</td></tr>'}</tbody></table></section>
       <section class="panel table-wrap" tabindex="0"><div class="panel-head"><h2>Surtidores</h2></div><table><thead><tr><th>Estación</th><th>Surtidor</th><th>Nombre</th><th>Terminal asignada</th></tr></thead><tbody>${pumps.map((pump) => `<tr><td>${esc(pump.station.name)}</td><td>${esc(pump.code)}</td><td>${esc(pump.name)}</td><td>${esc(pump.assignments[0]?.terminal?.code || 'Sin asignar')}</td></tr>`).join('') || '<tr><td colspan="4">No hay surtidores activos.</td></tr>'}</tbody></table></section>`;
   } catch (error) { showError(error); }
@@ -490,6 +493,20 @@ document.addEventListener('click', async (event) => {
         catch (error) { window.alert(incidentMessage(error)); button.disabled = false; }
       }));
     } catch (error) { window.alert(incidentMessage(error)); }
+  }
+  if (target.dataset.terminalAction) {
+    const { terminalId, terminalAction: action, terminalCode } = target.dataset;
+    const reason = action === 'SUSPEND' ? window.prompt(`Motivo de mantenimiento de ${terminalCode}`) : null;
+    if (action === 'SUSPEND' && reason === null) return;
+    if (action === 'ENABLE' && !window.confirm(`¿Habilitar ${terminalCode} para nuevas atenciones?`)) return;
+    target.disabled = true;
+    try {
+      await api(`/control/terminals/${terminalId}/status`, { method: 'POST', body: JSON.stringify({ action, ...(reason !== null ? { reason } : {}) }) });
+      await renderTerminals();
+    } catch (error) {
+      window.alert(error.message);
+    } finally { target.disabled = false; }
+    return;
   }
   if (target.dataset.operationResolve) {
     const reason = window.prompt('Resultado de la intervención:');

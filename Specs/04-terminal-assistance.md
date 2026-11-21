@@ -2,7 +2,7 @@
 
 ## Estado operativo
 
-Una terminal registrada con surtidor activo comienza `BLOQUEADA`. Personal de Control con `ADMIN_TERMINAL_MANAGE` y estación dentro de su alcance puede **Habilitar terminal** (`DISPONIBLE`) o **Suspender terminal** (`BLOQUEADA`). La suspensión exige motivo y registra actor, fecha y auditoría. Si hay una operación abierta, pasa a `ASISTENCIA` para impedir operaciones nuevas sin cancelar el proceso financiero. Al cerrarse esa operación queda `BLOQUEADA`. Una terminal revocada usa el estado `FUERA_DE_SERVICIO` según su ciclo de vida existente.
+Una terminal registrada con un surtidor activo admite autoservicio al estar disponible. El valor histórico `BLOQUEADA` mantiene su disponibilidad automática. Personal de Control con `ADMIN_TERMINAL_MANAGE` y estación dentro de su alcance puede poner una terminal registrada en mantenimiento (`FUERA_DE_SERVICIO`). La terminal debe estar libre de atenciones abiertas y el cambio registra el motivo, el actor y la fecha. **Habilitar** restablece `DISPONIBLE` en una terminal suspendida por mantenimiento con un surtidor activo. Las terminales revocadas conservan su ciclo de vida y las intervenciones se gestionan por operación.
 
 FuelFlow consulta el estado persistido. Con `DISPONIBLE` inicia autoservicio; con terminal suspendida muestra «Terminal temporalmente no disponible» y permite actualizar el estado. Una operación ya iniciada conserva su contexto técnico y puede terminar de forma segura. No hay apertura o cierre de turno ni inicio manual de estación.
 

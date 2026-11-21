@@ -71,3 +71,18 @@ test('closed persisted operation is discarded and a fresh operation starts; acti
   const active = { ...terminal, operation: async operationId => ({ operationId, status: 'ACTIVE' }), start: async () => { throw Error('must not start again'); } };
   assert.equal((await ensureTerminalOperation({ terminal: active, transactions })).operationId, next);
 });
+
+test('renews an expired claim before starting without reloading', async () => {
+  globalThis.FUELFLOW_KIOSK_AUTH = true;
+  const calls = [];
+  const terminal = {
+    me: async () => ({ canStart: true }),
+    operation: async () => { throw Object.assign(Error('missing'), { status: 404 }); },
+    claim: async operationId => { calls.push(['claim', operationId]); },
+    start: async operationId => { calls.push(['start', operationId]); return { operationId }; },
+  };
+  try {
+    assert.equal((await ensureTerminalOperation({ terminal, transactions: { begin: () => ({ operationId: id }) } })).operationId, id);
+    assert.deepEqual(calls, [['claim', id], ['start', id]]);
+  } finally { delete globalThis.FUELFLOW_KIOSK_AUTH; }
+});

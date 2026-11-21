@@ -17,7 +17,7 @@ function fixture(fail=false){
     $:id=>elements.get(id),document:{querySelectorAll:()=>[]},clearInterval(){},
     transactionsService:{current:()=>({operationId:'operation'}),assertCanFinish:id=>assert.equal(id,'tx'),finish:id=>events.push('finish:'+id)},
     terminalService:{me:async()=>({code:'T01',pumpCode:'01'}),close:async id=>{events.push('close:'+id);if(fail)throw Error('Backend unavailable');}},
-    detenerProgresoAyuda(){},limpiarAuto(){},limpiarPostpago(){},actualizarMontoDisplay(){},
+    plateCheckOperation:null,limpiarEstadoOperacion(){},detenerProgresoAyuda(){},limpiarAuto(){},limpiarPostpago(){},actualizarMontoDisplay(){},
     mostrarPantalla:id=>events.push('screen:'+id),hablar(){},t:key=>key,actualizarEstado(){},
   };
   vm.createContext(context);vm.runInContext(code,context);

@@ -16,5 +16,5 @@ export function fuelSummaryMarkup(data, { esc, fmt, statusLabel }) {
 }
 export function ecoDigitalMetricMarkup(count) {
   if (!Number.isSafeInteger(count) || count < 0) return '';
-  return `<article class="metric"><span>Comprobantes disponibles digitalmente</span><strong>${count}</strong><small>Emitidos hoy (hora de Lima) en estaciones visibles · documentos académicos de demostración. No indica si se imprimieron.</small></article>`;
+  return `<article class="metric"><span>Comprobantes digitales</span><strong>${count}</strong><small>Emitidos hoy en las estaciones visibles (hora de Lima). No mide impresiones evitadas.</small></article>`;
 }

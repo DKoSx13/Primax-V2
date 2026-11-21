@@ -32,7 +32,8 @@ export class VehiclesController {
   @MemberOrKiosk()
   @ApiSecurity('kiosk')
   @ApiOkResponse({ type: VehicleResponseDto })
-  find(@Param() params: PlateDto, @CurrentActor() actor: Actor) {
-    return this.service.findByPlate(params.plate, actor);
+  async find(@Param() params: PlateDto, @CurrentActor() actor: Actor) {
+    const vehicle = await this.service.findByPlate(params.plate, actor);
+    return actor.kind === 'kiosk' ? { plate: vehicle.plate } : vehicle;
   }
 }

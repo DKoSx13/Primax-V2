@@ -45,7 +45,7 @@ export const terminalService={
 export const authorizationService={
   intervention:id=>apiClient('/authorizations/'+encodeURIComponent(id)+'/intervention',{method:'POST'}),
   reserve:body=>apiClient('/authorizations',{method:'POST',body}),
-  release:id=>apiClient('/authorizations/'+encodeURIComponent(id)+'/release',{method:'POST'}),
+  release:id=>apiClient('/authorizations/'+encodeURIComponent(id)+'/release',{method:'POST',body:{}}),
   /**
    * Informa el avance del abastecimiento. No mueve saldo ni cobra: sirve para
    * que el backend conozca lo despachado y para recuperar operaciones si el

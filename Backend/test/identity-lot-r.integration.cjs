@@ -182,9 +182,9 @@ async function main() {
     await compare('vehicles/ZZZ-000', 404, { user: 'a' });
     await compare('vehicles/invalid', 400, { user: 'a' });
     await compare('vehicles/aaa001', 200, { user: 'a' });
-    await compare('vehicles/AAA-001', 200, { signed: 'valid', check: r => { assert.equal(r.membership.balance, '12.34'); assert.equal(r.membership.pendingBalance, '3.00'); assert.deepEqual(r.membership.legacyNumbers, ['OLD-A']); } });
-    await compare('vehicles/BBB-001', 200, { signed: 'valid', check: r => assert.equal(r.membership.id, ids.memberB) });
-    await compare('vehicles/ZZZ-999', 200, { signed: 'valid', check: r => assert.equal(r.membership, null) });
+    await compare('vehicles/AAA-001', 200, { signed: 'valid', check: r => assert.deepEqual(r, { plate: 'AAA-001' }) });
+    await compare('vehicles/BBB-001', 200, { signed: 'valid', check: r => assert.deepEqual(r, { plate: 'BBB-001' }) });
+    await compare('vehicles/ZZZ-999', 200, { signed: 'valid', check: r => assert.deepEqual(r, { plate: 'ZZZ-999' }) });
     await compare('vehicles/aaa001', 403, { signed: 'valid' });
     await compare('vehicles/AAA-001', 403, { signed: 'valid', badCsrf: true });
     await compare('vehicles/AAA-001', 401, { signed: 'wrong-station' });

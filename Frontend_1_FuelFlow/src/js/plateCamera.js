@@ -43,14 +43,13 @@ export function openPlateCamera(onRecognized, kind = 'plate') {
   try{
    let value=input.value.trim().toUpperCase();
    if(membership){
-    if(!/^PRIM(?:[0-9]+[A-Z]?|E-[0-9]+)$/.test(value))throw Error('Revisa el código de membresía.');
+    if(!/^(?:PRIME-(?:[0-9]+|[A-Z]+[0-9]{3})|PRIM[0-9]+[A-Z]?)$/.test(value))throw Error('Revisa el código de membresía.');
     // This fills a candidate only. The existing verification step checks active membership and matching plate on backend.
     if(!closed)await onRecognized({number:value});
    }else{
     value=value.replace(/[^A-Z0-9]/g,'');if(!/^[A-Z0-9]{3}[0-9]{3}$/.test(value))throw Error('Revisa el formato de placa.');
     value=value.slice(0,3)+'-'+value.slice(3);
-    let vehicle=null;try{vehicle=await apiClient('/vehicles/'+encodeURIComponent(value));}catch(error){if(error.status!==404)throw error;}
-    if(!closed)await onRecognized({plate:value,vehicle});
+    if(!closed)await onRecognized({plate:value});
    }
    stop();
   }catch(error){if(!closed)status.textContent=error.message;}

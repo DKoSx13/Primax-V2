@@ -53,12 +53,11 @@ export class RecognitionService {
         this.config.get('PLATE_CONFIDENCE_THRESHOLD', '0.75'),
       );
       const membership =
-        /^PRIM(?:[0-9]+[A-Z]?|E-[0-9]+)$/.test(number) &&
+        /^(?:PRIME-(?:[0-9]+|[A-Z]+[0-9]{3})|PRIM[0-9]+[A-Z]?)$/.test(number) &&
         confidence >= threshold
           ? await this.vehicles.membership(number)
           : null;
       return {
-        membership,
         number,
         confidence,
         threshold,
@@ -82,9 +81,8 @@ export class RecognitionService {
     let vehicle = null;
     if (recognized) {
       try {
-        vehicle = await this.vehicles.findByPlate(plate as string, {
-          kind: 'kiosk',
-        });
+        const found = await this.vehicles.findByPlate(plate as string, { kind: 'kiosk' });
+        vehicle = { plate: found.plate };
       } catch (error) {
         if (!(error instanceof NotFoundException)) throw error;
       }

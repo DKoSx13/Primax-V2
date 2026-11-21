@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { IsString, IsUUID, Matches, MaxLength } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, IsUUID, Matches, MaxLength } from 'class-validator';
 import { Throttle } from '@nestjs/throttler';
 import { KioskOnly, Public } from './access';
 import { PlateDto } from '../vehicles/plate.dto';
@@ -25,6 +25,7 @@ class AdminLoginDto {
 class CheckPlateDto extends PlateDto {
   @IsString() @Matches(/^[A-Z0-9-]{4,30}$/) membershipCode: string;
   @IsUUID('4') operationId: string;
+  @IsOptional() @IsBoolean() verifyMembership?: boolean;
 }
 export { demoAdminEnabled } from './demo-admin-enabled';
 @Controller('admin')
@@ -74,6 +75,7 @@ export class AdminController {
       dto.plate,
       dto.membershipCode,
       dto.operationId,
+      dto.verifyMembership,
     );
   }
 }

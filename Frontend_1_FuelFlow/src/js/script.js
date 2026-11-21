@@ -1,6 +1,5 @@
-import {matchesMembershipCode} from './membershipCode.js';
 import {releaseFailedPayment} from './paymentRecovery.js';
-import { ensureKioskSession, kioskAuthEnabled, kioskStationId, recoveredOperationId } from './kioskSession.js';
+import { ensureKioskSession, kioskAuthEnabled, kioskStationId, recoveredOperationId, renewKioskSessionIfExpired } from './kioskSession.js';
 import { reserveBrowserTab, claimServerTerminal } from './terminalTab.js';
 import { showRecoveryDesk } from './recoveryDesk.js';
 import { pumpCode, terminalIdentityText } from './terminalIdentity.js';
@@ -113,6 +112,10 @@ const LOCALE_IDIOMA = { es: 'es-PE', en: 'en-US', qu: 'es-PE' };
 const I18N = {
   /* ------------------------------ ESPAÑOL ------------------------------ */
   es: {
+    cancel_attention: "Cancelar atención",
+    keep_attention: "Conservar atención",
+    cancel_attention_confirm: "¿Quieres cancelar esta atención?",
+    cancel_attention_detail: "Si ya hay consumo, se liquidará el importe abastecido.",
     // Barra superior / globales
     brand_sub: 'FuelFlow Autónomo',
     voice_ready: 'Asistente listo',
@@ -456,6 +459,10 @@ const I18N = {
 
   /* ------------------------------ INGLÉS ------------------------------- */
   en: {
+    cancel_attention: "Cancel service",
+    keep_attention: "Keep service",
+    cancel_attention_confirm: "Do you want to cancel this service?",
+    cancel_attention_detail: "If fuel has already been dispensed, the actual amount will be settled.",
     brand_sub: 'FuelFlow Autonomous',
     voice_ready: 'Assistant ready',
     voice_muted: 'Voice muted',
@@ -776,6 +783,10 @@ const I18N = {
   /* ----------------------------- QUECHUA ------------------------------ */
   /* Términos simples con préstamos adaptados: plaka, qolqe, akllay, etc. */
   qu: {
+    cancel_attention: "Atención sayachiy",
+    keep_attention: "Atención waqaychay",
+    cancel_attention_confirm: "¿Kay atención sayachiyta munankichu?",
+    cancel_attention_detail: "Combustible qusqaña kaptin, chayllata qullqichakunqa.",
     brand_sub: 'FuelFlow Autoservicio',
     voice_ready: 'Yanapaq listo',
     voice_muted: 'Rimay harksqa',
@@ -1189,6 +1200,9 @@ function mostrarPantalla(id) {
   if(id==='pantalla-combustible')void refreshInventory();
   document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
   $(id).classList.add('active');
+  $('btn-cancelar-atencion').classList.toggle('hidden',
+    !['pantalla-combustible', 'pantalla-pago', 'pantalla-identificacion', 'pantalla-placa',
+      'pantalla-monto-post', 'pantalla-comprobante', 'pantalla-datos', 'pantalla-metodo', 'pantalla-despacho'].includes(id));
   window.scrollTo({ top: 0, behavior: 'smooth' });
   const h2 = $(id).querySelector('h2');
   actualizarEstado('📍 ' + (h2 ? h2.textContent : t('status_listo')));
@@ -1205,6 +1219,7 @@ function mostrarModal(titulo, mensaje, icono = 'ℹ️', callback = null, confir
   $('modal-overlay').classList.remove('hidden');
   modalCallback = callback;
   $('modal-ok').textContent = confirmLabel || t('btn_entendido');
+  $('modal-cancel').textContent = confirmLabel === t('cancel_attention') ? t('keep_attention') : 'Conservar y solicitar asistencia';
   $('modal-cancel').classList.toggle('hidden', !confirmLabel);
 }
 function cerrarModal() {
@@ -1298,7 +1313,7 @@ function hablar(texto) {
     const token = ++hablaToken;
     window.speechSynthesis.cancel();   // cancela la frase anterior (su onend se ignora por token)
 
-    const u = new SpeechSynthesisUtterance(texto);
+    const u = new SpeechSynthesisUtterance(texto.replace(/[\p{Extended_Pictographic}\p{Emoji_Modifier}\p{Regional_Indicator}\uFE0E\uFE0F\u200D]/gu, '').trim());
     const codigo = CODIGO_IDIOMA[state.idioma] || 'es-PE';
     const voz = vozIdeal(codigo);
     if (voz && voz.lang) { u.voice = voz; u.lang = voz.lang; }
@@ -1429,6 +1444,7 @@ async function continuarPagoCapturado(orderId) {
 
 async function iniciar() {
   try {
+    await renewKioskSessionIfExpired();
     const pending=transactionsService.current();
     if (pending?.snapshot?.onlineOrderCreationPending && !pending.snapshot.onlineOrderId) {
       $('btn-qr-pagado').disabled = true;
@@ -1523,7 +1539,11 @@ function seleccionarCombustible(nombre, precio, tarjeta) {
   $('resumen-fuel-mini').textContent = `${nombre} · S/ ${precio}`;
   hablar(t('voz_seleccion', { fuel: nombre }));
   // Pequeña pausa para que el usuario vea el resaltado antes de avanzar
-  setTimeout(() => mostrarPantalla('pantalla-pago'), 900);
+  const operationId = transactionsService.current()?.operationId;
+  setTimeout(() => {
+    if (operationId === transactionsService.current()?.operationId && !cancelandoAtencion &&
+        $('pantalla-combustible').classList.contains('active')) mostrarPantalla('pantalla-pago');
+  }, 900);
 }
 
 function elegirModalidad(modo) {
@@ -1708,23 +1728,7 @@ function capturarPlaca(ids) {
   if (!ids.input) ids = { input: 'input-placa', cam: 'cam-plate' };
   openPlateCamera(async result => {
     $(ids.input).value = result.plate; $(ids.cam).textContent = result.plate;
-    if (result.vehicle && ids.input !== 'prep-input-placa') applyVehicle(result.vehicle);
   });
-}
-
-function applyVehicle(vehicle) {
-  state.placa = vehicle.plate;
-  const m = vehicle.membership;
-  state.membresiaVerificada = m ? { ...m, codigo: m.number, placa: vehicle.plate } : null;
-  if (m) {
-    state.codigoCliente = m.number;
-    $('post-input-codigo').value = m.number;
-    $('input-dni').value = m.dni || '';
-    $('input-ruc').value = m.ruc || '';
-    $('input-razon').value = m.businessName || '';
-    $('post-membresia-ok').textContent = m.number + ' / ' + m.name + ' / Saldo disponible: S/ ' + m.balance + ' / Saldo pendiente: S/ ' + m.pendingBalance;
-    $('post-membresia-ok').classList.remove('hidden');
-  }
 }
 
 // ---------- Procesamiento de pago (solo prepago) ----------
@@ -1812,7 +1816,19 @@ function simularDespacho() {
   $('meta-prepago').classList.toggle('hidden', !esPre);
   if (esPre) $('meta-monto').textContent = 'S/ ' + state.montoPrepago.toFixed(2);
   pintarInfoDespacho();
+
+  // Reiniciar los indicadores sin animacion residual.
+  const indicadores = [$('despacho-bar'), $('fuel-level')];
+  const transiciones = indicadores.map(el => el.style.transition);
+  indicadores.forEach(el => el.style.transition = 'none');
+
+  pintarDespacho(esPre);
   mostrarPantalla('pantalla-despacho');
+
+  indicadores.forEach(el => void el.offsetWidth);
+  indicadores.forEach((el, i) => {
+    el.style.transition = transiciones[i];
+  });
   actualizarEstado(t('step_live'));
   marcarEstadoOperacion('ABASTECIENDO');
 
@@ -1917,7 +1933,7 @@ function pintarDespacho(esPre) {
 }
 
 async function detenerDespacho(automatico = false) {
-  if (state.estadoOperacion === 'INTERVENTION_REQUIRED') return;
+  if (state.estadoOperacion === 'INTERVENTION_REQUIRED' || !state.despachoTimer) return;
   clearInterval(state.despachoTimer);
   state.despachoTimer = null;
   // El cobro se emite UNA sola vez por consumo final: no se abre la
@@ -2069,12 +2085,23 @@ function pintarResumen(){
   if ($('receipt-number')) $('receipt-number').textContent = backendResult?.transaction?.receipt?.number ? 'N.º ' + backendResult.transaction.receipt.number : 'Sin comprobante emitido';
   const transaction=backendResult.transaction;
   actualizarMensajeEcoDigital(transaction);
+  const liquidacion = $('prepago-liquidacion');
+  const payment = transaction.payment;
+  const refund = Number(payment?.refundedAmount || 0);
+  const partial = state.modalidad === 'PREPAGO' && state.motivoFin === 'MANUAL' && payment;
+  liquidacion.classList.toggle('hidden', !partial);
+  liquidacion.textContent = partial
+    ? `Importe solicitado: S/ ${state.montoPrepago.toFixed(2)} · Consumo liquidado: S/ ${Number(transaction.amount).toFixed(2)}` +
+      (refund > 0 ? ` · ${payment.provider === 'DEMO' ? 'Devolución de demostración' : 'Devolución confirmada'}: S/ ${refund.toFixed(2)}` :
+        (transaction.status === 'PAYMENT_PENDING' ? ' · Excedente pendiente de conciliación.' : ''))
+    : '';
   state.total = Number(backendResult.transaction.amount);
   if(backendResult.transaction.gallons != null) state.galones = Number(backendResult.transaction.gallons);
   if(backendResult.transaction.unitPrice != null) state.combustible.precio = Number(backendResult.transaction.unitPrice);
   const { subtotal, descuento, total, aplica_descuento: aplicaDescuento } = calcularTotales();
   const esFactura = transaction.receiptType === 'FACTURA';
-  $('t-placa').textContent = transaction.plate + ' · ' + (backendResult.transaction.membership?.name || 'No afiliado');
+  const verifiedName = state.modalidad === 'POSTPAGO' ? transaction.membership?.name : '';
+  $('t-placa').textContent = verifiedName ? transaction.plate + ' · ' + verifiedName : transaction.plate;
   $('t-doc').textContent = esFactura ? t('doc_factura_full') : t('doc_boleta_full');
   $('t-docnum').textContent = esFactura
     ? (transaction.receiptRuc || transaction.receiptBusinessName
@@ -2158,47 +2185,101 @@ async function finalizar() {
       $('print-error').classList.remove('hidden');
       return false;
     }
-    clearInterval(state.despachoTimer);
-    detenerProgresoAyuda();
-    $('help-overlay').classList.add('hidden');
-    Object.assign(state, {
-      onlineOrderId:null, onlineOrderAmount:null,
-      combustible: null, modalidad: null, montoPrepago: 0, montoTexto: '',
-      placa: '', esMiembro: false, codigoCliente: '', galones: 0, total: 0,
-      ultimoAnuncioGalones: 0, pagoAutorizado: false, despachoTimer: null,
-      tipoComprobante: null, dni: '', ruc: '', razonSocial: '',
-      metodoPago: null,
-      montoPostpago: 0, montoPostpagoTexto: '', tanqueLleno: false, membresiaVerificada: null,
-      autorizacionId: null, montoReservado: 0,
-    });
-    // Limpia formularios y selecciones
-    document.querySelectorAll('.fuel-card,.pay-card').forEach((c) => c.classList.remove('selected'));
-    document.querySelectorAll('#prepago-panel .chip, #pantalla-monto-post .chip')
-      .forEach((c) => c.classList.remove('selected'));
-    ['input-placa', 'input-codigo', 'admin-user', 'admin-pass',
-     'input-dni', 'input-ruc', 'input-razon', 'prep-input-placa']
-      .forEach((id) => { $(id).value = ''; });
-    $('check-membresia').checked = false;
-    $('membresia-panel').classList.add('hidden');
-    $('panel-dni').classList.remove('hidden');
-    ['panel-ruc', 'panel-qr', 'panel-nfc']
-      .forEach((id) => $(id).classList.add('hidden'));
-    ['dni-error', 'ruc-error', 'razon-error', 'prep-placa-error']
-      .forEach((id) => $(id).classList.add('hidden'));
-    ['t-doc', 't-docnum'].forEach((id) => { $(id).textContent = '—'; });
-    $('membresia-panel').classList.add('hidden');
-    limpiarAuto();
-    limpiarPostpago();
-    $('prepago-panel').classList.add('hidden');
-    $('btn-postpago-continuar').classList.add('hidden');
-    actualizarMontoDisplay();
-    mostrarPantalla('pantalla-inicio');
-    hablar(t('voz_sesion'));
-    actualizarEstado(t('status_listo'));
+    volverInicioSinOperacion();
     return true;
   } finally {
     receiptClosing=false;
     buttons.forEach(b=>b.disabled=false);
+  }
+}
+
+function volverInicioSinOperacion() {
+  limpiarEstadoOperacion();
+  plateCheckOperation = null;
+  detenerProgresoAyuda();
+  $('help-overlay').classList.add('hidden');
+  Object.assign(state, {
+    onlineOrderId:null, onlineOrderAmount:null, creatingOrder:false, changingMethod:false, confirmingQR:false,
+    combustible: null, modalidad: null, montoPrepago: 0, montoTexto: '',
+    pagoAutorizado: false, tipoComprobante: null, metodoPago: null,
+  });
+  // Limpia formularios y selecciones
+  document.querySelectorAll('.fuel-card,.pay-card').forEach((c) => c.classList.remove('selected'));
+  document.querySelectorAll('#prepago-panel .chip, #pantalla-monto-post .chip')
+    .forEach((c) => c.classList.remove('selected'));
+  ['input-placa', 'input-codigo', 'admin-user', 'admin-pass']
+    .forEach((id) => { $(id).value = ''; });
+  ['cam-plate', 'prep-cam-plate'].forEach(id => { $(id).textContent = '—'; });
+  $('check-membresia').checked = false;
+  $('panel-dni').classList.remove('hidden');
+  ['panel-ruc', 'panel-qr', 'panel-nfc']
+    .forEach((id) => $(id).classList.add('hidden'));
+  ['dni-error', 'ruc-error', 'razon-error', 'prep-placa-error']
+    .forEach((id) => $(id).classList.add('hidden'));
+  ['t-doc', 't-docnum'].forEach((id) => { $(id).textContent = '—'; });
+  $('membresia-panel').classList.add('hidden');
+  limpiarPostpago();
+  $('prepago-panel').classList.add('hidden');
+  $('btn-postpago-continuar').classList.add('hidden');
+  actualizarMontoDisplay();
+  mostrarPantalla('pantalla-inicio');
+  hablar(t('voz_sesion'));
+  actualizarEstado(t('status_listo'));
+}
+
+let cancelandoAtencion = false;
+function solicitarCancelacion() {
+  if (cancelandoAtencion || paymentInFlight || submitting || state.reserving ||
+      state.creatingOrder || state.changingMethod || state.confirmingQR) return;
+  mostrarModal(t('cancel_attention_confirm'), t('cancel_attention_detail'), '⚠️',
+    () => void cancelarAtencion(), t('cancel_attention'));
+}
+
+async function cancelarAtencion() {
+  const pending = transactionsService.current();
+  if (!pending || cancelandoAtencion || paymentInFlight || submitting || state.reserving ||
+      state.creatingOrder || state.changingMethod || state.confirmingQR) return;
+  cancelandoAtencion = true;
+  const stage = document.querySelector('main.stage');
+  stage.inert = true;
+  try {
+    if (pending.payload || pending.result || pending.intervention || state.estadoOperacion === 'INTERVENTION_REQUIRED')
+      throw Error('La operación requiere finalizarse o revisarse con asistencia.');
+    if (state.galones > 0) {
+      if (state.despachoTimer) await detenerDespacho(false);
+      return;
+    }
+    clearInterval(state.despachoTimer);
+    state.despachoTimer = null;
+    const orderId = pending.snapshot?.onlineOrderId;
+    if ((pending.snapshot?.onlineOrderCreationPending && !orderId) ||
+        (pending.authorizationRequest && !pending.authorization) || state.pagoAutorizado)
+      throw Error('El estado del pago o la autorización requiere revisión.');
+    if (orderId) {
+      if (pending.authorization) throw Error('El pago y la autorización requieren revisión.');
+      const path = '/online-orders/' + encodeURIComponent(orderId);
+      const order = await apiClient(path);
+      if (order.operationId !== pending.operationId) throw Error('La orden no coincide con esta atención.');
+      if (order.status === 'PENDING') await apiClient(path + '/cancel', { method: 'POST', body: {} });
+      await releaseFailedPayment(orderId);
+    } else {
+      if (pending.authorization) {
+        if (state.modalidad !== 'POSTPAGO' || !state.autorizacionId ||
+            pending.authorization.authorization?.id !== state.autorizacionId)
+          throw Error('El pago y la autorización requieren revisión.');
+        const authorization = await authorizationService.status(state.autorizacionId);
+        if (authorization.id !== state.autorizacionId || Number(authorization.dispensedAmount) !== 0)
+          throw Error('El avance de despacho requiere conciliación.');
+        await authorizationService.release(state.autorizacionId);
+      }
+      await cerrarYDescartar();
+    }
+    volverInicioSinOperacion();
+  } catch (error) {
+    mostrarModal('Atención conservada', error.message + ' Solicita asistencia para continuar con la misma operación.', '⚠️');
+  } finally {
+    stage.inert = false;
+    cancelandoAtencion = false;
   }
 }
 
@@ -2254,6 +2335,7 @@ function limpiarPostpago() {
   state.tanqueLleno = false;
   state.membresiaVerificada = null;
   ['post-input-placa', 'post-input-codigo'].forEach((id) => { $(id).value = ''; });
+  $('post-cam-plate').textContent = '—';
   ['post-placa-error', 'post-codigo-error', 'monto-post-error'].forEach((id) => $(id).classList.add('hidden'));
   $('post-membresia-ok').classList.add('hidden');
   $('post-mem-codigo').textContent = '—';
@@ -2270,21 +2352,23 @@ async function verificarMembresiaPostpago() {
     if(!placaValida(placa))throw Error('Ingresa una placa válida.');
     const codigo=$('post-input-codigo').value.trim().toUpperCase();
     if(!codigo)throw Error('Ingresa tu código de membresía Primax Prime.');
-    // El backend valida la correspondencia entre placa y código. La consulta al
-    // padrón solo orienta al operador; no sustituye la validación autoritativa.
-    let vehicle;
-    try { vehicle=await catalogService.vehicle(placa); }
-    catch(error) { if(error.status!==404) throw error; }
-    if (!matchesMembershipCode(vehicle?.membership,codigo)) {
-      plateCheckOperation ||= crypto.randomUUID();
-      await apiClient('/admin/check-plate', {method:'POST', body:{plate:placa, membershipCode:codigo, operationId:plateCheckOperation}});
-    }
-    if(!vehicle) throw Error('Vehículo no encontrado');
-    if(!vehicle.membership)throw Error('El vehículo no está asociado a una membresía Primax Prime.');
-    if(vehicle.membership.status!=='ACTIVE')throw Error('Tu membresía no está activa.');
-    if(!matchesMembershipCode(vehicle.membership,codigo))throw Error('La placa y la membresía activa deben coincidir.');
-    state.placa=placa;state.codigoCliente=codigo;state.esMiembro=true;state.membresiaVerificada={...vehicle.membership,codigo,placa};
-    plateCheckOperation=null; $('post-codigo-error').classList.add('hidden');irAMontoPostpago();
+    plateCheckOperation ||= crypto.randomUUID();
+    const { membership } = await apiClient('/admin/check-plate', { method: 'POST', body: {
+      plate: placa, membershipCode: codigo, operationId: plateCheckOperation, verifyMembership: true,
+    } });
+    if (!$('pantalla-placa').classList.contains('active') ||
+        formatearPlaca($('post-input-placa').value) !== placa ||
+        $('post-input-codigo').value.trim().toUpperCase() !== codigo) return;
+    if (!membership) throw Error('La placa y la membresía activa deben coincidir.');
+    if (state.membresiaVerificada?.codigo !== codigo || state.membresiaVerificada?.placa !== placa)
+      ['input-dni', 'input-ruc', 'input-razon', 'prep-input-placa'].forEach(id => { $(id).value = ''; });
+    state.placa = placa;
+    state.codigoCliente = codigo;
+    state.esMiembro = true;
+    state.membresiaVerificada = { ...membership, codigo, placa };
+    plateCheckOperation = null;
+    $('post-codigo-error').classList.add('hidden');
+    irAMontoPostpago();
   }catch(error){$('post-codigo-error').textContent=error.message;$('post-codigo-error').classList.remove('hidden');}
 }
 
@@ -2413,7 +2497,10 @@ async function continuarDatosOnce() {
   if (!valido) return;
 
   state.placa = formatearPlaca(placaRaw);
-  try{const vehicle=await catalogService.vehicle(state.placa); state.membresiaVerificada=vehicle.membership; if(vehicle.membership) { state.codigoCliente=vehicle.membership.number; state.esMiembro=true; }}catch(error){if(esPost || error.status !== 404){err('prep-placa-error',error.message);return;} state.membresiaVerificada=null;}
+  if (esPost && state.placa !== state.membresiaVerificada?.placa) {
+    err('prep-placa-error', 'La placa debe coincidir con la membresía verificada.');
+    return;
+  }
 
   if (esPost) {
     // Antes de abastecer hay que comprometer saldo: el backend valida placa,
@@ -2797,10 +2884,23 @@ function init() {
 
   // Navegación genérica "Volver"
   document.querySelectorAll('[data-nav]').forEach((b) =>
-    b.addEventListener('click', () => mostrarPantalla(b.dataset.nav)));
+    b.addEventListener('click', () => {
+      if (state.creatingOrder || state.confirmingQR || state.changingMethod || state.reserving || paymentInFlight ||
+          state.estadoOperacion === 'INTERVENTION_REQUIRED') return;
+      if (b.dataset.nav === 'pantalla-inicio' && transactionsService.current()) return solicitarCancelacion();
+      if (state.onlineOrderId || transactionsService.current()?.snapshot?.onlineOrderCreationPending) {
+        mostrarModal('Orden conservada', 'Continúa el pago o cancela la atención antes de cambiar los datos.', 'ℹ️');
+        return;
+      }
+      mostrarPantalla(b.dataset.nav);
+    }));
 
   // 1. Inicio
-  $('btn-iniciar').addEventListener('click', iniciar);
+  $('btn-iniciar').addEventListener('click', async () => {
+    $('btn-iniciar').disabled = true;
+    try { await iniciar(); } finally { $('btn-iniciar').disabled = false; }
+  });
+  $('btn-cancelar-atencion').addEventListener('click', solicitarCancelacion);
   $('btn-iniciar').disabled = false;
 
   // 2. Combustible
@@ -2955,17 +3055,6 @@ function init() {
 // La sesión técnica puede resolverse después de DOMContentLoaded.
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
 else init();
-
-$('prep-input-placa').addEventListener('change', async () => {
-  const plate = formatearPlaca($('prep-input-placa').value);
-  if (!placaValida(plate)) { state.membresiaVerificada = null; return; }
-  try {
-    const vehicle = await catalogService.vehicle(plate);
-    if (formatearPlaca($('prep-input-placa').value) === plate) applyVehicle(vehicle);
-  } catch {
-    if (formatearPlaca($('prep-input-placa').value) === plate) state.membresiaVerificada = null;
-  }
-});
 
 async function crearOrdenQR(method) {
  if(state.creatingOrder)return; state.creatingOrder=true;

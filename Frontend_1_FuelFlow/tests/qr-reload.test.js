@@ -73,6 +73,7 @@ test('captured snapshot is advisory and validation alone performs no authorizati
 test('a continuation request without its saved order identifier cannot restart selection',async()=>{
   const f=fixture();let blocked=false;
   f.context.transactionsService.current=()=>({operationId:'op',snapshot:{},authorizationRequest:{capturedContinuation:{orderId:'order'}}});
+  f.context.renewKioskSessionIfExpired=async()=>{};
   f.context.ensureTerminalOperation=async()=>f.operation;f.context.requerirIntervencion=()=>{blocked=true;};
   vm.runInContext(source.slice(source.indexOf('async function iniciar('),source.indexOf('function seleccionarCombustible(')),f.context);
   await f.context.iniciar();assert.equal(blocked,true);

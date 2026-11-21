@@ -9,7 +9,7 @@ const assignment = { id: 'assignment', stationId, terminalId, pumpId: 'pump', en
 function fixture(status = 'BLOQUEADA') {
   const terminal = { id: terminalId, stationId, lifecycle: 'REGISTRADA', operationalStatus: status };
   const tx = {
-    terminal: { findUnique: jest.fn().mockResolvedValue(terminal), findUniqueOrThrow: jest.fn().mockResolvedValue(terminal), update: jest.fn().mockImplementation(({ data }) => Promise.resolve({ ...terminal, ...data })) },
+    terminal: { findFirst: jest.fn().mockResolvedValue(terminal), findUnique: jest.fn().mockResolvedValue(terminal), findUniqueOrThrow: jest.fn().mockResolvedValue(terminal), update: jest.fn().mockImplementation(({ data }) => Promise.resolve({ ...terminal, ...data })) },
     terminalPumpAssignment: { findFirst: jest.fn().mockResolvedValue(assignment) },
     terminalOperation: { findFirst: jest.fn().mockResolvedValue(null), findUnique: jest.fn().mockResolvedValue(null), create: jest.fn().mockImplementation(({ data }) => Promise.resolve({ id: 'operation', ...data })) },
     operationalAuditEvent: { create: jest.fn() },
@@ -23,14 +23,22 @@ const actor = (permissions: string[], stationIds = [stationId], role = 'ENCARGAD
   ({ kind: 'control' as const, userId, role, permissions, stationIds, global: false });
 
 describe('automatic availability with safety boundaries', () => {
-  it.each(['ENCARGADO','ADMIN'])('%s cannot enable or disable FuelFlow from Control', async role => {
-    const f=fixture();
-    for(const action of ['ENABLE','SUSPEND'] as const)
-      await expect(f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE'],[stationId],role),terminalId,action,'Reason')).rejects.toThrow('solo lectura');
-    expect(f.tx.terminal.update).not.toHaveBeenCalled();
+  it.each(['ENCARGADO','ADMIN'])('%s can suspend an idle terminal with the assigned grant', async role => {
+    const f = fixture();
+    const manager = actor(['ADMIN_TERMINAL_MANAGE'], [stationId], role);
+    await expect(f.control.terminalStatus(manager, terminalId, 'SUSPEND', 'Falla técnica'))
+      .resolves.toMatchObject({ operationalStatus: 'FUERA_DE_SERVICIO', suspensionReason: 'Falla técnica' });
+    expect(f.tx.operationalAuditEvent.create).toHaveBeenCalledWith({ data: expect.objectContaining({
+      actorUserId: userId, stationId, terminalId, action: 'TERMINAL_SUSPENDED',
+    }) });
   });
-  it('retains administrative authentication and grants', async()=>{
-    await expect(fixture().control.terminalStatus(actor([]),terminalId,'SUSPEND')).rejects.toThrow();
+  it('requires the grant and refuses to suspend an active attention', async () => {
+    const f = fixture('EN_USO');
+    await expect(f.control.terminalStatus(actor([]), terminalId, 'SUSPEND', 'Falla técnica')).rejects.toThrow('Permiso');
+    f.tx.terminalOperation.findFirst.mockResolvedValue({ id: 'active' });
+    await expect(f.control.terminalStatus(actor(['ADMIN_TERMINAL_MANAGE']), terminalId, 'SUSPEND', 'Falla técnica'))
+      .rejects.toThrow('operación activa');
+    expect(f.tx.terminal.update).not.toHaveBeenCalled();
   });
   it.each(['DISPONIBLE','BLOQUEADA'])('starts with %s without administrative activation',async status=>{
     const f=fixture(status);await f.operations.startOperation(terminalId,'44444444-4444-4444-8444-444444444444');

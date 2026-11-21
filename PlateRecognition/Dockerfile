@@ -5,6 +5,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 RUN useradd --uid 10001 --create-home ocr && python fixtures.py
+ENV OMP_THREAD_LIMIT=1
 USER ocr
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"

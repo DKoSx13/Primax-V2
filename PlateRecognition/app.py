@@ -30,8 +30,13 @@ def normalize_membership(value):
         compact = 'PRIM' + match[1].translate(str.maketrans({'O':'0', 'I':'1'})) + match[2]
     if re.fullmatch(r'PRIM[0-9]+[A-Z]?', compact):
         return compact
-    if re.fullmatch(r'PRIME[0-9]+', compact):
+    if re.fullmatch(r'PRIME(?:[0-9]+|[A-Z]+[0-9]{3})', compact):
         return 'PRIME-' + compact[5:]
+    # Correct OCR confusions only in the fixed numeric suffix, never in the prefix.
+    match = re.fullmatch(r'PRIME([A-Z]*)([0-9OI]{3})', compact)
+    if match:
+        digits = match[2].translate(str.maketrans({'O': '0', 'I': '1'}))
+        return 'PRIME-' + match[1] + digits
     return None
 
 
@@ -72,6 +77,88 @@ def preprocess(frame):
     return [cv2.resize(c, None, fx=min(2,1200/c.shape[1]), fy=min(2,1200/c.shape[1]), interpolation=cv2.INTER_CUBIC) for c in candidates]
 
 
+def read_words(image, filename, mode):
+    cv2.imwrite(filename, image)
+    output = subprocess.run(
+        ['tesseract', filename, 'stdout', '-l', 'eng', '--psm', mode,
+         '-c', 'load_system_dawg=0', '-c', 'load_freq_dawg=0', 'tsv'],
+        capture_output=True, text=True, timeout=4, check=True,
+    ).stdout
+    return [row for row in csv.DictReader(io.StringIO(output), delimiter='\t') if row.get('text', '').strip()]
+
+
+def word_box(word):
+    return tuple(int(word[key]) for key in ('left', 'top', 'width', 'height'))
+
+
+def adjacent_words(first, second):
+    x1, y1, w1, h1 = word_box(first)
+    x2, y2, _, h2 = word_box(second)
+    height = max(h1, h2)
+    overlap = min(y1 + h1, y2 + h2) - max(y1, y2)
+    return overlap >= min(h1, h2) * .6 and -height * .15 <= x2 - (x1 + w1) <= height
+
+
+def membership_candidates(words):
+    for start in range(len(words)):
+        group = []
+        for word in words[start:start + 3]:
+            if group and (normalize_membership(word['text']) or not adjacent_words(group[-1], word)):
+                break
+            group.append(word)
+            number = normalize_membership(''.join(item['text'] for item in group))
+            if number:
+                yield number, min(float(item['conf']) for item in group) / 100, group
+                break
+
+
+def membership_line(image, group):
+    boxes = [word_box(word) for word in group]
+    x, y = min(b[0] for b in boxes), min(b[1] for b in boxes)
+    right = max(b[0] + b[2] for b in boxes)
+    bottom = max(b[1] + b[3] for b in boxes)
+    height = max(1, bottom - y)
+    margin = max(2, round(height * .14))
+    crop = image[max(0, y - margin):bottom + margin, max(0, x - margin):right + margin]
+    scale = max(1, min(3, 56 / height))
+    crop = cv2.resize(crop, None, fx=scale, fy=scale, interpolation=cv2.INTER_CUBIC)
+    crop = cv2.normalize(crop, None, 0, 255, cv2.NORM_MINMAX)
+    border = max(8, round(height * scale * .33))
+    return cv2.copyMakeBorder(crop, border, border, border, border, cv2.BORDER_CONSTANT, value=255)
+
+
+def recognize_membership(versions, filename):
+    votes = {}
+    scores = {}
+    confirmed = set()
+    focused_reads = 0
+    early_confidence = .90
+    for index, image in enumerate(versions):
+        candidates = list(membership_candidates(read_words(image, filename, '11')))
+        if not candidates:
+            continue
+        number, score, group = max(candidates, key=lambda candidate: candidate[1])
+        # A single-line read removes the surrounding page and its text from segmentation.
+        if score < early_confidence and focused_reads < 2:
+            focused_reads += 1
+            focused = list(membership_candidates(read_words(membership_line(image, group), filename, '7')))
+            confirmed.update(candidate for candidate, _, _ in focused if candidate == number)
+            candidates.extend(focused)
+        for number, score, _ in candidates:
+            votes.setdefault(number, set()).add(index)
+            scores[number] = max(score, scores.get(number, 0.0))
+        if max(scores.values()) >= early_confidence:
+            break
+
+    # A weaker reading must survive a second view of the text. Confidence values
+    # still come from Tesseract and Backend applies its existing acceptance threshold.
+    supported = [number for number, score in scores.items()
+                 if score >= early_confidence or len(votes[number]) > 1 or number in confirmed]
+    best = max(supported, key=lambda number: scores[number], default=None)
+    return {'plate': best, 'confidence': round(min(1.0, scores.get(best, 0.0)), 4),
+            'consensus': len(votes.get(best, ()))}
+
+
 def recognize(raw, kind='plate'):
     if len(raw) > 2_000_000:
         raise ValueError('Image too large')
@@ -89,18 +176,17 @@ def recognize(raw, kind='plate'):
         return {'plate': None, 'confidence': 0.0}
     versions = preprocess(frame)
     votes = {}
-    normalizer = normalize_membership if kind == 'membership' else normalize
     best = {'plate': None, 'confidence': 0.0}
     with tempfile.TemporaryDirectory(prefix='plate-') as folder:
+        if kind == 'membership':
+            return recognize_membership(versions, f'{folder}/membership.png')
         for index, candidate in enumerate(versions):
             file = f'{folder}/{index}.png'
-            cv2.imwrite(file, candidate)
-            output = subprocess.run(['tesseract', file, 'stdout', '-l', 'eng', '--psm', ('11' if kind == 'membership' else '6'), '-c', 'load_system_dawg=0', '-c', 'load_freq_dawg=0', 'tsv'], capture_output=True, text=True, timeout=4, check=True).stdout
-            words = [row for row in csv.DictReader(io.StringIO(output), delimiter='\t') if row.get('text', '').strip()]
+            words = read_words(candidate, file, '6')
             for start in range(len(words)):
                 for count in (1, 2, 3):
                     group = words[start:start+count]
-                    plate = normalizer(''.join(word['text'] for word in group))
+                    plate = normalize(''.join(word['text'] for word in group))
                     confidence = min(float(word['conf']) for word in group) / 100
                     if plate:
                         votes.setdefault(plate, set()).add(index)

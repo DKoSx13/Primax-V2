@@ -27,7 +27,7 @@ test('continuing validates and retains receipt identity with no separate save ac
   const f=fixture();f.elements.get('input-dni').value='12345678';f.elements.get('prep-input-placa').value='XYZ123';
   await f.context.continuarDatos();
   assert.equal(f.context.state.dni,'12345678');assert.equal(f.context.state.placa,'XYZ123');
-  assert.deepEqual(f.events,['vehicle','payment']);
+  assert.deepEqual(f.events,['payment']);
   f.context.irADatos();assert.equal(f.elements.get('input-dni').value,'12345678');
   assert.doesNotMatch(html,/save-receipt-profile/);
 });
