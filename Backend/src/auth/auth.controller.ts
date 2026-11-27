@@ -1,5 +1,5 @@
 import { composeIdentitySecurityOperations } from '../../services/identity/src/bootstrap/identity-security-operations.composition';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Headers, HttpCode, Post } from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiTags,
@@ -48,8 +48,13 @@ export class AuthController {
   @Public()
   @Post('register')
   @Throttle({ default: { limit: 5, ttl: 60000 } })
-  register(@Body() dto: RegisterDto) {
-    return this.boundary.register(dto);
+  register(
+    @Body() dto: RegisterDto,
+    @Headers('x-prime-registration-nonce') nonce?: string,
+  ) {
+    return nonce === undefined
+      ? this.boundary.register(dto)
+      : this.boundary.register(dto, nonce);
   }
   @Public()
   @Post('login')

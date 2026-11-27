@@ -49,8 +49,10 @@ export class ControlService {
       throw new ForbiddenException(
         'Solo se pueden solicitar cuentas ADMIN o ENCARGADO',
       );
-    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 8)
-      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres y máximo 72 bytes');
+    if (Buffer.byteLength(input.password, 'utf8') > 72)
+      throw new BadRequestException('Tu contraseña es demasiado larga. Prueba con una más corta.');
+    if (input.password.length < 8)
+      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres.');
     if (this.delivery.mode !== 'smtp')
       throw new ServiceUnavailableException('La solicitud por correo no está disponible. Solicita al administrador el alta supervisada.');
     const email = input.email.trim().toLowerCase();
@@ -237,8 +239,10 @@ export class ControlService {
     if (!systemAdmin) throw new ForbiddenException('Se requiere permiso de Administrador del sistema');
     if (input.role !== 'ADMIN' && input.role !== 'ENCARGADO')
       throw new ForbiddenException('Solo se pueden crear cuentas ADMIN o ENCARGADO');
-    if (Buffer.byteLength(input.password, 'utf8') > 72 || input.password.length < 8)
-      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres y máximo 72 bytes');
+    if (Buffer.byteLength(input.password, 'utf8') > 72)
+      throw new BadRequestException('Tu contraseña es demasiado larga. Prueba con una más corta.');
+    if (input.password.length < 8)
+      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres.');
     const name = input.name.trim();
     const email = input.email.trim().toLowerCase();
     if (!name || !email) throw new BadRequestException('Nombre y correo son obligatorios');

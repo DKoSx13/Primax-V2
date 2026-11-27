@@ -1,5 +1,6 @@
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
+import { LoginDto } from './login.dto';
 import { RegisterDto } from './register.dto';
 import { ResetPasswordDto } from './password-reset.dto';
 import { PasswordResetService } from './password-reset.service';
@@ -56,4 +57,23 @@ describe('password reset by account type', () => {
     const errors = await validate(plainToInstance(ResetPasswordDto, { password: 'Short1!', resetToken }));
     expect(errors.find((error) => error.property === 'password')).toBeDefined();
   });
+});
+
+describe('Límite de contraseña UTF-8', () => {
+  it.each(['Aa1!' + 'x'.repeat(68), 'Aa1!' + 'é'.repeat(34)])(
+    'acepta 72 bytes y rechaza 73 con mensaje claro', async (password) => {
+      expect(Buffer.byteLength(password, 'utf8')).toBe(72);
+      for (const dto of [
+        () => new RegisterDto(), () => new LoginDto(), () => new ResetPasswordDto(),
+      ]) {
+        const valid = await validate(Object.assign(dto(), { password }));
+        expect(valid.find((e) => e.property === 'password')).toBeUndefined();
+        const invalid = await validate(Object.assign(dto(), { password: password + 'x' }));
+        const error = invalid.find((e) => e.property === 'password');
+        expect(Object.values(error?.constraints ?? {})).toContain(
+          'Tu contraseña es demasiado larga. Prueba con una más corta.'
+        );
+      }
+    }
+  );
 });

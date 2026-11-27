@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class UsersRepository {
   constructor(private readonly db: PrismaService) {}
-  async register(dto: RegisterDto, passwordHash: string) {
+  async register(dto: RegisterDto, passwordHash: string, id?: string) {
     assertIdentity(dto);
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
@@ -15,6 +15,7 @@ export class UsersRepository {
         return await this.db.$transaction(async (tx) =>
           tx.user.create({
             data: {
+              ...(id ? { id } : {}),
               name: dto.name,
               email: dto.email,
               passwordHash,
@@ -39,10 +40,12 @@ export class UsersRepository {
         )
           throw error;
         const target = String(error.meta?.target);
-        if (target.includes('email'))
+        if (target.includes('email') || (id && target === 'id'))
           throw new ConflictException(
             'El correo ya está registrado. Inicia sesión.',
           );
+        if (target === 'dni' || target === 'passport')
+          throw new ConflictException('El documento ya está registrado.');
         if (!target.includes('number') || attempt === 2) throw error;
       }
     }

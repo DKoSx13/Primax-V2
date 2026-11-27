@@ -7,7 +7,7 @@ async function fill(page){
 }
 test('registro responsive, datos opcionales y sesión usando respuesta Backend',async({page,context})=>{
   await installApi(context);let requests=0;
-  await page.route('**/api/v1/auth/register',async route=>{requests++;expect(route.request().postDataJSON()).toMatchObject({name:'Nueva Cuenta',dni:'12345678'});await new Promise(r=>setTimeout(r,150));await route.fulfill({status:201,json:{accessToken:'registration-fixture',expiresIn:3600,user:{id:'new-user',name:'Diego'}}});});
+  await page.route('**/api/v1/auth/register',async route=>{requests++;expect(route.request().postDataJSON()).toEqual({name:'Nueva Cuenta',email:'new@example.test',password:'RegistrationTest123!',dni:'12345678'});await new Promise(r=>setTimeout(r,150));await route.fulfill({status:201,json:{accessToken:'registration-fixture',expiresIn:3600,user:{id:'new-user',name:'Diego'}}});});
   await page.goto('/');await page.getByRole('link',{name:'Crear cuenta',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Crear cuenta',exact:true})).toBeVisible();await fill(page);
   await page.getByText('Datos para comprobantes (opcional)',{exact:true}).click();await page.getByLabel('DNI',{exact:true}).fill('12345678');
@@ -15,6 +15,25 @@ test('registro responsive, datos opcionales y sesión usando respuesta Backend',
   await page.getByRole('button',{name:'Crear cuenta',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Hola, Diego'})).toBeVisible();expect(requests).toBe(1);
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain('RegistrationTest123!');
+});
+test('al cambiar a pasaporte, omite el DNI anterior y los datos opcionales vacíos', async ({ page, context }) => {
+  await installApi(context);
+  await page.goto('/#registro');
+  await fill(page);
+  await page.getByLabel('DNI', { exact: true }).fill('12345678');
+  await page.getByLabel('Tipo de documento (opcional)').selectOption('passport');
+  await page.getByLabel('Pasaporte', { exact: true }).fill('ab12345');
+  await page.getByText('Datos para comprobantes (opcional)', { exact: true }).click();
+  await page.getByLabel('Razón social').fill('   ');
+  await page.route('**/api/v1/auth/register', route => route.fulfill({
+    status: 201, json: { accessToken: 'registration-fixture', expiresIn: 3600, user: { id: 'new-user', name: 'Diego' } },
+  }));
+  const submitted = page.waitForRequest('**/api/v1/auth/register');
+  await page.getByRole('button', { name: 'Crear cuenta', exact: true }).click();
+  expect((await submitted).postDataJSON()).toEqual({
+    name: 'Nueva Cuenta', email: 'new@example.test', password: 'RegistrationTest123!', passport: 'AB12345',
+  });
+  await expect(page.getByRole('heading', { name: 'Hola, Diego' })).toBeVisible();
 });
 test('registro inaccesible conserva formulario y permite reintentar',async({page})=>{
   await page.route('**/api/v1/auth/register',route=>route.abort('connectionrefused'));

@@ -25,7 +25,7 @@ export class RegisterDto extends IntersectionType(
 
   @ApiProperty({ minLength: 8, maxLength: 72 })
   @MinLength(8)
-  @IsByteLength(0, 72)
+  @IsByteLength(0, 72, { message: 'Tu contraseña es demasiado larga. Prueba con una más corta.' })
   @Matches(PRIME_PASSWORD_PATTERN, {
     message: 'La contraseña requiere mayúscula, minúscula, número y carácter especial',
   })

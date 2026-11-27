@@ -9,6 +9,6 @@ export class VerifyResetCodeDto extends ForgotPasswordDto {
 }
 export class ResetPasswordDto {
   @ApiProperty({ minLength: 8, maxLength: 72 })
-  @IsString() @MinLength(8) @IsByteLength(0, 72) password: string;
+  @IsString() @MinLength(8) @IsByteLength(0, 72, { message: 'Tu contraseña es demasiado larga. Prueba con una más corta.' }) password: string;
   @ApiProperty() @IsString() @Matches(/^[A-Za-z0-9_-]{43}$/) resetToken: string;
 }

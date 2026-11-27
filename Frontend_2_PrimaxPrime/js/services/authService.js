@@ -8,7 +8,16 @@ export const authService = {
   },
   async register(data) {
     validatePrimePassword(data.password);
-    return authenticate('/auth/register', data);
+    const body = {
+      name: data.name?.trim(),
+      email: data.email?.trim().toLowerCase(),
+      password: data.password,
+    };
+    for (const field of ['dni', 'passport', 'ruc', 'businessName']) {
+      const value = data[field]?.trim();
+      if (value) body[field] = field === 'passport' ? value.toUpperCase() : value;
+    }
+    return authenticate('/auth/register', body);
   },
   logout: clearSession,
 };

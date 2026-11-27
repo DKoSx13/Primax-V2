@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
 import {
+  IsByteLength,
   IsEmail,
   IsString,
   MaxLength,
@@ -19,7 +20,7 @@ export class EmailCredentialsDto {
   @ApiProperty({ example: 'LOCAL_DEMO_PASSWORD', minLength: 1, maxLength: 72 })
   @IsString()
   @MinLength(1)
-  @MaxLength(72)
+  @IsByteLength(0, 72, { message: 'Tu contraseña es demasiado larga. Prueba con una más corta.' })
   password: string;
 }
 export class LoginDto {
@@ -50,7 +51,7 @@ export class LoginDto {
   @ApiProperty()
   @IsString()
   @MinLength(1)
-  @MaxLength(72)
+  @IsByteLength(0, 72, { message: 'Tu contraseña es demasiado larga. Prueba con una más corta.' })
   password: string;
 }
 export class LoginResponseDto {
