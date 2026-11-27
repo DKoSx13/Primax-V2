@@ -7,6 +7,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AssistanceService } from '../src/assistance/assistance.service';
+import { assistanceWorkflowProviders } from '../services/commerce/src/bootstrap/assistance-workflow.providers';
 import {
   ControlAssistanceController,
   TerminalAssistanceController,
@@ -153,6 +154,7 @@ suite('V2 assistance: real PostgreSQL, HTTP validation and AccessGuard', () => {
     const module = await Test.createTestingModule({
       controllers: [ControlAssistanceController, TerminalAssistanceController],
       providers: [
+        ...assistanceWorkflowProviders,
         AssistanceService,
         { provide: PrismaService, useValue: db },
         { provide: ConfigService, useValue: config },

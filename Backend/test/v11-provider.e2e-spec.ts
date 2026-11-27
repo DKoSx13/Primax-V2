@@ -1,3 +1,6 @@
+import { OrderWorkflowAdapter } from '../services/commerce/src/adapters/inbound/order-workflow.adapter';
+import { ExistingOrderWorkflow, ExistingOrderInputs, ExistingOrderViews } from '../services/commerce/src/adapters/outbound/existing-order-workflow';
+import { OrderWorkflow } from '../services/commerce/src/application/use-cases/order-workflow';
 import {plainToInstance} from 'class-transformer';
 import {CreateAuthorizationDto} from '../src/transactions/create-authorization.dto';
 import {AuthorizationsService} from '../src/transactions/authorizations.service';
@@ -45,7 +48,7 @@ describe('V11 PostgreSQL + mocked provider contract (NOT provider sandbox)',()=>
   const approved=await auth.create(authorization);expect(approved.authorization.status).toBe('RESERVED');
   await service.refund(orders.id,{kind:'kiosk'});
  });
- test('invalid webhook does not reconcile',()=>{const controller=new OnlineOrdersController(service);process.env.PAYMENT_WEBHOOK_SECRET='fixture';expect(()=>controller.notify(randomUUID(),'wrong')).toThrow();delete process.env.PAYMENT_WEBHOOK_SECRET;});
+ test('invalid webhook does not reconcile',()=>{const controller=new OnlineOrdersController(new OrderWorkflowAdapter(new OrderWorkflow<ExistingOrderInputs, ExistingOrderViews>(new ExistingOrderWorkflow(service))));process.env.PAYMENT_WEBHOOK_SECRET='fixture';expect(()=>controller.notify(randomUUID(),'wrong')).toThrow();delete process.env.PAYMENT_WEBHOOK_SECRET;});
  test('concurrent pumps cannot make inventory negative; replay has zero delta',async()=>{
   await db.fuelInventory.update({where:{stationId_fuelId:{stationId,fuelId}},data:{liters:5}});
   const auth=()=>db.fuelAuthorization.create({data:{operationId:randomUUID(),requestHash:'b'.repeat(64),plate:'ABC-123',membershipId:memberId,stationId,fuelId,unitPrice:20,authorizedAmount:100,reservedAmount:0,balanceAfter:0}});

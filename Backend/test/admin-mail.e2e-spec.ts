@@ -109,21 +109,30 @@ describe('V10 real admin alerts and injected email delivery', () => {
   it('empty dashboard returns no invented alerts', async () => {
     expect((await alerts().expect(200)).body).toEqual([]);
   });
-  it('vehicle endpoint returns the current Membership/User name and no password', async () => {
+  it('vehicle endpoint minimizes kiosk data and returns own details to the member', async () => {
     const res = await request(app.getHttpServer())
       .get('/api/v1/vehicles/' + plate)
       .set('x-kiosk-key', key)
       .expect(200);
-    expect(res.body.membership.name).toBe('Diego real fixture');
-    expect(JSON.stringify(res.body)).not.toContain('password');
+    expect(res.body).toEqual({ plate });
+    const owner = await request(app.getHttpServer())
+      .get('/api/v1/vehicles/' + plate)
+      .auth(memberToken, { type: 'bearer' })
+      .expect(200);
+    expect(owner.body.membership.name).toBe('Diego real fixture');
+    expect(JSON.stringify(owner.body)).not.toContain('password');
   });
-  it('registered vehicle without Membership returns null', async () => {
+  it('unlinked vehicle exposes only its plate to the kiosk and is denied to the member', async () => {
     await db.vehicle.create({ data: { plate: 'NON-123', label: 'No member' } });
     const res = await request(app.getHttpServer())
       .get('/api/v1/vehicles/NON-123')
       .set('x-kiosk-key', key)
       .expect(200);
-    expect(res.body.membership).toBeNull();
+    expect(res.body).toEqual({ plate: 'NON-123' });
+    await request(app.getHttpServer())
+      .get('/api/v1/vehicles/NON-123')
+      .auth(memberToken, { type: 'bearer' })
+      .expect(404);
   });
   it('admin endpoints deny anonymous, member and kiosk access', async () => {
     await request(app.getHttpServer()).get('/api/v1/admin/alerts').expect(401);

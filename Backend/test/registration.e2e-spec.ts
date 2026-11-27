@@ -109,7 +109,11 @@ describe('Registration and vehicles: real PostgreSQL', () => {
       'PRIME-B005',
       'PRIME-B006',
     ]);
-  });
+    const counter = await db.membershipNumberCounter.findUniqueOrThrow({
+      where: { id: 1 },
+    });
+    expect(counter.value).toBe(2004n);
+  }, 90000);
 
   it('registers User, ACTIVE Membership, zero balance, no vehicle; JWT reads membership without hashes', async () => {
     const data = body();

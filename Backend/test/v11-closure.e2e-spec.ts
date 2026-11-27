@@ -1,3 +1,6 @@
+import { OrderWorkflowAdapter } from '../services/commerce/src/adapters/inbound/order-workflow.adapter';
+import { ExistingOrderWorkflow, ExistingOrderInputs, ExistingOrderViews } from '../services/commerce/src/adapters/outbound/existing-order-workflow';
+import { OrderWorkflow } from '../services/commerce/src/application/use-cases/order-workflow';
 import { TransactionReadAdapter } from '../services/commerce/src/adapters/inbound/transaction-read.adapter';
 import { LegacyTransactionRead } from '../services/commerce/src/adapters/outbound/legacy-transaction-read';
 import { ReadTransaction } from '../services/commerce/src/application/use-cases/read-transaction';
@@ -211,7 +214,7 @@ describe('V11 internal closure against PostgreSQL (provider is explicitly mocked
  });
  test('normalized webhook rejects malformed payload and invalid secret',async()=>{
   expect((await validate(plainToInstance(PaymentEventDto,{eventId:'',orderId:'bad',type:'CAPTURED'}))).length).toBe(3);
-  const controller=new PaymentWebhookController(orders);process.env.PAYMENT_WEBHOOK_SECRET='fixture';
+  const controller=new PaymentWebhookController(new OrderWorkflowAdapter(new OrderWorkflow<ExistingOrderInputs, ExistingOrderViews>(new ExistingOrderWorkflow(orders))));process.env.PAYMENT_WEBHOOK_SECRET='fixture';
   expect(()=>controller.receive({eventId:'x',orderId:randomUUID(),type:'PAID'},'wrong')).toThrow();delete process.env.PAYMENT_WEBHOOK_SECRET;
  });
  test('FIFO settlement before provider capture preserves excess and refund does not reopen settled fuel debt',async()=>{

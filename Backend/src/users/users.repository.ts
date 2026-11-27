@@ -1,5 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { documentConflict } from '../common/document-conflict';
 import { assertIdentity } from '../memberships/profile.dto';
 import { nextMembershipNumber } from './membership-number';
 import { RegisterDto } from '../auth/register.dto';
@@ -44,8 +45,8 @@ export class UsersRepository {
           throw new ConflictException(
             'El correo ya está registrado. Inicia sesión.',
           );
-        if (target === 'dni' || target === 'passport')
-          throw new ConflictException('El documento ya está registrado.');
+        const conflict = documentConflict(error);
+        if (conflict) throw new ConflictException(conflict);
         if (!target.includes('number') || attempt === 2) throw error;
       }
     }
