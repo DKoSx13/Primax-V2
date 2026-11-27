@@ -62,3 +62,36 @@
 @media(max-width:374px) {
   .member-card { padding:20px; }
 }
+
+/* Bonus: original vector illustration, non-interactive; points come from the API. */
+.bonus-card-icon {
+  display: block;
+  width: 66px;
+  height: auto;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 3px 3px #18324f20);
+}
+.available {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.available .bonus-card-icon,
+.mini-points .bonus-card-icon {
+  width: 47px;
+}
+.points-summary strong {
+  overflow-wrap: anywhere;
+}
+.points-summary .icon-button {
+  min-width: 44px;
+}
+@media (max-width: 374px) {
+  .points-summary {
+    gap: 8px;
+  }
+  .points-summary .bonus-card-icon {
+    width: 58px;
+  }
+}

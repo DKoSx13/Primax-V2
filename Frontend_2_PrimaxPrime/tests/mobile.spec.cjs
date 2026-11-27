@@ -34,3 +34,21 @@ test('tarjeta de membresía exclusiva de su pestaña y navegación fija al hacer
 });
 
 test.beforeEach(async({context})=>require('./api-fixture.cjs').installApi(context));
+
+test('Bonus conserva los puntos del backend en las tres vistas', async ({ page }) => {
+  await page.goto('/');
+  await page.getByLabel(/^Correo(?: o DNI)?$/, { exact: true }).fill('demo@primaxprime.pe');
+  await page.getByLabel('Contraseña', { exact: true }).fill('FixtureOnly123');
+  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click();
+  const expected = await page.evaluate(() => new Intl.NumberFormat('es-PE').format(2450));
+  const points = page.getByRole('region', { name: 'Puntos Bonus' });
+  await expect(points.locator('.bonus-card-icon')).toBeVisible();
+  await expect(points.locator('strong')).toContainText(expected);
+  await expect(points.getByRole('button', { name: 'Ver mis puntos' })).toBeVisible();
+  for (const [tab, selector] of [['Consumos', '.available'], ['Beneficios', '.mini-points']]) {
+    await page.getByRole('navigation').getByRole('link', { name: tab, exact: true }).click();
+    await expect(page.locator(selector).locator('.bonus-card-icon')).toBeVisible();
+    await expect(page.locator(selector)).toContainText(expected);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
